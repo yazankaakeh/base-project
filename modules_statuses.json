@@ -1,0 +1,9 @@
+{
+    "Core": true,
+    "Mps": true,
+    "UserManagment": true,
+    "UserManagement": true,
+    "Theme": true,
+    "API": true,
+    "ResetFullAPI": true
+}

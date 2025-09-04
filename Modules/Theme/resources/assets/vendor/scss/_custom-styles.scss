@@ -1,0 +1,29 @@
+// This file is used for writing your custom styles
+
+// .card {
+//    background-color: #fd0000;
+//  }
+.bg-gradient-getStarted-special {
+  background-image: linear-gradient(45deg, $getStarted, $customPink) !important;
+}
+
+.bg-gradient-getNFC-special {
+  background-image: linear-gradient(45deg, $getNFC1, $getNFC2) !important;
+}
+
+
+.bg-customGetTagiyCard {
+  background-color: $customGetTagiyCard;
+}
+
+.bg-customCreateAccount {
+  background-color: $customCreateAccount;
+}
+
+.bg-customCustomizeProfile {
+  background-color: $customCustomizeProfile;
+}
+
+/*html[lang="ar"] body {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+}*/
