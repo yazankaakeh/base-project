@@ -37,7 +37,7 @@ class LoginController extends Controller
 
     public function showLoginForm(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        return view('auth.login');
+        return view('theme::user.auth.login');
     }
 
     protected function attemptLogin(Request $request): bool

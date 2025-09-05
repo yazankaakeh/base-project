@@ -3,14 +3,10 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Modules\API\Http\Middleware\CheckTokenExpirationMiddleware;
 use Modules\Core\App\Http\Middleware\AdminPermissionsMiddleware;
+use Modules\Core\app\Http\Middleware\ComingSoon;
 use Modules\Core\App\Http\Middleware\SetApiLocale;
 use Modules\Core\App\Http\Middleware\SetLocale;
-use Modules\Mps\Http\Middleware\CompanyInfoMiddleware;
-use Modules\Mps\Http\Middleware\KVKKMiddleware;
-use Modules\Mps\Http\Middleware\ResetPasswordMiddleware;
-use Modules\ResetFullAPI\Http\Middleware\ResolveUserFromClient;
 use Modules\UserManagement\app\Http\Middleware\AdminEnabled;
 use Modules\UserManagement\app\Http\Middleware\AuditLogMiddleware;
 use Modules\UserManagement\Http\Middleware\Authenticate;
@@ -30,12 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'audit' => AuditLogMiddleware::class,
             'authorize' => AdminPermissionsMiddleware::class,
             'setLocale' => SetLocale::class,
-            'expiredToken' => CheckTokenExpirationMiddleware::class,
             'setApiLocale' => SetApiLocale::class,
-            'passwordExpired' => ResetPasswordMiddleware::class,
-            'kvkkVerify' => KVKKMiddleware::class,
-            'companyLogoVerify' => CompanyInfoMiddleware::class,
-            'resolveClientUser' => ResolveUserFromClient::class,
+            'coming_soon' => ComingSoon::class,
         ]);
         $middleware->append([
 

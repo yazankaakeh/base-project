@@ -6,6 +6,7 @@ use Modules\Core\app\Http\Controllers\SocialController;
 use Modules\Theme\Http\Controllers\LandingPageController;
 use Modules\Theme\Http\Controllers\ThemeController;
 
+/*Auth::routes();*/
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'ar', 'tr'])) {
         session(['locale' => $locale]);
