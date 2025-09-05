@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Core\database\seeders\CoreDatabaseSeeder;
-use Modules\Mps\Database\Seeders\MpsDatabaseSeeder;
 use Modules\UserManagement\database\seeders\UserManagementDatabaseSeeder;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,7 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserManagementDatabaseSeeder::class,
-            MpsDatabaseSeeder::class,
             CoreDatabaseSeeder::class,
         ]);
     }

@@ -9,11 +9,8 @@ use Modules\UserManagement\app\Http\Controllers\UserAuthController;
 })->name('admin.dashboard')->middleware(['auth:admin', 'admin-enabled']);*/
 
 
-Route::get('admin/login', function () {
-    return view('theme::admin.login');
-})->name('admin.login');
 Route::get('/', function () {
-    return view('theme::user.login');
+    return view('theme::user.auth.login');
 })->name('login');
 
 Route::post('admin/login', [AuthController::class, 'login'])

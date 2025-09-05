@@ -1,16 +1,17 @@
 @php
-  $configData = Helper::appClasses();
-  $isFront = true;
+    use Modules\Theme\Helpers\Helpers;
+    $configData = Helpers::appClasses();
+    $isFront = true;
 @endphp
 
 @section('layoutContent')
-  @extends('customer/layouts/commonMaster')
+    @extends('theme::user/layouts/commonMaster')
 
-  @includeIf('customer/layouts/sections/navbar/navbar-front')
+    @includeIf('theme::user/layouts/sections/navbar/navbar-front')
 
-  <!-- Sections:Start -->
-  @yield('content')
-  <!-- / Sections:End -->
+    <!-- Sections:Start -->
+    @yield('content')
+    <!-- / Sections:End -->
 
-  @includeIf('customer/layouts/sections/footer/footer-front')
+    @includeIf('theme::user/layouts/sections/footer/footer-front')
 @endsection

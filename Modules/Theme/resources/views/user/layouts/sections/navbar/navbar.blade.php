@@ -1,20 +1,20 @@
 @php
-  $containerNav = $configData['contentLayout'] === 'compact' ? 'container-xxl' : 'container-fluid';
-  $navbarDetached = $navbarDetached ?? '';
+    $containerNav = $configData['contentLayout'] === 'compact' ? 'container-xxl' : 'container-fluid';
+    $navbarDetached = $navbarDetached ?? '';
 @endphp
 
-  <!-- Navbar -->
+        <!-- Navbar -->
 @if (isset($navbarDetached) && $navbarDetached == 'navbar-detached')
-  <nav
-    class="layout-navbar {{ $containerNav }} {{ $navbarDetached }} navbar navbar-expand-xl align-items-center bg-navbar-theme"
-    id="layout-navbar">
-    @includeIf('customer/layouts/sections/navbar/navbar-partial')
-  </nav>
+    <nav
+            class="layout-navbar {{ $containerNav }} {{ $navbarDetached }} navbar navbar-expand-xl align-items-center bg-navbar-theme"
+            id="layout-navbar">
+        @includeIf('theme::user/layouts/sections/navbar/navbar-partial')
+    </nav>
 @else
-  <nav class="layout-navbar navbar navbar-expand-xl align-items-center" id="layout-navbar">
-    <div class="{{ $containerNav }}">
-      @includeIf('customer/layouts/sections/navbar/navbar-partial')
-    </div>
-  </nav>
+    <nav class="layout-navbar navbar navbar-expand-xl align-items-center" id="layout-navbar">
+        <div class="{{ $containerNav }}">
+            @includeIf('theme::user/layouts/sections/navbar/navbar-partial')
+        </div>
+    </nav>
 @endif
 <!-- / Navbar -->

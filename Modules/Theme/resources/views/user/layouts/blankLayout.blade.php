@@ -1,18 +1,19 @@
+@php use Modules\Theme\Helpers\Helpers; @endphp
 @isset($pageConfigs)
-  {!! Helper::updatePageConfig($pageConfigs) !!}
+    {!! Helpers::updatePageConfig($pageConfigs) !!}
 @endisset
 
 @php
-  $configData = Helper::appClasses();
+    $configData = Helpers::appClasses();
 
-  /* Display elements */
-  $customizerHidden = $customizerHidden ?? '';
+    /* Display elements */
+    $customizerHidden = $customizerHidden ?? '';
 @endphp
 
-@extends('customer/layouts/commonMaster')
+@extends('theme::user/layouts/commonMaster')
 
 @section('layoutContent')
-  <!-- Content -->
-  @yield('content')
-  <!--/ Content -->
+    <!-- Content -->
+    @yield('content')
+    <!--/ Content -->
 @endsection
