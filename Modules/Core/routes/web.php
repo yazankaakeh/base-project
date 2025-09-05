@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Core\app\Http\Controllers\ContactUsController;
 use Modules\Core\app\Http\Controllers\EnvController;
+use Modules\Core\app\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,18 @@ use Modules\Core\app\Http\Controllers\EnvController;
 |
 */
 
-Route::middleware(['auth:admin', 'admin-enabled', 'setLocale', 'audit'])->prefix('admin')->group(function () {
-    Route::get('get/env', [EnvController::class, 'index'])->name('admin.env.getEnv');
-    Route::post('update-env', [EnvController::class, 'update'])->name('admin.env.updateEnv');
-    Route::post('sendTestEmail', [EnvController::class, 'sendTestEmail'])->name('admin.env.sendTestEmail');
+Route::middleware(['auth:admin', 'adminMenu', 'admin-enabled', 'audit'])->prefix('admin')->group(function () {
+  Route::get('get/env', [EnvController::class, 'index'])->name('getEnv');
+  Route::post('update-env', [EnvController::class, 'update'])->name('env.updateEnv');
+  Route::post('sendTestEmail', [EnvController::class, 'sendTestEmail'])->name('env.sendTestEmail');
+
 });
+Route::post('submitContactUs', [ContactUsController::class, 'submitContactForm'])->name('env.submitContactForm');
+
+Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
+  ->whereIn('provider', ['google', 'facebook', 'x'])
+  ->name('oauth.redirect');
+
+Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
+  ->whereIn('provider', ['google', 'facebook', 'x'])
+  ->name('oauth.callback');

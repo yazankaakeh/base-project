@@ -29,6 +29,7 @@ class ThemeServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
         $this->publishes([
             module_path('Theme', 'resources/assets/build') => public_path('build'),
+            module_path('Theme', 'public') => public_path('assets/theme'),
         ], 'theme-assets');
     }
 

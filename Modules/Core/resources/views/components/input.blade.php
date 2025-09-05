@@ -1,22 +1,17 @@
-<div class="@if($type == 'password') pass-group @endif">
-    <label class="{{ $type != 'checkbox' ? 'form-label' : 'form-check-label' }} "
-           for="{{$id}}">{{trans($label)}}</label>
-    <input type="{{$type}}" name="{{$name}}" id="{{$id}}"
-           class="{{ $type != 'checkbox' ? 'form-control' : '' }} {{isset($class) ? $class:''}}"
-           @if($model)
-               wire:model="{{ $model }}"
-           @endif
-           maxlength="{{$maxlength}}"
-           {{$disabled}}
-           {{$readonly}}
-           {{$required}}
-           value="{{$value}}">
-    @if($type == 'password')
-        <span class="fas toggle-password-admin fa-eye-slash"></span>
-    @endif
-    @if($type != 'password')
-        @error($name)
-        <small class="text-danger errorInputText">{{ $message }}</small>
-        @enderror
-    @endif
+<div>
+  @if(isset($label))
+    <label class="form-label" for="{{$id}}">{{trans($label)}}</label>
+  @endif
+  <input type="{{$type}}" name="{{$name}}" id="{{$id}}"
+         class="form-control {{$class ?? ''}}"
+         @if($model)
+           wire:model="{{ $model }}"
+         @endif
+         @if($modelSearch)
+           wire:model.live.debounce.1000ms="{{ $modelSearch }}"
+         @endif
+         {{$required}}
+         placeholder="{{trans($placeholder ?? $label)}}"
+         value="{{$value}}">
+  @error($name) <span class="error">{{ $message }}</span> @enderror
 </div>

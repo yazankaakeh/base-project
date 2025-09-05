@@ -7,13 +7,13 @@ use Livewire\Attributes\On;
 
 trait OptimizeLivewireTrait
 {
-  public function updated($propertyName): void
+  /*public function updated($propertyName): void
   {
     $this->resetErrorBag($propertyName);
     //  $this->dispatch('reRenderSelect2');
     $this->validateOnly($propertyName);
 
-  }
+  }*/
 
   public function getValidationErrorsHandled(ValidationException $e): string
   {
