@@ -4,14 +4,9 @@ namespace App\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\Client;
 use Laravel\Passport\HasApiTokens;
 use Modules\Core\App\Enum\Gender;
 use Modules\Core\app\Models\Address;
@@ -108,10 +103,7 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $casts = [
-        'status' => UserStatusEnum::class,
         'gender' => Gender::class,
-        'kvkk_verify' => KVKKVerifyEnum::class,
-        'company_image_verified' => CompanyVerifiedEnum::class,
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -131,31 +123,6 @@ class User extends Authenticatable implements HasMedia
     public function address(): MorphOne
     {
         return $this->morphOne(Address::class, 'addressable');
-    }
-
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
-    }
-
-    public function permit(): MorphOne
-    {
-        return $this->morphOne(Permit::class, 'permitable');
-    }
-
-    public function commissions(): MorphMany
-    {
-        return $this->morphMany(Commission::class, 'commissionable');
-    }
-
-    public function payments(): MorphMany
-    {
-        return $this->morphMany(Payment::class, 'paymentable');
-    }
-
-    public function verifiable(): MorphMany
-    {
-        return $this->morphMany(VerificationCode::class, 'verifiable');
     }
 
     public function scopeFilter($query, $filters)
@@ -192,40 +159,5 @@ class User extends Authenticatable implements HasMedia
                 fn($q)
                     => $q->where('status', $filters['status']),
             );
-    }
-
-    public function userAgreement(): hasMany
-    {
-        return $this->hasMany(UserAgreement::class, 'user_id', 'id');
-    }
-
-    public function integration(): hasOne
-    {
-        return $this->hasOne(UserIntegrations::class, 'user_id', 'id');
-    }
-
-
-    public function clients()
-    {
-        return $this->hasMany(Client::class, 'user_id');
-    }
-
-    public function iban(): MorphOne
-    {
-        return $this->morphOne(Iban::class, 'model');
-    }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'birthdate' => 'datetime',
-            'password' => 'hashed',
-        ];
     }
 }

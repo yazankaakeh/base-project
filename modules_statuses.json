@@ -6,5 +6,6 @@
     "Theme": true,
     "API": true,
     "ResetFullAPI": true,
-    "Blog": true
+    "Blog": true,
+    "Doctor": true
 }
