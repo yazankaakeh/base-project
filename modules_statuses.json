@@ -5,5 +5,6 @@
     "UserManagement": true,
     "Theme": true,
     "API": true,
-    "ResetFullAPI": true
+    "ResetFullAPI": true,
+    "Blog": true
 }
