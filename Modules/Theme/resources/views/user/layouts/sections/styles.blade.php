@@ -33,5 +33,5 @@
 @yield('page-style')
 
 <!-- app CSS -->
-@vite(['Modules/Theme/resources/css/app.css'])
+@vite(['resources/css/app.css'], 'build/modules/theme')
 <!-- END: app CSS-->

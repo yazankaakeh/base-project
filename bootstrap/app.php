@@ -7,6 +7,7 @@ use Modules\Core\App\Http\Middleware\AdminPermissionsMiddleware;
 use Modules\Core\app\Http\Middleware\ComingSoon;
 use Modules\Core\App\Http\Middleware\SetApiLocale;
 use Modules\Core\App\Http\Middleware\SetLocale;
+use Modules\Doctor\Http\Middleware\DoctorMenu;
 use Modules\UserManagement\app\Http\Middleware\AdminEnabled;
 use Modules\UserManagement\app\Http\Middleware\AuditLogMiddleware;
 use Modules\UserManagement\Http\Middleware\Authenticate;
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'setLocale' => SetLocale::class,
             'setApiLocale' => SetApiLocale::class,
             'coming_soon' => ComingSoon::class,
+            'doctorMenu' => DoctorMenu::class,
         ]);
         $middleware->append([
 

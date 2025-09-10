@@ -16,6 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed|string $img
  * @property int|mixed $is_active
  * @property mixed $phone
+ * @method addMedia(string $string)
  */
 class Admin extends Authenticatable
 {

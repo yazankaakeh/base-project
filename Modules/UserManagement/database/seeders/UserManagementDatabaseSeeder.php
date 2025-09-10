@@ -12,7 +12,7 @@ class UserManagementDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AdminSeeder::class,
+            DoctorSeeder::class,
         ]);
     }
 }

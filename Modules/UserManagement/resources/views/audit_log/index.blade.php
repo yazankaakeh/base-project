@@ -1,5 +1,5 @@
 @php use Modules\UserManagement\app\Action\Auditing\RouteName; @endphp
-@extends('theme::admin.layout.mainlayout')
+@extends('theme::user.layouts.horizontalLayout')
 
 {{--@section('title', 'Audit Log')
 

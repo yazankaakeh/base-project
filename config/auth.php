@@ -1,6 +1,7 @@
 <?php
 
-use Modules\UserManagement\app\Models\Admin;
+use Modules\Doctor\Models\Doctor;
+use Modules\Doctor\Models\Patient;
 
 return [
 
@@ -40,11 +41,11 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'patients',
         ],
-        'admin' => [
+        'doctor' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'doctors',
         ],
         'api' => [
             'driver' => 'passport',
@@ -70,13 +71,13 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'patients' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', Patient::class),
         ],
-        'admins' => [
+        'doctors' => [
             'driver' => 'eloquent',
-            'model' => Admin::class,
+            'model' => Doctor::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

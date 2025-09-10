@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Doctor\Database\Factories\MedicalTestFactory;
+use Spatie\Translatable\HasTranslations;
 
 class MedicalTest extends Model
 {
-    use HasFactory;
+    public array $translatable = ['name'];
+    use HasFactory, HasTranslations;
 
     /**
      * The attributes that are mass assignable.

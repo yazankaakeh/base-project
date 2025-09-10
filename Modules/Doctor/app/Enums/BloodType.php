@@ -2,8 +2,12 @@
 
 namespace Modules\Doctor\Enums;
 
+use Modules\Core\app\Traits\OptimizeEnumTrait;
+
 enum BloodType: string
 {
+    use OptimizeEnumTrait;
+
     case A_POSITIVE = 'A+';
     case A_NEGATIVE = 'A-';
     case B_POSITIVE = 'B+';

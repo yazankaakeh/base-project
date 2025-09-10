@@ -1,4 +1,4 @@
-@extends('theme::admin.layout.mainlayout')
+@extends('theme::user.layouts.horizontalLayout')
 @section('title', trans('usermanagement::user_management.roles.create.title'))
 @section('content')
     <div class="page-wrapper">

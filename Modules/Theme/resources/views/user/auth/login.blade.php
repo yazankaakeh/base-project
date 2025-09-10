@@ -2,7 +2,7 @@
     $customizerHidden = 'customizer-hide';
 @endphp
 
-@extends('theme::user.layouts.layoutFront')
+@extends('theme::user.layouts.blankLayout')
 
 @section('title', trans('auth.login.title', ['name' => config('variables.templateName')]))
 
@@ -45,7 +45,8 @@
                         <p class="mb-4">
                             {{trans('auth.login.desc')}}
                         </p>
-                        <form method="POST" id="formAuthentication" action="{{ route('login') }}" class="mb-3">
+                        <form method="POST" id="formAuthentication" action="{{ route('admin.login.submit') }}"
+                              class="mb-3">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">
@@ -59,9 +60,6 @@
                 </span>
                                 @enderror
                             </div>
-                            @if(request('card_link'))
-                                <input type="hidden" name="card_link" value="{{ request()->route('card_link') }}">
-                            @endif
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">

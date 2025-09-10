@@ -64,12 +64,17 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
     ],
 
     'sidebar' => [
+        'medicalPreviewSettings' => 'Medical Preview Settings',
+        'clinic' => 'Clinic',
+        'patients' => 'Patients',
+        'medicalTest' => 'Medical Test',
+        'medicine' => 'Medicine',
+        'medicalSpecialty' => 'Medical Specialty',
         'dashboard' => 'Dashboard',
         'contacts' => 'Contacts',
         'account' => 'Account',
         'connections' => 'Connections',
         'profile' => 'Profile',
-        'customer' => 'Customer',
         'audits' => 'Audits Logs',
         'roles' => 'Roles',
         'admins' => 'Admin Management',

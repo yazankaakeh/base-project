@@ -7,23 +7,23 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Modules\UserManagement\app\Http\Requests\AdminRequest;
-use Modules\UserManagement\app\Http\Requests\UpdateAdminRequest;
+use Modules\UserManagement\app\Http\Requests\DoctorRequest;
+use Modules\UserManagement\app\Http\Requests\UpdateDoctorRequest;
 use Modules\UserManagement\app\Http\Requests\UpdateStatusAminRequest;
-use Modules\UserManagement\app\Repository\User\UserInterface;
-use Modules\UserManagement\app\Repository\User\UserRepository;
+use Modules\UserManagement\app\Repository\User\DoctorInterface;
+use Modules\UserManagement\app\Repository\User\DoctorRepository;
 
 class UserManagementController extends Controller
 {
 
-    public function __construct(public UserInterface $userInterface) {}
+    public function __construct(public DoctorInterface $userInterface) {}
 
     /**
      * Display a listing of the resource.
      */
     public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        /** @var UserRepository $userRepo */
+        /** @var DoctorRepository $userRepo */
         $userRepo = $this->userInterface->index();
         $users = $userRepo['users'];
         $roles = $userRepo['roles'];
@@ -33,7 +33,7 @@ class UserManagementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAdminRequest $request): RedirectResponse
+    public function update(UpdateDoctorRequest $request): RedirectResponse
     {
         $this->userInterface->update($request);
         return redirect()->route('admin.user_management.index')->with(
@@ -45,7 +45,7 @@ class UserManagementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AdminRequest $request): RedirectResponse
+    public function store(DoctorRequest $request): RedirectResponse
     {
         $this->userInterface->store($request);
         return redirect()->route('admin.user_management.index')->with(

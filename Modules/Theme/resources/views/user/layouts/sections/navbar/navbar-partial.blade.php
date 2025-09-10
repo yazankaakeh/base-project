@@ -110,19 +110,19 @@
                 </li>
                 @if (Auth::check())
                     <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
+                        <a class="dropdown-item" href="{{ route('admin.logout.post') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Logout</span>
                         </a>
                     </li>
-                    <form method="POST" id="logout-form" action="{{ route('logout') }}">
+                    <form method="POST" id="logout-form" action="{{ route('admin.logout.post') }}">
                         @csrf
                     </form>
                 @else
                     <li>
                         <div class="d-grid px-2 pt-2 pb-1">
                             <a class="btn btn-sm btn-danger d-flex"
-                               href="{{ Route::has('login') ? route('login') : url('auth/login-basic') }}"
+                               href="{{ Route::has('login') ? route('admin.login') : url('auth/login-basic') }}"
                                target="_blank">
                                 <small class="align-middle">Login</small>
                                 <i class="icon-base ti tabler-login ms-2 icon-14px"></i>

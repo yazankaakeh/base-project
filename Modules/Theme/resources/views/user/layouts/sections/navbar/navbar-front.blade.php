@@ -73,7 +73,7 @@
 
                 <!-- navbar button: Start -->
                 <li>
-                    <a href="{{ route('login') }}" class="btn btn-primary" target="_blank"><span
+                    <a href="#" class="btn btn-primary" target="_blank"><span
                                 class="icon-base ti tabler-login scaleX-n1-rtl me-md-1"></span><span
                                 class="d-none d-md-block">{{trans('newLandingPage.navbar.loginRegister')}}</span></a>
                 </li>

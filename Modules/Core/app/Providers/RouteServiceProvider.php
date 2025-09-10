@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    const string HOME = 'home';
+    const string HOME = 'doctor/dashboard';
     /**
      * The module namespace to assume when generating URLs to actions.
      */

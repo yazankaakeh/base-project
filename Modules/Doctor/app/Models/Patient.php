@@ -11,8 +11,10 @@ use Modules\Core\app\Enums\UserStatusEnum;
 use Modules\Core\app\Models\Address;
 use Modules\Doctor\Database\Factories\PatientFactory;
 use Modules\Doctor\Enums\BloodType;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Patient extends Authenticatable implements HasMedia
 {
@@ -56,5 +58,13 @@ class Patient extends Authenticatable implements HasMedia
     public function address(): MorphOne
     {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
     }
 }

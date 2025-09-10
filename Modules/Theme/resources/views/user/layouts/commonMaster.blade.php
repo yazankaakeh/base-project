@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 @php
-    use Illuminate\Support\Str;
-    use App\Helpers\Helpers;
+    use Illuminate\Support\Str;use Modules\Theme\Helpers\Helpers;
 
     $menuFixed =
         $configData['layout'] === 'vertical'

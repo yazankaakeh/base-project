@@ -7,8 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Modules\UserManagement\app\Console\CreateRoutePermissionsCommand;
 use Modules\UserManagement\app\Repository\Role\RoleInterface;
 use Modules\UserManagement\app\Repository\Role\RoleRepository;
-use Modules\UserManagement\app\Repository\User\UserInterface;
-use Modules\UserManagement\app\Repository\User\UserRepository;
+use Modules\UserManagement\app\Repository\User\DoctorInterface;
+use Modules\UserManagement\app\Repository\User\DoctorRepository;
 
 class UserManagementServiceProvider extends ServiceProvider
 {
@@ -26,7 +26,7 @@ class UserManagementServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->app->bind(UserInterface::class, UserRepository::class);
+        $this->app->bind(DoctorInterface::class, DoctorRepository::class);
         $this->app->bind(RoleInterface::class, RoleRepository::class);
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
     }

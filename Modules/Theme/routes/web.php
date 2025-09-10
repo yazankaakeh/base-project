@@ -20,14 +20,16 @@ Route::middleware('setLocale')->group(function () {
     });
     Route::get('soon', [LandingPageController::class, 'comingSoon'])->name('landing.coming_soon');
     Route::middleware(['coming_soon'])->group(function () {
-        Route::get('/landing', [LandingPageController::class, 'home'])->name('landing.home');
+        Route::get('/', [LandingPageController::class, 'home'])->name('landing.home');
         Route::get('/privacy', [LandingPageController::class, 'privacy'])->name('landing.privacy');
         Route::get('/info', [LandingPageController::class, 'hiHelloInfo'])->name('landing.hiHelloInfo');
         Route::get('/create', [LandingPageController::class, 'hiHelloCreate'])->name('landing.hiHelloCreate');
         Route::get('/blog', [LandingPageController::class, 'hiHelloBlog'])->name('landing.hiHelloBlog');
     });
 
-    Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->middleware('adminMenu')->name('admin.login');
+    Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->middleware('doctorMenu')->name(
+        'admin.login',
+    );
     Route::post('/admin/login/post', [LoginController::class, 'login'])->name('admin.login.submit');
 });
 

@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->json('name');
+            // ['en' => 'asd','ar' => 'asdsad']
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 <?php
 
 $page = 'sales-dashboard'; ?>
-@extends('theme::admin.layout.mainlayout')
+@extends('theme::user.layouts.horizontalLayout')
 
 @section('title', trans('usermanagement::user_management.user.title'))
 

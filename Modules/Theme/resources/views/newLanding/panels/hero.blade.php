@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div id="heroDashboardAnimation" class="hero-animation-img">
-                <a href="{{ route('login') }}" target="_blank">
+                <a href="#" target="_blank">
                     <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
                         <img
                                 src="{{ asset('assets/img/front-pages/landing-page/hero-dashboard-' . $configData['theme'] . '.png') }}"

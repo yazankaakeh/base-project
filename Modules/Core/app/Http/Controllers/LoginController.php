@@ -42,17 +42,22 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request): bool
     {
-        $validated = $request->validate([
-            'email' => ['email', 'string', 'required'],
-            'password' => ['string', 'required'],
+        $credentials = $request->validate([
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
             'recaptcha' => ['required', new ReCaptchaRule()],
         ]);
-        $value = $this->guard('web')->attempt(
-            $this->credentials($request),
+        // Make sure we're using the DOCTOR guard explicitly
+        $ok = Auth::guard('doctor')->attempt(
+            ['email' => $credentials['email'], 'password' => $credentials['password']],
             $request->boolean('remember'),
         );
-        $user = Auth::user();
 
-        return $value;
+        if ($ok) {
+            // Persist the session (requires 'web' middleware)
+            $request->session()->regenerate();
+        }
+
+        return $ok;
     }
 }
