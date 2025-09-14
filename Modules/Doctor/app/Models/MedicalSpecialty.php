@@ -4,6 +4,7 @@ namespace Modules\Doctor\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\MedicalSpecialtyFactory;
 use Spatie\Translatable\HasTranslations;
@@ -29,6 +30,11 @@ class MedicalSpecialty extends Model
         'code' => 'string',
         'is_active' => ActiveEnum::class,
     ];
+
+    public static function getMedicalSpecialtySelect2(): Collection
+    {
+        return self::query()->where('is_active', ActiveEnum::ACTIVE)->pluck('name', 'id');
+    }
 
     protected static function newFactory(): MedicalSpecialtyFactory
     {

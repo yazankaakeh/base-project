@@ -24,9 +24,12 @@ class DoctorRepository implements DoctorInterface
     {
         $doctor = new Doctor();
         $doctor->name = $request->name;
+        $doctor->gender = $request->gender;
         $doctor->phone = $request->phone;
+        $doctor->age = $request->age;
         $doctor->email = $request->email;
         $doctor->password = Hash::make($request->password);
+        $doctor->medical_specialty_id = $request->medicalSpecialtyId;
         $doctor->is_active = $request->is_active == 'on' ? 1 : 0;
         if ($request->file('img')) {
             $doctor->addMedia($request->file('img'))->toMediaCollection('images');

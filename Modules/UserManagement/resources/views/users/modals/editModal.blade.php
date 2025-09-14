@@ -1,3 +1,4 @@
+@php use Modules\Core\App\Enum\Gender; @endphp
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog" role="document">
@@ -41,14 +42,26 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.phone"
-                                           placeholder="usermanagement::user_management.user.create.phone"
-                                           id="phone"
-                                           name="phone"
-                                           type="text"
+                            <x-core::input label="usermanagement::user_management.user.create.email"
+                                           placeholder="usermanagement::user_management.user.create.email"
+                                           id="email"
+                                           name="email"
+                                           type="email"
                                            required="required"
-                                           model="phone"
-                                           value="{{old('phone')}}">
+                                           model="email"
+                                           value="{{old('email')}}">
+
+                            </x-core::input>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <x-core::input label="doctor::doctor.patients.age"
+                                           placeholder="doctor::doctor.patients.age"
+                                           id="age"
+                                           name="age"
+                                           type="number"
+                                           required="required"
+                                           model="age"
+                                           value="{{old('age')}}">
 
                             </x-core::input>
                         </div>
@@ -61,6 +74,30 @@
                                             model="role"
                                             :options="$roles"
                                             value="{{old('role')}}">
+
+                            </x-core::select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <x-core::select :label="trans('doctor::doctor.doctor.medicalSpecialtyId')"
+                                            :placeholder="trans('doctor::doctor.doctor.medicalSpecialtyId')"
+                                            id="medicalSpecialtyId"
+                                            name="medicalSpecialtyId"
+                                            required="required"
+                                            model="medicalSpecialtyId"
+                                            :options="$medicalSpecialty"
+                                            value="{{old('medicalSpecialtyId')}}">
+
+                            </x-core::select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <x-core::select :label="trans('doctor::doctor.patients.gender')"
+                                            :placeholder="trans('doctor::doctor.patients.gender')"
+                                            id="gender"
+                                            name="gender"
+                                            required="required"
+                                            model="gender"
+                                            :options="Gender::getAllEnumValuesKeysLabel()"
+                                            value="{{old('gender')}}">
 
                             </x-core::select>
                         </div>

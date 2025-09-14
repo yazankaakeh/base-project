@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Core\App\Enum\Gender;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\app\Models\Address;
 use Modules\Doctor\Database\Factories\DoctorFactory;
-use Modules\UserManagement\App\Enums\ActiveAdminEnum;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -23,6 +23,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed $email
  * @property mixed|string $password
  * @property int|mixed $is_active
+ * @property mixed $gender
+ * @property mixed $age
+ * @property mixed $medical_specialty_id
  */
 class Doctor extends Authenticatable implements HasMedia
 {
@@ -47,7 +50,7 @@ class Doctor extends Authenticatable implements HasMedia
     ];
     protected $casts = [
         'gender' => Gender::class,
-        'is_active' => ActiveAdminEnum::class,
+        'is_active' => ActiveEnum::class,
     ];
     protected $hidden = [
         'password',

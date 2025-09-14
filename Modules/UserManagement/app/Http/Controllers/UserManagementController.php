@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\Doctor\Models\MedicalSpecialty;
 use Modules\UserManagement\app\Http\Requests\DoctorRequest;
 use Modules\UserManagement\app\Http\Requests\UpdateDoctorRequest;
 use Modules\UserManagement\app\Http\Requests\UpdateStatusAminRequest;
@@ -27,7 +28,8 @@ class UserManagementController extends Controller
         $userRepo = $this->userInterface->index();
         $users = $userRepo['users'];
         $roles = $userRepo['roles'];
-        return view('usermanagement::users.index', compact('users', 'roles'));
+        $medicalSpecialty = MedicalSpecialty::getMedicalSpecialtySelect2();
+        return view('usermanagement::users.index', compact('users', 'roles', 'medicalSpecialty'));
     }
 
     /**

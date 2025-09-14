@@ -27,6 +27,9 @@ return [
         ],
 
     ],
+    'doctor' => [
+        'medicalSpecialtyId' => 'Medical Specialty',
+    ],
     'patients' => [
         'nameTitle' => 'Patients',
         'name' => 'Name',

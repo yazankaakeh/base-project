@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Modules\Core\App\Enum\Gender;
-use Modules\UserManagement\App\Enums\ActiveAdminEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 
 /**
  * @property mixed $role
@@ -30,7 +30,9 @@ class UpdateDoctorRequest extends FormRequest
             'email' => ['required', Rule::unique('doctors')->ignore($this->id), 'string', 'email', 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'img' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'is_active' => ['required', new Enum(ActiveAdminEnum::class)],
+            'is_active' => ['required', new Enum(ActiveEnum::class)],
+            'age' => ['required', 'numeric', 'between:18,100'],
+            'medicalSpecialtyId' => ['required', 'exists:medical_specialties,id'],
             'gender' => ['required', new Enum(Gender::class)],
         ];
     }

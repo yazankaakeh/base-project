@@ -3,6 +3,8 @@
 namespace Modules\UserManagement\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use Modules\Core\App\Enum\Gender;
 
 /**
  * @property mixed $name
@@ -27,6 +29,9 @@ class DoctorRequest extends FormRequest
             'phone' => ['required', 'numeric'],
             'img' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'is_active' => ['nullable', 'in:on,off'],
+            'age' => ['required', 'numeric', 'between:18,100'],
+            'medicalSpecialtyId' => ['required', 'exists:medical_specialties,id'],
+            'gender' => ['required', new Enum(Gender::class)],
         ];
     }
 
