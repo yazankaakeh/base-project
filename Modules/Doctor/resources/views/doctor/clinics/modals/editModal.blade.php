@@ -23,8 +23,8 @@
                                                              type="text" id="name"/>
 
                         <div class="col-6 mb-3">
-                            <x-core::select :label="trans('doctor::doctor.clinic.active')"
-                                            :placeholder="trans('doctor::doctor.clinic.active')"
+                            <x-core::select :label="trans('doctor::doctor.patients.active')"
+                                            :placeholder="trans('doctor::doctor.patients.active')"
                                             id="active"
                                             name="is_active"
                                             required="required"
@@ -52,21 +52,7 @@
                                     <img src="" id="img_src" alt="Avatar" class="rounded-circle">
                                 </li>
                             </ul>
-
                         </div>
-
-                        {{--<div class="col-6 mb-3" style="margin-top: 2rem !important;">
-                                <x-core::input label="usermanagement::user_management.user.create.isActive"
-                                               id="editIsActive" name="is_active"
-                                               type="checkbox"
-                                               model="editIsActive"
-                                               required=""
-                                               class="form-check-input"
-                                               value="on">
-                                </x-core::input>
-                            </div>--}}
-
-
                     </div>
                 </div>
                 <div class="modal-footer">

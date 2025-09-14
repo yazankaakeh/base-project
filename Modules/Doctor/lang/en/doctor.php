@@ -69,6 +69,11 @@ return [
         'createMedicine' => 'Create Medicine',
         'updateMedicine' => 'Update Medicine',
     ],
+    'vitalSign' => [
+        'name' => 'Vital Sign name',
+        'createMedicine' => 'Create Vital Sign',
+        'updateMedicine' => 'Update Vital Sign',
+    ],
     'medicalSpecialty' => [
         'name' => 'Medical specialty Name',
         'name en' => 'Medical specialty Name',

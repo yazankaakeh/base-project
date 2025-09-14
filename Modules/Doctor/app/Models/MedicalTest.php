@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\MedicalTestFactory;
-use Spatie\Translatable\HasTranslations;
 
 class MedicalTest extends Model
 {
-    public array $translatable = ['name'];
-    use HasFactory, HasTranslations;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.

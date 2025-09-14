@@ -43,14 +43,14 @@ $page = 'sales-dashboard'; ?>
 
 <!-- Page Scripts -->
 @section('page-script')
-    @includeIf('doctor::doctor.medicalTest.modals.createModal')
-    @includeIf('doctor::doctor.medicalTest.modals.editModal')
+    @includeIf('doctor::doctor.vitalSign.modals.createModal')
+    @includeIf('doctor::doctor.vitalSign.modals.editModal')
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
     {{--
       @vite(['resources/assets/js/form-wizard-numbered.js', 'resources/assets/js/form-wizard-validation.js'])
     --}}
 @endsection
-@section('title', trans('customer.sidebar.medicalTest'))
+@section('title', trans('customer.sidebar.vitalSign'))
 
 @section('content')
     <div class="page-wrapper">
@@ -59,9 +59,9 @@ $page = 'sales-dashboard'; ?>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
-                            <h5 class="">{{trans('customer.sidebar.medicalTest')}}</h5>
+                            <h5 class="">{{trans('customer.sidebar.vitalSign')}}</h5>
                             <h5 class="">
-                                @can('doctor.medicalTest.store')
+                                @can('doctor.vitalSign.store')
                                     <button type="button"
                                             data-bs-toggle="modal" data-bs-target="#storeModal"
                                             class="btn btn-primary">
@@ -78,20 +78,18 @@ $page = 'sales-dashboard'; ?>
                                         <thead>
                                         <tr>
                                             <th>{{trans('doctor::doctor.id')}}</th>
-                                            <th>{{trans('doctor::doctor.medicalTest.name')}}</th>
-                                            <th>{{trans('doctor::doctor.medicalTest.unit')}}</th>
+                                            <th>{{trans('doctor::doctor.medicine.name')}}</th>
                                             <th>{{trans('customer.account.status')}}</th>
                                             <th>{{trans('admin.audits.action')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
-                                        @foreach($data as $medicalTest)
+                                        @foreach($data as $vitalSign)
                                             <tr>
-                                                <td>{{$medicalTest->id}}</td>
-                                                <td>{{$medicalTest->name}}</td>
-                                                <td>{{$medicalTest->unit}}</td>
+                                                <td>{{$vitalSign->id}}</td>
+                                                <td>{{$vitalSign->name}}</td>
                                                 <td>
-                                                    <span class="badge {{$medicalTest->is_active->class()}} me-1">{{$medicalTest->is_active->label()}} </span>
+                                                    <span class="badge {{$vitalSign->is_active->class()}} me-1">{{$vitalSign->is_active->label()}} </span>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
@@ -99,10 +97,9 @@ $page = 'sales-dashboard'; ?>
                                                             <a type="button" data-bs-toggle="modal"
                                                                data-bs-target="#editModal"
                                                                class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"
-                                                               data-id="{{$medicalTest->id}}"
-                                                               data-name='{{$medicalTest->name}}'
-                                                               data-unit='{{$medicalTest->unit}}'
-                                                               data-active="{{$medicalTest->is_active}}">
+                                                               data-id="{{$vitalSign->id}}"
+                                                               data-name='@json($vitalSign->getTranslations('name'))'
+                                                               data-active="{{$vitalSign->is_active}}">
                                                                 <i data-feather="edit"
                                                                    class="ti tabler-edit icon-base"></i>
                                                             </a>

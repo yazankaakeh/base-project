@@ -7,6 +7,7 @@ use Modules\Doctor\Http\Controllers\MedicalSpecialtyController;
 use Modules\Doctor\Http\Controllers\MedicalTestController;
 use Modules\Doctor\Http\Controllers\MedicineController;
 use Modules\Doctor\Http\Controllers\PatientController;
+use Modules\Doctor\Http\Controllers\VitalSignController;
 
 Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->name(
     'doctor.',
@@ -73,6 +74,16 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         );
         Route::post('/medicalSpecialty/update', [MedicalSpecialtyController::class, 'update'])->name(
             'medicalSpecialty.update',
+        );
+
+        Route::get('/vitalSign', [VitalSignController::class, 'index'])->name(
+            'vitalSign.index',
+        );
+        Route::post('/vitalSign/store', [VitalSignController::class, 'store'])->name(
+            'vitalSign.store',
+        );
+        Route::post('/vitalSign/update', [VitalSignController::class, 'update'])->name(
+            'vitalSign.update',
         );
     },
 );

@@ -5,6 +5,54 @@ $page = 'sales-dashboard'; ?>
 
 @section('title', trans('customer.sidebar.clinic'))
 
+<!-- Vendor Styles -->
+@section('vendor-style')
+    @livewireStyles
+    @livewireScripts
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.scss'],
+            'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.scss',
+            'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss',
+            'resources/assets/vendor/libs/select2/select2.scss',
+            'resources/assets/vendor/libs/@form-validation/form-validation.scss'],
+            'build/modules/theme')
+@endsection
+
+<!-- Vendor Scripts -->
+@section('vendor-script')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            $('.select2').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).closest('.modal'),
+                    allowClear: true,
+                    tags: false
+                });
+            });
+        })
+    </script>
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.js'],
+'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.js',
+'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js',
+'resources/assets/vendor/libs/select2/select2.js',
+'resources/assets/vendor/libs/@form-validation/popular.js',
+'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
+'resources/assets/vendor/libs/@form-validation/auto-focus.js'],
+'build/modules/theme')
+
+@endsection
+
+<!-- Page Scripts -->
+@section('page-script')
+    @includeIf('doctor::doctor.clinics.modals.createModal')
+    @includeIf('doctor::doctor.clinics.modals.editModal')
+    @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
+    {{--
+      @vite(['resources/assets/js/form-wizard-numbered.js', 'resources/assets/js/form-wizard-validation.js'])
+    --}}
+@endsection
+
 @section('content')
     <div class="page-wrapper">
         <div class="content">
@@ -87,9 +135,4 @@ $page = 'sales-dashboard'; ?>
             </div>
         </div>
     </div>
-@endsection
-@section('page-script')
-    @includeIf('doctor::doctor.clinics.modals.createModal')
-    @includeIf('doctor::doctor.clinics.modals.editModal')
-    @includeIf('doctor::doctor.clinics.modals.isActiveModal')
 @endsection

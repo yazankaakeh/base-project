@@ -26,7 +26,7 @@ class ClinicController extends Controller
         /** @var Clinic $clinic */
         $clinic = Clinic::query()->create([
             'name' => $request->name,
-            'is_active' => $request->active,
+            'is_active' => $request->is_active,
         ]);
         if ($request->file('img')) {
             $clinic->addMedia($request->file('img'))->toMediaCollection('images');
@@ -42,7 +42,7 @@ class ClinicController extends Controller
         /** @var Clinic $clinic */
         $clinic = Clinic::query()->where('id', $request->id)->update([
             'name' => $request->name,
-            'is_active' => $request->active,
+            'is_active' => $request->is_active,
         ]);
         if ($request->file('img')) {
             $clinic->addMedia($request->file('img'))->toMediaCollection('images');

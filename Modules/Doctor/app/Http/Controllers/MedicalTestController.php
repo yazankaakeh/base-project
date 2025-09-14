@@ -30,7 +30,7 @@ class MedicalTestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MedicalTestRequest $request, $id)
+    public function update(MedicalTestRequest $request)
     {
         MedicalTest::query()->where('id', $request->id)->update($request->validated());
         return redirect()->back();

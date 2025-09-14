@@ -66,7 +66,7 @@ class PatientController extends Controller
         /** @var Patient $patient */
         $patient = Patient::query()->updateOrCreate(
             ['id' => $request->id],
-            [$request->all()],
+            $request->validated(),
         );
         $patient->clinics()->sync($request->clinics);
         if ($request->file('img')) {

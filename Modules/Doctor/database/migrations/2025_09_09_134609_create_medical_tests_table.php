@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('medical_tests', function (Blueprint $table) {
             $table->id();
-            $table->json('name');
+            $table->string('name');
             $table->string('unit');
             $table->integer('is_active')->default(1);
             $table->timestamps();
