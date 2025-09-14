@@ -49,6 +49,16 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
             'medicine.index',
         );
 
+        Route::post('/medicine/store', [MedicineController::class, 'store'])->name(
+            'medicine.store',
+        );
+
+
+        Route::post('/medicine/update', [MedicineController::class, 'update'])->name(
+            'medicine.update',
+        );
+
+
         Route::get('/medicalSpecialty', [MedicalSpecialtyController::class, 'index'])->name(
             'medicalSpecialty.index',
         );

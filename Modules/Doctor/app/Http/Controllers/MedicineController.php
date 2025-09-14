@@ -24,7 +24,7 @@ class MedicineController extends Controller
      */
     public function store(MedicineRequest $request)
     {
-        Medicine::query()->create($request->all());
+        Medicine::query()->create($request->validated());
         return redirect()->back();
     }
 
@@ -34,7 +34,7 @@ class MedicineController extends Controller
      */
     public function update(MedicineRequest $request)
     {
-        Medicine::query()->where('id', $request->id)->update($request->all());
+        Medicine::query()->where('id', $request->id)->update($request->validated());
         return redirect()->back();
     }
 

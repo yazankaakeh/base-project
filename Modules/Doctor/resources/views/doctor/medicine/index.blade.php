@@ -43,9 +43,8 @@ $page = 'sales-dashboard'; ?>
 
 <!-- Page Scripts -->
 @section('page-script')
-    @includeIf('doctor::doctor.patients.modals.createModal')
-    @includeIf('doctor::doctor.patients.modals.editModal')
-    @includeIf('doctor::doctor.patients.modals.filterModal')
+    @includeIf('doctor::doctor.medicine.modals.createModal')
+    @includeIf('doctor::doctor.medicine.modals.editModal')
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
     {{--
       @vite(['resources/assets/js/form-wizard-numbered.js', 'resources/assets/js/form-wizard-validation.js'])
@@ -99,8 +98,7 @@ $page = 'sales-dashboard'; ?>
                                                                data-bs-target="#editModal"
                                                                class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"
                                                                data-id="{{$medicine->id}}"
-                                                               data-img="{{$medicine->getFirstMediaUrl('images')}}"
-                                                               data-name='@json($medicine->getTranslations('name'))'
+                                                               data-name='{{$medicine->name}}'
                                                                data-active="{{$medicine->is_active}}">
                                                                 <i data-feather="edit"
                                                                    class="ti tabler-edit icon-base"></i>
