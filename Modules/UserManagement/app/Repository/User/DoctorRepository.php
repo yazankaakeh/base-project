@@ -29,7 +29,7 @@ class DoctorRepository implements DoctorInterface
         $doctor->password = Hash::make($request->password);
         $doctor->is_active = $request->is_active == 'on' ? 1 : 0;
         if ($request->file('img')) {
-            $doctor->addMedia('doctor')->toMediaCollection('images');
+            $doctor->addMedia($request->file('img'))->toMediaCollection('images');
         }
         $doctor->save();
         /** @var Role $role */
@@ -54,7 +54,7 @@ class DoctorRepository implements DoctorInterface
             $doctor->password = Hash::make($request->password);
         }
         if ($request->file('img')) {
-            $doctor->addMedia('doctor')->toMediaCollection('images');
+            $doctor->addMedia($request->file('img'))->toMediaCollection('images');
         }
         $doctor->save();
 

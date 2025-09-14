@@ -14,11 +14,11 @@ $page = 'sales-dashboard'; ?>
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
                             <h5 class="">{{trans('customer.sidebar.clinic')}}</h5>
                             <h5 class="">
-                                @can('admin.user_management.store')
+                                @can('doctor.patients.store')
                                     <button type="button"
                                             data-bs-toggle="modal" data-bs-target="#storeModal"
                                             class="btn btn-primary">
-                                        <i class="ti ti-plus me-1"></i>
+                                        <i class="ti tabler-plus icon-base me-1"></i>
                                         {{trans('doctor::doctor.create')}}
                                     </button>
                                 @endcan
@@ -32,6 +32,9 @@ $page = 'sales-dashboard'; ?>
                                         <tr>
                                             <th>{{trans('doctor::doctor.id')}}</th>
                                             <th>{{trans('doctor::doctor.clinic.name')}}</th>
+                                            <th>{{trans('doctor::doctor.clinic.img')}}</th>
+                                            <th>{{trans('customer.account.status')}}</th>
+                                            <th>{{trans('admin.audits.action')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
@@ -43,31 +46,32 @@ $page = 'sales-dashboard'; ?>
                                                     <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
                                                         <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
                                                             data-bs-placement="top"
-                                                            class="avatar avatar-xs pull-up"
+                                                            class="avatar avatar-xl pull-up"
                                                             aria-label="{{$clinic->name}}"
                                                             data-bs-original-title="{{$clinic->name}}">
-                                                            <img src="{{$clinic->img}}" alt="Avatar"
+                                                            <img src="{{$clinic->getFirstMediaUrl('images')}}"
+                                                                 alt="Avatar"
                                                                  class="rounded-circle">
                                                         </li>
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                    <span class="badge {{$clinic->is_active->class()}} me-1">{{$user->is_active->label()}} </span>
+                                                    <span class="badge {{$clinic->is_active->class()}} me-1">{{$clinic->is_active->label()}} </span>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
-                                                        @if($clinic->id != 1)
-                                                            @can('doctor.clinic.update')
-                                                                <a type="button" data-bs-toggle="modal"
-                                                                   data-bs-target="#editModal"
-                                                                   class="me-2 edit-icon  p-2 btn-sm EditModalBTN"
-                                                                   data-id="{{$clinic->id}}"
-                                                                   data-name="{{$clinic->name}}"
-                                                                   data-active="{{$clinic->is_active}}">
-                                                                    <i data-feather="edit" class="feather-edit"></i>
-                                                                </a>
-                                                            @endcan
-                                                        @endif
+                                                        @can('doctor.clinic.update')
+                                                            <a type="button" data-bs-toggle="modal"
+                                                               data-bs-target="#editModal"
+                                                               class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"
+                                                               data-id="{{$clinic->id}}"
+                                                               data-img="{{$clinic->getFirstMediaUrl('images')}}"
+                                                               data-name='@json($clinic->getTranslations('name'))'
+                                                               data-active="{{$clinic->is_active}}">
+                                                                <i data-feather="edit"
+                                                                   class="ti tabler-edit icon-base"></i>
+                                                            </a>
+                                                        @endcan
                                                     </div>
                                                 </td>
                                             </tr>
@@ -84,7 +88,7 @@ $page = 'sales-dashboard'; ?>
         </div>
     </div>
 @endsection
-@section('vendor-script')
+@section('page-script')
     @includeIf('doctor::doctor.clinics.modals.createModal')
     @includeIf('doctor::doctor.clinics.modals.editModal')
     @includeIf('doctor::doctor.clinics.modals.isActiveModal')

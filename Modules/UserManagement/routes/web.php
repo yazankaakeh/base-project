@@ -16,7 +16,9 @@ use Modules\UserManagement\app\Http\Controllers\UserManagementController;
 |
 */
 
-Route::middleware(['auth:doctor', 'admin-enabled', 'doctorMenu', 'setLocale', 'audit'])->prefix('admin')->group(
+Route::middleware(['auth:doctor', 'admin-enabled', 'authorize', 'doctorMenu', 'setLocale', 'audit'])->prefix(
+    'admin',
+)->group(
     function () {
         Route::get('user-management', [UserManagementController::class, 'index'])->name('admin.user_management.index');
         Route::post('user-management/store', [UserManagementController::class, 'store'])->name(

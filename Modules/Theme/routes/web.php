@@ -14,6 +14,9 @@ Route::get('lang/{locale}', function ($locale) {
     }
     return redirect()->back();
 })->name('locale');
+Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->middleware('doctorMenu')->name(
+    'login',
+);
 Route::middleware('setLocale')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('theme', ThemeController::class)->names('theme');

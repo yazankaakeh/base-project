@@ -106,7 +106,20 @@
 <!-- Include Scripts -->
 <!-- $isFront is used to append the front layout scripts only on the front layout otherwise the variable will be blank -->
 @includeIf('theme::user/layouts/sections/scripts' . $isFront)
-@includeIf('_partials.successModal')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>
+@endif
 </body>
 
 </html>

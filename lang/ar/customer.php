@@ -1,7 +1,5 @@
 <?php
 
-use App\Enum\ActiveCardEnum;
-use App\Enum\UserStatusEnum;
 use Modules\Core\app\Enums\UserStatusEnum;
 
 return [

@@ -4,6 +4,8 @@ namespace Modules\Doctor\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Modules\Doctor\Database\Factories\ClinicFactory;
 use Modules\Doctor\Enums\ActiveClinic;
 use Spatie\Image\Enums\Fit;
@@ -24,14 +26,25 @@ class Clinic extends Model implements HasMedia
         'name',
         'is_active',
     ];
-
     protected $casts = [
         'is_active' => ActiveClinic::class,
     ];
 
+    public static function getClinicSelect2(): Collection
+    {
+        return self::query()->where('is_active', ActiveClinic::ACTIVE)->pluck('name', 'id');
+    }
+
     protected static function newFactory(): ClinicFactory
     {
         return ClinicFactory::new();
+    }
+
+    public function patients(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Patient::class, 'clinic_patients')
+            ->using(ClinicPatient::class); // optional
     }
 
     public function registerMediaConversions(?Media $media = null): void

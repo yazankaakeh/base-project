@@ -54,8 +54,8 @@ class CreateRoutePermissionsCommand extends Command
             if (!empty($route->getName())
                 && isset($route->getAction()['middleware'])
                 && in_array('admin-enabled', $route->getAction()['middleware'])
-                && str_starts_with($route->uri, 'admin/')
-                && str_starts_with($route->uri, 'doctor/')
+                && (str_starts_with($route->uri, 'admin/')
+                    || str_starts_with($route->uri, 'doctor/'))
             ) {
                 $routeName = $route->getName(); // مثلا admin.user_management.index
                 $parts = explode('.', $routeName);

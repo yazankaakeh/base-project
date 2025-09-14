@@ -16,18 +16,21 @@ use Modules\Core\app\Http\Controllers\SocialController;
 |
 */
 
-Route::middleware(['auth:admin', 'adminMenu', 'admin-enabled', 'audit'])->prefix('admin')->group(function () {
-  Route::get('get/env', [EnvController::class, 'index'])->name('getEnv');
-  Route::post('update-env', [EnvController::class, 'update'])->name('env.updateEnv');
-  Route::post('sendTestEmail', [EnvController::class, 'sendTestEmail'])->name('env.sendTestEmail');
-
-});
+Route::middleware(['auth:doctor', 'adminMenu', 'admin-enabled', 'setLocale', 'authorize', 'audit'])->prefix(
+    'admin',
+)->group(
+    function () {
+        Route::get('get/env', [EnvController::class, 'index'])->name('getEnv');
+        Route::post('update-env', [EnvController::class, 'update'])->name('env.updateEnv');
+        Route::post('sendTestEmail', [EnvController::class, 'sendTestEmail'])->name('env.sendTestEmail');
+    },
+);
 Route::post('submitContactUs', [ContactUsController::class, 'submitContactForm'])->name('env.submitContactForm');
 
 Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
-  ->whereIn('provider', ['google', 'facebook', 'x'])
-  ->name('oauth.redirect');
+    ->whereIn('provider', ['google', 'facebook', 'x'])
+    ->name('oauth.redirect');
 
 Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
-  ->whereIn('provider', ['google', 'facebook', 'x'])
-  ->name('oauth.callback');
+    ->whereIn('provider', ['google', 'facebook', 'x'])
+    ->name('oauth.callback');

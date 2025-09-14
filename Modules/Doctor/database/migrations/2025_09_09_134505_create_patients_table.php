@@ -12,19 +12,23 @@ return new class extends Migration {
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('nationality_id')->nullable();
+            $table->foreign('nationality_id')->references('id')->on('countries');
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->integer('age');
+            $table->string('work')->nullable();
+            $table->string('children')->nullable();
             $table->integer('gender');
-            $table->integer('children');
-            $table->string('work');
             $table->integer('blood_type');
-            $table->string('drug_allergies');
-            $table->string('disabilities');
-            $table->string('medical_history');
-            $table->string('surgical_history');
-            $table->string('accident_history');
-            $table->string('password');
+            $table->integer('marital_status');
+            $table->integer('is_active')->default(1);
+            $table->string('drug_allergies')->nullable();
+            $table->string('disabilities')->nullable();
+            $table->string('medical_history')->nullable();
+            $table->string('surgical_history')->nullable();
+            $table->string('accident_history')->nullable();
+            $table->string('password')->nullable();
             $table->timestamps();
         });
 

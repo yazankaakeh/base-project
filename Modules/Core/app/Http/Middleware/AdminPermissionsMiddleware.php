@@ -5,8 +5,8 @@ namespace Modules\Core\App\Http\Middleware;
 use Closure as ClosureAlias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Doctor\Models\Doctor;
 use Modules\UserManagement\app\Enums\Roles;
-use Modules\UserManagement\App\Models\Admin;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminPermissionsMiddleware
@@ -17,7 +17,7 @@ class AdminPermissionsMiddleware
     public function handle(Request $request, ClosureAlias $next)
     {
         /**
-         * @var Admin $user
+         * @var Doctor $user
          */
         $user = Auth::user();
         abort_if(

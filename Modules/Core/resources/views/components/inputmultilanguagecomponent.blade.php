@@ -16,8 +16,9 @@
     <div class="{{$divClass}}">
         @php
             $newName= '';
-            $newName = "langs[$lang->value][$name]";
+            $newName = "".$name."[".$lang->value."]"
         @endphp
+
         <label class="form-label" for="{{$id.'_'.$lang->value}}">{{"$label $lang->value"}}</label>
         <x-blog::inputComponent type="{{$type}}" name="{{$newName}}" divClass="form-control"
                                 id="{{$id.'_'.$lang->value}}" required='required'>

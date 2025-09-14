@@ -81,7 +81,7 @@
                                             <tr class="intro-x ">
                                                 <td>
                                                     <a href="#" class="font-medium whitespace-nowrap">
-                                                        {{ $audit->admin?->name }}
+                                                        {{ $audit->doctor?->name }}
                                                     </a>
                                                 </td>
                                                 <td>
@@ -125,7 +125,7 @@
     @includeIf('usermanagement::audit_log.modals.filterModal')
 @endsection
 @section('vendor-script')
-    <script src="{{ URL::asset('/build/js/custom-select2.js') }}"></script>
+    <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
     <script>
         let modal = $('#filterModal');
         let body = $('body');

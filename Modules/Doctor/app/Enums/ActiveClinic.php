@@ -16,4 +16,12 @@ enum ActiveClinic: int
     {
         return trans('doctor::doctor.enum.ActiveClinic.'.$this->value);
     }
+
+    public function class(): array|string|Translator
+    {
+        return match ($this) {
+            self::ACTIVE => 'success',
+            self::INACTIVE => 'danger',
+        };
+    }
 }

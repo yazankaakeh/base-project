@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Doctor\Models\Doctor;
 
 class AuditLog extends Model
 {
@@ -14,7 +15,7 @@ class AuditLog extends Model
 
     public $timestamps = true;
     protected $fillable = [
-        'admin_id',
+        'doctor_id',
         'url',
         'method',
         'payload',
@@ -29,8 +30,8 @@ class AuditLog extends Model
 
     public static function IndexFilter($logins, $request)
     {
-        if (isset($request['adminId']) && $request['adminId'] != 'all') {
-            $logins->where('admin_id', $request['adminId']);
+        if (isset($request['doctor_id']) && $request['doctor_id'] != 'all') {
+            $logins->where('doctor_id', $request['doctor_id']);
         }
 
         if (isset($request['route_name']) && $request['route_name'] != 'all') {
@@ -53,12 +54,12 @@ class AuditLog extends Model
 
     public static function filter($logins, $request)
     {
-        if (!is_null($request['user_id'])) {
-            $logins->where('payload', 'like', '%"user_id":"'.$request['user_id'].'"%');
+        if (!is_null($request['doctor_id'])) {
+            $logins->where('payload', 'like', '%"doctor_id":"'.$request['doctor_id'].'"%');
         }
 
-        if (!is_null($request['user_id'])) {
-            $logins->where('user_id', $request['user_id']);
+        if (!is_null($request['doctor_id'])) {
+            $logins->where('doctor_id', $request['doctor_id']);
         }
 
         if (!is_null($request['created_at'])) {
@@ -68,13 +69,13 @@ class AuditLog extends Model
         return $logins;
     }
 
-    public static function GetAdmins(): Collection|array
+    public static function GetDoctors(): Collection|array
     {
-        return Admin::query()->select('name', 'id')->get();
+        return Doctor::query()->select('name', 'id')->get();
     }
 
-    public function admin(): BelongsTo
+    public function doctor(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Doctor::class);
     }
 }

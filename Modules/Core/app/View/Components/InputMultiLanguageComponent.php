@@ -1,22 +1,33 @@
 <?php
 
-namespace Modules\Core\View\Components;
+namespace Modules\Core\App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Modules\Blog\Enum\Languages;
 
 class InputMultiLanguageComponent extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct() {}
+    public function __construct(
+        public string $name,
+        public string $divClass,
+        public string $type,
+        public string $label,
+        public string $id,
+        public ?string $required = 'required',
+        public ?array $langs = [],
+        public ?string $language = null,
+        public ?object $item = null,
+    ) {
+        //
+    }
 
     /**
      * Get the view/contents that represent the component.
      */
     public function render(): View|string
     {
-        return view('core::components.inputmultilanguagecomponent');
+        $this->langs = Languages::cases();
+        return view('core::components.inputMultiLanguageComponent');
     }
 }

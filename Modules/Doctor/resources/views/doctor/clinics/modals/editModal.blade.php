@@ -1,3 +1,4 @@
+@php use Modules\Doctor\Enums\ActiveClinic; @endphp
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog" role="document">
@@ -5,7 +6,7 @@
               action="{{route('doctor.clinic.update')}}"
               method="POST">
             @csrf
-            @method('PUT')
+            @method('POST')
             <input type="hidden" name="id" id="editeId">
             <div class="modal-content">
                 <div class="modal-header">
@@ -16,18 +17,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6 mb-3">
-                            <x-core::input label="doctor::doctor.clinic.name"
-                                           placeholder="doctor::doctor.clinic.name"
-                                           id="create_name"
-                                           name="name"
-                                           type="text"
-                                           required="required"
-                                           model="create_name"
-                                           value="{{old('name')}}">
+                        <x-core::inputMultiLanguageComponent divClass="col-lg-12 col-sm-12 col-md-6 mb-3"
+                                                             label="doctor::doctor.clinic.name"
+                                                             name="name"
+                                                             type="text" id="name"/>
 
-                            </x-core::input>
-                        </div>
                         <div class="col-6 mb-3">
                             <x-core::select :label="trans('doctor::doctor.clinic.active')"
                                             :placeholder="trans('doctor::doctor.clinic.active')"
@@ -40,6 +34,27 @@
 
                             </x-core::select>
                         </div>
+                        <div class="col-6 mb-3">
+                            <x-core::input label="usermanagement::user_management.user.create.img" id="img"
+                                           name="img"
+                                           type="file"
+                                           required=""
+                                           model="img"
+                                           value="">
+                            </x-core::input>
+                        </div>
+                        <div class="col-6 mt-4">
+                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                <li data-bs-toggle="tooltip"
+                                    data-popup="tooltip-custom"
+                                    data-bs-placement="top"
+                                    class="avatar avatar-xl pull-up">
+                                    <img src="" id="img_src" alt="Avatar" class="rounded-circle">
+                                </li>
+                            </ul>
+
+                        </div>
+
                         {{--<div class="col-6 mb-3" style="margin-top: 2rem !important;">
                                 <x-core::input label="usermanagement::user_management.user.create.isActive"
                                                id="editIsActive" name="is_active"
@@ -50,15 +65,7 @@
                                                value="on">
                                 </x-core::input>
                             </div>--}}
-                        <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.img" id="img"
-                                           name="img"
-                                           type="file"
-                                           required=""
-                                           model="img"
-                                           value="">
-                            </x-core::input>
-                        </div>
+
 
                     </div>
                 </div>
@@ -84,6 +91,17 @@
             let img = $(this).data('img');
             //let active = $(this).data('active');
             let active = $(this).data('active');
+            let nameTranslations;
+            try {
+                nameTranslations = JSON.parse($(this).attr('data-name') || '{}');
+            } catch {
+                nameTranslations = {};
+            }
+            console.log(nameTranslations);
+            const modal = $('#editModal');
+            Object.entries(nameTranslations).forEach(([locale, value]) => {
+                modal.find(`[name="name[${locale}]"]`).val(value ?? '');
+            });
             // If you want to get the input value as well
             $('#editModal #editeId').val(dataId);
             $('#editModal #name').val(name);

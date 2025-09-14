@@ -11,7 +11,15 @@ class ClinicRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [];
+        $isUpdate = $this->routeIs('doctor.clinic.update'); // true/false
+        $required = $isUpdate ? 'required' : 'nullable';
+        return [
+            'id' => [$required, 'integer', 'exists:clinics,id'],
+            'name.*' => ['required', 'string', 'max:255'], // array of names
+            'active' => ['required', 'boolean'],           // must be true/false
+            'img' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'], // optional image
+
+        ];
     }
 
     /**

@@ -1,8 +1,8 @@
 @php
 
-    /* @var Admin $admins */
+    /* @var Admin $doctors */
     use Modules\UserManagement\app\Action\Auditing\RouteName;use Modules\UserManagement\app\Models\Admin;use Modules\UserManagement\app\Models\AuditLog;
-    $admins = AuditLog::GetAdmins();
+    $doctors = AuditLog::GetDoctors();
 
     $startDate = app('request')->input('start_date');
     $endDate = app('request')->input('end_date');
@@ -24,16 +24,16 @@
             <div class="modal-body">
                 <div class="col-md-12 col-12 mb-4">
                     <div class="col-md-12 mb-4">
-                        <label for="adminId"
+                        <label for="doctorId"
                                class="form-label">{{trans('usermanagement::user_management.audits.filterModal.adminId')}}</label>
-                        <select id="adminId" class="select2 form-select form-select-lg" data-allow-clear="true">
+                        <select id="doctorId" class="select2 form-select form-select-lg" data-allow-clear="true">
                             <option value="all">
                                 {{trans('usermanagement::user_management.pleaseSelectOne')}}
                             </option>
-                            @foreach($admins as $index => $admin)
-                                <option value="{{$admin->id}}"
-                                        @if($admin->id == app('request')->input('adminId') ) selected @endIf >
-                                    {{ $admin->name}}
+                            @foreach($doctors as $index => $doctor)
+                                <option value="{{$doctor->id}}"
+                                        @if($doctor->id == app('request')->input('doctorId') ) selected @endIf >
+                                    {{ $doctor->name}}
                                 </option>
                             @endforeach
                         </select>
