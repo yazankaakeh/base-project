@@ -4,7 +4,7 @@ namespace Modules\Doctor\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Core\App\Enum\Gender;
-use Modules\Core\app\Enums\UserStatusEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Models\Patient;
 
@@ -33,7 +33,7 @@ class PatientFactory extends Factory
             'surgical_history' => $this->faker->optional()->paragraph(),
             'accident_history' => $this->faker->optional()->paragraph(),
             'password' => 'password', // will be hashed by the cast
-            'is_active' => $this->faker->randomElement(UserStatusEnum::cases()), // enum
+            'is_active' => $this->faker->randomElement(ActiveEnum::cases()), // enum
         ];
     }
 
@@ -41,7 +41,7 @@ class PatientFactory extends Factory
     {
         return $this->state(fn()
             => [
-            'is_active' => UserStatusEnum::DEACTIVATE,
+            'is_active' => ActiveEnum::INACTIVE,
         ]);
     }
 }

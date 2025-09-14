@@ -17,11 +17,15 @@
                 <div class="modal-body">
                     <div class="row">
 
-                        <x-core::inputMultiLanguageComponent divClass="col-lg-12 col-sm-12 col-md-6 mb-3"
-                                                             label="doctor::doctor.clinic.name"
-                                                             name="name"
-                                                             type="text" id="create_name"/>
-
+                        <div class="col-6 mb-3">
+                            <x-core::input label="doctor::doctor.patients.name" id="name"
+                                           name="name"
+                                           type="text"
+                                           required="required"
+                                           model="name"
+                                           value="{{old('name')}}">
+                            </x-core::input>
+                        </div>
                         <div class="col-6 mb-3">
                             <x-core::select :label="trans('doctor::doctor.clinic.active')"
                                             :placeholder="trans('doctor::doctor.clinic.active')"

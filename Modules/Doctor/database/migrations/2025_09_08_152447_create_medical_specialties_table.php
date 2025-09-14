@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->json('name');
             $table->string('code')->unique();
+            $table->integer('is_active')->default(1);
             $table->timestamps();
         });
     }

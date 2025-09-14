@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('vital_signs', function (Blueprint $table) {
             $table->id();
             $table->json('name');
+            $table->integer('is_active')->default(1);
             $table->timestamps();
         });
     }

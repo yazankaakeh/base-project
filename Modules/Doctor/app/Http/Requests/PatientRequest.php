@@ -5,7 +5,7 @@ namespace Modules\Doctor\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 use Modules\Core\App\Enum\Gender;
-use Modules\Core\app\Enums\UserStatusEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
 
@@ -36,7 +36,7 @@ class PatientRequest extends FormRequest
             'accident_history' => ['required', 'string', 'max:255', 'min:3'],
             'password' => ['required', 'min:8', 'max:255'],
             'email' => ['required', 'email'],
-            'is_active' => ['required', new Enum(UserStatusEnum::class)],
+            'is_active' => ['required', new Enum(ActiveEnum::class)],
             'img' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'],
         ];
     }

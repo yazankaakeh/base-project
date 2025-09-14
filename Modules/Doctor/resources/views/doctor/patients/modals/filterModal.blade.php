@@ -1,4 +1,4 @@
-@php use Modules\Core\App\Enum\Gender;use Modules\Core\app\Enums\UserStatusEnum;use Modules\Core\app\Models\Country;use Modules\Doctor\Enums\ActiveClinic;use Modules\Doctor\Enums\MaritalStatus;use Modules\Doctor\Enums\BloodType; @endphp
+@php use Modules\Core\App\Enum\Gender;use Modules\Core\App\Enums\ActiveEnum;use Modules\Core\app\Models\Country;use Modules\Doctor\Enums\MaritalStatus;use Modules\Doctor\Enums\BloodType; @endphp
 <div class="modal modal-xl fade" id="filterModal" tabindex="-1" aria-hidden="true" data-toggle="modal"
      data-backdrop="static"
      data-keyboard="false">
@@ -76,7 +76,7 @@
                                             name="is_active"
                                             required="required"
                                             model="filter_is_active"
-                                            :options="ActiveClinic::getAllEnumValuesKeysLabel()"
+                                            :options="ActiveEnum::getAllEnumValuesKeysLabel()"
                                             value="{{old('is_active')}}">
 
                             </x-core::select>

@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\ClinicFactory;
-use Modules\Doctor\Enums\ActiveClinic;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -27,12 +27,12 @@ class Clinic extends Model implements HasMedia
         'is_active',
     ];
     protected $casts = [
-        'is_active' => ActiveClinic::class,
+        'is_active' => ActiveEnum::class,
     ];
 
     public static function getClinicSelect2(): Collection
     {
-        return self::query()->where('is_active', ActiveClinic::ACTIVE)->pluck('name', 'id');
+        return self::query()->where('is_active', ActiveEnum::ACTIVE)->pluck('name', 'id');
     }
 
     protected static function newFactory(): ClinicFactory

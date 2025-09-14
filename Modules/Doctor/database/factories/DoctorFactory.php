@@ -4,7 +4,7 @@ namespace Modules\Doctor\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Core\App\Enum\Gender;
-use Modules\Core\app\Enums\UserStatusEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Models\Doctor;
 
 class DoctorFactory extends Factory
@@ -25,7 +25,7 @@ class DoctorFactory extends Factory
             'age' => $this->faker->numberBetween(1, 90),
             'gender' => $this->faker->randomElement(Gender::cases()),
             'password' => 'password', // will be hashed by the cast
-            'is_active' => $this->faker->randomElement(UserStatusEnum::cases()), // enum
+            'is_active' => $this->faker->randomElement(ActiveEnum::cases()), // enum
         ];
     }
 }

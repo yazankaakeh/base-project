@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Core\App\Enum\Gender;
-use Modules\Core\app\Enums\UserStatusEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\app\Models\Address;
 use Modules\Doctor\Database\Factories\PatientFactory;
 use Modules\Doctor\Enums\BloodType;
@@ -52,7 +52,7 @@ class Patient extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'blood_type' => BloodType::class,
-        'is_active' => UserStatusEnum::class,
+        'is_active' => ActiveEnum::class,
         'gender' => Gender::class,
         'marital_status' => MaritalStatus::class,
     ];
@@ -133,7 +133,7 @@ class Patient extends Authenticatable implements HasMedia
         if ($vals = $enumBacked($toArray($f['marital_status'] ?? null), MaritalStatus::class)) {
             $q->whereIn('marital_status', $vals);
         }
-        if ($vals = $enumBacked($toArray($f['is_active'] ?? null), UserStatusEnum::class)) {
+        if ($vals = $enumBacked($toArray($f['is_active'] ?? null), ActiveEnum::class)) {
             $q->where('is_active', $vals);
         }
 

@@ -1,7 +1,5 @@
 <?php
 
-use Modules\Core\app\Enums\UserStatusEnum;
-
 return [
     'underMaintenance' => [
         'title' => 'البطاقة غير مفعّلة 🚧',
@@ -15,10 +13,6 @@ return [
           ActiveCardEnum::ACTIVE->value => 'نشطة',
           ActiveCardEnum::DEACTIVATE->value => 'معطّلة',
         ],*/
-        'UserStatusEnum' => [
-            UserStatusEnum::ACTIVE->value => 'نشط',
-            UserStatusEnum::DEACTIVATE->value => 'معطّل',
-        ],
     ],
     'breadcrumbs' => [
         'cards' => [

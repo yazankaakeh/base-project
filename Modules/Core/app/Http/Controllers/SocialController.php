@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Modules\Core\app\Enums\UserStatusEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\app\Models\SocialAccount;
 
 // see migration below
@@ -59,7 +59,7 @@ class SocialController extends Controller
                     'email' => $email,           // may be null for X if not granted
                     'password' => Hash::make(Str::random(32)),
                     'img' => $oauthUser->getAvatar(),
-                    'is_active' => UserStatusEnum::ACTIVE,
+                    'is_active' => ActiveEnum::ACTIVE,
                     'email_verified_at' => date('Y-m-d H:i:s'),
                 ]);
             }

@@ -1,6 +1,14 @@
 <?php
 
+use Modules\Core\App\Enums\ActiveEnum;
+
 return [
+    'enum' => [
+        'ActiveClinic' => [
+            ActiveEnum::ACTIVE->value => 'Active',
+            ActiveEnum::INACTIVE->value => 'Inactive',
+        ],
+    ],
     'env' => [
         'save' => 'Save',
         'sendTestEmail' => 'send Test Email',

@@ -1,21 +1,11 @@
 <?php
 
 use Modules\Core\App\Enum\Gender;
-use Modules\Core\app\Enums\UserStatusEnum;
-use Modules\Doctor\Enums\ActiveClinic;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
 
 return [
     'enum' => [
-        'ActiveClinic' => [
-            ActiveClinic::ACTIVE->value => 'Active',
-            ActiveClinic::INACTIVE->value => 'Inactive',
-        ],
-        'UserStatusEnum' => [
-            UserStatusEnum::ACTIVE->value => 'Active',
-            UserStatusEnum::DEACTIVATE->value => 'Inactive',
-        ],
         'Gender' => [
             Gender::MALE->value => 'Male',
             Gender::FEMALE->value => 'Female',

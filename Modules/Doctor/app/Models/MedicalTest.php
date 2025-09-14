@@ -5,6 +5,7 @@ namespace Modules\Doctor\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\MedicalTestFactory;
 use Spatie\Translatable\HasTranslations;
 
@@ -17,8 +18,13 @@ class MedicalTest extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
+        'id',
         'name',
         'unit',
+        'is_active',
+    ];
+    protected $casts = [
+        'is_active' => ActiveEnum::class,
     ];
 
     protected static function newFactory(): MedicalTestFactory
