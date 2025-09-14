@@ -26,13 +26,12 @@ enum BloodType: int
     {
         return match ($this) {
             self::A_POSITIVE => 'primary',
-            self::A_NEGATIVE => 'label-primary',
-            self::B_POSITIVE => 'warning',
-            self::B_NEGATIVE => 'label-warning',
+            self::A_NEGATIVE => 'secondary',
+            self::B_POSITIVE, self::O_NEGATIVE => 'warning',
+            self::B_NEGATIVE => 'success',
             self::O_POSITIVE => 'danger',
-            self::O_NEGATIVE => 'label-danger',
-            self::AB_POSITIVE => 'success',
-            self::AB_NEGATIVE => 'label-success',
+            self::AB_POSITIVE => 'info',
+            self::AB_NEGATIVE => 'dark',
         };
     }
 }

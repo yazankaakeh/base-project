@@ -61,7 +61,7 @@ $page = 'sales-dashboard'; ?>
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                    <span class="badge {{$user->is_active->class()}} me-1">{{$user->is_active->label()}} </span>
+                                                    <span class="badge text-bg-{{$user->is_active->class()}} me-1">{{$user->is_active->label()}} </span>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">

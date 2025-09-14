@@ -110,15 +110,15 @@ $page = 'sales-dashboard'; ?>
                                                 <td>{{$patient->name}}</td>
                                                 <td>{{$patient->age}}</td>
                                                 <td>
-                                                    <span class="badge {{$patient->gender->class()}} me-1">{{$patient->gender->label()}} </span>
+                                                    <span class="badge text-bg-{{$patient->gender->class()}} me-1">{{$patient->gender->label()}} </span>
                                                 </td>
                                                 <td>{{$patient->children}}</td>
                                                 <td>{{$patient->work}}</td>
                                                 <td>
-                                                    <span class="badge {{$patient->blood_type->class()}} me-1">{{$patient->blood_type->label()}} </span>
+                                                    <span class="badge text-bg-{{$patient->blood_type->class()}} me-1">{{$patient->blood_type->label()}} </span>
                                                 </td>
                                                 <td>
-                                                    <span class="badge {{$patient->marital_status->class()}} me-1">{{$patient->marital_status->label()}} </span>
+                                                    <span class="badge text-bg-{{$patient->marital_status->class()}} me-1">{{$patient->marital_status->label()}} </span>
                                                 </td>
                                                 <td>{{$patient->drug_allergies}}</td>
                                                 <td>{{$patient->disabilities}}</td>
@@ -139,7 +139,7 @@ $page = 'sales-dashboard'; ?>
                                                     </ul>
                                                 </td>
                                                 <td>
-                                                    <span class="badge {{$patient->is_active->class()}} me-1">
+                                                    <span class="badge text-bg-{{$patient->is_active->class()}} me-1">
                                                         {{$patient->is_active->label()}}
                                                     </span>
                                                 </td>

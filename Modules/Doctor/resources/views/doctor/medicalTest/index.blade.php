@@ -91,7 +91,7 @@ $page = 'sales-dashboard'; ?>
                                                 <td>{{$medicalTest->name}}</td>
                                                 <td>{{$medicalTest->unit}}</td>
                                                 <td>
-                                                    <span class="badge {{$medicalTest->is_active->class()}} me-1">{{$medicalTest->is_active->label()}} </span>
+                                                    <span class="badge text-bg-{{$medicalTest->is_active->class()}} me-1">{{$medicalTest->is_active->label()}} </span>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
