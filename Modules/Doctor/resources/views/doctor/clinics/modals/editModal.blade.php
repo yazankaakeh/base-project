@@ -26,7 +26,7 @@
                             <x-core::select :label="trans('doctor::doctor.clinic.active')"
                                             :placeholder="trans('doctor::doctor.clinic.active')"
                                             id="active"
-                                            name="active"
+                                            name="is_active"
                                             required="required"
                                             model="active"
                                             :options="ActiveEnum::getAllEnumValuesKeysLabel()"

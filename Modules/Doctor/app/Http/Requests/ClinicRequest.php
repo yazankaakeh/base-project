@@ -3,6 +3,8 @@
 namespace Modules\Doctor\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use Modules\Core\App\Enums\ActiveEnum;
 
 class ClinicRequest extends FormRequest
 {
@@ -16,7 +18,7 @@ class ClinicRequest extends FormRequest
         return [
             'id' => [$required, 'integer', 'exists:clinics,id'],
             'name.*' => ['required', 'string', 'max:255'], // array of names
-            'active' => ['required', 'boolean'],           // must be true/false
+            'is_active' => ['required', new Enum(ActiveEnum::class)],           // must be true/false
             'img' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'], // optional image
 
         ];
