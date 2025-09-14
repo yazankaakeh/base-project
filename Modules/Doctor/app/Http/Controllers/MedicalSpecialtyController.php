@@ -2,8 +2,10 @@
 
 namespace Modules\Doctor\Http\Controllers;
 
+use App\Enum\Pagination;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Modules\Doctor\Http\Requests\MedicalSpecialtyRequest;
+use Modules\Doctor\Models\MedicalSpecialty;
 
 class MedicalSpecialtyController extends Controller
 {
@@ -12,45 +14,30 @@ class MedicalSpecialtyController extends Controller
      */
     public function index()
     {
-        return view('doctor::index');
+        $data = MedicalSpecialty::query()->paginate(Pagination::PAG->value);
+        return view('doctor::doctor.medicalSpecialty.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('doctor::create');
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function store(MedicalSpecialtyRequest $request)
     {
-        return view('doctor::show');
+        MedicalSpecialty::query()->create($request->validated());
+        return redirect()->back();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('doctor::edit');
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id) {}
+    public function update(MedicalSpecialtyRequest $request)
+    {
+        MedicalSpecialty::query()->where('id', $request->id)
+            ->update($request->validated());
+        return redirect()->back();
+    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+
 }

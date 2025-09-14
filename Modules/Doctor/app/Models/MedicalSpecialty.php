@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\MedicalSpecialtyFactory;
-use Modules\Doctor\Enums\MedicalSpecialtyCodeEnum;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -27,7 +26,7 @@ class MedicalSpecialty extends Model
         'is_active',
     ];
     protected $casts = [
-        'code' => MedicalSpecialtyCodeEnum::class,
+        'code' => 'string',
         'is_active' => ActiveEnum::class,
     ];
 

@@ -3,7 +3,54 @@
 $page = 'sales-dashboard'; ?>
 @extends('theme::user.layouts.horizontalLayout')
 
-@section('title', trans('customer.sidebar.clinic'))
+<!-- Vendor Styles -->
+@section('vendor-style')
+    @livewireStyles
+    @livewireScripts
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.scss'],
+            'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.scss',
+            'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss',
+            'resources/assets/vendor/libs/select2/select2.scss',
+            'resources/assets/vendor/libs/@form-validation/form-validation.scss'],
+            'build/modules/theme')
+@endsection
+
+<!-- Vendor Scripts -->
+@section('vendor-script')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            $('.select2').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).closest('.modal'),
+                    allowClear: true,
+                    tags: false
+                });
+            });
+        })
+    </script>
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.js'],
+'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.js',
+'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js',
+'resources/assets/vendor/libs/select2/select2.js',
+'resources/assets/vendor/libs/@form-validation/popular.js',
+'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
+'resources/assets/vendor/libs/@form-validation/auto-focus.js'],
+'build/modules/theme')
+
+@endsection
+
+<!-- Page Scripts -->
+@section('page-script')
+    @includeIf('doctor::doctor.medicalSpecialty.modals.createModal')
+    @includeIf('doctor::doctor.medicalSpecialty.modals.editModal')
+    @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
+    {{--
+      @vite(['resources/assets/js/form-wizard-numbered.js', 'resources/assets/js/form-wizard-validation.js'])
+    --}}
+@endsection
+@section('title', trans('customer.sidebar.medicalSpecialty'))
 
 @section('content')
     <div class="page-wrapper">
@@ -12,9 +59,9 @@ $page = 'sales-dashboard'; ?>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
-                            <h5 class="">{{trans('customer.sidebar.clinic')}}</h5>
+                            <h5 class="">{{trans('customer.sidebar.medicalSpecialty')}}</h5>
                             <h5 class="">
-                                @can('doctor.patients.store')
+                                @can('doctor.medicalSpecialty.store')
                                     <button type="button"
                                             data-bs-toggle="modal" data-bs-target="#storeModal"
                                             class="btn btn-primary">
@@ -31,43 +78,31 @@ $page = 'sales-dashboard'; ?>
                                         <thead>
                                         <tr>
                                             <th>{{trans('doctor::doctor.id')}}</th>
-                                            <th>{{trans('doctor::doctor.clinic.name')}}</th>
-                                            <th>{{trans('doctor::doctor.clinic.img')}}</th>
+                                            <th>{{trans('doctor::doctor.medicalSpecialty.name')}}</th>
+                                            <th>{{trans('doctor::doctor.medicalSpecialty.code')}}</th>
                                             <th>{{trans('customer.account.status')}}</th>
                                             <th>{{trans('admin.audits.action')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
-                                        @foreach($data as $clinic)
+                                        @foreach($data as $medicalSpecialty)
                                             <tr>
-                                                <td>{{$clinic->id}}</td>
-                                                <td>{{$clinic->name}}</td>
+                                                <td>{{$medicalSpecialty->id}}</td>
+                                                <td>{{$medicalSpecialty->name}}</td>
+                                                <td>{{$medicalSpecialty->code}}</td>
                                                 <td>
-                                                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                            data-bs-placement="top"
-                                                            class="avatar avatar-xl pull-up"
-                                                            aria-label="{{$clinic->name}}"
-                                                            data-bs-original-title="{{$clinic->name}}">
-                                                            <img src="{{$clinic->getFirstMediaUrl('images')}}"
-                                                                 alt="Avatar"
-                                                                 class="rounded-circle">
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <span class="badge {{$clinic->is_active->class()}} me-1">{{$clinic->is_active->label()}} </span>
+                                                    <span class="badge {{$medicalSpecialty->is_active->class()}} me-1">{{$medicalSpecialty->is_active->label()}} </span>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
-                                                        @can('doctor.clinic.update')
+                                                        @can('doctor.medicalSpecialty.update')
                                                             <a type="button" data-bs-toggle="modal"
                                                                data-bs-target="#editModal"
                                                                class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"
-                                                               data-id="{{$clinic->id}}"
-                                                               data-img="{{$clinic->getFirstMediaUrl('images')}}"
-                                                               data-name='@json($clinic->getTranslations('name'))'
-                                                               data-active="{{$clinic->is_active}}">
+                                                               data-id="{{$medicalSpecialty->id}}"
+                                                               data-code="{{$medicalSpecialty->code}}"
+                                                               data-name='@json($medicalSpecialty->getTranslations('name'))'
+                                                               data-active="{{$medicalSpecialty->is_active}}">
                                                                 <i data-feather="edit"
                                                                    class="ti tabler-edit icon-base"></i>
                                                             </a>
@@ -88,8 +123,4 @@ $page = 'sales-dashboard'; ?>
         </div>
     </div>
 @endsection
-@section('page-script')
-    @includeIf('doctor::doctor.clinics.modals.createModal')
-    @includeIf('doctor::doctor.clinics.modals.editModal')
-    @includeIf('doctor::doctor.clinics.modals.isActiveModal')
-@endsection
+

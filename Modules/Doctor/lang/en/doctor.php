@@ -70,7 +70,10 @@ return [
         'updateMedicine' => 'Update Medicine',
     ],
     'medicalSpecialty' => [
-        'name' => 'Medical specialty name',
+        'name' => 'Medical specialty Name',
+        'name en' => 'Medical specialty Name',
+        'name ar' => 'Medical specialty Name',
+        'code' => 'Medical specialty Code',
         'createMedicalSpecialty' => 'Create Medical specialty',
         'updateMedicalSpecialty' => 'Update Medical specialty',
     ],
