@@ -59,7 +59,8 @@ return [
         'updateClinic' => 'Update Clinic',
     ],
     'medicalTest' => [
-        'name' => 'Medical Test name',
+        'name' => 'Medical Test Name',
+        'unit' => 'Medical Test Unit',
         'createMedicalTest' => 'Create Medical Test',
         'updateMedicalTest' => 'Update Medical Test',
     ],

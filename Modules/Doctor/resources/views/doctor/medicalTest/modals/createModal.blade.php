@@ -3,45 +3,49 @@
      data-keyboard="false">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data" id="createUser"
-              action="{{route('doctor.clinic.store')}}"
+              action="{{route('doctor.medicalTest.store')}}"
               method="POST">
             @csrf
             @method('POST')
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{trans('doctor::doctor.clinic.createClinic')}}
+                        {{trans('doctor::doctor.medicalTest.createMedicalTest')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
 
-                        <x-core::inputMultiLanguageComponent divClass="col-lg-12 col-sm-12 col-md-6 mb-3"
-                                                             label="doctor::doctor.clinic.name"
-                                                             name="name"
-                                                             type="text" id="create_name"/>
-
                         <div class="col-6 mb-3">
-                            <x-core::select :label="trans('doctor::doctor.clinic.active')"
-                                            :placeholder="trans('doctor::doctor.clinic.active')"
-                                            id="active"
-                                            name="active"
+                            <x-core::input label="doctor::doctor.medicalTest.name" id="create_name"
+                                           name="name"
+                                           type="text"
+                                           required="required"
+                                           model="create_name"
+                                           value="{{old('name')}}">
+                            </x-core::input>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <x-core::input label="doctor::doctor.medicalTest.unit" id="create_unit"
+                                           name="unit"
+                                           type="text"
+                                           required="required"
+                                           model="create_unit"
+                                           value="{{old('unit')}}">
+                            </x-core::input>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <x-core::select :label="trans('doctor::doctor.patients.active')"
+                                            :placeholder="trans('doctor::doctor.patients.active')"
+                                            id="create_is_active"
+                                            name="is_active"
                                             required="required"
-                                            model="active"
+                                            model="create_is_active"
                                             :options="ActiveEnum::getAllEnumValuesKeysLabel()"
                                             value="{{old('active')}}">
 
                             </x-core::select>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.img" id="create_img"
-                                           name="img"
-                                           type="file"
-                                           required=""
-                                           model="create_img"
-                                           value="">
-                            </x-core::input>
                         </div>
                     </div>
                 </div>
