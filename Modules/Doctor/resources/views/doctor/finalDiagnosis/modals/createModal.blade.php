@@ -1,17 +1,16 @@
 @php use Modules\Core\App\Enums\ActiveEnum; @endphp
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
+<div class="modal fade" id="storeModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog" role="document">
-        <form class="row g-3" enctype="multipart/form-data" id="editUser"
-              action="{{route('doctor.vitalSign.update')}}"
+        <form class="row g-3" enctype="multipart/form-data" id="createUser"
+              action="{{route('doctor.finalDiagnosis.store')}}"
               method="POST">
             @csrf
             @method('POST')
-            <input type="hidden" name="id" id="editeId">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{trans('doctor::doctor.vitalSign.updateVitalSign')}}
+                        {{trans('doctor::doctor.finalDiagnosis.createFinalDiagnosis')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -20,15 +19,14 @@
                         <x-core::inputMultiLanguageComponent divClass="col-lg-12 col-sm-12 col-md-6 mb-3"
                                                              label="doctor::doctor.finalDiagnosis.name"
                                                              name="name"
-                                                             type="text" id="name"/>
-
+                                                             type="text" id="create_name"/>
                         <div class="col-6 mb-3">
                             <x-core::select :label="trans('doctor::doctor.patients.active')"
                                             :placeholder="trans('doctor::doctor.patients.active')"
-                                            id="is_active"
+                                            id="create_is_active"
                                             name="is_active"
                                             required="required"
-                                            model="is_active"
+                                            model="create_is_active"
                                             :options="ActiveEnum::getAllEnumValuesKeysLabel()"
                                             value="{{old('active')}}">
 
@@ -48,31 +46,3 @@
         </form>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        // Your modal HTML structure here
-
-        $('.EditModalBTN').on('click', function () {
-            let dataId = $(this).data('id');
-            let code = $(this).data('code');
-            //let active = $(this).data('active');
-            let active = $(this).data('active');
-            let nameTranslations;
-            try {
-                nameTranslations = JSON.parse($(this).attr('data-name') || '{}');
-            } catch {
-                nameTranslations = {};
-            }
-            console.log(nameTranslations);
-            const modal = $('#editModal');
-            Object.entries(nameTranslations).forEach(([locale, value]) => {
-                modal.find(`[name="name[${locale}]"]`).val(value ?? '');
-            });
-            // If you want to get the input value as well
-            $('#editModal #editeId').val(dataId);
-            $('#editModal #code').val(code);
-            // $('#editModal #active').prop('checked', active);
-            $('#editModal #is_active').val(active);
-        });
-    });
-</script>

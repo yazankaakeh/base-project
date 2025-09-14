@@ -82,6 +82,13 @@ class Patient extends Authenticatable implements HasMedia
             ->nonQueued();
     }
 
+    public function FinalDiagnoses(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(FinalDiagnosis::class, 'medical_examination_medical_test')
+            ->using(FinalDiagnosisPatient::class); // optional
+    }
+
     public function scopeFilter(Builder $q, array $f): Builder
     {
         // small helpers

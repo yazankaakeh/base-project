@@ -42,7 +42,6 @@ class MedicalExamination extends Model
         return $this
             ->belongsToMany(MedicalTest::class, 'medical_examination_medical_test')
             ->withPivot('value')
-            ->withTimestamps()
             ->using(MedicalExaminationMedicalTest::class); // optional
     }
 

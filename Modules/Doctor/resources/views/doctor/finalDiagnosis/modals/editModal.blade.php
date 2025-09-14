@@ -3,7 +3,7 @@
      data-keyboard="false">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data" id="editUser"
-              action="{{route('doctor.vitalSign.update')}}"
+              action="{{route('doctor.finalDiagnosis.update')}}"
               method="POST">
             @csrf
             @method('POST')
@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{trans('doctor::doctor.vitalSign.updateVitalSign')}}
+                        {{trans('doctor::doctor.finalDiagnosis.updateFinalDiagnosis')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -71,6 +71,12 @@ class DoctorMenu
                         "name" => trans("customer.sidebar.vitalSign"),
                         "icon" => "menu-icon tf-icons ti tabler-truck",
                     ],
+                    [
+                        "slug" => route('doctor.finalDiagnosis.index'),
+                        "url" => route('doctor.finalDiagnosis.index'),
+                        "name" => trans("customer.sidebar.finalDiagnosis"),
+                        "icon" => "menu-icon tf-icons ti tabler-truck",
+                    ],
                 ],
             ],
             [

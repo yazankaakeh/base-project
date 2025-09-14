@@ -71,8 +71,13 @@ return [
     ],
     'vitalSign' => [
         'name' => 'Vital Sign name',
-        'createMedicine' => 'Create Vital Sign',
-        'updateMedicine' => 'Update Vital Sign',
+        'createVitalSign' => 'Create Vital Sign',
+        'updateVitalSign' => 'Update Vital Sign',
+    ],
+    'finalDiagnosis' => [
+        'name' => 'Final Diagnosis name',
+        'createFinalDiagnosis' => 'Create Final Diagnosis',
+        'updateFinalDiagnosis' => 'Update Final Diagnosis',
     ],
     'medicalSpecialty' => [
         'name' => 'Medical specialty Name',
