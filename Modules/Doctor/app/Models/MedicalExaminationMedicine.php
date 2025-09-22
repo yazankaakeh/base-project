@@ -2,10 +2,10 @@
 
 namespace Modules\Doctor\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 
-class MedicalExaminationMedicine extends Model
+class MedicalExaminationMedicine extends Pivot
 {
     protected $table = 'medical_examination_medicine';
 
@@ -18,6 +18,7 @@ class MedicalExaminationMedicine extends Model
         'type',
         'dosage',
         'count',
+        'note',
     ];
 
 

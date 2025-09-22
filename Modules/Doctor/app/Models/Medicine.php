@@ -5,6 +5,7 @@ namespace Modules\Doctor\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\MedicineFactory;
 
@@ -22,6 +23,11 @@ class Medicine extends Model
     protected $casts = [
         'is_active' => ActiveEnum::class,
     ];
+
+    public static function getMedicinesSelect2(): Collection
+    {
+        return Medicine::query()->pluck('name', 'id');
+    }
 
     protected static function newFactory(): MedicineFactory
     {

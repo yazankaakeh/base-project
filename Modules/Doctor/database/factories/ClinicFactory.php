@@ -3,6 +3,7 @@
 namespace Modules\Doctor\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Models\Clinic;
 
 class ClinicFactory extends Factory
@@ -19,7 +20,10 @@ class ClinicFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'is_active' => ActiveEnum::ACTIVE->value,
         ];
     }
+
+
 }
 

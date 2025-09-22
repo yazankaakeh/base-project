@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->bigInteger('final_diagnosis_id')->unsigned();
             $table->foreign('final_diagnosis_id')->references('id')->on('final_diagnoses');
+            $table->bigInteger('medical_examination_id')->unsigned();
+            $table->foreign('medical_examination_id')->references('id')->on('medical_examinations');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace Modules\Doctor\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Modules\Core\App\Enums\ActiveEnum;
 use Spatie\Translatable\HasTranslations;
 
@@ -27,6 +28,11 @@ class FinalDiagnosis extends Model
     protected $casts = [
         'is_active' => ActiveEnum::class,
     ];
+
+    public static function getFinalDiagnosisSelect2(): Collection
+    {
+        return FinalDiagnosis::query()->where('is_active', ActiveEnum::ACTIVE)->pluck('name', 'id');
+    }
 
     public function patient(): BelongsToMany
     {

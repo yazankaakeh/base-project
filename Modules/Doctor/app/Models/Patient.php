@@ -4,13 +4,16 @@ namespace Modules\Doctor\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Core\App\Enum\Gender;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\app\Models\Address;
+use Modules\Core\app\Models\Country;
 use Modules\Doctor\Database\Factories\PatientFactory;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
@@ -19,6 +22,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @property mixed $clinics
+ */
 class Patient extends Authenticatable implements HasMedia
 {
     use HasFactory;
@@ -38,6 +44,7 @@ class Patient extends Authenticatable implements HasMedia
         'marital_status',
         'nationality_id',
         'work',
+        'phone',
         'drug_allergies',
         'disabilities',
         'medical_history',
@@ -82,11 +89,17 @@ class Patient extends Authenticatable implements HasMedia
             ->nonQueued();
     }
 
-    public function FinalDiagnoses(): BelongsToMany
+    public function finalDiagnoses(): BelongsToMany
     {
         return $this
-            ->belongsToMany(FinalDiagnosis::class, 'medical_examination_medical_test')
+            ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
             ->using(FinalDiagnosisPatient::class); // optional
+    }
+
+    public function nationality(): BelongsTo
+    {
+        return $this
+            ->belongsTo(Country::class, 'nationality_id'); // optional
     }
 
     public function scopeFilter(Builder $q, array $f): Builder
@@ -145,5 +158,11 @@ class Patient extends Authenticatable implements HasMedia
         }
 
         return $q;
+    }
+
+    public function medicalExamination(): HasMany
+    {
+        return $this
+            ->hasMany(MedicalExamination::class, 'patient_id'); // optional
     }
 }

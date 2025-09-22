@@ -3,12 +3,22 @@
 use Modules\Core\App\Enum\Gender;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
+use Modules\Doctor\Enums\MedicalExaminationStatusEnum;
+use Modules\Doctor\Enums\MedicalTestTypeEnum;
 
 return [
     'enum' => [
         'Gender' => [
             Gender::MALE->value => 'Male',
             Gender::FEMALE->value => 'Female',
+        ],
+        'MedicalExaminationStatusEnum' => [
+            MedicalExaminationStatusEnum::ACTIVE->value => 'Active',
+            MedicalExaminationStatusEnum::DONE->value => 'Done',
+        ],
+        'MedicalTestTypeEnum' => [
+            MedicalTestTypeEnum::LABORATORY_TESTS->value => 'Laboratory Tests',
+            MedicalTestTypeEnum::RADIOLOGY_TESTS->value => 'Radiology Tests',
         ],
         'MaritalStatus' => [
             MaritalStatus::SINGLE->value => 'Single',
@@ -33,6 +43,7 @@ return [
     'patients' => [
         'nameTitle' => 'Patients',
         'name' => 'Name',
+        'phone' => 'Phone',
         'age' => 'Age',
         'minAge' => 'Min Age',
         'maxAge' => 'MaxAge',
@@ -50,7 +61,7 @@ return [
         'accident_history' => 'Accident History',
         'email' => 'Email',
         'password' => 'Password',
-        'active' => 'Active',
+        'active' => 'Status',
         'createPatients' => 'Create Patient',
         'updatePatients' => 'Update Patient',
         'filterPatients' => 'Filter Patient',
@@ -90,11 +101,35 @@ return [
         'createMedicalSpecialty' => 'Create Medical specialty',
         'updateMedicalSpecialty' => 'Update Medical specialty',
     ],
+    'medicalExaminations' => [
+        'patientInfo' => 'Patient Info',
+        'patientDetails' => 'Patient Details',
+        'medicalPreviewInfo' => 'Medical Preview Info',
+        'finalDiagnosisInfo' => 'Final Diagnosis Info',
+        'vitalSignsInfo' => 'Vital Signs Info',
+        'clinical_examination' => 'Clinical Examination',
+        'impression' => 'Impression',
+        'request_for_action' => 'Request For Action',
+        'laboratoryTests' => 'Laboratory Tests',
+        'radiologyTests' => 'Radiology Tests',
+        'medicines' => 'Medicines Info',
+
+        'drugName' => 'Drug name',
+        'repetition' => 'Repetition',
+        'howToDrink' => 'How to drink',
+        'number' => 'Number',
+        'note' => 'Note',
+        '' => '',
+    ],
     'filter' => 'Filter',
     'close' => 'Close',
     'submit' => 'Submit',
     'save' => 'Save',
     'create' => 'Create',
+    'edit' => 'Edit',
+    'deactivate' => 'Deactivate',
     'pleaseSelectOne' => 'Please Select One',
     'id' => 'ID',
+    'saveAll' => 'Save All',
+
 ];

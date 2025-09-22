@@ -23,6 +23,7 @@ class PatientRequest extends FormRequest
             'nationality_id' => ['required', 'integer', 'exists:countries,id'],
             'clinics_id.*' => ['required', 'integer', 'exists:clinics,id'],
             'name' => ['required', 'string', 'max:255', 'min:5'],
+            'phone' => ['required', 'string', 'max:13', 'min:9'],
             'age' => ['required', 'numeric'],
             'gender' => ['required', new Enum(Gender::class)],
             'marital_status' => ['required', new Enum(MaritalStatus::class)],

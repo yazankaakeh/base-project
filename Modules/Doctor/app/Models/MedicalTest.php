@@ -5,8 +5,10 @@ namespace Modules\Doctor\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Database\Factories\MedicalTestFactory;
+use Modules\Doctor\Enums\MedicalTestTypeEnum;
 
 class MedicalTest extends Model
 {
@@ -20,10 +22,22 @@ class MedicalTest extends Model
         'name',
         'unit',
         'is_active',
+        'type',
     ];
     protected $casts = [
         'is_active' => ActiveEnum::class,
+        'type' => MedicalTestTypeEnum::class,
     ];
+
+    public static function getLaboratorySelect2(): Collection
+    {
+        return MedicalTest::query()->where('type', MedicalTestTypeEnum::LABORATORY_TESTS->value)->pluck('name', 'id');
+    }
+
+    public static function getRadiologySelect2(): Collection
+    {
+        return MedicalTest::query()->where('type', MedicalTestTypeEnum::RADIOLOGY_TESTS->value)->pluck('name', 'id');
+    }
 
     protected static function newFactory(): MedicalTestFactory
     {

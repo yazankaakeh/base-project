@@ -58,6 +58,15 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
+                            <x-core::input label="doctor::doctor.patients.phone" id="create_phone"
+                                           name="phone"
+                                           type="text"
+                                           required="required"
+                                           model="create_phone"
+                                           value="{{old('phone')}}">
+                            </x-core::input>
+                        </div>
+                        <div class="col-6 mb-3">
                             <x-core::select :label="trans('doctor::doctor.patients.gender')"
                                             :placeholder="trans('doctor::doctor.patients.gender')"
                                             id="create_gender"

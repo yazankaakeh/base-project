@@ -44,9 +44,9 @@ $page = 'sales-dashboard'; ?>
 
 <!-- Page Scripts -->
 @section('page-script')
-    @includeIf('doctor::doctor.patients.modals.createModal')
-    @includeIf('doctor::doctor.patients.modals.editModal')
-    @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
+    {{--  @includeIf('doctor::doctor.patients.modals.createModal')
+      @includeIf('doctor::doctor.patients.modals.editModal')
+     --}} @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
     {{--
       @vite(['resources/assets/js/form-wizard-numbered.js', 'resources/assets/js/form-wizard-validation.js'])
     --}}

@@ -11,6 +11,11 @@ class DoctorDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call([
+            MedicineSeeder::class,
+            MedicalTestsSeeder::class,
+            VitalSignsSeeder ::class,
+            PatientSeeder ::class,
+        ]);
     }
 }

@@ -87,6 +87,7 @@ $page = 'sales-dashboard'; ?>
                                         <tr>
                                             <th>{{trans('doctor::doctor.id')}}</th>
                                             <th>{{trans('doctor::doctor.patients.name')}}</th>
+                                            <th>{{trans('doctor::doctor.patients.phone')}}</th>
                                             <th>{{trans('doctor::doctor.patients.age')}}</th>
                                             <th>{{trans('doctor::doctor.patients.gender')}}</th>
                                             <th>{{trans('doctor::doctor.patients.children')}}</th>
@@ -108,6 +109,7 @@ $page = 'sales-dashboard'; ?>
                                             <tr>
                                                 <td>{{$patient->id}}</td>
                                                 <td>{{$patient->name}}</td>
+                                                <td>{{$patient->phone}}</td>
                                                 <td>{{$patient->age}}</td>
                                                 <td>
                                                     <span class="badge text-bg-{{$patient->gender->class()}} me-1">{{$patient->gender->label()}} </span>
@@ -132,7 +134,7 @@ $page = 'sales-dashboard'; ?>
                                                             class="avatar avatar-xl pull-up"
                                                             aria-label="{{$patient->name}}"
                                                             data-bs-original-title="{{$patient->name}}">
-                                                            <img src="{{$patient->getFirstMediaUrl('images')}}"
+                                                            <img src="{{$patient->getFirstMediaUrl('images') != null ? $patient->getFirstMediaUrl('images'): asset('assets/img/avatars/3.png') }}"
                                                                  alt="Avatar"
                                                                  class="rounded-circle">
                                                         </li>
@@ -177,6 +179,20 @@ $page = 'sales-dashboard'; ?>
                                                                 <i data-feather="show"
                                                                    class="ti tabler-eye icon-base"></i>
                                                             </a>
+                                                        @endcan
+                                                        @can('doctor.medicalExamination.store')
+                                                            <form action="{{route('doctor.medicalExamination.store',['patientId'=>$patient->id])}}"
+                                                                  method="POST">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <button type="submit"
+                                                                        class="text-primary btn-sm">
+                                                                    <i data-feather="show"
+                                                                       class="ti tabler-eye icon-base">
+
+                                                                    </i>
+                                                                </button>
+                                                            </form>
                                                         @endcan
                                                     </div>
                                                 </td>

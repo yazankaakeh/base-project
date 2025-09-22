@@ -2,9 +2,9 @@
 
 namespace Modules\Doctor\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ClinicPatient extends Model
+class ClinicPatient extends Pivot
 {
 
     /**

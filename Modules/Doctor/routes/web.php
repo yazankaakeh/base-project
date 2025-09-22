@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Doctor\Http\Controllers\ClinicController;
 use Modules\Doctor\Http\Controllers\DoctorController;
 use Modules\Doctor\Http\Controllers\FinalDiagnosisController;
+use Modules\Doctor\Http\Controllers\MedicalExaminationController;
 use Modules\Doctor\Http\Controllers\MedicalSpecialtyController;
 use Modules\Doctor\Http\Controllers\MedicalTestController;
 use Modules\Doctor\Http\Controllers\MedicineController;
@@ -95,6 +96,33 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         );
         Route::post('/finalDiagnosis/update', [FinalDiagnosisController::class, 'update'])->name(
             'finalDiagnosis.update',
+        );
+
+        Route::get(
+            '/medicalExamination/create/{medicalExaminationId}',
+            [MedicalExaminationController::class, 'create'],
+        )->name(
+            'medicalExamination.create',
+        );
+        Route::post(
+            '/medicalExamination/store/{patientId}',
+            [MedicalExaminationController::class, 'store'],
+        )->name(
+            'medicalExamination.store',
+        );
+
+        Route::get(
+            '/medicalExamination/show/{id}',
+            [MedicalExaminationController::class, 'show'],
+        )->name(
+            'medicalExamination.show',
+        );
+
+        Route::get(
+            '/medicalExamination/index',
+            [MedicalExaminationController::class, 'index'],
+        )->name(
+            'medicalExamination.index',
         );
     },
 );

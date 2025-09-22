@@ -2,10 +2,10 @@
 
 namespace Modules\Doctor\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 
-class MedicalExaminationVitalSign extends Model
+class MedicalExaminationVitalSign extends Pivot
 {
 
     protected $table = 'medical_examination_vital_sign';

@@ -58,12 +58,20 @@ return [
     ],
 
     'sidebar' => [
+        'medicalExaminations' => 'الفحوصات الطبية',
+        'medicalPreviewSettings' => 'إعدادات المعاينة الطبية',
+        'clinic' => 'العيادات',
+        'patients' => 'المرضى',
+        'medicalTest' => 'الفحوصات الطبية',
+        'vitalSign' => 'العلامات الحيوية',
+        'finalDiagnosis' => 'التشخيص النهائي',
+        'medicine' => 'الأدوية',
+        'medicalSpecialty' => 'التخصصات الطبية',
         'dashboard' => 'لوحة التحكم',
         'contacts' => 'جهات الاتصال',
         'account' => 'الحساب',
         'connections' => 'الاتصالات',
         'profile' => 'الملف الشخصي',
-        'customer' => 'العميل',
         'audits' => 'سجلات التدقيق',
         'roles' => 'الأدوار',
         'admins' => 'إدارة المشرفين',
@@ -72,6 +80,7 @@ return [
         'cardsSettings' => 'إعدادات البطاقات',
         'cards' => 'البطاقات',
     ],
+
     'card' => [
         'doneText' => '🎉 تم!',
         'doneDescription' => 'تم حفظ معلوماتك بنجاح. أهلاً بك في Tagiy!',

@@ -64,6 +64,7 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
     ],
 
     'sidebar' => [
+        'medicalExaminations' => 'Medical Examinations',
         'medicalPreviewSettings' => 'Medical Preview Settings',
         'clinic' => 'Clinic',
         'patients' => 'Patients',

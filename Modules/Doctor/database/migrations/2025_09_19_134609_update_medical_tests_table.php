@@ -10,13 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('medical_tests', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('unit')->nullable();
-            $table->integer('is_active')->default(1);
-            $table->integer('type');
-            $table->timestamps();
+        Schema::table('medical_tests', function (Blueprint $table) {
+            if (!Schema::hasColumn('medical_tests', 'type')) {
+                $table->integer('type');
+            }
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('medical_tests');
+        Schema::table('medical_tests', function (Blueprint $table) {
+            $table->dropColumn('type');
+        });
     }
 };

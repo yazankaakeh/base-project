@@ -18,9 +18,10 @@ return new class extends Migration {
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->bigInteger('clinic_id')->unsigned();
             $table->foreign('clinic_id')->references('id')->on('clinics');
-            $table->longText('clinical_examination');
-            $table->string('impression');
+            $table->longText('clinical_examination')->nullable();
+            $table->string('impression')->nullable();
             $table->string('request_for_action')->nullable();
+            $table->integer('status');
             $table->timestamps();
         });
     }

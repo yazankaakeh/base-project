@@ -19,17 +19,17 @@ function initializeSelect2(selector, placeholder, modalBootstrap) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    $(document).on('change', '.datetimepicker', function () {
-        let property = $(this).attr('id'); // Get property from data-property
-        let values = $(this).val() || []; // Ensure it's always an array
-        let componentId = $(this).closest('div[data-livewire]').data('livewire');
+    /* $(document).on('change', '.datetimepicker', function () {
+         let property = $(this).attr('id'); // Get property from data-property
+         let values = $(this).val() || []; // Ensure it's always an array
+         let componentId = $(this).closest('div[data-livewire]').data('livewire');
 
-        if (property && values) {
-            property = property.replace(/-/g, '.');
-            console.log(`updateDatePicker_${componentId} property ${property} value ${values}`);
-            Livewire.dispatch(`updateDatePicker_${componentId}`, {attribute: property, value: values});
-        }
-    });
+         if (property && values) {
+             property = property.replace(/-/g, '.');
+             console.log(`updateDatePicker_${componentId} property ${property} value ${values}`);
+             Livewire.dispatch(`updateDatePicker_${componentId}`, {attribute: property, value: values});
+         }
+     });*/
 
     // needed necessary
     $(document).on('change', '.select2', function () {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $('.select2').select2(); // Reinitialize Select2
     });
 
-    $('.selectpicker').on('change', function () {
+    /*$('.selectpicker').on('change', function () {
         let property = $(this).attr('id'); // Get property from data-property
         let values = $(this).val() || []; // Ensure it's always an array
         let componentId = $(this).parents().closest('div[data-livewire]').data('livewire');
@@ -65,11 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log(`updateSelect2_${componentId} property ${property} value ${values}`);
             Livewire.dispatch(`updateSelectPicker_${componentId}`, {attribute: property, value: values});
         }
-    });
+    });*/
 });
 document.addEventListener('reRenderSelect2', () => {
     Alpine.nextTick(() => {
-        $('.datetimepicker').datetimepicker({
+        /*$('.datetimepicker').datetimepicker({
             changeMonth: true,   // Enables month dropdown
             dateFormat: 'yy-mm-dd', // Set format as YYYY-MM-DD
             changeYear: true,    // Enables year dropdown
@@ -78,7 +78,7 @@ document.addEventListener('reRenderSelect2', () => {
         $('.datetimepicker').on('keydown', function (e) {
             e.preventDefault(); // Prevent any keyboard input
         });
-        $('.datetimepicker').attr('autocomplete', 'off');
+        $('.datetimepicker').attr('autocomplete', 'off');*/
         /*initialize_intlTelInput('#phone');*/
 
         // Destroy existing Select2 instances
@@ -132,14 +132,41 @@ Livewire.on('updateModalStatus', (event) => {
     $(event[0].modal).modal(event[0].status);
 });
 
-Livewire.on('addValueToSelect2', (event) => {
-    console.log('addValueToSelect2', event);
-    id = event[0].id.replace('-', '.');
-    let selectElement = $(id);
-    selectElement.select2('destroy'); // Destroy old instance
-    selectElement.select2(); // Reinitialize Select2
-    selectElement.val(event[0].value);
-    selectElement.trigger('change.select2'); // Update UI
+Livewire.on('addValueToSelect2', (payloadArr) => {
+    const payload = Array.isArray(payloadArr) ? payloadArr[0] : payloadArr;
+    const id = payload.id;                    // "finalDiagnosis"
+    const incoming = (Array.isArray(payload.value) ? payload.value : [payload.value])
+        .map(String);               // coerce to strings
+    const multiple = !!payload.multiple;
+
+    const safeId = `#${CSS && CSS.escape ? CSS.escape(id) : id.replace(/([ #;.:[\],=])/g, '\\$1')}`;
+    const $el = $(safeId);
+    if (!$el.length) return console.warn('Select2 not found:', safeId);
+
+    // Ensure it's a multi-select if payload says so
+    if (multiple && !$el.prop('multiple')) $el.prop('multiple', true);
+
+    // Ensure Select2 is initialized
+    if (!$el.hasClass('select2-hidden-accessible')) {
+        $el.select2({width: '100%' /*, dropdownParent: $('#yourModalId')*/});
+    }
+
+    // Ensure each option exists before selecting
+    incoming.forEach(v => {
+        if ($el.find(`option[value="${v}"]`).length === 0) {
+            // If you don't have display text, use the value as text
+            $el.append(new Option(v, v, false, false));
+        }
+    });
+
+    // Merge with current value to avoid losing existing selection (optional)
+    const current = Array.isArray($el.val()) ? $el.val().map(String) : [];
+    const union = Array.from(new Set([...current, ...incoming]));
+
+    // Apply selection
+    $el.val(union).trigger('change');
+    console.log($el)
+    console.log(union)
 });
 
 Livewire.on('show-success-modal', (event) => {

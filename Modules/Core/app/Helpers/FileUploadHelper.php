@@ -27,5 +27,24 @@ class FileUploadHelper
         }
     }
 
+    public static function wa_link($raw, $defaultCc = '90'): string
+    {
+        $d = self::digits_only($raw);
+        if (str_starts_with($d, '00')) {
+            $d = substr($d, 2);
+        } // 00xx => xx
+        if (str_starts_with($d, '0')) {
+            $d = $defaultCc.substr($d, 1);
+        } // 0xxx => 90xxx
+        // إذا الرقم أصلاً دولي (يبدأ بـ 90 أو 964 ...)، يمر كما هو
+        return 'https://wa.me/'.$d;
+    }
+
+
+    public static function digits_only($s): array|string|null
+    {
+        return preg_replace('/\D+/', '', (string)$s);
+    }
+
 
 }
