@@ -1,5 +1,10 @@
 <div>
     <p class="demo-inline-spacing" wire:ignore>
+        <button class="btn btn-primary" type="button"
+                data-bs-toggle="modal" data-bs-target="#uploadFile">
+            <i class="me-2 ti icon-base tabler-upload"></i>
+            {{trans('doctor::doctor.medicalExaminations.uploadFile')}}
+        </button>
         <a wire:click="toggle" class="btn btn-primary me-1" data-bs-toggle="collapse" href="#collapseExample"
            role="button">
             <i class="me-2 ti icon-base tabler-switch-vertical"></i>
@@ -24,8 +29,7 @@
                                     <button
                                             class="btn btn-sm btn-primary"
                                             wire:click="saveOne({{ $vitalSign->id }})"
-                                            type="button"
-                                    >
+                                            type="button">
                                         {{ trans('doctor::doctor.save') }}
                                     </button>
                                 </div>

@@ -61,18 +61,6 @@ class VitalSignsSeeder extends Seeder
                 'slug' => 'blood_glucose',
                 'name' => ['en' => 'Blood Glucose', 'ar' => 'قياس السكر'],
             ],
-            [
-                'slug' => 'note',
-                'name' => ['en' => 'Note', 'ar' => 'ملاحظة'],
-            ],
-            [
-                'slug' => 'image_full',
-                'name' => ['en' => 'Full Image', 'ar' => 'صورة شاملة'],
-            ],
-            [
-                'slug' => 'image_close',
-                'name' => ['en' => 'Close-up Image', 'ar' => 'صورة قريبة'],
-            ],
         ];
 
         foreach ($vitalSigns as $vitalSign) {

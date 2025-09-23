@@ -9,6 +9,7 @@ use Modules\Doctor\Http\Controllers\MedicalSpecialtyController;
 use Modules\Doctor\Http\Controllers\MedicalTestController;
 use Modules\Doctor\Http\Controllers\MedicineController;
 use Modules\Doctor\Http\Controllers\PatientController;
+use Modules\Doctor\Http\Controllers\UploadFileController;
 use Modules\Doctor\Http\Controllers\VitalSignController;
 
 Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->name(
@@ -123,6 +124,20 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
             [MedicalExaminationController::class, 'index'],
         )->name(
             'medicalExamination.index',
+        );
+
+        Route::post(
+            '/uploadFile/index',
+            [UploadFileController::class, 'store'],
+        )->name(
+            'uploadFile.index',
+        );
+
+        Route::post(
+            '/uploadFile/delete/{id}',
+            [UploadFileController::class, 'delete'],
+        )->name(
+            'uploadFile.delete',
         );
     },
 );

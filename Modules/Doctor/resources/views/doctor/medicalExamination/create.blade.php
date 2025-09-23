@@ -2,6 +2,7 @@
 
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\app\Helpers\FileUploadHelper;
+use Modules\Doctor\Models\MedicalExamination;
 
 $page = 'sales-dashboard'; ?>
 @extends('theme::user.layouts.horizontalLayout')
@@ -48,6 +49,7 @@ $page = 'sales-dashboard'; ?>
 @section('page-script')
     <script src="{{asset('livewire-select2/livewire-select2.js')}}"></script>
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
+    @includeIf('doctor::doctor.medicalExamination.modals.uploadFileModal',['model'=> MedicalExamination::class,'model_id' => $medicalExamination->id])
     {{--
       @vite(['resources/assets/js/form-wizard-numbered.js', 'resources/assets/js/form-wizard-validation.js'])
     --}}
@@ -67,7 +69,11 @@ $page = 'sales-dashboard'; ?>
 @section('content')
     <div class="page-wrapper">
         <div class="content">
-            <livewire:doctor::vital-signs-livewire :medicalExaminationId="$medicalExamination->id"/>
+            <div class="row">
+                <div class="col-12">
+                    <livewire:doctor::vital-signs-livewire :medicalExaminationId="$medicalExamination->id"/>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card mb-6">
@@ -365,6 +371,7 @@ $page = 'sales-dashboard'; ?>
                             </div>
                         </div>
                     </div>--}}
+                    @includeIf('doctor::doctor.medicalExamination.partials.files',['model'=> $medicalExamination])
                 </div>
                 <div class="col-lg-8">
                     <div class="card">
@@ -391,6 +398,19 @@ $page = 'sales-dashboard'; ?>
                                                        id="request_for_action" name="request_for_action"
                                                        type="text" model="request_for_action">
                                         </x-core::input>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <x-core::textarea label="doctor::doctor.medicalExaminations.note"
+                                                      id="note" name="note"
+                                                      type="text" model="note">
+                                    </x-core::textarea>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col text-end">
+                                        <button class="btn btn-success">
+                                            {{trans('doctor::doctor.save')}}
+                                        </button>
                                     </div>
                                 </div>
                             </div>

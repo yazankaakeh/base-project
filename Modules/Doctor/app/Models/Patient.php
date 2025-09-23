@@ -17,10 +17,9 @@ use Modules\Core\app\Models\Country;
 use Modules\Doctor\Database\Factories\PatientFactory;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
-use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\File;
 
 /**
  * @property mixed $clinics
@@ -81,12 +80,18 @@ class Patient extends Authenticatable implements HasMedia
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function registerMediaConversions(?Media $media = null): void
+    public function registerMediaCollections(): void
     {
         $this
-            ->addMediaConversion('preview')
-            ->fit(Fit::Contain, 300, 300)
-            ->nonQueued();
+            ->addMediaCollection('attachments')
+            ->acceptsFile(function (File $file) {
+                return in_array($file->mimeType, [
+                    'image/jpeg',
+                    'image/png',
+                    'image/webp',
+                    'application/pdf',
+                ], true);
+            });
     }
 
     public function finalDiagnoses(): BelongsToMany

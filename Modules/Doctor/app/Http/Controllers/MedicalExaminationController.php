@@ -42,7 +42,9 @@ class MedicalExaminationController extends Controller
     public function create($medicalExaminationId)
     {
         /** @var MedicalExamination $medicalExamination */
-        $medicalExamination = MedicalExamination::query()->findOrFail($medicalExaminationId);
+        $medicalExamination = MedicalExamination::query()
+            ->with('media')->with('patient')
+            ->findOrFail($medicalExaminationId);
         $patient = $medicalExamination->patient;
         return view(
             'doctor::doctor.medicalExamination.create',

@@ -85,29 +85,29 @@ $page = 'sales-dashboard'; ?>
                                     <table class="table datanew">
                                         <thead>
                                         <tr>
-                                            <th>{{trans('doctor::doctor.id')}}</th>
+                                            {{--<th>{{trans('doctor::doctor.id')}}</th>--}}
                                             <th>{{trans('doctor::doctor.patients.name')}}</th>
                                             <th>{{trans('doctor::doctor.patients.phone')}}</th>
                                             <th>{{trans('doctor::doctor.patients.age')}}</th>
                                             <th>{{trans('doctor::doctor.patients.gender')}}</th>
                                             <th>{{trans('doctor::doctor.patients.children')}}</th>
-                                            <th>{{trans('doctor::doctor.patients.work')}}</th>
+                                            {{--<th>{{trans('doctor::doctor.patients.work')}}</th>--}}
                                             <th>{{trans('doctor::doctor.patients.blood_type')}}</th>
                                             <th>{{trans('doctor::doctor.patients.marital_status')}}</th>
-                                            <th>{{trans('doctor::doctor.patients.drug_allergies')}}</th>
+                                            {{--<th>{{trans('doctor::doctor.patients.drug_allergies')}}</th>
                                             <th>{{trans('doctor::doctor.patients.disabilities')}}</th>
                                             <th>{{trans('doctor::doctor.patients.medical_history')}}</th>
                                             <th>{{trans('doctor::doctor.patients.surgical_history')}}</th>
-                                            <th>{{trans('doctor::doctor.patients.accident_history')}}</th>
+                                            <th>{{trans('doctor::doctor.patients.accident_history')}}</th>--}}
                                             <th>{{trans('doctor::doctor.clinic.img')}}</th>
-                                            <th>{{trans('customer.account.status')}}</th>
+                                            {{--<th>{{trans('customer.account.status')}}</th>--}}
                                             <th>{{trans('admin.audits.action')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
                                         @foreach($data as $patient)
                                             <tr>
-                                                <td>{{$patient->id}}</td>
+                                                {{--<td>{{$patient->id}}</td>--}}
                                                 <td>{{$patient->name}}</td>
                                                 <td>{{$patient->phone}}</td>
                                                 <td>{{$patient->age}}</td>
@@ -115,18 +115,18 @@ $page = 'sales-dashboard'; ?>
                                                     <span class="badge text-bg-{{$patient->gender->class()}} me-1">{{$patient->gender->label()}} </span>
                                                 </td>
                                                 <td>{{$patient->children}}</td>
-                                                <td>{{$patient->work}}</td>
+                                                {{--<td>{{$patient->work}}</td>--}}
                                                 <td>
                                                     <span class="badge text-bg-{{$patient->blood_type->class()}} me-1">{{$patient->blood_type->label()}} </span>
                                                 </td>
                                                 <td>
                                                     <span class="badge text-bg-{{$patient->marital_status->class()}} me-1">{{$patient->marital_status->label()}} </span>
                                                 </td>
-                                                <td>{{$patient->drug_allergies}}</td>
+                                                {{--<td>{{$patient->drug_allergies}}</td>
                                                 <td>{{$patient->disabilities}}</td>
                                                 <td>{{$patient->medical_history}}</td>
                                                 <td>{{$patient->surgical_history}}</td>
-                                                <td>{{$patient->accident_history}}</td>
+                                                <td>{{$patient->accident_history}}</td>--}}
                                                 <td>
                                                     <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
                                                         <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
@@ -140,11 +140,11 @@ $page = 'sales-dashboard'; ?>
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td>
+                                                {{--<td>
                                                     <span class="badge text-bg-{{$patient->is_active->class()}} me-1">
                                                         {{$patient->is_active->label()}}
                                                     </span>
-                                                </td>
+                                                </td>--}}
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
                                                         @can('doctor.patients.update')

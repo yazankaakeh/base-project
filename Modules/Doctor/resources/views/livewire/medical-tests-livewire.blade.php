@@ -20,9 +20,42 @@
                             :values="$addedMedicalTests">
                     </x-core::select>
                 </div>
-                <div class="row my-3">
-
-                </div>
+                @foreach($listMedicalTests as $medicalTest)
+                    <div class="row my-3">
+                        <div class="col-5">
+                            @php
+                                $label = str(__('doctor::doctor.medicalExaminations.value', ['medicalTest' => $medicalTest->name]));
+                            @endphp
+                            <x-core::input
+                                    label="doctor::doctor.medicalExaminations.value"
+                                    :labelValue="['name' => $medicalTest->medicalTest->name]"
+                                    id="listMedicalTestsValues.{{ $medicalTest->id }}.value"
+                                    name="listMedicalTestsValues.{{ $medicalTest->id }}.value"
+                                    model="listMedicalTestsValues.{{ $medicalTest->id }}.value"
+                                    type="text"
+                                    required="required"
+                                    value="{{ old('value') }}"
+                            />
+                        </div>
+                        <div class="col-5">
+                            <x-core::input
+                                    label="doctor::doctor.medicalExaminations.file"
+                                    :labelValue="['name' => $medicalTest->medicalTest->name]"
+                                    id="listMedicalTestsValues.{{$medicalTest->id}}.file"
+                                    name="listMedicalTestsValues.{{$medicalTest->id}}.file"
+                                    model="listMedicalTestsValues.{{$medicalTest->id}}.file"
+                                    type="file"
+                                    required="required"
+                                    value="{{old('value')}}">
+                            </x-core::input>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn my-5 btn-sm btn-primary">
+                                <i class="ti icon-base tabler-progress-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

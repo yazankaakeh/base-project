@@ -9,13 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Doctor\Database\Factories\MedicalExaminationFactory;
 use Modules\Doctor\Enums\MedicalExaminationStatusEnum;
 use Modules\Doctor\Enums\MedicalTestTypeEnum;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\File;
 
 /**
  * @property Patient $patient
  */
-class MedicalExamination extends Model
+class MedicalExamination extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -82,6 +86,22 @@ class MedicalExamination extends Model
         return $this
             ->medicalTests()
             ->where('medical_tests.type', MedicalTestTypeEnum::RADIOLOGY_TESTS->value);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('attachments')
+            ->acceptsFile(function (File $file) {
+                return in_array($file->mimeType, [
+                    'image/jpeg',
+                    'image/png',
+                    'image/webp',
+                    'application/pdf',
+                ], true);
+            });
+        // ->singleFile(); // فعلها لو تريد آخر ملف فقط ويحذف القديم
+        // ->withResponsiveImages(); // ينفع للصور فقط (اختياري)
     }
 
 }

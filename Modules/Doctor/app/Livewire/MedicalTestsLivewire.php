@@ -10,6 +10,7 @@ use Livewire\Component;
 use Modules\Core\app\Traits\OptimizeLivewireTrait;
 use Modules\Doctor\Enums\MedicalTestTypeEnum;
 use Modules\Doctor\Models\MedicalExamination;
+use Modules\Doctor\Models\MedicalExaminationMedicalTest;
 use Modules\Doctor\Models\MedicalTest;
 use Throwable;
 
@@ -26,6 +27,12 @@ class MedicalTestsLivewire extends Component
     public mixed $addedMedicalTests;
     public string $name;
     public MedicalTestTypeEnum $type;
+    public mixed $listMedicalTests = [];
+    public array $listMedicalTestsValues = [
+        'value',
+        'file',
+    ];
+
 
     /**
      * @throws Throwable
@@ -40,6 +47,7 @@ class MedicalTestsLivewire extends Component
                 MedicalTestTypeEnum::LABORATORY_TESTS->value,
                 $value,  // array of IDs the user selected for LAB
             );
+            $this->updateMedicalTests();
             $this->dispatch('initSelect2');
         }
         $this->dispatch('reRenderSelect2');
@@ -81,6 +89,13 @@ class MedicalTestsLivewire extends Component
         });
     }
 
+    public function updateMedicalTests(): void
+    {
+        $this->listMedicalTests = MedicalExaminationMedicalTest::query()->whereHas('medicalTest', function ($query) {
+            $query->where('type', $this->type);
+        })->get();
+    }
+
     /**
      * @throws Throwable
      */
@@ -95,6 +110,7 @@ class MedicalTestsLivewire extends Component
                 MedicalTestTypeEnum::RADIOLOGY_TESTS->value,
                 $value,  // array of IDs the user selected for LAB
             );
+            $this->updateMedicalTests();
             $this->dispatch('initSelect2');
         }
         $this->dispatch('reRenderSelect2');
@@ -121,7 +137,7 @@ class MedicalTestsLivewire extends Component
         $this->medicalTests = $medicalTests;
         $this->addedMedicalTests = $addedMedicalTests;
         $this->addValueToSelect2($this->name, $this->addedMedicalTests, true);
-
+        $this->updateMedicalTests();
         $this->componentName = 'MedicalTestsLivewire'.$this->type->label();
     }
 
