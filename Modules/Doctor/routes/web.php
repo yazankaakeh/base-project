@@ -141,3 +141,14 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         );
     },
 );
+Route::get('/_debug-livewire', function () {
+    return [
+        'disk' => config('livewire.temporary_file_upload.disk'),
+        'directory' => config('livewire.temporary_file_upload.directory'),
+    ];
+});
+
+
+Route::get('/_php-upload-debug', function () {
+    dd(is_writable('C:\Windows\Temp'));
+});

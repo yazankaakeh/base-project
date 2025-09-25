@@ -5,7 +5,7 @@
         </div>
         <div class="card-body">
             <div class="card-content">
-                <div class="row">
+                <div class="row" wire:ignore>
                     <x-core::select
                             :label="$title"
                             :placeholder="$title"
@@ -20,9 +20,11 @@
                             :values="$addedMedicalTests">
                     </x-core::select>
                 </div>
+
                 @foreach($listMedicalTests as $medicalTest)
-                    <div class="row my-3">
-                        <div class="col-5">
+
+                    <div class="row my-3" wire:key="row-{{ $medicalTest->id }}">
+                        <div class="col-5 mx-0 px-0">
                             @php
                                 $label = str(__('doctor::doctor.medicalExaminations.value', ['medicalTest' => $medicalTest->name]));
                             @endphp
@@ -34,11 +36,12 @@
                                     model="listMedicalTestsValues.{{ $medicalTest->id }}.value"
                                     type="text"
                                     required="required"
-                                    value="{{ old('value') }}"
+                                    value="{{ $listMedicalTestsValues[$medicalTest->id]['value'] ?? null }}"
                             />
                         </div>
-                        <div class="col-5">
+                        <div class="col-5 mx-0 me-1 px-0">
                             <x-core::input
+                                    wire:key="debug-file-{{ $medicalTest->id }}"
                                     label="doctor::doctor.medicalExaminations.file"
                                     :labelValue="['name' => $medicalTest->medicalTest->name]"
                                     id="listMedicalTestsValues.{{$medicalTest->id}}.file"
@@ -46,16 +49,24 @@
                                     model="listMedicalTestsValues.{{$medicalTest->id}}.file"
                                     type="file"
                                     required="required"
-                                    value="{{old('value')}}">
+                                    value="{{$listMedicalTestsValues[$medicalTest->id]['value'] ?? null}}">
                             </x-core::input>
                         </div>
-                        <div class="col-1">
-                            <button class="btn my-5 btn-sm btn-primary">
+                        <div class="col mx-0 px-0">
+                            <button type="button" wire:click="saveMedicalTestDetails({{$medicalTest->id}})"
+                                    class="btn my-5 btn-sm btn-icon btn-primary">
                                 <i class="ti icon-base tabler-progress-check"></i>
                             </button>
+                            @if($medicalTest->getMedia('attachment')?->first()?->getUrl())
+                                <a href="{{$medicalTest->getMedia('attachment')?->first()?->getUrl()}}"
+                                   class="btn my-5 btn-sm btn-icon btn-info">
+                                    <i class="ti icon-base tabler-eye"></i>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 @endforeach
+
             </div>
         </div>
     </div>

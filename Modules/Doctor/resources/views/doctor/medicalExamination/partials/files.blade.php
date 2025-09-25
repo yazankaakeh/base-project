@@ -11,24 +11,7 @@
             <div class="card-content">
 
                 @foreach($model->getMedia('attachments') as $file)
-                    <div class="row my-3">
-                        <div class="col-auto d-flex">
-                            <form action="{{route('doctor.uploadFile.delete',['id'=>$file->id])}}" method="POST">
-                                @csrf
-                                @method('POST')
-                                <button type="button" class="btn-delete btn text-body mx-1 btn-sm btn-icon btn-danger">
-                                    <i class="ti icon-base tabler-trash"></i>
-                                </button>
-                            </form>
-                            <a class="btn mx-1 btn-sm btn-icon btn-primary" href="{{$file->getUrl()}}">
-                                <i class="ti icon-base tabler-eye"></i>
-                            </a>
-                            <p class="mx-3 my-2">
-                                {{Str::limit($file->getCustomProperty('original_name'), 20)}}
-                            </p>
-                        </div>
-
-                    </div>
+                    @includeIf('doctor::doctor.medicalExamination.partials.singleFile',['file'=> $file])
                 @endforeach
             </div>
         </div>

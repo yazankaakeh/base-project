@@ -2,6 +2,7 @@
 
 namespace Modules\Doctor\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,6 +39,15 @@ class MedicalExamination extends Model implements HasMedia
         'status' => MedicalExaminationStatusEnum::class,
     ];
 
+    public static function patientMedicalExaminations($patientId): Builder
+    {
+        return self::query()->where('patient_id', $patientId)
+            ->with('vitalSigns')
+            ->with('medicines')
+            ->with('medicalTests')
+            ->with('finalDiagnosis')->with('media');
+    }
+
     protected static function newFactory(): MedicalExaminationFactory
     {
         return MedicalExaminationFactory::new();
@@ -61,7 +71,10 @@ class MedicalExamination extends Model implements HasMedia
     {
         return $this
             ->belongsToMany(Medicine::class, 'medical_examination_medicine')
-            ->withPivot('value')
+            ->withPivot('type')
+            ->withPivot('dosage')
+            ->withPivot('count')
+            ->withPivot('note')
             ->withTimestamps()
             ->using(MedicalExaminationMedicine::class); // optional
     }
@@ -78,8 +91,16 @@ class MedicalExamination extends Model implements HasMedia
         return $this
             ->belongsToMany(MedicalTest::class, 'medical_examination_medical_test')
             ->using(MedicalExaminationMedicalTest::class)
-            ->withPivot('value');
+            ->withPivot('value', 'id');
     }
+
+    public function finalDiagnosis(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
+            ->using(FinalDiagnosisPatient::class);
+    }
+
 
     public function radiologyTests(): BelongsToMany
     {
@@ -100,8 +121,6 @@ class MedicalExamination extends Model implements HasMedia
                     'application/pdf',
                 ], true);
             });
-        // ->singleFile(); // فعلها لو تريد آخر ملف فقط ويحذف القديم
-        // ->withResponsiveImages(); // ينفع للصور فقط (اختياري)
     }
 
 }

@@ -107,8 +107,10 @@ return [
         'medicalPreviewInfo' => 'Medical Preview Info',
         'finalDiagnosisInfo' => 'Final Diagnosis Info',
         'vitalSignsInfo' => 'Vital Signs Info',
+
         'clinical_examination' => 'Clinical Examination',
         'impression' => 'Impression',
+        'reasonOfVisiting' => 'Reason Of Visiting',
         'request_for_action' => 'Request For Action',
         'laboratoryTests' => 'Laboratory Tests',
         'radiologyTests' => 'Radiology Tests',
@@ -123,6 +125,16 @@ return [
         'value' => 'Value :name',
         'file' => 'File :name',
         'uploadFile' => 'Upload Files',
+        'card' => [
+            'medicalPreview' => 'Medical Preview',
+            'finalDiagnosis' => 'Final Diagnosis',
+            'vitalSigns' => 'Vital Signs',
+            'medicines' => 'Medicines',
+            'medicalTest' => 'Medical Test',
+
+            'medicalTestResult' => 'Medical Test Result',
+            'medicalTestType' => 'Medical Test Type',
+        ],
     ],
     'modalUploadFile' => [
         'title' => 'Upload Files',

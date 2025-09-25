@@ -46,9 +46,10 @@ class MedicalExaminationController extends Controller
             ->with('media')->with('patient')
             ->findOrFail($medicalExaminationId);
         $patient = $medicalExamination->patient;
+        $medicalExaminations = MedicalExamination::patientMedicalExaminations($patient->id)->get();
         return view(
             'doctor::doctor.medicalExamination.create',
-            compact('patient', 'medicalExamination'),
+            compact('patient', 'medicalExamination', 'medicalExaminations'),
         );
     }
 

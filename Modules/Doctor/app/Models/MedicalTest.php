@@ -44,12 +44,16 @@ class MedicalTest extends Model
         return MedicalTestFactory::new();
     }
 
+    public function medicalExaminationMedicalTest()
+    {
+        return $this->hasMany(MedicalExaminationMedicalTest::class, 'medical_test_id');
+    }
+
     public function medicalExaminations(): BelongsToMany
     {
         return $this
             ->belongsToMany(MedicalExamination::class, 'medical_examination_medical_test')
             ->withPivot('value')
-            ->withTimestamps()
-            ->using(MedicalExaminationMedicalTest::class); // optional
+            ->using(MedicalExaminationMedicalTest::class)->with('media'); // optional
     }
 }

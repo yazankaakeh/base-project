@@ -17,11 +17,8 @@ class MedicinesInfoLivewire extends Component
     public string $componentName = 'MedicinesInfoLivewire';
     public mixed $medicines;
     public mixed $medicinesArray = [0];
-    public int $medicalExaminationId;
     public MedicalExamination $medicalExamination;
-    /** مصفوفة الصفوف المكررة */
     public array $medicinesData = [
-        // صف افتراضي واحد
         [
             'medicine_id' => null,     // required | exists:medicines,id   (select2)
             'dosage' => null,     // required | string | max:100
@@ -44,9 +41,9 @@ class MedicinesInfoLivewire extends Component
         $this->dispatch('initSelect2');
     }
 
-    public function mount($medicalExaminationId): void
+    public function mount(MedicalExamination $medicalExamination): void
     {
-        $this->medicalExamination = MedicalExamination::query()->find($medicalExaminationId);
+        $this->medicalExamination = $medicalExamination;
 
         $this->medicinesData = MedicalExaminationMedicine::query()->where([
             'medical_examination_id' => $this->medicalExamination->id,
@@ -80,10 +77,7 @@ class MedicinesInfoLivewire extends Component
 
         $this->medicalExamination->medicines()->sync($syncPayload);
 
-        $this->dispatch('toast:show', [
-            'type' => 'success',
-            'message' => 'تم حفظ الأدوية بنجاح.',
-        ]);
+        $this->dispatch('toast', type: 'success', message: 'Saved & replaced file if existed ✅');
     }
 
     public function render(): Factory|View

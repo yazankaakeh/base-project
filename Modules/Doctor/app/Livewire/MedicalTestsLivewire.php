@@ -5,33 +5,36 @@ namespace Modules\Doctor\Livewire;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use JetBrains\PhpStorm\NoReturn;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 use Modules\Core\app\Traits\OptimizeLivewireTrait;
 use Modules\Doctor\Enums\MedicalTestTypeEnum;
 use Modules\Doctor\Models\MedicalExamination;
 use Modules\Doctor\Models\MedicalExaminationMedicalTest;
 use Modules\Doctor\Models\MedicalTest;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Throwable;
 
 class MedicalTestsLivewire extends Component
 {
-    use OptimizeLivewireTrait;
+    use OptimizeLivewireTrait, WithFileUploads;
 
     public string $title;
     public string $onChangeEvent;
     public string $componentName;
-    public int $medicalExaminationId;
     public MedicalExamination $medicalExamination;
     public mixed $medicalTests;
     public mixed $addedMedicalTests;
     public string $name;
     public MedicalTestTypeEnum $type;
     public mixed $listMedicalTests = [];
-    public array $listMedicalTestsValues = [
-        'value',
-        'file',
-    ];
+
+    /** @var array<int, array{value:string|null, file:TemporaryUploadedFile|null}> */
+    public array $listMedicalTestsValues = [];
 
 
     /**
@@ -97,6 +100,32 @@ class MedicalTestsLivewire extends Component
     }
 
     /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
+    #[NoReturn]
+    public function saveMedicalTestDetails($id): void
+    {
+        // Validate only this row
+        $this->validate([
+            "listMedicalTestsValues.$id.value" => ['required', 'string', 'max:255'],
+            "listMedicalTestsValues.$id.file" => ['nullable', 'file', 'max:5120', 'mimes:pdf,jpg,jpeg,png'],
+        ]);
+        $row = $this->listMedicalTestsValues[$id];
+        if (!empty($row['file'])) {
+            $medicalTestExamination = MedicalExaminationMedicalTest::query()
+                ->find($id);
+            $medicalTestExamination
+                ->addMedia($row['file'])
+                ->toMediaCollection('attachment');
+            $medicalTestExamination->value = $row['value'];
+            $medicalTestExamination->save();
+        }
+
+        $this->dispatch('toast', type: 'success', message: 'Saved & replaced file if existed ✅');
+    }
+
+    /**
      * @throws Throwable
      */
     #[On('radiologyTestsUpdated')]
@@ -116,9 +145,9 @@ class MedicalTestsLivewire extends Component
         $this->dispatch('reRenderSelect2');
     }
 
-    public function mount($medicalExaminationId): void
+    public function mount(MedicalExamination $medicalExamination): void
     {
-        $this->medicalExamination = MedicalExamination::query()->find($medicalExaminationId);
+        $this->medicalExamination = $medicalExamination;
         if ($this->type == MedicalTestTypeEnum::LABORATORY_TESTS) {
             $addedMedicalTests = $this->medicalExamination->medicalTests->where(
                 'type',
@@ -138,6 +167,12 @@ class MedicalTestsLivewire extends Component
         $this->addedMedicalTests = $addedMedicalTests;
         $this->addValueToSelect2($this->name, $this->addedMedicalTests, true);
         $this->updateMedicalTests();
+        foreach ($this->listMedicalTests as $test) {
+            $this->listMedicalTestsValues[$test->id] = [
+                'value' => $test->value ?? '',
+                'file' => $test->pivot?->getMedia('attachment')?->first()?->getUrl() ?? null,
+            ];
+        }
         $this->componentName = 'MedicalTestsLivewire'.$this->type->label();
     }
 

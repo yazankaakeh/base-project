@@ -61,9 +61,9 @@ class VitalSignsLivewire extends Component
         $this->dispatch('toast', type: 'success', message: __('All vital signs saved.'));
     }
 
-    public function mount(int $medicalExaminationId): void
+    public function mount(MedicalExamination $medicalExamination): void
     {
-        $this->medicalExamination = MedicalExamination::query()->findOrFail($medicalExaminationId);
+        $this->medicalExamination = $medicalExamination;
 
         $this->vitalSigns = VitalSign::query()
             ->where('is_active', ActiveEnum::ACTIVE->value)

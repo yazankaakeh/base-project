@@ -23,6 +23,24 @@ use Spatie\MediaLibrary\MediaCollections\File;
 
 /**
  * @property mixed $clinics
+ * @property mixed $name
+ * @property mixed $age
+ * @property mixed $blood_type
+ * @property mixed $gender
+ * @property mixed $children
+ * @property mixed $is_active
+ * @property mixed $marital_status
+ * @property mixed $nationality_id
+ * @property mixed $work
+ * @property mixed $phone
+ * @property mixed $drug_allergies
+ * @property mixed $disabilities
+ * @property mixed $medical_history
+ * @property mixed $surgical_history
+ * @property mixed $accident_history
+ * @property mixed $password
+ * @property mixed $email
+ * @property mixed $id
  */
 class Patient extends Authenticatable implements HasMedia
 {

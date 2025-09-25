@@ -4,10 +4,15 @@ namespace Modules\Doctor\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\File;
 
 
-class MedicalExaminationMedicalTest extends Pivot
+class MedicalExaminationMedicalTest extends Pivot implements HasMedia
 {
+
+    use InteractsWithMedia;
 
     protected $table = 'medical_examination_medical_test';
     /**
@@ -27,6 +32,20 @@ class MedicalExaminationMedicalTest extends Pivot
     public function medicalExamination(): HasOne
     {
         return $this->hasOne(MedicalExamination::class, 'id', 'medical_examination_id');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('attachment')
+            ->acceptsFile(function (File $file) {
+                return in_array($file->mimeType, [
+                    'image/jpeg',
+                    'image/png',
+                    'image/webp',
+                    'application/pdf',
+                ], true);
+            })->singleFile();
     }
 
 }

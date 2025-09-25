@@ -4,7 +4,7 @@
             <div class="card-title mb-0">
                 <h5 class="">{{trans('doctor::doctor.medicalExaminations.medicines')}}</h5>
             </div>
-            <button class="btn btn-sm rounded-pill btn-primary" wire:click="increase()">
+            <button class="btn btn-icon rounded-pill btn-primary" wire:click="increase()">
                 <i class="ti tabler-plus"></i>
             </button>
         </div>
@@ -65,7 +65,7 @@
                             </x-core::input>
                         </div>
                         <div class="col align-content-end">
-                            <button wire:click="decrease({{$index}})" class="btn my-2 btn-sm btn-danger">
+                            <button wire:click="decrease({{$index}})" class="btn my-2 btn-icon btn-danger">
                                 <i class="ti tabler-trash"></i>
                             </button>
                         </div>

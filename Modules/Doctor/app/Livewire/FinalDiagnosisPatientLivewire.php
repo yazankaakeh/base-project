@@ -23,7 +23,6 @@ class FinalDiagnosisPatientLivewire extends Component
     public int $patientId;
     public Patient $patient;
 
-    public int $medicalExaminationId;
     public MedicalExamination $medicalExamination;
     public mixed $finalDiagnosis;
     public mixed $addedFinalDiagnosis;
@@ -47,10 +46,9 @@ class FinalDiagnosisPatientLivewire extends Component
         $this->dispatch('reRenderSelect2');
     }
 
-    public function mount($medicalExaminationId, $patientId): void
+    public function mount(MedicalExamination $medicalExamination, $patientId): void
     {
-        $this->medicalExamination = MedicalExamination::query()->find($medicalExaminationId);
-        $this->medicalExaminationId = $medicalExaminationId;
+        $this->medicalExamination = $medicalExamination;
         $this->patient = Patient::query()->find($patientId);
         $this->patientId = $patientId;
         $this->onChangeEvent = 'finalDiagnoseUpdated';
