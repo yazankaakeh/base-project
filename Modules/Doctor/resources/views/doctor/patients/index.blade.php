@@ -146,54 +146,67 @@ $page = 'sales-dashboard'; ?>
                                                     </span>
                                                 </td>--}}
                                                 <td class="action-table-data">
-                                                    <div class="edit-delete-action">
-                                                        @can('doctor.patients.update')
-                                                            <a type="button" data-bs-toggle="modal"
-                                                               data-bs-target="#editModal"
-                                                               class="text-primary btn-sm EditModalBTN"
-                                                               data-id="{{$patient->id}}"
-                                                               data-img="{{$patient->getFirstMediaUrl('images')}}"
-                                                               data-nationalityid='{{$patient->nationality_id}}'
-                                                               data-name='{{$patient->name}}'
-                                                               data-age='{{$patient->age}}'
-                                                               data-gender='{{$patient->gender->value}}'
-                                                               data-marital-status='{{$patient->marital_status->value}}'
-                                                               data-children='{{$patient->children}}'
-                                                               data-work='{{$patient->work}}'
-                                                               data-drug-allergies='{{$patient->drug_allergies}}'
-                                                               data-blood-type='{{$patient->blood_type->value}}'
-                                                               data-disabilities='{{$patient->disabilities}}'
-                                                               data-medical-history='{{$patient->medical_history}}'
-                                                               data-surgical-history='{{$patient->surgical_history}}'
-                                                               data-accident-history='{{$patient->accident_history}}'
-                                                               data-email='{{$patient->email}}'
-                                                               data-active="{{$patient->is_active->value}}">
-                                                                <i data-feather="edit"
-                                                                   class="ti tabler-edit icon-base"></i>
-                                                            </a>
-                                                        @endcan
-                                                        @can('doctor.patients.show')
-                                                            <a type="button"
-                                                               href="{{route('doctor.patients.show',['id'=>$patient->id])}}"
-                                                               class="text-primary btn-sm EditModalBTN">
-                                                                <i data-feather="show"
-                                                                   class="ti tabler-eye icon-base"></i>
-                                                            </a>
-                                                        @endcan
-                                                        @can('doctor.medicalExamination.store')
-                                                            <form action="{{route('doctor.medicalExamination.store',['patientId'=>$patient->id])}}"
-                                                                  method="POST">
-                                                                @csrf
-                                                                @method('POST')
-                                                                <button type="submit"
-                                                                        class="text-primary btn-sm">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-text-secondary btn-icon rounded-pill text-body-secondary border-0 me-n1 waves-effect"
+                                                                type="button" id="teamMemberList"
+                                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                            <i class="icon-base ti tabler-dots-vertical icon-22px text-body-secondary"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-end"
+                                                             aria-labelledby="teamMemberList" style="">
+                                                            @can('doctor.patients.update')
+                                                                <a type="button" data-bs-toggle="modal"
+                                                                   data-bs-target="#editModal"
+                                                                   class="dropdown-item waves-effect"
+                                                                   data-id="{{$patient->id}}"
+                                                                   data-img="{{$patient->getFirstMediaUrl('images')}}"
+                                                                   data-nationalityid='{{$patient->nationality_id}}'
+                                                                   data-name='{{$patient->name}}'
+                                                                   data-age='{{$patient->age}}'
+                                                                   data-gender='{{$patient->gender->value}}'
+                                                                   data-marital-status='{{$patient->marital_status->value}}'
+                                                                   data-children='{{$patient->children}}'
+                                                                   data-work='{{$patient->work}}'
+                                                                   data-drug-allergies='{{$patient->drug_allergies}}'
+                                                                   data-blood-type='{{$patient->blood_type->value}}'
+                                                                   data-disabilities='{{$patient->disabilities}}'
+                                                                   data-medical-history='{{$patient->medical_history}}'
+                                                                   data-surgical-history='{{$patient->surgical_history}}'
+                                                                   data-accident-history='{{$patient->accident_history}}'
+                                                                   data-email='{{$patient->email}}'
+                                                                   data-active="{{$patient->is_active->value}}">
+                                                                    <i data-feather="edit"
+                                                                       class="ti tabler-edit icon-base"></i>
+                                                                    {{trans('doctor::doctor.edit')}}
+                                                                </a>
+                                                            @endcan
+                                                            @can('doctor.patients.show')
+                                                                <a type="button"
+                                                                   href="{{route('doctor.patients.show',['id'=>$patient->id])}}"
+                                                                   class="dropdown-item waves-effect">
                                                                     <i data-feather="show"
-                                                                       class="ti tabler-eye icon-base">
+                                                                       class="ti tabler-eye icon-base"></i>
+                                                                    {{trans('doctor::doctor.show')}}
+                                                                </a>
+                                                            @endcan
+                                                            @can('doctor.medicalExamination.store')
+                                                                <form action="{{route('doctor.medicalExamination.store',['patientId'=>$patient->id])}}"
+                                                                      method="POST">
+                                                                    @csrf
+                                                                    @method('POST')
+                                                                    <button type="submit"
+                                                                            class="dropdown-item waves-effect">
+                                                                        <i class="ti tabler-clipboard-heart icon-base"></i>
+                                                                        {{trans('doctor::doctor.patients.createMedicalExamination')}}
+                                                                    </button>
+                                                                </form>
+                                                            @endcan
+                                                        </div>
+                                                    </div>
+                                                    <div class="edit-delete-action">
 
-                                                                    </i>
-                                                                </button>
-                                                            </form>
-                                                        @endcan
+
                                                     </div>
                                                 </td>
                                             </tr>

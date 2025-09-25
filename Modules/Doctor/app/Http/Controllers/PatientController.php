@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Core\app\Models\Country;
 use Modules\Doctor\Http\Requests\PatientRequest;
 use Modules\Doctor\Models\Clinic;
+use Modules\Doctor\Models\MedicalExamination;
 use Modules\Doctor\Models\Patient;
 
 class PatientController extends Controller
@@ -54,7 +55,14 @@ class PatientController extends Controller
      */
     public function show($id)
     {
-        return view('doctor::doctor.patients.show');
+        $patient = Patient::query()
+            ->where('id', $id)
+            ->with('media')
+            ->with('clinics')
+            ->with('finalDiagnosis')
+            ->first();
+        $medicalExaminations = MedicalExamination::patientMedicalExaminations($id)->get();
+        return view('doctor::doctor.patients.show', compact('patient', 'medicalExaminations'));
     }
 
 

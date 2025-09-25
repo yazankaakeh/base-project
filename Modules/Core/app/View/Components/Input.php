@@ -21,7 +21,7 @@ class Input extends Component
         public ?string $multiple,
         public ?array $labelValue = [],
         public string $required = 'required',
-        public string $value = '',
+        public ?string $value = '',
         public string $class = '',
     ) {
         //

@@ -45,7 +45,7 @@
 @section('page-script')
     <script src="{{asset('livewire-select2/livewire-select2.js')}}"></script>
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
-    @includeIf('doctor::doctor.medicalExamination.modals.uploadFileModal',['model'=> MedicalExamination::class,'model_id' => $medicalExamination->id])
+    @includeIf('doctor::doctor.medicalExamination.modals.uploadFileModal',['model'=>  $medicalExamination])
 @endsection
 
 @section('title', trans('customer.sidebar.medicalExaminations'))

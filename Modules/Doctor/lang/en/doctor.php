@@ -65,6 +65,7 @@ return [
         'createPatients' => 'Create Patient',
         'updatePatients' => 'Update Patient',
         'filterPatients' => 'Filter Patient',
+        'createMedicalExamination' => 'Medical Examination',
     ],
     'clinic' => [
         'name' => 'Clinic name',
@@ -156,6 +157,7 @@ return [
     'save' => 'Save',
     'create' => 'Create',
     'edit' => 'Edit',
+    'show' => 'Show',
     'deactivate' => 'Deactivate',
     'areYouSure' => 'Are you sure?',
     'pleaseSelectOne' => 'Please Select One',

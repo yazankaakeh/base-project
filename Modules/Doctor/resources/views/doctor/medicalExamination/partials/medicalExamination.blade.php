@@ -131,7 +131,7 @@
                 <div class="row text-start">
                     <div class="card-header d-flex justify-content-between">
                         <div class="card-title mb-0">
-                            <h5 class="card-title">{{trans('doctor::doctor.medicalExaminations.card.medicines')}}</h5>
+                            <h6 class="card-title">{{trans('doctor::doctor.medicalExaminations.card.medicines')}}</h6>
                         </div>
                         <div class="dropdown">
                             <button class="btn btn-success btn-icon rounded-pill border-0 waves-effect"

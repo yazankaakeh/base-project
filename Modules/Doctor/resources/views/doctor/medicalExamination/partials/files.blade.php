@@ -1,19 +1,17 @@
 @php use Illuminate\Support\Str; @endphp
-<div>
-    <div class="card">
-        <div class="card-header d-flex justify-content-between pb-2 mb-1">
-            <h5 class="">
-                <i style="margin-bottom: -6px" class="ti icon-26px tabler-files"></i>
-                {{trans('doctor::doctor.parts.files.title')}}
-            </h5>
-        </div>
-        <div class="card-body">
-            <div class="card-content">
+<div class="card">
+    <div class="card-header d-flex justify-content-between pb-2 mb-1">
+        <h5 class="">
+            <i style="margin-bottom: -6px" class="ti icon-26px tabler-files"></i>
+            {{trans('doctor::doctor.parts.files.title')}}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="card-content">
 
-                @foreach($model->getMedia('attachments') as $file)
-                    @includeIf('doctor::doctor.medicalExamination.partials.singleFile',['file'=> $file])
-                @endforeach
-            </div>
+            @foreach($model->getMedia('attachments') as $file)
+                @includeIf('doctor::doctor.medicalExamination.partials.singleFile',['file'=> $file])
+            @endforeach
         </div>
     </div>
 </div>

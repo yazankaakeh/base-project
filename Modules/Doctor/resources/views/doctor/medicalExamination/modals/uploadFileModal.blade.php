@@ -16,8 +16,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <input type="hidden" name="model" value="{{$model}}">
-                            <input type="hidden" name="model_id" value="{{$model_id}}">
+                            <input type="hidden" name="model" value="{{get_class($model)}}">
+                            <input type="hidden" name="model_id" value="{{$model->id}}">
                             <x-core::input
                                     label="doctor::doctor.modalUploadFile.files"
                                     id="files"

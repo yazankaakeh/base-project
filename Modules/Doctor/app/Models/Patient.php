@@ -112,7 +112,7 @@ class Patient extends Authenticatable implements HasMedia
             });
     }
 
-    public function finalDiagnoses(): BelongsToMany
+    public function finalDiagnosis(): BelongsToMany
     {
         return $this
             ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
@@ -188,4 +188,5 @@ class Patient extends Authenticatable implements HasMedia
         return $this
             ->hasMany(MedicalExamination::class, 'patient_id'); // optional
     }
+
 }

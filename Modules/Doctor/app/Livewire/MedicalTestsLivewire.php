@@ -94,9 +94,10 @@ class MedicalTestsLivewire extends Component
 
     public function updateMedicalTests(): void
     {
-        $this->listMedicalTests = MedicalExaminationMedicalTest::query()->whereHas('medicalTest', function ($query) {
-            $query->where('type', $this->type);
-        })->get();
+        $this->listMedicalTests = MedicalExaminationMedicalTest::query()
+            ->whereHas('medicalTest', function ($query) {
+                $query->where('type', $this->type)->where('medical_examination_id', $this->medicalExamination->id);
+            })->get();
     }
 
     /**

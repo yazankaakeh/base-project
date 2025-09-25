@@ -16,7 +16,7 @@ class MedicalExaminationController extends Controller
     {
         $data = $request->validated();
         $data['status'] = MedicalExaminationStatusEnum::DONE->value;
-        $medicalExamination = MedicalExamination::query()->where('id', $request->id)
+        MedicalExamination::query()->where('id', $request->id)
             ->update($data);
 
         return redirect()->back()->with('success', 'Medical Examination updated successfully');

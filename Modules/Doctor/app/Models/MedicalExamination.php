@@ -26,6 +26,7 @@ class MedicalExamination extends Model implements HasMedia
      * The attributes that are mass assignable.
      */
     protected $fillable = [
+        'id',
         'doctor_id',
         'patient_id',
         'clinic_id',
@@ -99,8 +100,15 @@ class MedicalExamination extends Model implements HasMedia
     public function finalDiagnosis(): BelongsToMany
     {
         return $this
-            ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
-            ->using(FinalDiagnosisPatient::class);
+            ->belongsToMany(
+                FinalDiagnosis::class,
+                'final_diagnosis_patients',
+                'medical_examination_id', // مفتاح الـ parent (MedicalExamination) في جدول الـ pivot
+                'final_diagnosis_id',      // مفتاح الموديل الآخر FinalDiagnosis
+            )
+            ->using(FinalDiagnosisPatient::class)
+            ->withPivot(['patient_id'])
+            ->withTimestamps();
     }
 
 

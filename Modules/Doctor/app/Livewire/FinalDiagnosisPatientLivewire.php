@@ -36,9 +36,10 @@ class FinalDiagnosisPatientLivewire extends Component
     {
         if ($value) {
             $this->addedFinalDiagnosis[] = $value;
-            $this->patient
-                ->finalDiagnoses()
+            $this->medicalExamination
+                ->finalDiagnosis()
                 ->syncWithPivotValues($value, [
+                    'patient_id' => $this->patientId,
                     'medical_examination_id' => $this->medicalExamination->id,
                 ]);
             $this->dispatch('initSelect2');

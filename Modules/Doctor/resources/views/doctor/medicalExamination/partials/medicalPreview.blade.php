@@ -12,34 +12,35 @@
                     <x-core::input label="doctor::doctor.medicalExaminations.reasonOfVisiting"
                                    id="reason_of_visiting" name="reason_of_visiting"
                                    type="text" model="reason_of_visiting"
-                                   :value="$medicalExamination->reason_of_visiting">
+                                   :value="old('reason_of_visiting',$medicalExamination->reason_of_visiting)">
                     </x-core::input>
                 </div>
                 <div class="row my-3">
                     <x-core::textarea label="doctor::doctor.medicalExaminations.clinical_examination"
                                       id="clinical_examination" name="clinical_examination"
                                       type="text" model="clinical_examination"
-                                      :value="$medicalExamination->clinical_examination">
+                                      :value="old('clinical_examination',$medicalExamination->clinical_examination)">
                     </x-core::textarea>
                 </div>
                 <div class="row my-3">
                     <div class="col-6">
                         <x-core::input label="doctor::doctor.medicalExaminations.impression"
                                        id="impression" name="impression"
-                                       type="text" model="impression" :value="$medicalExamination->impression">
+                                       type="text" model="impression"
+                                       :value="old('impression',$medicalExamination->impression)">
                         </x-core::input>
                     </div>
                     <div class="col-6">
                         <x-core::input label="doctor::doctor.medicalExaminations.request_for_action"
                                        id="request_for_action" name="request_for_action"
                                        type="text" model="request_for_action"
-                                       :value="$medicalExamination->request_for_action">
+                                       :value="old('request_for_action',$medicalExamination->request_for_action)">
                         </x-core::input>
                     </div>
                 </div>
                 <div class="row my-3">
                     <x-core::textarea label="doctor::doctor.medicalExaminations.note"
-                                      id="note" name="note" :value="$medicalExamination->note"
+                                      id="note" name="note" :value="old('note',$medicalExamination->note)"
                                       type="text" model="note">
                     </x-core::textarea>
                 </div>

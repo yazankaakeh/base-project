@@ -5,7 +5,6 @@ namespace Modules\Doctor\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Doctor\Enums\MedicalExaminationStatusEnum;
-use Modules\Doctor\Models\MedicalExamination;
 
 /**
  * @property numeric $id
@@ -23,21 +22,19 @@ class MedicalExaminationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => [
+                'required',
+                Rule::exists('medical_examinations', 'id')
+                    ->where(fn($query)
+                        => $query->whereNot('status', MedicalExaminationStatusEnum::ARCHIVED),
+                    ),
+            ],
             'reason_of_visiting' => ['required', 'string', 'max:255'],
             'clinical_examination' => ['required', 'string'],
             'impression' => ['required', 'string', 'max:255'],
             'request_for_action' => ['nullable', 'string', 'max:255'],
             'note' => ['nullable', 'string'],
-            'id' => [
-                'required',
-                Rule::in(
-                    MedicalExamination::query()->where(
-                        'status',
-                        '!=',
-                        MedicalExaminationStatusEnum::ARCHIVED,
-                    )->where('id', $this->id)->exists(),
-                ),
-            ],
+
         ];
     }
 
