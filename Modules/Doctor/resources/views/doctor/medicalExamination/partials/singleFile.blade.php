@@ -7,7 +7,8 @@
                 <i class="ti icon-base tabler-trash"></i>
             </button>
         </form>
-        <a class="btn mx-1 btn-icon btn-info" href="{{$file->getUrl()}}">
+        <a target="_blank"
+           class="btn mx-1 btn-icon btn-info" href="{{$file->getUrl()}}">
             <i class="ti icon-base tabler-eye"></i>
         </a>
         <p class="mx-3 my-2">

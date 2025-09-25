@@ -59,6 +59,7 @@
                             </button>
                             @if($medicalTest->getMedia('attachment')?->first()?->getUrl())
                                 <a href="{{$medicalTest->getMedia('attachment')?->first()?->getUrl()}}"
+                                   target="_blank"
                                    class="btn my-5 btn-sm btn-icon btn-info">
                                     <i class="ti icon-base tabler-eye"></i>
                                 </a>

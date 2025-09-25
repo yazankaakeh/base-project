@@ -143,7 +143,8 @@
                         </div>
                         <div class="dropdown">
                             <a class="btn btn-success btn-icon rounded-pill border-0 waves-effect"
-                               href="{{route('doctor.pdf.downloadMedicines',['id'=>$medicalExam->id])}}">
+                               href="{{route('doctor.pdf.downloadMedicines',['id'=>$medicalExam->id])}}"
+                               target="_blank">
                                 <i class="icon-base ti tabler-file-type-pdf icon-22px"></i>
                             </a>
                         </div>
@@ -184,7 +185,8 @@
                         </div>
                         <div class="dropdown">
                             <a class="btn btn-success btn-icon rounded-pill border-0 waves-effect"
-                               href="{{route('doctor.pdf.downloadMedicalTest',['id'=>$medicalExam->id])}}">
+                               href="{{route('doctor.pdf.downloadMedicalTest',['id'=>$medicalExam->id])}}"
+                               target="_blank">
                                 <i class="icon-base ti tabler-file-type-pdf icon-22px"></i>
                             </a>
                         </div>
@@ -214,7 +216,7 @@
                                             @if($medicalTest->pivot?->getFirstMediaUrl('attachment'))
                                                 <div class="edit-delete-action">
                                                     @can('doctor.patients.show')
-                                                        <a type="button"
+                                                        <a type="button" target="_blank"
                                                            href="{{$medicalTest->pivot?->getFirstMediaUrl('attachment')}}"
                                                            class="text-primary btn-icon EditModalBTN">
                                                             <i data-feather="show"
