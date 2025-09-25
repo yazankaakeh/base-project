@@ -48,9 +48,17 @@
         <div class="tab-content p-0">
             <div class="tab-pane fade show active" id="medicalPreview-{{$medicalExam->id}}" role="tabpanel">
                 <div class="row text-start">
-                    <h5 class="card-title">
-                        {{trans('doctor::doctor.medicalExaminations.card.medicalPreview')}}
-                    </h5>
+                    <div class="card-header mx-0 px-2 d-flex justify-content-between">
+                        <div class="card-title mb-0">
+                            <h4 class="card-title">
+                                {{trans('doctor::doctor.medicalExaminations.card.medicalPreview')}}
+                            </h4>
+                        </div>
+                        <a href="{{route('doctor.medicalExamination.create',['medicalExaminationId' => $medicalExam->id])}}"
+                           class="btn btn-icon btn-primary">
+                            <i class="ti tabler-eye"></i>
+                        </a>
+                    </div>
                     <div class="card-text">
                         <ul class="list-unstyled mb-6">
                             @if($medicalExam->reason_of_visiting)
@@ -134,11 +142,10 @@
                             <h6 class="card-title">{{trans('doctor::doctor.medicalExaminations.card.medicines')}}</h6>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-success btn-icon rounded-pill border-0 waves-effect"
-                                    type="button" id="MonthlyCampaign" data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                            <a class="btn btn-success btn-icon rounded-pill border-0 waves-effect"
+                               href="{{route('doctor.pdf.downloadMedicines',['id'=>$medicalExam->id])}}">
                                 <i class="icon-base ti tabler-file-type-pdf icon-22px"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <ul class="list-unstyled mb-6">
@@ -176,11 +183,10 @@
                             <h5 class="card-title">{{trans('doctor::doctor.medicalExaminations.card.medicalTest')}}</h5>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-success btn-icon rounded-pill border-0 waves-effect"
-                                    type="button" id="MonthlyCampaign" data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                            <a class="btn btn-success btn-icon rounded-pill border-0 waves-effect"
+                               href="{{route('doctor.pdf.downloadMedicalTest',['id'=>$medicalExam->id])}}">
                                 <i class="icon-base ti tabler-file-type-pdf icon-22px"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <ul class="list-unstyled mb-6">

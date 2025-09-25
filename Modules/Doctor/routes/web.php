@@ -9,6 +9,7 @@ use Modules\Doctor\Http\Controllers\MedicalSpecialtyController;
 use Modules\Doctor\Http\Controllers\MedicalTestController;
 use Modules\Doctor\Http\Controllers\MedicineController;
 use Modules\Doctor\Http\Controllers\PatientController;
+use Modules\Doctor\Http\Controllers\PDFController;
 use Modules\Doctor\Http\Controllers\UploadFileController;
 use Modules\Doctor\Http\Controllers\VitalSignController;
 
@@ -146,16 +147,18 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         )->name(
             'uploadFile.delete',
         );
+
+        Route::get(
+            '/pdf/downloadMedicines/{id}',
+            [PDFController::class, 'downloadMedicines'],
+        )->name(
+            'pdf.downloadMedicines',
+        );
+        Route::get(
+            '/pdf/downloadMedicalTest/{id}',
+            [PDFController::class, 'downloadMedicalTest'],
+        )->name(
+            'pdf.downloadMedicalTest',
+        );
     },
 );
-Route::get('/_debug-livewire', function () {
-    return [
-        'disk' => config('livewire.temporary_file_upload.disk'),
-        'directory' => config('livewire.temporary_file_upload.directory'),
-    ];
-});
-
-
-Route::get('/_php-upload-debug', function () {
-    dd(is_writable('C:\Windows\Temp'));
-});

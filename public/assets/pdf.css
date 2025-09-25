@@ -1,0 +1,51 @@
+/* === PDF table (RTL) === */
+.pdf-table {
+    width: 100%;
+    table-layout: fixed; /* consistent column widths */
+    border-collapse: collapse;
+    direction: rtl;
+    text-align: right;
+    font-size: 12px;
+}
+
+.pdf-table thead {
+    display: table-header-group; /* repeat header on each page */
+}
+
+.pdf-table tfoot {
+    display: table-footer-group; /* optional footer repetition */
+}
+
+.pdf-table th,
+.pdf-table td {
+    border: 1px solid #ddd;
+    padding: 8px 10px; /* use padding, not margin */
+    vertical-align: middle;
+    word-break: break-word; /* prevent overflow on long words */
+}
+
+.pdf-table th {
+    background: #f6f6f6;
+    font-weight: 700;
+}
+
+.pdf-table tbody tr:nth-child(even) {
+    background: #fafafa; /* subtle zebra striping */
+}
+
+/* avoid ugly splits across pages */
+.pdf-table tr {
+    page-break-inside: avoid;
+}
+
+/* make numeric/ltr fragments readable inside RTL */
+.ltr {
+    direction: ltr;
+    unicode-bidi: plaintext;
+    text-align: left;
+}
+
+/* optional: tighter column spacing for small numbers */
+.pdf-table td.is-numeric {
+    text-align: center;
+}
