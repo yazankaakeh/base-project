@@ -59,6 +59,10 @@
                                     <span class="badge">{{$medicalExam->reason_of_visiting}}</span>
                                 </li>
                             @endif
+                            <li class="mb-2">
+                                <span class="h6">{{trans('doctor::doctor.medicalExaminations.createdAt')}}:</span>
+                                <span>{{$medicalExam->created_at}}</span>
+                            </li>
                             @if($medicalExam->clinical_examination)
 
                                 <li class="mb-2">

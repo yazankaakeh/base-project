@@ -6,11 +6,22 @@ use App\Enum\Pagination;
 use App\Http\Controllers\Controller;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Enums\MedicalExaminationStatusEnum;
+use Modules\Doctor\Http\Requests\MedicalExaminationRequest;
 use Modules\Doctor\Models\MedicalExamination;
 use Modules\Doctor\Models\Patient;
 
 class MedicalExaminationController extends Controller
 {
+    public function submit(MedicalExaminationRequest $request)
+    {
+        $data = $request->validated();
+        $data['status'] = MedicalExaminationStatusEnum::DONE->value;
+        $medicalExamination = MedicalExamination::query()->where('id', $request->id)
+            ->update($data);
+
+        return redirect()->back()->with('success', 'Medical Examination updated successfully');
+    }
+
     /**
      * Display a listing of the resource.
      */

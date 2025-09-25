@@ -112,6 +112,13 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
             'medicalExamination.store',
         );
 
+        Route::post(
+            '/medicalExamination/store',
+            [MedicalExaminationController::class, 'submit'],
+        )->name(
+            'medicalExamination.submit',
+        );
+
         Route::get(
             '/medicalExamination/show/{id}',
             [MedicalExaminationController::class, 'show'],

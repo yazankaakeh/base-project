@@ -70,55 +70,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between pb-2 mb-1">
-                            <h5 class="">{{trans('doctor::doctor.medicalExaminations.medicalPreviewInfo')}}</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-content">
-                                <div class="row mb-3">
-                                    <x-core::input label="doctor::doctor.medicalExaminations.reasonOfVisiting"
-                                                   id="reason_of_visiting" name="reason_of_visiting"
-                                                   type="text" model="reason_of_visiting">
-                                    </x-core::input>
-                                </div>
-                                <div class="row my-3">
-                                    <x-core::textarea label="doctor::doctor.medicalExaminations.clinical_examination"
-                                                      id="clinical_examination" name="clinical_examination"
-                                                      type="text" model="clinical_examination">
-                                    </x-core::textarea>
-                                </div>
-                                <div class="row my-3">
-                                    <div class="col-6">
-                                        <x-core::input label="doctor::doctor.medicalExaminations.impression"
-                                                       id="impression" name="impression"
-                                                       type="text" model="impression">
-                                        </x-core::input>
-                                    </div>
-                                    <div class="col-6">
-                                        <x-core::input label="doctor::doctor.medicalExaminations.request_for_action"
-                                                       id="request_for_action" name="request_for_action"
-                                                       type="text" model="request_for_action">
-                                        </x-core::input>
-                                    </div>
-                                </div>
-                                <div class="row my-3">
-                                    <x-core::textarea label="doctor::doctor.medicalExaminations.note"
-                                                      id="note" name="note"
-                                                      type="text" model="note">
-                                    </x-core::textarea>
-                                </div>
-                                <div class="row my-3">
-                                    <div class="col text-end">
-                                        <button class="btn btn-success">
-                                            <i class="ti me-2 icon-base tabler-progress-check"></i>
-                                            {{trans('doctor::doctor.save')}}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @includeIf('doctor::doctor.medicalExamination.partials.medicalPreview',['medicalExamination'=>$medicalExamination])
                     <div class="row my-4">
                         <div class="col-6">
                             <livewire:doctor::medical-tests-livewire

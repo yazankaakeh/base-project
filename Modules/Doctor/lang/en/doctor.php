@@ -111,6 +111,7 @@ return [
         'clinical_examination' => 'Clinical Examination',
         'impression' => 'Impression',
         'reasonOfVisiting' => 'Reason Of Visiting',
+        'createdAt' => 'Created At',
         'request_for_action' => 'Request For Action',
         'laboratoryTests' => 'Laboratory Tests',
         'radiologyTests' => 'Radiology Tests',

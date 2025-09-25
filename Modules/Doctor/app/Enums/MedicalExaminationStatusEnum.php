@@ -11,6 +11,7 @@ enum MedicalExaminationStatusEnum: int
     case ACTIVE = 1;
     case DONE = 2;
     case PENDING = 3;
+    case ARCHIVED = 4;
 
     // case DONE = 3;
     public function label(): array|string
@@ -23,7 +24,8 @@ enum MedicalExaminationStatusEnum: int
         return match ($this) {
             self::ACTIVE => 'primary',
             self::DONE => 'secondary',
-            self::PENDING => 'warning',
+            self::PENDING => 'info',
+            self::ARCHIVED => 'warning',
         };
     }
 }

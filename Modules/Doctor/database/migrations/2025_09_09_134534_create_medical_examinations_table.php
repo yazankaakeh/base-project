@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->longText('clinical_examination')->nullable();
             $table->string('impression')->nullable();
             $table->string('request_for_action')->nullable();
+            $table->longText('note')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

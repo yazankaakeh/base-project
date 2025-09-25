@@ -29,9 +29,11 @@ class MedicalExamination extends Model implements HasMedia
         'doctor_id',
         'patient_id',
         'clinic_id',
+        'reason_of_visiting',
         'clinical_examination',
         'impression',
         'request_for_action',
+        'note',
         'status',
     ];
 
