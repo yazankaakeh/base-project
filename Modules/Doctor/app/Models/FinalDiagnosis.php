@@ -34,10 +34,36 @@ class FinalDiagnosis extends Model
         return FinalDiagnosis::query()->where('is_active', ActiveEnum::ACTIVE)->pluck('name', 'id');
     }
 
+    public static function getUniqueDiagnosisByPatientId($patientId): Collection
+    {
+        return FinalDiagnosis::query()
+            ->whereHas(
+                'medicalExaminations',
+                fn($q)
+                    => $q->where('medical_examinations.patient_id', $patientId),
+            )
+            ->select('final_diagnoses.name')
+            ->distinct()
+            ->orderBy('final_diagnoses.name')
+            ->pluck('final_diagnoses.name');
+    }
+
     public function patient(): BelongsToMany
     {
         return $this
             ->belongsToMany(Patient::class, 'medical_examination_medical_test')
+            ->using(FinalDiagnosisPatient::class); // optional
+    }
+
+    public function medicalExaminations(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(
+                MedicalExamination::class,
+                'final_diagnosis_patients',
+                'final_diagnosis_id',
+                'medical_examination_id',
+            )
             ->using(FinalDiagnosisPatient::class); // optional
     }
 }

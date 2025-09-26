@@ -34,6 +34,9 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         Route::get('/patients', [PatientController::class, 'index'])->name(
             'patients.index',
         );
+        Route::get('/downloadVCard/{id}', [PatientController::class, 'downloadVCard'])->name(
+            'patients.downloadVCard',
+        );
 
         Route::post('/patients/store', [PatientController::class, 'store'])->name(
             'patients.store',

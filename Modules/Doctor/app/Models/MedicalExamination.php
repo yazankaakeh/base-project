@@ -108,8 +108,8 @@ class MedicalExamination extends Model implements HasMedia
             ->belongsToMany(
                 FinalDiagnosis::class,
                 'final_diagnosis_patients',
-                'medical_examination_id', // مفتاح الـ parent (MedicalExamination) في جدول الـ pivot
-                'final_diagnosis_id',      // مفتاح الموديل الآخر FinalDiagnosis
+                'medical_examination_id',
+                'final_diagnosis_id',
             )
             ->using(FinalDiagnosisPatient::class)
             ->withPivot(['patient_id'])

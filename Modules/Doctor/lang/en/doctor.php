@@ -66,6 +66,7 @@ return [
         'updatePatients' => 'Update Patient',
         'filterPatients' => 'Filter Patient',
         'createMedicalExamination' => 'Medical Examination',
+        'downloadVCard' => 'Download VCard',
     ],
     'clinic' => [
         'name' => 'Clinic name',

@@ -112,13 +112,6 @@ class Patient extends Authenticatable implements HasMedia
             });
     }
 
-    public function finalDiagnosis(): BelongsToMany
-    {
-        return $this
-            ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
-            ->using(FinalDiagnosisPatient::class); // optional
-    }
-
     public function nationality(): BelongsTo
     {
         return $this
@@ -187,6 +180,22 @@ class Patient extends Authenticatable implements HasMedia
     {
         return $this
             ->hasMany(MedicalExamination::class, 'patient_id'); // optional
+    }
+
+    public function getFinalDiagnosisNamesAttribute()
+    {
+        return $this
+            ->finalDiagnosis()
+            ->select('final_diagnoses.name', 'final_diagnoses.id')
+            ->distinct()
+            ->pluck('final_diagnoses.name');
+    }
+
+    public function finalDiagnosis(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
+            ->using(FinalDiagnosisPatient::class); // optional
     }
 
 }

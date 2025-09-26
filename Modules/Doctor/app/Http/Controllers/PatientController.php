@@ -6,6 +6,7 @@ use App\Enum\Pagination;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Core\app\Models\Country;
+use Modules\Doctor\Actions\VCard;
 use Modules\Doctor\Http\Requests\PatientRequest;
 use Modules\Doctor\Models\Clinic;
 use Modules\Doctor\Models\MedicalExamination;
@@ -86,5 +87,16 @@ class PatientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {}
+    public function downloadVCard($id)
+    {
+        $vcard = new VCard();
+        $patient = Patient::query()->findOrFail($id);
+        $content = $vcard->download($patient);
+        $filename = $vcard->getFilename($patient->name);
+        return response($content, 200, [
+            'Content-Type' => 'text/vcard; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'Cache-Control' => 'no-store, no-cache, must-revalidate',
+        ]);
+    }
 }
