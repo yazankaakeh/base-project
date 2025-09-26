@@ -109,6 +109,10 @@ return [
         'finalDiagnosisInfo' => 'Final Diagnosis Info',
         'vitalSignsInfo' => 'Vital Signs Info',
 
+        'printMedicalTests' => 'Print Medical Tests',
+        'printMedicines' => 'Print Medicines',
+        'printMedicinesPharmacy' => 'Print Medicines Pharmacy',
+
         'clinical_examination' => 'Clinical Examination',
         'impression' => 'Impression',
         'reasonOfVisiting' => 'Reason Of Visiting',

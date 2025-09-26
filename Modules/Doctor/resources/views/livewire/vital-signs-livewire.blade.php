@@ -1,5 +1,5 @@
 <div>
-    <p class="demo-inline-spacing" wire:ignore>
+    <div class="demo-inline-spacing mb-5" wire:ignore>
         <button class="btn btn-primary" type="button"
                 data-bs-toggle="modal" data-bs-target="#uploadFile">
             <i class="me-2 ti icon-base tabler-upload"></i>
@@ -10,7 +10,65 @@
             <i class="me-2 ti icon-base tabler-switch-vertical"></i>
             {{trans('doctor::doctor.medicalExaminations.vitalSignsInfo')}}
         </a>
-    </p>
+        <span class="dropdown">
+        <button class="btn btn-info border-0 mt-4 waves-effect"
+                type="button" id="teamMemberList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon-base ti tabler-printer icon-22px"></i>
+            {{trans('doctor::doctor.medicalExaminations.printMedicalTests')}}
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList" style="">
+            <a href="{{route('doctor.pdf.downloadMedicalTest',['id'=> $medicalExamination->id, 'pageSize' => 'A4'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A4
+            </a>
+            <a href="{{route('doctor.pdf.downloadMedicalTest',['id'=> $medicalExamination->id, 'pageSize' => 'A3'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A3
+            </a>
+        </div>
+        </span>
+
+        <span class="dropdown">
+        <button class="btn btn-success  border-0 mt-4 waves-effect"
+                type="button" id="teamMemberList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon-base ti tabler-printer icon-22px"></i>
+            {{trans('doctor::doctor.medicalExaminations.printMedicines')}}
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList" style="">
+            <a href="{{route('doctor.pdf.downloadMedicines',['id'=> $medicalExamination->id, 'pageSize' => 'A4'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A4
+            </a>
+            <a href="{{route('doctor.pdf.downloadMedicines',['id'=> $medicalExamination->id, 'pageSize' => 'A3'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A3
+            </a>
+        </div>
+        </span>
+        <span class="dropdown">
+        <button class="btn btn-warning  border-0 mt-4 waves-effect"
+                type="button" id="teamMemberList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon-base ti tabler-printer icon-22px"></i>
+            {{trans('doctor::doctor.medicalExaminations.printMedicinesPharmacy')}}
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList" style="">
+            <a href="{{route('doctor.pdf.downloadMedicinesPharmacy',['id'=> $medicalExamination->id, 'pageSize' => 'A4'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A4
+            </a>
+            <a href="{{route('doctor.pdf.downloadMedicinesPharmacy',['id'=> $medicalExamination->id, 'pageSize' => 'A3'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A3
+            </a>
+        </div>
+        </span>
+    </div>
     <div class="collapse {{ $isOpen ? 'show' : '' }}" id="collapseExample">
         <div class="row mb-5">
             @foreach($vitalSigns as $vitalSign)
