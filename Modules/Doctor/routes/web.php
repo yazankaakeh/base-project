@@ -149,16 +149,31 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         );
 
         Route::get(
-            '/pdf/downloadMedicines/{id}',
+            '/pdf/downloadMedicines/{id}/{pageSize?}',
             [PDFController::class, 'downloadMedicines'],
-        )->name(
+        )->where([
+            'id' => '[0-9]+',
+            'pageSize' => 'A4|A3',
+        ])->name(
             'pdf.downloadMedicines',
         );
         Route::get(
-            '/pdf/downloadMedicalTest/{id}',
+            '/pdf/downloadMedicalTest/{id}/{pageSize?}',
             [PDFController::class, 'downloadMedicalTest'],
-        )->name(
+        )->where([
+            'id' => '[0-9]+',
+            'pageSize' => 'A4|A3',
+        ])->name(
             'pdf.downloadMedicalTest',
+        );
+        Route::get(
+            '/pdf/downloadMedicinesPharmacy/{id}/{pageSize?}',
+            [PDFController::class, 'downloadMedicinesPharmacy'],
+        )->where([
+            'id' => '[0-9]+',
+            'pageSize' => 'A4|A3',
+        ])->name(
+            'pdf.downloadMedicinesPharmacy',
         );
     },
 );

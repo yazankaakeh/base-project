@@ -1,50 +1,56 @@
-{{-- resources/views/pdf/invoice.blade.php --}}
 @extends('doctor::pdf.layout.main')
-
-@section('title', 'فاتورة #' )
-
-@section('header_left')
-    المعاينة رقم #  {{$medicalExamination-> id }}
-@endsection
-
-@section('header_right')
-    {{ now()->format('Y-m-d') }}
-@endsection
-
-@section('footer_left')
-    الدكتور بسام جاويش
-@endsection
+@section('title', " وصفة طبية # $medicalExamination->id" )
 
 @section('content')
-    <h2>بيانات المريض</h2>
-    <div class="section">
-        <div>الاسم: {{ $medicalExamination->patient->name }}</div>
-        <div>الهاتف: {{ $medicalExamination->patient->phone }}</div>
-    </div>
+    {{-- رأس الصفحة --}}
+    @includeIf('doctor::pdf.parts.header',['medicalExamination' => $medicalExamination])
 
-    <h2 class="section">تفاصيل الوصفة الطبية</h2>
-    <table class="table table-striped">
+    {{-- معلومات المريض --}}
+    @includeIf('doctor::pdf.parts.patientDetails',['patient' => $medicalExamination->patient])
+    {{-- جدول الأدوية --}}
+    <table class="rx-table">
+        <colgroup>
+            <col style="width:26%"> {{-- اسم الدواء --}}
+            <col style="width:14%"> {{-- التكرار --}}
+            <col style="width:30%"> {{-- طريقة الاستخدام/الجرعة --}}
+            <col style="width:12%"> {{-- العدد --}}
+            <col style="width:18%"> {{-- ملاحظة --}}
+        </colgroup>
         <thead>
         <tr>
-            <th style="width: 24%">اسم الدواء</th>
-            <th style="width: 24%">التكرار</th>
-            <th style="width: 24%">طريقة الاستخدام</th>
-            <th style="width: 24%">العدد</th>
-            <th style="width: 24%">ملاحظة</th>
+            <th>اسم الدواء</th>
+            <th>التكرار</th>
+            <th>طريقة الاستخدام</th>
+            <th class="num">العدد</th>
+            <th>ملاحظة</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($medicalExamination->medicines as $item)
+        @forelse($medicalExamination->medicines as $item)
             <tr>
                 <td>{{ $item->name }}</td>
-                <td class="is-numeric"><span class="ltr">{{ $item->pivot->type }}</span></td>
-                <td><span class="ltr">{{ $item->pivot->dosage }}</span></td>
-                <td class="is-numeric"><span class="ltr">{{ $item->pivot->count }}</span></td>
+                <td class="num">{{ $item->pivot->type }}</td>
+                <td class="">{{ $item->pivot->dosage }}</td>
+                <td class="num ">{{ $item->pivot->count }}</td>
                 <td>{{ $item->pivot->note }}</td>
-
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="5" class="num">— لا توجد أدوية —</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 
+    {{-- تذييل (توقيع + ختم + ملاحظة) --}}
+    <div class="footer">
+        <div class="sign-box">
+            <div class="label">توقيع الطبيب / الختم</div>
+        </div>
+        <div class="foot-note">
+            * يُنصح باتباع الإرشادات بدقة، وفي حال ظهور أي أعراض غير اعتيادية يُراجع الطبيب.
+        </div>
+    </div>
 @endsection
+
+

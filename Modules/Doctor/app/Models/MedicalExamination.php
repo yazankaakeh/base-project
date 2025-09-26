@@ -61,6 +61,11 @@ class MedicalExamination extends Model implements HasMedia
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
+    public function doctor(): BelongsTo
+    {
+        return $this->belongsTo(Doctor::class, 'doctor_id');
+    }
+
     public function vitalSigns(): BelongsToMany
     {
         return $this

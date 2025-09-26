@@ -1,53 +1,50 @@
-{{-- resources/views/pdf/invoice.blade.php --}}
 @extends('doctor::pdf.layout.main')
-
-@section('title', 'فاتورة #' )
-
-@section('header_left')
-    المعاينة رقم #  {{$medicalExamination-> id }}
-@endsection
-
-@section('header_right')
-    {{ now()->format('Y-m-d') }}
-@endsection
-
-@section('footer_left')
-    الدكتور بسام جاويش
-@endsection
+@section('title', " تحاليل طبية #$medicalExamination->id" )
 
 @section('content')
-    <h2>بيانات المريض</h2>
-    <div class="section">
-        <div>الاسم: {{ $medicalExamination->patient->name }}</div>
-        <div>الهاتف: {{ $medicalExamination->patient->phone }}</div>
-    </div>
+    {{-- رأس الصفحة --}}
 
-    <h2 class="section">تفاصيل الوصفة الطبية</h2>
-    <table class="table table-striped">
+    @includeIf('doctor::pdf.parts.header',['medicalExamination' => $medicalExamination])
+
+    {{-- معلومات المريض --}}
+    @includeIf('doctor::pdf.parts.patientDetails',['patient' => $medicalExamination->patient])
+    {{-- جدول الأدوية --}}
+    <table class="rx-table">
+        <colgroup>
+            <col style="width:26%"> {{-- اسم الدواء --}}
+            <col style="width:14%"> {{-- التكرار --}}
+            <col style="width:30%"> {{-- طريقة الاستخدام/الجرعة --}}
+        </colgroup>
         <thead>
         <tr>
-            <th style="width: 24%">اسم التحليل</th>
-            <th style="width: 24%">نوع التحليل</th>
-            <th style="width: 24%">نتيجة التحليل</th>
+            <th>اسم التحليل</th>
+            <th>نوع التحليل</th>
+            <th>نتيجة التحليل</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($medicalExamination->medicalTests as $item)
+        @forelse($medicalExamination->medicalTests as $item)
             <tr>
                 <td>{{ $item->name }}</td>
-                <td class="is-numeric">
-                    <span class="ltr">
-                        {{ $item->type->label() }}
-                    </span>
-                </td>
-                <td>
-                    <span class="ltr">
-                        {{ $item->pivot->value }}
-                    </span>
-                </td>
+                <td class="num">{{ $item->type->label() }}</td>
+                <td class="">  {{ $item->pivot->value }}</td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="5" class="num">— لا توجد أدوية —</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 
+    {{-- تذييل (توقيع + ختم + ملاحظة) --}}
+    <div class="footer">
+        <div class="sign-box">
+            <div class="label">توقيع الطبيب / الختم</div>
+        </div>
+        <div class="foot-note">
+            *في حال ظهور أي نتائج غير طبيعية أو أعراض غير اعتيادية يُراجع الطبيب المختص.
+        </div>
+    </div>
 @endsection
+

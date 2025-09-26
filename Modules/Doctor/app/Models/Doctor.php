@@ -67,7 +67,7 @@ class Doctor extends Authenticatable implements HasMedia
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function MedicalSpecialty(): BelongsTo
+    public function medicalSpecialty(): BelongsTo
     {
         return $this->belongsTo(MedicalSpecialty::class, 'medical_specialty_id', 'id');
     }
