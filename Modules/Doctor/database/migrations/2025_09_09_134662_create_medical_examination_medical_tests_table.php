@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreign('medical_test_id')->references('id')->on('medical_tests');
             $table->bigInteger('medical_examination_id')->unsigned();
             $table->foreign('medical_examination_id')->references('id')->on('medical_examinations');
-            $table->string('value');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }
