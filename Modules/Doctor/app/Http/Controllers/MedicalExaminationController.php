@@ -40,7 +40,7 @@ class MedicalExaminationController extends Controller
             ->with('clinics')
             ->where(['id' => $patientId, 'is_active' => ActiveEnum::ACTIVE->value])
             ->first();
-        @dd($patient?->clinics);
+        @dd($patient?->clinics, $patientId);
         $medicalExamination = MedicalExamination::query()->updateOrCreate([
             'patient_id' => $patientId,
             'status' => MedicalExaminationStatusEnum::PENDING->value,
