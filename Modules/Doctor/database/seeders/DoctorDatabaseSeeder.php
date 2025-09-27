@@ -16,6 +16,7 @@ class DoctorDatabaseSeeder extends Seeder
             MedicalTestsSeeder::class,
             VitalSignsSeeder ::class,
             //PatientSeeder ::class,
+            ClinicSeeder ::class,
             FinalDiagnosisSeeder ::class,
         ]);
     }
