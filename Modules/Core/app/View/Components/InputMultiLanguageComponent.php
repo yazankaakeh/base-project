@@ -28,6 +28,6 @@ class InputMultiLanguageComponent extends Component
     public function render(): View|string
     {
         $this->langs = Languages::cases();
-        return view('core::components.inputMultiLanguageComponent');
+        return view('core::components.inputmultilanguagecomponent');
     }
 }
