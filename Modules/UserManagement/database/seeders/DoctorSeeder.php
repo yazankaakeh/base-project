@@ -51,7 +51,7 @@ class DoctorSeeder extends Seeder
             'medical_specialty_id' => $medical->id,
             'age' => 30,
             'is_active' => 1,
-            'phone' => '05522998133',
+            'phone' => '05386002771',
             'password' => Hash::make('D1207forever#'),
         ]);
         $adminYazan->assignRole(Roles::SUPER_ADMIN->value);
