@@ -16,9 +16,10 @@ return new class extends Migration {
             $table->foreign('medicine_id')->references('id')->on('medicines');
             $table->bigInteger('medical_examination_id')->unsigned();
             $table->foreign('medical_examination_id')->references('id')->on('medical_examinations');
-            $table->string('type');
-            $table->string('dosage');
-            $table->string('count');
+            $table->string('type')->nullable();
+            $table->string('dosage')->nullable();
+            $table->string('count')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
