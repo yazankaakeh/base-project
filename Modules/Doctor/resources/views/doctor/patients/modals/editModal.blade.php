@@ -45,7 +45,7 @@
                                             multiple="true"
                                             model="clinics_id"
                                             :options="$clinics"
-                                            value="{{old('clinics_id')}}">
+                                            value="">
 
                             </x-core::select>
                         </div>
@@ -185,7 +185,7 @@
                             <x-core::input label="doctor::doctor.patients.password" id="password"
                                            name="password"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="password"
                                            value="{{old('password')}}">
                             </x-core::input>

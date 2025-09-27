@@ -35,7 +35,7 @@
                                             multiple="true"
                                             model="filter_clinics_id"
                                             :options="$clinics"
-                                            value="{{old('clinics_id')}}">
+                                            value="">
 
                             </x-core::select>
                         </div>

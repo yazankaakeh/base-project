@@ -11,6 +11,8 @@ use Modules\Doctor\Http\Requests\PatientRequest;
 use Modules\Doctor\Models\Clinic;
 use Modules\Doctor\Models\MedicalExamination;
 use Modules\Doctor\Models\Patient;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class PatientController extends Controller
 {
@@ -37,8 +39,10 @@ class PatientController extends Controller
         return view('doctor::doctor.patients.index', compact('data', 'countries', 'clinics'));
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * @throws FileIsTooBig
+     * @throws FileDoesNotExist
      */
     public function store(PatientRequest $request)
     {
@@ -47,6 +51,7 @@ class PatientController extends Controller
         if ($request->file('img')) {
             $patient->addMedia($request->file('img'))->toMediaCollection('images');
         }
+        $patient->clinics()->sync($request->clinics_id);
         $patient->clinics()->attach($request->clinics);
         return redirect()->back();
     }

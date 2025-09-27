@@ -184,7 +184,7 @@
                             <x-core::input label="doctor::doctor.patients.password" id="create_password"
                                            name="password"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="create_password"
                                            value="{{old('password')}}">
                             </x-core::input>

@@ -35,8 +35,8 @@ class PatientRequest extends FormRequest
             'medical_history' => ['required', 'string', 'max:255', 'min:3'],
             'surgical_history' => ['required', 'string', 'max:255', 'min:3'],
             'accident_history' => ['required', 'string', 'max:255', 'min:3'],
-            'password' => ['required', 'min:8', 'max:255'],
-            'email' => ['required', 'email'],
+            'password' => ['nullable', 'min:8', 'max:255'],
+            'email' => ['required', 'email', 'unique:patients,email'],
             'is_active' => ['required', new Enum(ActiveEnum::class)],
             'img' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'],
         ];

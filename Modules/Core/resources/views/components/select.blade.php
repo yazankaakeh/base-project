@@ -17,4 +17,40 @@
             <option value="{{ $key }}">{{ $val }}</option>
         @endforeach
     </select>
+
+
+    @if(!is_null($val))
+        @push('scripts')
+            <script>
+                (function () {
+                    const elId = @json($id);     // مثال: "clinics_id"
+                    const value = @json($value);    // يقبل String أو Array
+
+                    console.log(value);
+                    const apply = () => {
+                        const $el = $('#' + elId);
+                        if (!$el.length) return;
+
+                        // إذا Select2 جاهز
+                        if ($el.data('select2')) {
+                            $el.val(value).trigger('change');
+                        } else {
+                            // في حال التهيئة تصير لاحقًا
+                            $el.val(value);
+                            $el.trigger('change');
+                        }
+                    };
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', apply);
+                    } else {
+                        apply();
+                    }
+
+                    // لو العنصر داخل مودال، أعد التعيين بعد فتحه
+                    $('#storeModal').on('shown.bs.modal', apply);
+                })();
+            </script>
+        @endpush
+    @endif
 </div>
