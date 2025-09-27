@@ -3,11 +3,13 @@
 namespace Modules\Doctor\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Modules\Core\App\Enum\Gender;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
+use Modules\Doctor\Models\Patient;
 
 class PatientRequest extends FormRequest
 {
@@ -23,7 +25,14 @@ class PatientRequest extends FormRequest
             'nationality_id' => ['required', 'integer', 'exists:countries,id'],
             'clinics_id.*' => ['required', 'integer', 'exists:clinics,id'],
             'name' => ['required', 'string', 'max:255', 'min:5'],
-            'phone' => ['required', 'string', 'max:13', 'min:9'],
+            'phone' => [
+                'required',
+                'string',
+                'max:13',
+                'min:9',
+                Rule::unique(Patient::class, 'phone')
+                    ->ignore($this->id),
+            ],
             'age' => ['required', 'numeric'],
             'gender' => ['required', new Enum(Gender::class)],
             'marital_status' => ['required', new Enum(MaritalStatus::class)],
@@ -36,7 +45,12 @@ class PatientRequest extends FormRequest
             'surgical_history' => ['required', 'string', 'max:255', 'min:3'],
             'accident_history' => ['required', 'string', 'max:255', 'min:3'],
             'password' => ['nullable', 'min:8', 'max:255'],
-            'email' => ['required', 'email', 'unique:patients,email'],
+            'email' => [
+                'required',
+                'email',
+                'email:rfc,dns',
+                Rule::unique(Patient::class, 'email')->ignore($this->id),
+            ],
             'is_active' => ['required', new Enum(ActiveEnum::class)],
             'img' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'],
         ];
