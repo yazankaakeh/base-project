@@ -43,7 +43,7 @@ class MedicalExaminationController extends Controller
             'patient_id' => $patientId,
             'status' => MedicalExaminationStatusEnum::PENDING->value,
             'doctor_id' => auth()->id(),
-        ], ['clinic_id' => $patient->clinics->first()->id]);
+        ], ['clinic_id' => $patient?->clinics?->first()->id]);
         return redirect()->route('doctor.medicalExamination.create', $medicalExamination->id);
     }
 
