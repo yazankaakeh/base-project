@@ -44,6 +44,17 @@ class DoctorSeeder extends Seeder
             'phone' => '05522998130',
             'password' => Hash::make('D1207forever#'),
         ]);
+        $adminDoctor = Doctor::query()->create([
+            'name' => 'Bassam Jawish',
+            'email' => 'dr.bassam@gmail.com',
+            'gender' => Gender::MALE->value,
+            'medical_specialty_id' => $medical->id,
+            'age' => 30,
+            'is_active' => 1,
+            'phone' => '05522998133',
+            'password' => Hash::make('D1207forever#'),
+        ]);
         $adminYazan->assignRole(Roles::SUPER_ADMIN->value);
+        $adminDoctor->assignRole(Roles::SUPER_ADMIN->value);
     }
 }
