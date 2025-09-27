@@ -6,6 +6,8 @@ use App\Enum\Pagination;
 use App\Http\Controllers\Controller;
 use Modules\Doctor\Http\Requests\ClinicRequest;
 use Modules\Doctor\Models\Clinic;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class ClinicController extends Controller
 {
@@ -18,8 +20,10 @@ class ClinicController extends Controller
         return view('doctor::doctor.clinics.index', compact('data'));
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function store(ClinicRequest $request)
     {
@@ -35,17 +39,23 @@ class ClinicController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
      */
     public function update(ClinicRequest $request)
     {
         /** @var Clinic $clinic */
-        $clinic = Clinic::query()->where('id', $request->id)->update([
+        $clinic = Clinic::query()->findOrFail($request->id);
+
+        /** @var Clinic $clinic */
+        $clinic->update([
             'name' => $request->name,
             'is_active' => $request->is_active,
         ]);
         if ($request->file('img')) {
-            $clinic->addMedia($request->file('img'))->toMediaCollection('images');
+            $clinic
+                ->addMedia($request->file('img'))
+                ->toMediaCollection('images');
         }
         return redirect()->back();
     }
