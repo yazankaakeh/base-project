@@ -37,6 +37,7 @@ class MedicalExaminationController extends Controller
     public function store($patientId)
     {
         $patient = Patient::query()
+            ->with('clinics')
             ->where(['id' => $patientId, 'is_active' => ActiveEnum::ACTIVE->value])
             ->first();
         @dd($patient?->clinics);
