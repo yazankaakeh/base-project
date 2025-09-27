@@ -19,7 +19,7 @@
     </select>
 
 
-    @if(!is_null($val))
+    @if(!is_null($value))
         @push('scripts')
             <script>
                 (function () {
