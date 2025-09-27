@@ -17,6 +17,11 @@
             {{trans('doctor::doctor.medicalExaminations.printMedicalTests')}}
         </button>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList" style="">
+            <a href="{{route('doctor.pdf.downloadMedicalTest',['id'=> $medicalExamination->id, 'pageSize' => 'A5'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A5
+            </a>
             <a href="{{route('doctor.pdf.downloadMedicalTest',['id'=> $medicalExamination->id, 'pageSize' => 'A4'])}}"
                target="_blank" class="dropdown-item waves-effect">
                 <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
@@ -37,6 +42,11 @@
             {{trans('doctor::doctor.medicalExaminations.printMedicines')}}
         </button>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList" style="">
+            <a href="{{route('doctor.pdf.downloadMedicines',['id'=> $medicalExamination->id, 'pageSize' => 'A5'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A5
+            </a>
             <a href="{{route('doctor.pdf.downloadMedicines',['id'=> $medicalExamination->id, 'pageSize' => 'A4'])}}"
                target="_blank" class="dropdown-item waves-effect">
                 <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
@@ -56,6 +66,11 @@
             {{trans('doctor::doctor.medicalExaminations.printMedicinesPharmacy')}}
         </button>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList" style="">
+            <a href="{{route('doctor.pdf.downloadMedicinesPharmacy',['id'=> $medicalExamination->id, 'pageSize' => 'A5'])}}"
+               target="_blank" class="dropdown-item waves-effect">
+                <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
+                A5
+            </a>
             <a href="{{route('doctor.pdf.downloadMedicinesPharmacy',['id'=> $medicalExamination->id, 'pageSize' => 'A4'])}}"
                target="_blank" class="dropdown-item waves-effect">
                 <i data-feather="edit" class="ti tabler-file-type-pdf icon-base"></i>
