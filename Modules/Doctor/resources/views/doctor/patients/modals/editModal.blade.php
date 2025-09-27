@@ -40,7 +40,7 @@
                             <x-core::select :label="trans('doctor::doctor.patients.clinics')"
                                             :placeholder="trans('doctor::doctor.patients.clinics')"
                                             id="clinics_id"
-                                            name="clinics_id"
+                                            name="clinics_id[]"
                                             required="required"
                                             multiple="true"
                                             model="clinics_id"
@@ -245,6 +245,8 @@
             let age = $(this).data('age');
             let gender = $(this).data('gender');
             let work = $(this).data('work');
+            let clinics = $(this).data('clinics');
+            let phone = $(this).data('phone');
             let allergies = $(this).data('drug-allergies');
             let blood_type = $(this).data('blood-type');
             let disabilities = $(this).data('disabilities');
@@ -266,9 +268,11 @@
             $('#editModal #blood_type').val(blood_type).trigger('change');
             $('#editModal #marital_status').val(marital_status).trigger('change');
             $('#editModal #nationality_id').val(nationalityId).trigger('change');
+            $('#editModal #clinics_id').val(clinics).trigger('change');
             $('#editModal #age').val(age);
             $('#editModal #work').val(work);
             $('#editModal #allergies').val(allergies);
+            $('#editModal #phone').val(phone);
             $('#editModal #disabilities').val(disabilities);
             $('#editModal #medical_history').val(medical_history);
             $('#editModal #surgical_history').val(surgical_history);

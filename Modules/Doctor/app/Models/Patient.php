@@ -90,7 +90,7 @@ class Patient extends Authenticatable implements HasMedia
     {
         return $this
             ->belongsToMany(Clinic::class, 'clinic_patients')
-            ->using(ClinicPatient::class); // optional
+            ->using(ClinicPatient::class);
     }
 
     public function address(): MorphOne

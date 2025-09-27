@@ -77,7 +77,8 @@ class PatientController extends Controller
             ['id' => $request->id],
             $request->validated(),
         );
-        $patient->clinics()->sync($request->clinics);
+
+        $patient->clinics()->sync($request->clinics_id);
         if ($request->file('img')) {
             $patient->addMedia($request->file('img'))->toMediaCollection('images');
         }
