@@ -4,7 +4,6 @@ namespace Modules\Doctor\Http\Controllers;
 
 use App\Enum\Pagination;
 use App\Http\Controllers\Controller;
-use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Doctor\Enums\MedicalExaminationStatusEnum;
 use Modules\Doctor\Http\Requests\MedicalExaminationRequest;
 use Modules\Doctor\Models\MedicalExamination;
@@ -38,9 +37,8 @@ class MedicalExaminationController extends Controller
     {
         $patient = Patient::query()
             ->with('clinics')
-            ->where(['id' => $patientId, 'is_active' => ActiveEnum::ACTIVE->value])
+            ->where(['id' => $patientId/*, 'is_active' => ActiveEnum::ACTIVE->value*/])
             ->first();
-        @dd($patient?->clinics, $patient);
         $medicalExamination = MedicalExamination::query()->updateOrCreate([
             'patient_id' => $patientId,
             'status' => MedicalExaminationStatusEnum::PENDING->value,
