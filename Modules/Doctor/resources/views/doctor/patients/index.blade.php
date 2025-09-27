@@ -158,7 +158,7 @@ $page = 'sales-dashboard'; ?>
                                                             @can('doctor.patients.update')
                                                                 <a type="button" data-bs-toggle="modal"
                                                                    data-bs-target="#editModal"
-                                                                   class="dropdown-item waves-effect"
+                                                                   class="dropdown-item EditModalBTN waves-effect"
                                                                    data-id="{{$patient->id}}"
                                                                    data-img="{{$patient->getFirstMediaUrl('images')}}"
                                                                    data-nationalityid='{{$patient->nationality_id}}'
