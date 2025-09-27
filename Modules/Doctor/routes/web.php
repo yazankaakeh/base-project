@@ -156,7 +156,7 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
             [PDFController::class, 'downloadMedicines'],
         )->where([
             'id' => '[0-9]+',
-            'pageSize' => 'A4|A3',
+            'pageSize' => 'A4|A3|A5',
         ])->name(
             'pdf.downloadMedicines',
         );
@@ -165,7 +165,7 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
             [PDFController::class, 'downloadMedicalTest'],
         )->where([
             'id' => '[0-9]+',
-            'pageSize' => 'A4|A3',
+            'pageSize' => 'A4|A3|A5',
         ])->name(
             'pdf.downloadMedicalTest',
         );
@@ -174,7 +174,7 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
             [PDFController::class, 'downloadMedicinesPharmacy'],
         )->where([
             'id' => '[0-9]+',
-            'pageSize' => 'A4|A3',
+            'pageSize' => 'A4|A3|A5',
         ])->name(
             'pdf.downloadMedicinesPharmacy',
         );
