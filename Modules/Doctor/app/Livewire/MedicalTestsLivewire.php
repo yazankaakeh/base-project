@@ -43,16 +43,22 @@ class MedicalTestsLivewire extends Component
     #[On('laboratoryTestsUpdated')]
     public function laboratoryTestsUpdated($value): void
     {
-        if ($value) {
-            $this->addedMedicalTests[] = $value;
+        $this->addedMedicalTests[] = $value;
+        if (empty($value)) {
+            $this->syncTestsForType(
+                $this->medicalExamination,
+                MedicalTestTypeEnum::LABORATORY_TESTS->value,
+                [],  // array of IDs the user selected for LAB
+            );
+        } else {
             $this->syncTestsForType(
                 $this->medicalExamination,
                 MedicalTestTypeEnum::LABORATORY_TESTS->value,
                 $value,  // array of IDs the user selected for LAB
             );
-            $this->updateMedicalTests();
-            $this->dispatch('initSelect2');
         }
+        $this->updateMedicalTests();
+        $this->dispatch('initSelect2');
         $this->dispatch('reRenderSelect2');
     }
 
@@ -132,17 +138,22 @@ class MedicalTestsLivewire extends Component
     #[On('radiologyTestsUpdated')]
     public function radiologyTestsUpdated($value): void
     {
-        if ($value) {
-            $this->addedMedicalTests[] = $value;
-            //$this->medicalExamination->radiologyTests()->sync($value);
+        $this->addedMedicalTests[] = $value;
+        if (empty($value)) {
+            $this->syncTestsForType(
+                $this->medicalExamination,
+                MedicalTestTypeEnum::RADIOLOGY_TESTS->value,
+                [],  // array of IDs the user selected for LAB
+            );
+        } else {
             $this->syncTestsForType(
                 $this->medicalExamination,
                 MedicalTestTypeEnum::RADIOLOGY_TESTS->value,
                 $value,  // array of IDs the user selected for LAB
             );
-            $this->updateMedicalTests();
-            $this->dispatch('initSelect2');
         }
+        $this->updateMedicalTests();
+        $this->dispatch('initSelect2');
         $this->dispatch('reRenderSelect2');
     }
 
