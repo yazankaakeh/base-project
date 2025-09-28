@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Doctor\Http\Controllers\ClinicController;
-use Modules\Doctor\Http\Controllers\DoctorController;
+use Modules\Doctor\Http\Controllers\DashboardController;
 use Modules\Doctor\Http\Controllers\FinalDiagnosisController;
 use Modules\Doctor\Http\Controllers\MedicalExaminationController;
 use Modules\Doctor\Http\Controllers\MedicalSpecialtyController;
@@ -19,7 +19,7 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
     'doctor',
 )->group(
     function () {
-        Route::get('dashboard', [DoctorController::class, 'index'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/clinic', [ClinicController::class, 'index'])->name('clinic.index');
 
