@@ -42,7 +42,7 @@
                         <div class="col-6 mb-3">
                             <x-core::input label="doctor::doctor.patients.age" id="create_age"
                                            name="age"
-                                           type="number"
+                                           type="date"
                                            required="required"
                                            model="create_age"
                                            value="{{old('age')}}">
