@@ -34,12 +34,14 @@
                         <x-core::input label="doctor::doctor.medicalExaminations.request_for_action"
                                        id="request_for_action" name="request_for_action"
                                        type="text" model="request_for_action"
+                                       required=""
                                        :value="old('request_for_action',$medicalExamination->request_for_action)">
                         </x-core::input>
                     </div>
                 </div>
                 <div class="row my-3">
                     <x-core::textarea label="doctor::doctor.medicalExaminations.note"
+                                      required=""
                                       id="note" name="note" :value="old('note',$medicalExamination->note)"
                                       type="text" model="note">
                     </x-core::textarea>
