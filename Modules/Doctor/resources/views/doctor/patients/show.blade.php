@@ -52,18 +52,28 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content">
-            <p class="demo-inline-spacing">
+            <div class="demo-inline-spacing mb-5">
                 <button class="btn btn-primary" type="button"
                         data-bs-toggle="modal" data-bs-target="#uploadFile">
                     <i class="me-2 ti icon-base tabler-upload"></i>
                     {{trans('doctor::doctor.medicalExaminations.uploadFile')}}
                 </button>
-                <a target="_blank" class="btn btn-primary"
+                <a target="_blank" class="btn btn-info"
                    href="{{route('doctor.patients.downloadVCard',['id' => $patient->id])}}">
                     <i class="me-2 ti icon-base tabler-address-book"></i>
                     {{trans('doctor::doctor.patients.downloadVCard')}}
                 </a>
-            </p>
+                <form class="d-inline" method="POST"
+                      action="{{route('doctor.medicalExamination.store',['patientId'=>$patient->id])}}">
+                    @method('POST')
+                    @csrf
+                    <button class="btn btn-success mt-4"
+                            type="submit">
+                        <i class="me-2 ti icon-base tabler-building-hospital"></i>
+                        {{trans('doctor::doctor.medicalExaminations.card.createMedicalPreview')}}
+                    </button>
+                </form>
+            </div>
             <div class="row">
                 <!-- User Sidebar -->
                 <div class="col-xl-4 col-lg-4 col-md-5 order-1 order-md-0">
@@ -76,7 +86,7 @@
                             <a class="nav-link active" role="tab" data-bs-toggle="tab"
                                data-bs-target="#medicalPreview"
                                aria-controls="medicalPreview" aria-selected="true">
-                                <i class="ti tabler-user-check tabler-xs me-1"></i>
+                                <i class="ti tabler-clipboard-heart icon-20px me-1"></i>
                                 {{trans('doctor::doctor.medicalExaminations.card.medicalPreview')}}
                             </a>
                         </li>
@@ -84,7 +94,7 @@
                             <a class="nav-link" role="tab" data-bs-toggle="tab"
                                data-bs-target="#files"
                                aria-controls="files" aria-selected="false">
-                                <i class="ti tabler-lock tabler-xs me-1"></i>
+                                <i class="ti tabler-files icon-20px me-1"></i>
                                 {{trans('doctor::doctor.parts.files.title')}}
                             </a>
                         </li>
@@ -92,7 +102,7 @@
                             <a class="nav-link" data-bs-toggle="tab"
                                data-bs-target="#finalDiagnosis"
                                aria-controls="finalDiagnosis" aria-selected="false">
-                                <i class="ti tabler-currency-dollar tabler-xs me-1"></i>
+                                <i class="ti tabler-vaccine icon-20px me-1"></i>
                                 {{trans('doctor::doctor.medicalExaminations.card.finalDiagnosis')}}
                             </a>
                         </li>
@@ -100,7 +110,7 @@
                             <a class="nav-link" data-bs-toggle="tab"
                                data-bs-target="#clinics"
                                aria-controls="clinics" aria-selected="false">
-                                <i class="ti tabler-bell tabler-xs me-1"></i>
+                                <i class="ti tabler-hospital-circle icon-20px me-1"></i>
                                 {{trans('doctor::doctor.patients.clinics')}}
                             </a>
                         </li>
