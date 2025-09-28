@@ -12,6 +12,7 @@
     "php": "^8.4",
     "ext-mbstring": "*",
     "ext-simplexml": "*",
+    "doctrine/dbal": "^4.3",
     "iyzico/iyzipay-php": "^2.0",
     "laravel/framework": "^12.0",
     "laravel/sanctum": "^4.0",
