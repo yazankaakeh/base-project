@@ -134,6 +134,7 @@ return [
         'uploadFile' => 'رفع الملفات',
         'card' => [
             'medicalPreview' => 'المعاينة الطبية',
+            'createMedicalPreview' => 'إنشاء معاينة طبية',
             'finalDiagnosis' => 'التشخيص النهائي',
             'vitalSigns' => 'العلامات الحيوية',
             'medicines' => 'الأدوية',

@@ -133,6 +133,7 @@ return [
         'file' => 'File :name',
         'uploadFile' => 'Upload Files',
         'card' => [
+            'createMedicalPreview' => 'Create Medical Preview',
             'medicalPreview' => 'Medical Preview',
             'finalDiagnosis' => 'Final Diagnosis',
             'vitalSigns' => 'Vital Signs',
@@ -152,6 +153,12 @@ return [
             'title' => 'Files',
             'sADesc' => 'This file will be permanently deleted!',
         ],
+    ],
+    'reports' => [
+        'numberOfDoctors' => 'Total Number Of Doctors',
+        'numberOfPatients' => 'Total Number Of Patients',
+        'numberOfClinics' => 'Total Number Of Clinics',
+        'numberOfMedicalPreviews' => 'Number Of MedicalPreviews',
     ],
     'filter' => 'Filter',
     'close' => 'Close',
