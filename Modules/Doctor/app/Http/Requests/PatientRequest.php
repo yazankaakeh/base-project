@@ -33,7 +33,7 @@ class PatientRequest extends FormRequest
                 Rule::unique(Patient::class, 'phone')
                     ->ignore($this->id),
             ],
-            'age' => ['required', 'numeric'],
+            'age' => ['required', 'date'],
             'gender' => ['required', new Enum(Gender::class)],
             'marital_status' => ['required', new Enum(MaritalStatus::class)],
             'children' => ['nullable', 'string', 'max:255'],
