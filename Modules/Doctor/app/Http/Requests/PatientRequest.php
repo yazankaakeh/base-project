@@ -46,7 +46,7 @@ class PatientRequest extends FormRequest
             'accident_history' => ['nullable', 'string', 'max:255', 'min:3'],
             'password' => ['nullable', 'min:8', 'max:255'],
             'email' => [
-                'required',
+                'nullable',
                 'email',
                 'email:rfc,dns',
                 Rule::unique(Patient::class, 'email')->ignore($this->id),

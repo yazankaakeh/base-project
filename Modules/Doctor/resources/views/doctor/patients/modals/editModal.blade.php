@@ -140,7 +140,7 @@
                             <x-core::input label="doctor::doctor.patients.drug_allergies" id="drug_allergies"
                                            name="drug_allergies"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="drug_allergies"
                                            value="{{old('drug_allergies')}}">
                             </x-core::input>
@@ -149,7 +149,7 @@
                             <x-core::input label="doctor::doctor.patients.disabilities" id="disabilities"
                                            name="disabilities"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="disabilities"
                                            value="{{old('disabilities')}}">
                             </x-core::input>
@@ -158,7 +158,7 @@
                             <x-core::input label="doctor::doctor.patients.medical_history" id="medical_history"
                                            name="medical_history"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="medical_history"
                                            value="{{old('medical_history')}}">
                             </x-core::input>
@@ -167,7 +167,7 @@
                             <x-core::input label="doctor::doctor.patients.surgical_history" id="surgical_history"
                                            name="surgical_history"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="surgical_history"
                                            value="{{old('surgical_history')}}">
                             </x-core::input>
@@ -176,7 +176,7 @@
                             <x-core::input label="doctor::doctor.patients.accident_history" id="accident_history"
                                            name="accident_history"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="accident_history"
                                            value="{{old('accident_history')}}">
                             </x-core::input>
@@ -194,7 +194,7 @@
                             <x-core::input label="doctor::doctor.patients.email" id="email"
                                            name="email"
                                            type="text"
-                                           required="required"
+                                           required=""
                                            model="email"
                                            value="{{old('email')}}">
                             </x-core::input>
