@@ -63,7 +63,7 @@ $page = 'sales-dashboard'; ?>
                             <h5 class="">
                                 @can('doctor.medicine.store')
                                     <button type="button"
-                                            data-bs-toggle="modal" data-bs-target="#storeModal"
+                                            data-bs-toggle="modal" data-bs-target="#storeModalMedicine"
                                             class="btn btn-primary">
                                         <i class="ti tabler-plus icon-base me-1"></i>
                                         {{trans('doctor::doctor.create')}}

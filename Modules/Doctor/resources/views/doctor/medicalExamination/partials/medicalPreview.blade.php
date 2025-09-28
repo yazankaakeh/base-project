@@ -16,6 +16,13 @@
                     </x-core::input>
                 </div>
                 <div class="row my-3">
+                    <x-core::textarea label="doctor::doctor.medicalExaminations.medicalStory"
+                                      required=""
+                                      id="note" name="note" :value="old('note',$medicalExamination->note)"
+                                      type="text" model="note">
+                    </x-core::textarea>
+                </div>
+                <div class="row my-3">
                     <x-core::textarea label="doctor::doctor.medicalExaminations.clinical_examination"
                                       id="clinical_examination" name="clinical_examination"
                                       type="text" model="clinical_examination"

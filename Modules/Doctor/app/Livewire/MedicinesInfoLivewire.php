@@ -44,10 +44,14 @@ class MedicinesInfoLivewire extends Component
     public function mount(MedicalExamination $medicalExamination): void
     {
         $this->medicalExamination = $medicalExamination;
-
-        $this->medicinesData = MedicalExaminationMedicine::query()->where([
+        $medicinesData = MedicalExaminationMedicine::query()->where([
             'medical_examination_id' => $this->medicalExamination->id,
         ])->get()->toArray();
+        if (!empty($medicinesData)) {
+            $this->medicinesData = MedicalExaminationMedicine::query()->where([
+                'medical_examination_id' => $this->medicalExamination->id,
+            ])->get()->toArray();
+        }
     }
 
 

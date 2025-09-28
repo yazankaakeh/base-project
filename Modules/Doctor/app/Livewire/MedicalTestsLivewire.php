@@ -115,7 +115,7 @@ class MedicalTestsLivewire extends Component
     {
         // Validate only this row
         $this->validate([
-            "listMedicalTestsValues.$id.value" => ['required', 'string', 'max:255'],
+            "listMedicalTestsValues.$id.value" => ['nullable', 'string', 'max:255'],
             "listMedicalTestsValues.$id.file" => ['nullable', 'file', 'max:5120', 'mimes:pdf,jpg,jpeg,png'],
         ]);
         $row = $this->listMedicalTestsValues[$id];

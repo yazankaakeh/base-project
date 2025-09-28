@@ -1,6 +1,6 @@
 @php use Modules\Core\App\Enums\ActiveEnum; @endphp
-<div class="modal fade" id="storeModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
-     data-keyboard="false">
+<div class="modal fade" id="storeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data" id="createUser"
               action="{{route('doctor.medicalSpecialty.store')}}"
@@ -21,7 +21,7 @@
                                                              label="doctor::doctor.medicalSpecialty.name"
                                                              name="name"
                                                              type="text" id="create_name"/>
-                      
+
                         <div class="col-6 mb-3">
                             <x-core::input label="doctor::doctor.medicalSpecialty.code" id="create_code"
                                            name="code"

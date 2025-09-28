@@ -2,6 +2,10 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between pb-2 mb-1">
             <h5 class="">{{$title}}</h5>
+            <button data-bs-toggle="modal" data-bs-target="#storeModalMedicalTest"
+                    class="btn btn-info rounded-pill btn-icon">
+                <i class="ti tabler-plus"></i>
+            </button>
         </div>
         <div class="card-body">
             <div class="card-content">
@@ -21,10 +25,10 @@
                     </x-core::select>
                 </div>
 
-                @foreach($listMedicalTests as $medicalTest)
+                {{--@foreach($listMedicalTests as $medicalTest)
 
                     <div class="row my-3" wire:key="row-{{ $medicalTest->id }}">
-                        <div class="col-5 mx-0 px-0">
+                        --}}{{--<div class="col-5 mx-0 px-0">
                             @php
                                 $label = str(__('doctor::doctor.medicalExaminations.value', ['medicalTest' => $medicalTest->name]));
                             @endphp
@@ -38,8 +42,8 @@
                                     required="required"
                                     value="{{ $listMedicalTestsValues[$medicalTest->id]['value'] ?? null }}"
                             />
-                        </div>
-                        <div class="col-5 mx-0 me-1 px-0">
+                        </div>--}}{{--
+                        <div class="col mx-0 me-1 px-0">
                             <x-core::input
                                     wire:key="debug-file-{{ $medicalTest->id }}"
                                     label="doctor::doctor.medicalExaminations.file"
@@ -52,21 +56,21 @@
                                     value="{{$listMedicalTestsValues[$medicalTest->id]['value'] ?? null}}">
                             </x-core::input>
                         </div>
-                        <div class="col mx-0 px-0">
+                        <div class="col text-end mx-0 px-0">
                             <button type="button" wire:click="saveMedicalTestDetails({{$medicalTest->id}})"
-                                    class="btn my-5 btn-sm btn-icon btn-primary">
+                                    class="btn mt-7 btn-sm btn-icon btn-primary">
                                 <i class="ti icon-base tabler-progress-check"></i>
                             </button>
                             @if($medicalTest->getMedia('attachment')?->first()?->getUrl())
                                 <a href="{{$medicalTest->getMedia('attachment')?->first()?->getUrl()}}"
                                    target="_blank"
-                                   class="btn my-5 btn-sm btn-icon btn-info">
+                                   class="btn mt-7 btn-sm btn-icon btn-info">
                                     <i class="ti icon-base tabler-eye"></i>
                                 </a>
                             @endif
                         </div>
                     </div>
-                @endforeach
+                @endforeach--}}
 
             </div>
         </div>

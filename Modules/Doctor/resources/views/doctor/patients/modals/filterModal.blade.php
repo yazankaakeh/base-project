@@ -1,7 +1,6 @@
 @php use Modules\Core\App\Enum\Gender;use Modules\Core\App\Enums\ActiveEnum;use Modules\Core\app\Models\Country;use Modules\Doctor\Enums\MaritalStatus;use Modules\Doctor\Enums\BloodType; @endphp
-<div class="modal modal-xl fade" id="filterModal" tabindex="-1" aria-hidden="true" data-toggle="modal"
-     data-backdrop="static"
-     data-keyboard="false">
+<div class="modal modal-xl fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data"
               action="{{route('doctor.patients.index')}}"

@@ -7,6 +7,10 @@
 @section('vendor-style')
     @livewireStyles
     @livewireScripts
+    @includeIf('doctor::doctor.finalDiagnosis.modals.createModal')
+    @includeIf('doctor::doctor.medicalTest.modals.createModal')
+    @includeIf('doctor::doctor.medicine.modals.createModal')
+    @includeIf('doctor::doctor.medicalExamination.modals.uploadFileModal',['model'=>  $medicalExamination])
 
     @vite([
     'resources/assets/vendor/libs/dropzone/dropzone.scss',
@@ -45,7 +49,6 @@
 @section('page-script')
     <script src="{{asset('livewire-select2/livewire-select2.js')}}"></script>
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
-    @includeIf('doctor::doctor.medicalExamination.modals.uploadFileModal',['model'=>  $medicalExamination])
 @endsection
 
 @section('title', trans('customer.sidebar.medicalExaminations'))
@@ -59,7 +62,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     @includeIf('doctor::doctor.medicalExamination.partials.patientCard',['patient'=> $patient])
                     @includeIf('doctor::doctor.medicalExamination.partials.files',['model'=> $medicalExamination])
                     <div class="my-4">
@@ -69,7 +72,7 @@
                                 :medicalExamination="$medicalExamination"/>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     @includeIf('doctor::doctor.medicalExamination.partials.medicalPreview',['medicalExamination'=>$medicalExamination])
                     <div class="row my-4">
                         <div class="col-6">

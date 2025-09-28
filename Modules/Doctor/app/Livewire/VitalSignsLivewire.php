@@ -19,7 +19,7 @@ class VitalSignsLivewire extends Component
     // Bind inputs like values[ID] => '120/80'
     #[Validate('array')]
     public array $values = [];
-    public bool $isOpen = false;
+    public bool $isOpen = true;
 
     public function toggle(): void
     {
@@ -69,6 +69,7 @@ class VitalSignsLivewire extends Component
             ->where('is_active', ActiveEnum::ACTIVE->value)
             ->orderBy('id')
             ->get();
+
 
         // prefill from existing pivot values (if editing)
         $existing = $this->medicalExamination

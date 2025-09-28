@@ -4,9 +4,14 @@
             <div class="card-title mb-0">
                 <h5 class="">{{trans('doctor::doctor.medicalExaminations.medicines')}}</h5>
             </div>
-            <button class="btn btn-icon rounded-pill btn-primary" wire:click="increase()">
-                <i class="ti tabler-plus"></i>
-            </button>
+            <div class="d-inline">
+                <button class="btn btn-icon rounded-pill btn-info"
+                        data-bs-toggle="modal" data-bs-target="#storeModalMedicine">
+                    <i class="ti tabler-plus"></i>
+                </button>
+
+            </div>
+
         </div>
         <div class="card-body">
             <div class="card-content">
@@ -23,6 +28,16 @@
                                     :options="$medicines"
                                     value="{{old('medicine_id')}}">
                             </x-core::select>
+                        </div>
+                        <div class="col">
+                            <x-core::input label="doctor::doctor.medicalExaminations.ss"
+                                           id="medicinesData.{{$index}}.ss"
+                                           name="medicinesData.{{$index}}.ss"
+                                           model="medicinesData.{{$index}}.ss"
+                                           type="text"
+                                           required="required"
+                                           value="{{old('ss')}}">
+                            </x-core::input>
                         </div>
                         <div class="col">
                             <x-core::input label="doctor::doctor.medicalExaminations.repetition"
@@ -55,16 +70,19 @@
                             </x-core::input>
                         </div>
                         <div class="col">
-                            <x-core::input label="doctor::doctor.medicalExaminations.note"
-                                           id="medicinesData.{{$index}}.note"
-                                           name="medicinesData.{{$index}}.note"
-                                           model="medicinesData.{{$index}}.note"
-                                           type="text"
-                                           required="required"
-                                           value="{{old('note')}}">
-                            </x-core::input>
+                            <x-core::textarea label="doctor::doctor.medicalExaminations.note"
+                                              required=""
+                                              id="medicinesData.{{$index}}.note"
+                                              name="medicinesData.{{$index}}.note"
+                                              model="medicinesData.{{$index}}.note"
+                                              value="{{old('note')}}"
+                                              type="text">
+                            </x-core::textarea>
                         </div>
                         <div class="col align-content-end">
+                            <button class="btn btn-icon rounded-pill btn-primary" wire:click="increase()">
+                                <i class="ti tabler-copy-plus"></i>
+                            </button>
                             <button wire:click="decrease({{$index}})" class="btn my-2 btn-icon btn-danger">
                                 <i class="ti tabler-trash"></i>
                             </button>

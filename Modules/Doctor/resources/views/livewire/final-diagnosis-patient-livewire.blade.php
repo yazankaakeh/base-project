@@ -2,6 +2,10 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between pb-2 mb-1">
             <h5 class="">{{trans('doctor::doctor.medicalExaminations.finalDiagnosisInfo')}}</h5>
+            <button data-bs-toggle="modal" data-bs-target="#storeModalFinalDiagnosis"
+                    class="btn btn-info btn-icon rounded-pill">
+                <i class="ti tabler-plus"></i>
+            </button>
         </div>
         <div class="card-body">
             <div class="card-content">

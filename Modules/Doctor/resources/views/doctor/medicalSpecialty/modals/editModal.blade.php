@@ -1,6 +1,6 @@
 @php use Modules\Core\App\Enums\ActiveEnum; @endphp
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
-     data-keyboard="false">
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data" id="editUser"
               action="{{route('doctor.medicalSpecialty.update')}}"

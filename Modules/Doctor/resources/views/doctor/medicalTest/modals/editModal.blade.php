@@ -1,6 +1,6 @@
 @php use Modules\Core\App\Enums\ActiveEnum; @endphp
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
-     data-keyboard="false">
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data" id="editUser"
               action="{{route('doctor.medicalTest.update')}}"
@@ -46,6 +46,19 @@
                                             value="{{old('active')}}">
                             </x-core::select>
                         </div>
+                        <div class="col-6 mb-3">
+                            <x-core::select :label="trans('doctor::doctor.medicalTest.type')"
+                                            :placeholder="trans('doctor::doctor.medicalTest.type')"
+                                            id="type"
+                                            name="type"
+                                            required="required"
+                                            model="type"
+                                            :options="MedicalTestTypeEnum::getAllEnumValuesKeysLabel()"
+                                            value="{{old('type')}}">
+
+                            </x-core::select>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
