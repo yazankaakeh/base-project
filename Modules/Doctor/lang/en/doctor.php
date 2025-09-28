@@ -168,5 +168,4 @@ return [
     'pleaseSelectOne' => 'Please Select One',
     'id' => 'ID',
     'saveAll' => 'Save All',
-
 ];
