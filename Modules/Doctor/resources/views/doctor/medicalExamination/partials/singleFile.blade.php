@@ -3,7 +3,7 @@
         <form action="{{route('doctor.uploadFile.delete',['id'=>$file->id])}}" method="POST">
             @csrf
             @method('POST')
-            <button type="button" class="btn mx-1 btn-icon btn-danger">
+            <button type="button" class="btn mx-1 btn-delete btn-icon btn-danger">
                 <i class="ti icon-base tabler-trash"></i>
             </button>
         </form>
