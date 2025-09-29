@@ -12,8 +12,7 @@
                 <div class="row mb-4">
                     @foreach($addedMedicalTests as $index => $medicalTest)
                         <div class="col-auto">
-                            <button class="btn m-2 btn-outline-primary waves-effect">
-                                
+                            <button class="btn my-2 btn-outline-primary waves-effect">
                                 {{$medicalTest->name}}
                             </button>
                         </div>
