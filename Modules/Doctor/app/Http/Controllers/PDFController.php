@@ -28,6 +28,8 @@ class PDFController extends Controller
         ])->render();
 
         $pdf = Browsershot::html($this->injectPdfCss($html))
+            ->setChromePath('/usr/bin/google-chrome')   // or '/usr/bin/google-chrome-stable'
+            ->noSandbox()
             ->showBackground()
             ->format($pageSize)
             ->margins(12, 12, 20, 12)
@@ -55,6 +57,8 @@ class PDFController extends Controller
         ])->render();
 
         $pdf = Browsershot::html($this->injectPdfCss($html))
+            ->setChromePath('/usr/bin/google-chrome')   // or '/usr/bin/google-chrome-stable'
+            ->noSandbox()
             ->showBackground()
             ->format($pageSize)
             ->margins(12, 12, 20, 12)
@@ -82,6 +86,8 @@ class PDFController extends Controller
             ->render();
 
         $pdf = Browsershot::html($this->injectPdfCss($html))
+            ->setChromePath('/usr/bin/google-chrome')   // or '/usr/bin/google-chrome-stable'
+            ->noSandbox()
             ->showBackground()
             ->format('A4')
             ->margins(12, 12, 20, 12)
