@@ -30,17 +30,17 @@
                             </x-core::select>
                         </div>
                         <div class="col">
-                            <x-core::input label="doctor::doctor.medicalExaminations.ss"
-                                           id="medicinesData.{{$index}}.ss"
-                                           name="medicinesData.{{$index}}.ss"
-                                           model="medicinesData.{{$index}}.ss"
+                            <x-core::input label="doctor::doctor.medicalExaminations.dose"
+                                           id="medicinesData.{{$index}}.dose"
+                                           name="medicinesData.{{$index}}.dose"
+                                           model="medicinesData.{{$index}}.dose"
                                            type="text"
                                            required="required"
-                                           value="{{old('ss')}}">
+                                           value="{{old('dose')}}">
                             </x-core::input>
                         </div>
                         <div class="col">
-                            <x-core::input label="doctor::doctor.medicalExaminations.repetition"
+                            <x-core::input label="doctor::doctor.medicalExaminations.dosage"
                                            id="medicinesData.{{$index}}.dosage"
                                            name="medicinesData.{{$index}}.dosage"
                                            model="medicinesData.{{$index}}.dosage"
@@ -60,13 +60,13 @@
                             </x-core::input>
                         </div>
                         <div class="col">
-                            <x-core::input label="doctor::doctor.medicalExaminations.number"
-                                           id="medicinesData.{{$index}}.count"
-                                           name="medicinesData.{{$index}}.count"
-                                           model="medicinesData.{{$index}}.count"
+                            <x-core::input label="doctor::doctor.medicalExaminations.duration"
+                                           id="medicinesData.{{$index}}.duration"
+                                           name="medicinesData.{{$index}}.duration"
+                                           model="medicinesData.{{$index}}.duration"
                                            type="text"
                                            required="required"
-                                           value="{{old('count')}}">
+                                           value="{{old('duration')}}">
                             </x-core::input>
                         </div>
                         <div class="col">

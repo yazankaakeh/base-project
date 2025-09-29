@@ -21,9 +21,10 @@ class MedicinesInfoLivewire extends Component
     public array $medicinesData = [
         [
             'medicine_id' => null,     // required | exists:medicines,id   (select2)
-            'dosage' => null,     // required | string | max:100
-            'type' => null,     // required | string | max:255
-            'count' => 1,        // required | integer|min:1|max:1000
+            'dose' => null,     // required | string | max:100
+            'dosage' => null,     // required | string | max:255
+            'type' => null,     // required | integer|min:1|max:1000
+            'duration' => null,     // nullable | string | max:500
             'note' => null,     // nullable | string | max:500
         ],
     ];
@@ -32,9 +33,10 @@ class MedicinesInfoLivewire extends Component
     {
         $this->medicinesData[] = [
             'medicine_id' => null,
+            'dose' => null,
             'dosage' => null,
             'type' => null,
-            'count' => 1,
+            'duration' => null,
             'note' => null,
         ];
         $this->dispatch('reRenderSelect2');
@@ -57,10 +59,13 @@ class MedicinesInfoLivewire extends Component
 
     public function decrease($index): void
     {
-        unset($this->medicinesData[$index]);
-        $this->medicinesData = array_values($this->medicinesData);
         $this->dispatch('reRenderSelect2');
         $this->dispatch('initSelect2');
+        if (count($this->medicinesData) == 1) {
+            return;
+        }
+        unset($this->medicinesData[$index]);
+        $this->medicinesData = array_values($this->medicinesData);
     }
 
     public function save(): void
@@ -72,9 +77,11 @@ class MedicinesInfoLivewire extends Component
         foreach ($validated['medicinesData'] as $row) {
             $drugId = (int)$row['medicine_id'];
             $syncPayload[$drugId] = [
+                'medicine_id' => $row['medicine_id'],
+                'dose' => $row['dose'],
                 'dosage' => $row['dosage'],
                 'type' => $row['type'],
-                'count' => (int)$row['count'],
+                'duration' => $row['duration'],
                 'note' => $row['note'],
             ];
         }
@@ -95,9 +102,10 @@ class MedicinesInfoLivewire extends Component
         return [
             'medicinesData' => ['required', 'array', 'min:1'],
             'medicinesData.*.medicine_id' => ['required', 'integer', 'exists:medicines,id'],
+            'medicinesData.*.dose' => ['required', 'string', 'max:100'],
             'medicinesData.*.dosage' => ['required', 'string', 'max:100'],
             'medicinesData.*.type' => ['required', 'string', 'max:255'],
-            'medicinesData.*.count' => ['required', 'integer', 'min:1', 'max:1000'],
+            'medicinesData.*.duration' => ['required', 'string', 'min:1', 'max:1000'],
             'medicinesData.*.note' => ['nullable', 'string', 'max:500'],
         ];
     }

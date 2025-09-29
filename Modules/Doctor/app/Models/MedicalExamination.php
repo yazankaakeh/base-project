@@ -79,9 +79,10 @@ class MedicalExamination extends Model implements HasMedia
     {
         return $this
             ->belongsToMany(Medicine::class, 'medical_examination_medicine')
-            ->withPivot('type')
+            ->withPivot('dose')
             ->withPivot('dosage')
-            ->withPivot('count')
+            ->withPivot('type')
+            ->withPivot('duration')
             ->withPivot('note')
             ->withTimestamps()
             ->using(MedicalExaminationMedicine::class); // optional

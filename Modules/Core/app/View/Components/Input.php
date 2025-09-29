@@ -22,6 +22,7 @@ class Input extends Component
         public ?array $labelValue = [],
         public string $required = 'required',
         public ?string $value = '',
+        public bool $checked = false,
         public string $class = '',
     ) {
         //

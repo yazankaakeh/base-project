@@ -5,10 +5,7 @@ namespace Modules\Doctor\Livewire;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use JetBrains\PhpStorm\NoReturn;
-use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Modules\Core\app\Traits\OptimizeLivewireTrait;
 use Modules\Doctor\Enums\MedicalTestTypeEnum;
@@ -33,35 +30,46 @@ class MedicalTestsLivewire extends Component
     public MedicalTestTypeEnum $type;
     public mixed $listMedicalTests = [];
 
-    /** @var array<int, array{value:string|null, file:TemporaryUploadedFile|null}> */
-    public array $listMedicalTestsValues = [];
-
 
     /**
      * @throws Throwable
      */
-    #[On('laboratoryTestsUpdated')]
-    public function laboratoryTestsUpdated($value): void
+    public function submit(): void
     {
-        $this->addedMedicalTests[] = $value;
-        if (empty($value)) {
-            $this->syncTestsForType(
-                $this->medicalExamination,
-                MedicalTestTypeEnum::LABORATORY_TESTS->value,
-                [],  // array of IDs the user selected for LAB
-            );
-        } else {
-            $this->syncTestsForType(
-                $this->medicalExamination,
-                MedicalTestTypeEnum::LABORATORY_TESTS->value,
-                $value,  // array of IDs the user selected for LAB
-            );
-        }
-        $this->updateMedicalTests();
-        $this->dispatch('initSelect2');
-        $this->dispatch('reRenderSelect2');
+        $ids = $this->listMedicalTests;
+        $this->syncTestsForType(
+            $this->medicalExamination,
+            $this->type->value,
+            $ids,  // array of IDs the user selected for LAB
+        );
     }
 
+    /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     * @throws Throwable
+     */
+    /*#[NoReturn]
+    public function saveMedicalTestDetails($id): void
+    {
+        // Validate only this row
+        $this->validate([
+            "listMedicalTestsValues.$id.value" => ['nullable', 'string', 'max:255'],
+            "listMedicalTestsValues.$id.file" => ['nullable', 'file', 'max:5120', 'mimes:pdf,jpg,jpeg,png'],
+        ]);
+        $row = $this->listMedicalTestsValues[$id];
+        if (!empty($row['file'])) {
+            $medicalTestExamination = MedicalExaminationMedicalTest::query()
+                ->find($id);
+            $medicalTestExamination
+                ->addMedia($row['file'])
+                ->toMediaCollection('attachment');
+            $medicalTestExamination->value = $row['value'];
+            $medicalTestExamination->save();
+        }
+
+        $this->dispatch('toast', type: 'success', message: 'Saved & replaced file if existed ✅');
+    }*/
     /**
      * @throws Throwable
      */
@@ -98,44 +106,28 @@ class MedicalTestsLivewire extends Component
         });
     }
 
-    public function updateMedicalTests(): void
+    public function mount(MedicalExamination $medicalExamination): void
     {
-        $this->listMedicalTests = MedicalExaminationMedicalTest::query()
-            ->whereHas('medicalTest', function ($query) {
-                $query->where('type', $this->type)->where('medical_examination_id', $this->medicalExamination->id);
-            })->get();
-    }
-
-    /**
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     */
-    #[NoReturn]
-    public function saveMedicalTestDetails($id): void
-    {
-        // Validate only this row
-        $this->validate([
-            "listMedicalTestsValues.$id.value" => ['nullable', 'string', 'max:255'],
-            "listMedicalTestsValues.$id.file" => ['nullable', 'file', 'max:5120', 'mimes:pdf,jpg,jpeg,png'],
-        ]);
-        $row = $this->listMedicalTestsValues[$id];
-        if (!empty($row['file'])) {
-            $medicalTestExamination = MedicalExaminationMedicalTest::query()
-                ->find($id);
-            $medicalTestExamination
-                ->addMedia($row['file'])
-                ->toMediaCollection('attachment');
-            $medicalTestExamination->value = $row['value'];
-            $medicalTestExamination->save();
+        $this->medicalExamination = $medicalExamination;
+        if ($this->type == MedicalTestTypeEnum::LABORATORY_TESTS) {
+            $medicalTests = MedicalTest::getLaboratorySelect2();
+        } else {
+            $medicalTests = MedicalTest::getRadiologySelect2();
         }
-
-        $this->dispatch('toast', type: 'success', message: 'Saved & replaced file if existed ✅');
+        $addedMedicalTests = $this->medicalExamination->medicalTests->where(
+            'type',
+            $this->type,
+        )->pluck('id')->toArray();
+        $this->medicalTests = $medicalTests;
+        $this->addedMedicalTests = $addedMedicalTests;
+        $this->listMedicalTests = array_map('strval', $addedMedicalTests);
+        $this->componentName = 'MedicalTestsLivewire'.$this->type->label();
     }
 
     /**
      * @throws Throwable
      */
-    #[On('radiologyTestsUpdated')]
+    /*#[On('radiologyTestsUpdated')]
     public function radiologyTestsUpdated($value): void
     {
         $this->addedMedicalTests[] = $value;
@@ -155,37 +147,13 @@ class MedicalTestsLivewire extends Component
         $this->updateMedicalTests();
         $this->dispatch('initSelect2');
         $this->dispatch('reRenderSelect2');
-    }
-
-    public function mount(MedicalExamination $medicalExamination): void
+    }*/
+    public function updateMedicalTests(): void
     {
-        $this->medicalExamination = $medicalExamination;
-        if ($this->type == MedicalTestTypeEnum::LABORATORY_TESTS) {
-            $addedMedicalTests = $this->medicalExamination->medicalTests->where(
-                'type',
-                MedicalTestTypeEnum::LABORATORY_TESTS,
-            )->pluck('id')->toArray();
-            $medicalTests = MedicalTest::getLaboratorySelect2();
-            $this->onChangeEvent = 'laboratoryTestsUpdated';
-        } else {
-            $this->onChangeEvent = 'radiologyTestsUpdated';
-            $addedMedicalTests = $this->medicalExamination->medicalTests->where(
-                'type',
-                MedicalTestTypeEnum::RADIOLOGY_TESTS,
-            )->pluck('id')->toArray();
-            $medicalTests = MedicalTest::getRadiologySelect2();
-        }
-        $this->medicalTests = $medicalTests;
-        $this->addedMedicalTests = $addedMedicalTests;
-        $this->addValueToSelect2($this->name, $this->addedMedicalTests, true);
-        $this->updateMedicalTests();
-        foreach ($this->listMedicalTests as $test) {
-            $this->listMedicalTestsValues[$test->id] = [
-                'value' => $test->value ?? '',
-                'file' => $test->pivot?->getMedia('attachment')?->first()?->getUrl() ?? null,
-            ];
-        }
-        $this->componentName = 'MedicalTestsLivewire'.$this->type->label();
+        $this->listMedicalTests = MedicalExaminationMedicalTest::query()
+            ->whereHas('medicalTest', function ($query) {
+                $query->where('type', $this->type)->where('medical_examination_id', $this->medicalExamination->id);
+            })->get();
     }
 
     public function render(): Factory|View

@@ -30,6 +30,7 @@ class MedicalExaminationRequest extends FormRequest
                     ),
             ],
             'reason_of_visiting' => ['required', 'string', 'max:255'],
+            'medical_Story' => ['required', 'string', 'max:255'],
             'clinical_examination' => ['required', 'string'],
             'impression' => ['required', 'string', 'max:255'],
             'request_for_action' => ['nullable', 'string', 'max:255'],

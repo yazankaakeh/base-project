@@ -1,6 +1,6 @@
 <div>
     @if(isset($label))
-        <label class="form-label" for="{{$id}}">
+        <label class="{{$type == 'checkbox' ? 'form-check-label' : 'form-label'}} {{$class}}" for="{{$id}}">
             @if(!empty($labelValue))
                 {{trans($label,$labelValue )}}
             @else
@@ -9,11 +9,14 @@
 
         </label>
     @endif
-    
+
     <input type="{{$type}}" name="{{$name}}" id="{{$id}}" {{$multiple}}
-    class="form-control {{$class ?? ''}}"
+    class="{{$type == 'checkbox' ? 'form-check-label' : 'form-control'}}  {{$class ?? ''}}"
            @if($model)
                wire:model="{{ $model }}"
+           @endif
+           @if($checked)
+               checked
            @endif
 
            @if($modelSearch)

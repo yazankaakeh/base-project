@@ -155,9 +155,10 @@
                                 <thead>
                                 <tr>
                                     <th>{{trans('doctor::doctor.medicalExaminations.drugName')}}</th>
+                                    <th>{{trans('doctor::doctor.medicalExaminations.dose')}}</th>
+                                    <th>{{trans('doctor::doctor.medicalExaminations.dosage')}}</th>
                                     <th>{{trans('doctor::doctor.medicalExaminations.howToDrink')}}</th>
-                                    <th>{{trans('doctor::doctor.medicalExaminations.repetition')}}</th>
-                                    <th>{{trans('doctor::doctor.medicalExaminations.number')}}</th>
+                                    <th>{{trans('doctor::doctor.medicalExaminations.duration')}}</th>
                                     <th>{{trans('doctor::doctor.medicalExaminations.note')}}</th>
                                 </tr>
                                 </thead>
@@ -165,9 +166,10 @@
                                 @foreach($medicalExam->medicines as $medicine)
                                     <tr>
                                         <td>{{$medicine->name}}</td>
-                                        <td>{{$medicine->pivot->type}}</td>
+                                        <td>{{$medicine->pivot->dose}}</td>
                                         <td>{{$medicine->pivot->dosage}}</td>
-                                        <td>{{$medicine->pivot->count}}</td>
+                                        <td>{{$medicine->pivot->type}}</td>
+                                        <td>{{$medicine->pivot->duration}}</td>
                                         <td>{{$medicine->pivot->note}}</td>
                                     </tr>
                                 @endforeach

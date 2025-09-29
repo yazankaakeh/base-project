@@ -124,12 +124,13 @@ return [
         'medicines' => 'معلومات الأدوية',
 
         'drugName' => 'اسم الدواء',
-        'repetition' => 'الجرعة',
-        'ss' => 'العيار',
+        'dosage' => 'الجرعة',
+        'dose' => 'العيار',
+        'duration' => 'مدة الاستعمال',
         'howToDrink' => 'طريقة الاستخدام',
-        'number' => 'مدة الاستعمال',
         'note' => 'ملاحظة',
         'medicalStory' => 'القصة المرضية',
+        'addMedicalTest' => 'إضافة الفحوصات الطبية',
 
         'value' => 'القيمة :name',
         'file' => 'الملف :name',

@@ -18,8 +18,9 @@
                 <div class="row my-3">
                     <x-core::textarea label="doctor::doctor.medicalExaminations.medicalStory"
                                       required=""
-                                      id="note" name="note" :value="old('note',$medicalExamination->note)"
-                                      type="text" model="note">
+                                      id="medical_Story" name="medical_Story"
+                                      :value="old('medical_Story',$medicalExamination->medical_Story)"
+                                      type="text" model="medical_Story">
                     </x-core::textarea>
                 </div>
                 <div class="row my-3">

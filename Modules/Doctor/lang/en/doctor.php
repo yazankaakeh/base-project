@@ -125,12 +125,14 @@ return [
         'medicines' => 'Medicines Info',
 
         'drugName' => 'Drug name',
-        'repetition' => 'Repetition',
-        'ss' => 'Dose',
+        'dosage' => 'Repetition',
+        'dose' => 'Dose',
         'howToDrink' => 'How to drink',
-        'number' => 'Duration',
+        'duration' => 'Duration',
         'note' => 'Note',
         'medicalStory' => 'Medical Story',
+
+        'addMedicalTest' => 'Add Medical Test',
 
         'value' => 'Value :name',
         'file' => 'File :name',

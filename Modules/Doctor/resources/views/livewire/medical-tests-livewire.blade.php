@@ -1,4 +1,4 @@
-<div wire:ignore.self data-livewire="{{$componentName}}">
+<div data-livewire="{{$componentName}}">
     <div class="card">
         <div class="card-header d-flex justify-content-between pb-2 mb-1">
             <h5 class="">{{$title}}</h5>
@@ -9,70 +9,61 @@
         </div>
         <div class="card-body">
             <div class="card-content">
-                <div class="row" wire:ignore>
-                    <x-core::select
-                            :label="$title"
-                            :placeholder="$title"
-                            :id="$name"
-                            :name="$name"
-                            :model="$name"
-                            required="required"
-                            :multiple="true"
-                            :onChangeEvent="$onChangeEvent"
-                            :onChange="$onChangeEvent"
-                            :options="$medicalTests"
-                            :values="$addedMedicalTests">
-                    </x-core::select>
-                </div>
 
-                {{--@foreach($listMedicalTests as $medicalTest)
+                <button data-bs-toggle="modal" data-bs-target="#{{$name}}"
+                        class="btn btn-instagram rounded-pill">
+                    {{trans('doctor::doctor.medicalExaminations.addMedicalTest')}}
+                    <i class="ti icon-base tabler-plus"></i>
+                </button>
 
-                    <div class="row my-3" wire:key="row-{{ $medicalTest->id }}">
-                        --}}{{--<div class="col-5 mx-0 px-0">
-                            @php
-                                $label = str(__('doctor::doctor.medicalExaminations.value', ['medicalTest' => $medicalTest->name]));
-                            @endphp
-                            <x-core::input
-                                    label="doctor::doctor.medicalExaminations.value"
-                                    :labelValue="['name' => $medicalTest->medicalTest->name]"
-                                    id="listMedicalTestsValues.{{ $medicalTest->id }}.value"
-                                    name="listMedicalTestsValues.{{ $medicalTest->id }}.value"
-                                    model="listMedicalTestsValues.{{ $medicalTest->id }}.value"
-                                    type="text"
-                                    required="required"
-                                    value="{{ $listMedicalTestsValues[$medicalTest->id]['value'] ?? null }}"
-                            />
-                        </div>--}}{{--
-                        <div class="col mx-0 me-1 px-0">
-                            <x-core::input
-                                    wire:key="debug-file-{{ $medicalTest->id }}"
-                                    label="doctor::doctor.medicalExaminations.file"
-                                    :labelValue="['name' => $medicalTest->medicalTest->name]"
-                                    id="listMedicalTestsValues.{{$medicalTest->id}}.file"
-                                    name="listMedicalTestsValues.{{$medicalTest->id}}.file"
-                                    model="listMedicalTestsValues.{{$medicalTest->id}}.file"
-                                    type="file"
-                                    required="required"
-                                    value="{{$listMedicalTestsValues[$medicalTest->id]['value'] ?? null}}">
-                            </x-core::input>
-                        </div>
-                        <div class="col text-end mx-0 px-0">
-                            <button type="button" wire:click="saveMedicalTestDetails({{$medicalTest->id}})"
-                                    class="btn mt-7 btn-sm btn-icon btn-primary">
-                                <i class="ti icon-base tabler-progress-check"></i>
-                            </button>
-                            @if($medicalTest->getMedia('attachment')?->first()?->getUrl())
-                                <a href="{{$medicalTest->getMedia('attachment')?->first()?->getUrl()}}"
-                                   target="_blank"
-                                   class="btn mt-7 btn-sm btn-icon btn-info">
-                                    <i class="ti icon-base tabler-eye"></i>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                @endforeach--}}
 
             </div>
         </div>
     </div>
+
+    <div class="modal modal-lg fade" wire:ignore.self id="{{$name}}" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{trans('doctor::doctor.modalUploadFile.title')}}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row my-3">
+                        @foreach($medicalTests as $index => $medicalTest)
+                            @php
+                                $checked = in_array($index, $addedMedicalTests);
+                            @endphp
+                            <div class="col-lg-4 my-4 col-md-4 col-sm-12">
+                                <x-core::input
+                                        :label="$medicalTest"
+                                        :class="$checked ? 'text-success' : 'text-danger'"
+                                        id="listMedicalTests_{{$index}}"
+                                        name="listMedicalTests[]"
+
+                                        model="listMedicalTests"
+                                        type="checkbox"
+                                        value="{{$index}}"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                        {{trans('doctor::doctor.cancel')}}
+                    </button>
+                    <button type="submit" wire:click="submit()" class="btn btn-primary">
+                        {{trans('doctor::doctor.save')}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
