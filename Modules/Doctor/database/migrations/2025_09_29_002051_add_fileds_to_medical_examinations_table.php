@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('medical_examination_medicine', function (Blueprint $table) {
-            $table->longText('medical_Story')->nullable();
+            $table->longText('medical_story')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('medical_examination_medicine', function (Blueprint $table) {
-            $table->dropColumn('medical_Story');
+            $table->dropColumn('medical_story');
         });
     }
 };

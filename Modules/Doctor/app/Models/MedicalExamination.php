@@ -34,6 +34,7 @@ class MedicalExamination extends Model implements HasMedia
         'clinical_examination',
         'impression',
         'request_for_action',
+        'medical_story',
         'note',
         'status',
     ];
