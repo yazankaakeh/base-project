@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('medical_examination_medicine', function (Blueprint $table) {
+        Schema::table('medical_examinations', function (Blueprint $table) {
             $table->longText('medical_story')->nullable();
         });
     }
