@@ -12,7 +12,7 @@
             <i class="ti icon-base tabler-eye"></i>
         </a>
         <p class="mx-3 my-2">
-            {{Str::limit($file->getCustomProperty('original_name'), 35)}}
+            {{Str::limit($file->getCustomProperty('original_name'), 20)}}
         </p>
     </div>
 
