@@ -65,6 +65,7 @@ return [
         'medicalTest' => 'الفحوصات الطبية',
         'vitalSign' => 'العلامات الحيوية',
         'finalDiagnosis' => 'التشخيص النهائي',
+        'dosageForm' => 'شكل الجرعة',
         'medicine' => 'الأدوية',
         'medicalSpecialty' => 'التخصصات الطبية',
         'dashboard' => 'لوحة التحكم',

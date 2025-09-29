@@ -71,6 +71,7 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
         'medicalTest' => 'Medical Test',
         'vitalSign' => 'Vital Sign',
         'finalDiagnosis' => 'Final Diagnosis',
+        'dosageForm' => 'Dosage Form',
         'medicine' => 'Medicine',
         'medicalSpecialty' => 'Medical Specialty',
         'dashboard' => 'Dashboard',
