@@ -10,7 +10,6 @@ use Livewire\WithFileUploads;
 use Modules\Core\app\Traits\OptimizeLivewireTrait;
 use Modules\Doctor\Enums\MedicalTestTypeEnum;
 use Modules\Doctor\Models\MedicalExamination;
-use Modules\Doctor\Models\MedicalExaminationMedicalTest;
 use Modules\Doctor\Models\MedicalTest;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -42,6 +41,7 @@ class MedicalTestsLivewire extends Component
             $this->type->value,
             $ids,  // array of IDs the user selected for LAB
         );
+        $this->updateMedicalTests();
     }
 
     /**
@@ -106,22 +106,13 @@ class MedicalTestsLivewire extends Component
         });
     }
 
-    public function mount(MedicalExamination $medicalExamination): void
+
+    public function updateMedicalTests(): void
     {
-        $this->medicalExamination = $medicalExamination;
-        if ($this->type == MedicalTestTypeEnum::LABORATORY_TESTS) {
-            $medicalTests = MedicalTest::getLaboratorySelect2();
-        } else {
-            $medicalTests = MedicalTest::getRadiologySelect2();
-        }
-        $addedMedicalTests = $this->medicalExamination->medicalTests->where(
+        $this->addedMedicalTests = $this->medicalExamination->medicalTests->where(
             'type',
             $this->type,
-        )->pluck('id')->toArray();
-        $this->medicalTests = $medicalTests;
-        $this->addedMedicalTests = $addedMedicalTests;
-        $this->listMedicalTests = array_map('strval', $addedMedicalTests);
-        $this->componentName = 'MedicalTestsLivewire'.$this->type->label();
+        );
     }
 
     /**
@@ -148,12 +139,22 @@ class MedicalTestsLivewire extends Component
         $this->dispatch('initSelect2');
         $this->dispatch('reRenderSelect2');
     }*/
-    public function updateMedicalTests(): void
+    public function mount(MedicalExamination $medicalExamination): void
     {
-        $this->listMedicalTests = MedicalExaminationMedicalTest::query()
-            ->whereHas('medicalTest', function ($query) {
-                $query->where('type', $this->type)->where('medical_examination_id', $this->medicalExamination->id);
-            })->get();
+        $this->medicalExamination = $medicalExamination;
+        if ($this->type == MedicalTestTypeEnum::LABORATORY_TESTS) {
+            $medicalTests = MedicalTest::getLaboratorySelect2();
+        } else {
+            $medicalTests = MedicalTest::getRadiologySelect2();
+        }
+        $addedMedicalTests = $this->medicalExamination->medicalTests->where(
+            'type',
+            $this->type,
+        );
+        $this->medicalTests = $medicalTests;
+        $this->addedMedicalTests = $addedMedicalTests;
+        $this->listMedicalTests = array_map('strval', $addedMedicalTests->pluck('id')->toArray());
+        $this->componentName = 'MedicalTestsLivewire'.$this->type->label();
     }
 
     public function render(): Factory|View

@@ -42,9 +42,10 @@ class MedicalExamination extends Model implements HasMedia
         'status' => MedicalExaminationStatusEnum::class,
     ];
 
-    public static function patientMedicalExaminations($patientId): Builder
+    public static function patientMedicalExaminationsWithoutId($patientId, $id = null): Builder
     {
         return self::query()->where('patient_id', $patientId)
+            ->when($id ?? null, fn($q, $v) => $q->whereNot('id', $v))
             ->with('vitalSigns')
             ->with('medicines')
             ->with('medicalTests')

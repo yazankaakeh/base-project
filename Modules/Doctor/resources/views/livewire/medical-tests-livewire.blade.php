@@ -9,7 +9,16 @@
         </div>
         <div class="card-body">
             <div class="card-content">
-
+                <div class="row mb-4">
+                    @foreach($addedMedicalTests as $index => $medicalTest)
+                        <div class="col-auto">
+                            <button class="btn m-2 btn-outline-primary waves-effect">
+                                
+                                {{$medicalTest->name}}
+                            </button>
+                        </div>
+                    @endforeach
+                </div>
                 <button data-bs-toggle="modal" data-bs-target="#{{$name}}"
                         class="btn btn-instagram rounded-pill">
                     {{trans('doctor::doctor.medicalExaminations.addMedicalTest')}}
@@ -36,12 +45,12 @@
                     <div class="row my-3">
                         @foreach($medicalTests as $index => $medicalTest)
                             @php
-                                $checked = in_array($index, $addedMedicalTests);
+                                $checked = in_array($index, $listMedicalTests);
                             @endphp
                             <div class="col-lg-4 my-4 col-md-4 col-sm-12">
                                 <x-core::input
                                         :label="$medicalTest"
-                                        :class="$checked ? 'text-success' : 'text-danger'"
+                                        :class="$checked ? 'text-success' : 'text-body'"
                                         id="listMedicalTests_{{$index}}"
                                         name="listMedicalTests[]"
 

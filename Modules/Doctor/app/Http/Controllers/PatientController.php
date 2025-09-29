@@ -67,7 +67,7 @@ class PatientController extends Controller
             ->with('clinics')
             ->with('finalDiagnosis')
             ->first();
-        $medicalExaminations = MedicalExamination::patientMedicalExaminations($id)->get();
+        $medicalExaminations = MedicalExamination::patientMedicalExaminationsWithoutId($id)->get();
         return view('doctor::doctor.patients.show', compact('patient', 'medicalExaminations'));
     }
 

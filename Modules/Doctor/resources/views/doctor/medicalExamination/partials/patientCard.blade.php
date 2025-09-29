@@ -38,12 +38,11 @@
             </div>
             <div class="d-flex align-items-center gap-4">
                 <div class="avatar">
-                    <div class="avatar-initial bg-label-primary rounded">
-                        <i class="icon-base ti tabler-briefcase icon-lg"></i>
-                    </div>
-                </div>
-                <div>
-                    <h5 class="mb-0">{{$patient->work}}</h5>
+                    <a target="_blank" href="{{route('doctor.patients.show',['id'=> $patient->id])}}">
+                        <div class="avatar-initial bg-label-primary rounded">
+                            <i class="icon-base ti tabler-eye icon-lg"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -111,6 +110,10 @@
                 <li class="mb-2">
                     <span class="h6">{{trans('doctor::doctor.patients.children')}}:</span>
                     <span>{{$patient->children}}</span>
+                </li>
+                <li class="mb-2">
+                    <span class="h6">{{trans('doctor::doctor.patients.work')}}:</span>
+                    <span>{{$patient->work}}</span>
                 </li>
                 <li class="mb-2">
                     <span class="h6 text-{{$patient->blood_type->class()}}">{{trans('doctor::doctor.patients.blood_type')}}:</span>
