@@ -61,7 +61,7 @@ $page = 'sales-dashboard'; ?>
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
                             <h5 class="">{{trans('customer.sidebar.finalDiagnosis')}}</h5>
                             <h5 class="">
-                                @can('doctor.vitalSign.store')
+                                @can('doctor.finalDiagnosis.store')
                                     <button type="button"
                                             data-bs-toggle="modal" data-bs-target="#storeModalFinalDiagnosis"
                                             class="btn btn-primary">
@@ -93,7 +93,7 @@ $page = 'sales-dashboard'; ?>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
-                                                        @can('doctor.medicalTest.update')
+                                                        @can('doctor.finalDiagnosis.update')
                                                             <a type="button" data-bs-toggle="modal"
                                                                data-bs-target="#editModal"
                                                                class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"

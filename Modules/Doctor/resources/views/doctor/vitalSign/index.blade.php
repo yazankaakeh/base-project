@@ -93,7 +93,7 @@ $page = 'sales-dashboard'; ?>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action">
-                                                        @can('doctor.medicalTest.update')
+                                                        @can('doctor.vitalSign.update')
                                                             <a type="button" data-bs-toggle="modal"
                                                                data-bs-target="#editModal"
                                                                class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"
