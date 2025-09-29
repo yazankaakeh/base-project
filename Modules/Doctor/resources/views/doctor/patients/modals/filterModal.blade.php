@@ -122,10 +122,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        {{trans('usermanagement::user_management.close')}}
+                        {{trans('doctor::doctor.close')}}
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        {{trans('usermanagement::user_management.save')}}
+                        {{trans('doctor::doctor.submit')}}
                     </button>
                 </div>
             </div>

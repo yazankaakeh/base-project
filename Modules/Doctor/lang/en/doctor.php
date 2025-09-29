@@ -96,6 +96,11 @@ return [
         'createFinalDiagnosis' => 'Create Final Diagnosis',
         'updateFinalDiagnosis' => 'Update Final Diagnosis',
     ],
+    'dosageForm' => [
+        'name' => 'Dosage Form name',
+        'create' => 'Create Dosage Form',
+        'update' => 'Update Dosage Form',
+    ],
     'medicalSpecialty' => [
         'name' => 'Medical specialty Name',
         'name en' => 'Medical specialty Name',

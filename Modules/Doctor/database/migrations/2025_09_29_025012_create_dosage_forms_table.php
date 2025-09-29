@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('final_diagnoses', function (Blueprint $table) {
+        Schema::create('dosage_forms', function (Blueprint $table) {
             $table->id();
             $table->json('name');
             $table->boolean('is_active');
@@ -23,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('final_diagnoses');
+        Schema::dropIfExists('dosage_forms');
     }
 };

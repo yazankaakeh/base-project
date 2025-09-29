@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Doctor\Http\Controllers\ClinicController;
 use Modules\Doctor\Http\Controllers\DashboardController;
+use Modules\Doctor\Http\Controllers\DosageFormController;
 use Modules\Doctor\Http\Controllers\FinalDiagnosisController;
 use Modules\Doctor\Http\Controllers\MedicalExaminationController;
 use Modules\Doctor\Http\Controllers\MedicalSpecialtyController;
@@ -101,6 +102,21 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         );
         Route::post('/finalDiagnosis/update', [FinalDiagnosisController::class, 'update'])->name(
             'finalDiagnosis.update',
+        );
+
+        Route::get('/dosageForm', [DosageFormController::class, 'index'])
+            ->name(
+                'dosageForm.index',
+            );
+        Route::post('/dosageForm/store', [DosageFormController::class, 'store'])
+            ->name(
+                'dosageForm.store',
+            );
+        Route::post(
+            '/dosageForm/update',
+            [DosageFormController::class, 'update'],
+        )->name(
+            'dosageForm.update',
         );
 
         Route::get(

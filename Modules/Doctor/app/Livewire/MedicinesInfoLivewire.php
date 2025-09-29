@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 use Livewire\Component;
 use Modules\Core\app\Traits\OptimizeLivewireTrait;
+use Modules\Doctor\Models\DosageForm;
 use Modules\Doctor\Models\MedicalExamination;
 use Modules\Doctor\Models\MedicalExaminationMedicine;
 use Modules\Doctor\Models\Medicine;
@@ -17,13 +18,14 @@ class MedicinesInfoLivewire extends Component
     public string $componentName = 'MedicinesInfoLivewire';
     public mixed $medicines;
     public mixed $medicinesArray = [0];
+    public mixed $dosageForms;
     public MedicalExamination $medicalExamination;
     public array $medicinesData = [
         [
             'medicine_id' => null,     // required | exists:medicines,id   (select2)
             'dose' => null,     // required | string | max:100
             'dosage' => null,     // required | string | max:255
-            'type' => null,     // required | integer|min:1|max:1000
+            'dosage_form_id' => null,     // required | integer|min:1|max:1000
             'duration' => null,     // nullable | string | max:500
             'note' => null,     // nullable | string | max:500
         ],
@@ -35,7 +37,7 @@ class MedicinesInfoLivewire extends Component
             'medicine_id' => null,
             'dose' => null,
             'dosage' => null,
-            'type' => null,
+            'dosage_form_id' => null,
             'duration' => null,
             'note' => null,
         ];
@@ -49,6 +51,7 @@ class MedicinesInfoLivewire extends Component
         $medicinesData = MedicalExaminationMedicine::query()->where([
             'medical_examination_id' => $this->medicalExamination->id,
         ])->get()->toArray();
+        $this->dosageForms = DosageForm::getDosageFormSelect2();
         if (!empty($medicinesData)) {
             $this->medicinesData = MedicalExaminationMedicine::query()->where([
                 'medical_examination_id' => $this->medicalExamination->id,
@@ -80,7 +83,7 @@ class MedicinesInfoLivewire extends Component
                 'medicine_id' => $row['medicine_id'],
                 'dose' => $row['dose'],
                 'dosage' => $row['dosage'],
-                'type' => $row['type'],
+                'dosage_form_id' => $row['dosage_form_id'],
                 'duration' => $row['duration'],
                 'note' => $row['note'],
             ];
@@ -104,7 +107,7 @@ class MedicinesInfoLivewire extends Component
             'medicinesData.*.medicine_id' => ['required', 'integer', 'exists:medicines,id'],
             'medicinesData.*.dose' => ['required', 'string', 'max:100'],
             'medicinesData.*.dosage' => ['required', 'string', 'max:100'],
-            'medicinesData.*.type' => ['required', 'string', 'max:255'],
+            'medicinesData.*.dosage_form_id' => ['required', 'exists:dosage_forms,id'],
             'medicinesData.*.duration' => ['required', 'string', 'min:1', 'max:1000'],
             'medicinesData.*.note' => ['nullable', 'string', 'max:500'],
         ];

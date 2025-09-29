@@ -36,16 +36,16 @@ class DoctorMenu
                 "url" => "dashboard",
                 "submenu" => [
                     [
-                        "url" => route('doctor.clinic.index'),
-                        "name" => trans("customer.sidebar.clinic"),
-                        "icon" => "menu-icon tf-icons ti tabler-truck",
-                        "slug" => route('doctor.clinic.index'),
-                    ],
-                    [
                         "slug" => route('doctor.patients.index'),
                         "url" => route('doctor.patients.index'),
                         "name" => trans("customer.sidebar.patients"),
                         "icon" => "menu-icon tf-icons ti tabler-truck",
+                    ],
+                    [
+                        "url" => route('doctor.clinic.index'),
+                        "name" => trans("customer.sidebar.clinic"),
+                        "icon" => "menu-icon tf-icons ti tabler-truck",
+                        "slug" => route('doctor.clinic.index'),
                     ],
                     [
                         "slug" => route('doctor.medicalTest.index'),
@@ -57,6 +57,12 @@ class DoctorMenu
                         "slug" => route('doctor.medicine.index'),
                         "url" => route('doctor.medicine.index'),
                         "name" => trans("customer.sidebar.medicine"),
+                        "icon" => "menu-icon tf-icons ti tabler-truck",
+                    ],
+                    [
+                        "slug" => route('doctor.dosageForm.index'),
+                        "url" => route('doctor.dosageForm.index'),
+                        "name" => trans("customer.sidebar.dosageForm"),
                         "icon" => "menu-icon tf-icons ti tabler-truck",
                     ],
                     [

@@ -18,6 +18,7 @@ class DoctorDatabaseSeeder extends Seeder
             //PatientSeeder ::class,
             ClinicSeeder ::class,
             FinalDiagnosisSeeder ::class,
+            DosageFormSeeder ::class,
         ]);
     }
 }

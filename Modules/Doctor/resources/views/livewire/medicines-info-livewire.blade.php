@@ -49,15 +49,17 @@
                                            value="{{old('dosage')}}">
                             </x-core::input>
                         </div>
-                        <div class="col">
-                            <x-core::input label="doctor::doctor.medicalExaminations.howToDrink"
-                                           id="medicinesData.{{$index}}.type"
-                                           name="medicinesData.{{$index}}.type"
-                                           model="medicinesData.{{$index}}.type"
-                                           type="text"
-                                           required="required"
-                                           value="{{old('type')}}">
-                            </x-core::input>
+                        <div class="col-3">
+                            <x-core::select
+                                    :label="trans('doctor::doctor.medicalExaminations.howToDrink')"
+                                    :placeholder="trans('doctor::doctor.medicalExaminations.howToDrink')"
+                                    id="medicinesData.{{$index}}.dosage_form_id"
+                                    name="medicinesData.{{$index}}.dosage_form_id"
+                                    model="medicinesData.{{$index}}.dosage_form_id"
+                                    required="required"
+                                    :options="$dosageForms"
+                                    value="{{old('dosage_form_id')}}">
+                            </x-core::select>
                         </div>
                         <div class="col">
                             <x-core::input label="doctor::doctor.medicalExaminations.duration"

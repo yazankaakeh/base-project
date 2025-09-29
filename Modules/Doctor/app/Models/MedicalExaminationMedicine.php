@@ -15,9 +15,9 @@ class MedicalExaminationMedicine extends Pivot
     protected $fillable = [
         'medicine_id',
         'medical_examination_id',
+        'dosage_form_id',
         'dose',
         'dosage',
-        'type',
         'duration',
         'note',
     ];

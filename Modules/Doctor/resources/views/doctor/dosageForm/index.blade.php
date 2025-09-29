@@ -78,7 +78,7 @@ $page = 'sales-dashboard'; ?>
                                         <thead>
                                         <tr>
                                             <th>{{trans('doctor::doctor.id')}}</th>
-                                            <th>{{trans('doctor::doctor.finalDiagnosis.name')}}</th>
+                                            <th>{{trans('doctor::doctor.dosageForm.name')}}</th>
                                             <th>{{trans('customer.account.status')}}</th>
                                             <th>{{trans('admin.audits.action')}}</th>
                                         </tr>

@@ -3,7 +3,7 @@
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form class="row g-3" enctype="multipart/form-data" id="editUser"
-              action="{{route('doctor.finalDiagnosis.update')}}"
+              action="{{route('doctor.dosageForm.update')}}"
               method="POST">
             @csrf
             @method('POST')
@@ -11,14 +11,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{trans('doctor::doctor.finalDiagnosis.updateFinalDiagnosis')}}
+                        {{trans('doctor::doctor.dosageForm.update')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <x-core::inputMultiLanguageComponent divClass="col-lg-12 col-sm-12 col-md-6 mb-3"
-                                                             label="doctor::doctor.finalDiagnosis.name"
+                                                             label="doctor::doctor.dosageForm.name"
                                                              name="name"
                                                              type="text" id="name"/>
 
@@ -38,10 +38,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        {{trans('usermanagement::user_management.close')}}
+                        {{trans('doctor::doctor.close')}}
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        {{trans('usermanagement::user_management.save')}}
+                        {{trans('doctor::doctor.save')}}
                     </button>
                 </div>
             </div>

@@ -95,6 +95,11 @@ return [
         'createFinalDiagnosis' => 'إضافة تشخيص نهائي',
         'updateFinalDiagnosis' => 'تعديل تشخيص نهائي',
     ],
+    'dosageForm' => [
+        'name' => 'اسم شكل الجرعة',
+        'createFinalDiagnosis' => 'إضافة شكل الجرعة',
+        'updateFinalDiagnosis' => 'تعديل شكل الجرعة',
+    ],
     'medicalSpecialty' => [
         'name' => 'اسم التخصص الطبي',
         'name en' => 'اسم التخصص الطبي بالإنجليزية',
