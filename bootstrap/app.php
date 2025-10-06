@@ -10,8 +10,8 @@ use Modules\Core\App\Http\Middleware\SetLocale;
 use Modules\Doctor\Http\Middleware\DoctorMenu;
 use Modules\UserManagement\app\Http\Middleware\AdminEnabled;
 use Modules\UserManagement\app\Http\Middleware\AuditLogMiddleware;
-use Modules\UserManagement\Http\Middleware\Authenticate;
-use Modules\UserManagement\Http\Middleware\RedirectIfAuthenticated;
+use Modules\UserManagement\App\Http\Middleware\Authenticate;
+use Modules\UserManagement\App\Http\Middleware\RedirectIfAuthenticated;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

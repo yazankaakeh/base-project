@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Core\app\Enum;
+namespace Modules\Core\App\Enum;
 
 use Illuminate\Contracts\Translation\Translator;
 
 enum PrimaryAddressStatus: int
 {
-  case PRIMARY = 1;
-  case NOT_PRIMARY = 0;
+    case PRIMARY = 1;
+    case NOT_PRIMARY = 0;
 
-  public function label(): array|string|Translator
-  {
-    return trans('core::customer.enum.PrimaryAddressStatus.' . $this->value);
-  }
+    public function label(): array|string|Translator
+    {
+        return trans('core::customer.enum.PrimaryAddressStatus.'.$this->value);
+    }
 }
