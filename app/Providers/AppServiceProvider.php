@@ -6,7 +6,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\UserManagement\app\Models\Admin;
+use Modules\AdminManagement\app\Models\Admin;
 
 class AppServiceProvider extends ServiceProvider
 {

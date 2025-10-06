@@ -5,12 +5,15 @@ namespace Modules\Doctor\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Core\App\Enum\Gender;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\app\Models\Address;
 use Modules\Doctor\Database\Factories\DoctorFactory;
+use Modules\Notification\Models\Notification;
+use Modules\Notification\Models\NotificationPushToken;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -79,4 +82,15 @@ class Doctor extends Authenticatable implements HasMedia
             ->fit(Fit::Contain, 300, 300)
             ->nonQueued();
     }
+
+    public function notifications(): MorphTo
+    {
+        return $this->morphTo(Notification::class, 'notifiable');
+    }
+
+    public function pushTokens(): MorphTo
+    {
+        return $this->morphTo(NotificationPushToken::class, 'tokenable');
+    }
+
 }

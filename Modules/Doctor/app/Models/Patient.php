@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Core\App\Enum\Gender;
@@ -17,6 +18,8 @@ use Modules\Core\app\Models\Country;
 use Modules\Doctor\Database\Factories\PatientFactory;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
+use Modules\Notification\Models\Notification;
+use Modules\Notification\Models\NotificationPushToken;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
@@ -196,6 +199,16 @@ class Patient extends Authenticatable implements HasMedia
         return $this
             ->belongsToMany(FinalDiagnosis::class, 'final_diagnosis_patients')
             ->using(FinalDiagnosisPatient::class); // optional
+    }
+
+    public function notifications(): MorphTo
+    {
+        return $this->morphTo(Notification::class, 'notifiable');
+    }
+
+    public function pushTokens(): MorphTo
+    {
+        return $this->morphTo(NotificationPushToken::class, 'tokenable');
     }
 
 }
