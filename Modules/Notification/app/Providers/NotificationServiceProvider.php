@@ -27,15 +27,14 @@ class NotificationServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
-    }
+        $this->publishes([
+            __DIR__.'/../../config/notifications.php' => config_path('notification_firebase.php'),
+        ], 'config');
 
-    /**
-     * Register the service provider.
-     */
-    public function register(): void
-    {
-        $this->app->register(EventServiceProvider::class);
-        $this->app->register(RouteServiceProvider::class);
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/notifications.php',
+            'notification_firebase',
+        );
     }
 
     /**
@@ -129,15 +128,7 @@ class NotificationServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->nameLower);
 
-        Blade::componentNamespace(config('modules.namespace').'\\' . $this->name . '\\View\\Components', $this->nameLower);
-    }
-
-    /**
-     * Get the services provided by the provider.
-     */
-    public function provides(): array
-    {
-        return [];
+        Blade::componentNamespace(config('modules.namespace').'\\'.$this->name.'\\View\\Components', $this->nameLower);
     }
 
     private function getPublishableViewPaths(): array
@@ -150,5 +141,22 @@ class NotificationServiceProvider extends ServiceProvider
         }
 
         return $paths;
+    }
+
+    /**
+     * Register the service provider.
+     */
+    public function register(): void
+    {
+        $this->app->register(EventServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
+    }
+
+    /**
+     * Get the services provided by the provider.
+     */
+    public function provides(): array
+    {
+        return [];
     }
 }

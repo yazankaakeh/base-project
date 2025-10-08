@@ -1,6 +1,6 @@
 <?php
 
-use Modules\Core\App\Enum\Gender;
+use Modules\Core\App\Enums\Gender;
 use Modules\Doctor\Enums\BloodType;
 use Modules\Doctor\Enums\MaritalStatus;
 use Modules\Doctor\Enums\MedicalExaminationStatusEnum;

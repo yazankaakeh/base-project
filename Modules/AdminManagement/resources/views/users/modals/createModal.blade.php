@@ -1,4 +1,4 @@
-@php use Modules\Core\App\Enum\Gender; @endphp
+@php use Modules\Core\App\Enums\Gender; @endphp
 <div class="modal fade" id="storeModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog" role="document">

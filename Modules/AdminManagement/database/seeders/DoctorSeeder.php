@@ -4,12 +4,12 @@ namespace Modules\AdminManagement\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Modules\Core\App\Enum\Gender;
+use Modules\AdminManagement\app\Enums\Roles;
+use Modules\AdminManagement\app\Models\Admin;
+use Modules\Core\App\Enums\Gender;
 use Modules\Doctor\Enums\MedicalSpecialtyCodeEnum;
 use Modules\Doctor\Models\Doctor;
 use Modules\Doctor\Models\MedicalSpecialty;
-use Modules\AdminManagement\app\Enums\Roles;
-use Modules\AdminManagement\app\Models\Admin;
 use Spatie\Permission\Models\Role;
 
 class DoctorSeeder extends Seeder

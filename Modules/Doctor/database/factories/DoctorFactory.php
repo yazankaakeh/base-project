@@ -3,8 +3,8 @@
 namespace Modules\Doctor\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Core\App\Enum\Gender;
 use Modules\Core\App\Enums\ActiveEnum;
+use Modules\Core\App\Enums\Gender;
 use Modules\Doctor\Models\Doctor;
 
 class DoctorFactory extends Factory

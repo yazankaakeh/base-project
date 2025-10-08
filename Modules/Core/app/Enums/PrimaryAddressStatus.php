@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\App\Enum;
+namespace Modules\Core\App\Enums;
 
 use Illuminate\Contracts\Translation\Translator;
 

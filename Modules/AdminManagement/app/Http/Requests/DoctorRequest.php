@@ -4,7 +4,7 @@ namespace Modules\AdminManagement\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
-use Modules\Core\App\Enum\Gender;
+use Modules\Core\App\Enums\Gender;
 
 /**
  * @property mixed $name

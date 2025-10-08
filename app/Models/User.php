@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Modules\Core\App\Enum\Gender;
+use Modules\Core\App\Enums\Gender;
 use Modules\Core\app\Models\Address;
 use Modules\Mps\Enums\User\CompanyVerifiedEnum;
 use Modules\Mps\Enums\User\KVKKVerifyEnum;

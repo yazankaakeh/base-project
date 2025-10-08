@@ -1,4 +1,4 @@
-@php use Modules\Core\App\Enum\Gender;use Modules\Core\App\Enums\ActiveEnum;use Modules\Core\app\Models\Country;use Modules\Doctor\Enums\MaritalStatus;use Modules\Doctor\Enums\BloodType; @endphp
+@php use Modules\Core\App\Enums\Gender;use Modules\Core\App\Enums\ActiveEnum;use Modules\Core\app\Models\Country;use Modules\Doctor\Enums\MaritalStatus;use Modules\Doctor\Enums\BloodType; @endphp
 <div class="modal modal-xl fade" id="storeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
