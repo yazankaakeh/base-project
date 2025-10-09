@@ -5,10 +5,10 @@
             $name = "langs[$language][$name]";
         @endphp
         <label class="form-label" for="{{$id.'_'.$language}}">{{"$label $language"}}</label>
-        <x-blog::inputComponent
+        <x-core::input
                 name="{{$name}}" divClass="form-control" type="{{$type}}" id="{{$id.'_'.$language}}"
                 required='required'>
-        </x-blog::inputComponent>
+        </x-core::input>
     </div>
 @endif
 
@@ -20,9 +20,9 @@
         @endphp
 
         <label class="form-label" for="{{$id.'_'.$lang->value}}">{{trans($label)}} {{$lang->value}}</label>
-        <x-blog::inputComponent type="{{$type}}" name="{{$newName}}" divClass="form-control"
-                                id="{{$id.'_'.$lang->value}}" required='required'>
-        </x-blog::inputComponent>
+        <x-core::input type="{{$type}}" name="{{$newName}}" divClass="form-control"
+                       id="{{$id.'_'.$lang->value}}" required='required'>
+        </x-core::input>
     </div>
 @endforeach
 

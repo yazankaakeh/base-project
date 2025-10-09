@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Notification\app\channels;
+namespace Modules\Notification\App\channels;
 
 
 use Modules\Notification\App\Services\Notifications\WhatsApp;

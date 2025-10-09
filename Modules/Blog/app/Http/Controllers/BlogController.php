@@ -1,11 +1,9 @@
 <?php
 
-namespace Modules\Blog\app\Http\Controllers;
+namespace Modules\Blog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class BlogController extends Controller
 {
@@ -28,10 +26,7 @@ class BlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
+    public function store(Request $request) {}
 
     /**
      * Show the specified resource.
@@ -52,16 +47,10 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
+    public function update(Request $request, $id) {}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-        //
-    }
+    public function destroy($id) {}
 }

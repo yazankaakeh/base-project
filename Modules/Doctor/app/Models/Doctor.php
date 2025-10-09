@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Blog\Traits\HasAuthor;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\App\Enums\Gender;
 use Modules\Core\app\Models\Address;
@@ -35,6 +36,7 @@ class Doctor extends Authenticatable implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use Notifiable;
+    use HasAuthor;
     use HasRoles;
 
     /**

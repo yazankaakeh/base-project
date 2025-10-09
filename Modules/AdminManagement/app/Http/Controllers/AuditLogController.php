@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Http\Controllers;
+namespace Modules\AdminManagement\App\Http\Controllers;
 
 use App\Enum\Pagination;
 use App\Http\Controllers\Controller;

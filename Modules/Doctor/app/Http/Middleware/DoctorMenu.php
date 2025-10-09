@@ -111,38 +111,38 @@ class DoctorMenu
                     ],
                 ],
             ],
-            [
-                "name" => "admin.sidebar.blogs",
-                "icon" => "menu-icon tf-icons ti tabler-smart-home",
-                "slug" => "blog",
-                "url" => "blog",
-                "submenu" => [
-                    [
-                        "url" => route('blogPosts.posts.index'),
-                        "slug" => route('blogPosts.posts.index'),
-                        "name" => trans("admin.sidebar.posts"),
-                        "icon" => "menu-icon tf-icons ti tabler-truck",
-                    ],
-                    [
-                        "url" => route('blogCategory.category.index'),
-                        "slug" => route('blogCategory.category.index'),
-                        "name" => trans("admin.sidebar.categories"),
-                        "icon" => "menu-icon tf-icons ti tabler-book",
-                    ],
-                    [
-                        "url" => route('blogTags.tags.index'),
-                        "slug" => route('blogTags.tags.index'),
-                        "name" => trans("admin.sidebar.tags"),
-                        "icon" => "menu-icon tf-icons ti tabler-book",
-                    ],
-                    [
-                        "url" => route('blogPostType.postType.index'),
-                        "slug" => route('blogPostType.postType.index'),
-                        "name" => trans("admin.sidebar.postType"),
-                        "icon" => "menu-icon tf-icons ti tabler-book",
-                    ],
-                ],
-            ],
+            /* [
+               "name" => "admin.sidebar.blogs",
+               "icon" => "menu-icon tf-icons ti tabler-smart-home",
+               "slug" => "blog",
+               "url" => "blog",
+               "submenu" => [
+                 [
+                       "url" => route('blogPosts.posts.index'),
+                       "slug" => route('blogPosts.posts.index'),
+                       "name" => trans("admin.sidebar.posts"),
+                       "icon" => "menu-icon tf-icons ti tabler-truck",
+                   ],
+                   [
+                       "url" => route('blogCategory.category.index'),
+                       "slug" => route('blogCategory.category.index'),
+                       "name" => trans("admin.sidebar.categories"),
+                       "icon" => "menu-icon tf-icons ti tabler-book",
+                   ],
+                   [
+                       "url" => route('blogTags.tags.index'),
+                       "slug" => route('blogTags.tags.index'),
+                       "name" => trans("admin.sidebar.tags"),
+                       "icon" => "menu-icon tf-icons ti tabler-book",
+                   ],
+                   [
+                       "url" => route('blogPostType.postType.index'),
+                       "slug" => route('blogPostType.postType.index'),
+                       "name" => trans("admin.sidebar.postType"),
+                       "icon" => "menu-icon tf-icons ti tabler-book",
+                   ],
+               ],
+           ],*/
 
         ];
     }

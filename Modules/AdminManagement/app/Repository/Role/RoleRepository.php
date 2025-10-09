@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\AdminManagement\app\Repository\Role;
+namespace Modules\AdminManagement\Repository\Role;
 
 use App\Enum\Pagination;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use LaravelIdea\Helper\Spatie\Permission\Models\_IH_Permission_C;
-use Modules\AdminManagement\app\Http\Requests\PermissionsRequest;
+use Modules\AdminManagement\Http\Requests\PermissionsRequest;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 

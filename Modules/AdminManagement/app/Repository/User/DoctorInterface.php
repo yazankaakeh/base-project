@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\AdminManagement\app\Repository\User;
+namespace Modules\AdminManagement\Repository\User;
 
-use Modules\AdminManagement\app\Http\Requests\DoctorRequest;
-use Modules\AdminManagement\app\Http\Requests\UpdateDoctorRequest;
-use Modules\AdminManagement\app\Http\Requests\UpdateStatusAminRequest;
+use Modules\AdminManagement\Http\Requests\DoctorRequest;
+use Modules\AdminManagement\Http\Requests\UpdateDoctorRequest;
+use Modules\AdminManagement\Http\Requests\UpdateStatusAminRequest;
 
 interface DoctorInterface
 {

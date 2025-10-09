@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Http\Middleware;
+namespace Modules\AdminManagement\Http\Middleware;
 
 use App\Models\User;
 use Carbon\Carbon;

@@ -7,12 +7,12 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Modules\AdminManagement\Http\Requests\DoctorRequest;
+use Modules\AdminManagement\Http\Requests\UpdateDoctorRequest;
+use Modules\AdminManagement\Http\Requests\UpdateStatusAminRequest;
+use Modules\AdminManagement\Repository\User\DoctorInterface;
+use Modules\AdminManagement\Repository\User\DoctorRepository;
 use Modules\Doctor\Models\MedicalSpecialty;
-use Modules\AdminManagement\app\Http\Requests\DoctorRequest;
-use Modules\AdminManagement\app\Http\Requests\UpdateDoctorRequest;
-use Modules\AdminManagement\app\Http\Requests\UpdateStatusAminRequest;
-use Modules\AdminManagement\app\Repository\User\DoctorInterface;
-use Modules\AdminManagement\app\Repository\User\DoctorRepository;
 
 class UserManagementController extends Controller
 {

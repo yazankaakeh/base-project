@@ -1,5 +1,5 @@
 <?php
 
-namespace Modules\AdminManagement\app\Repository\Role;
+namespace Modules\AdminManagement\Repository\Role;
 
 interface RoleInterface {}

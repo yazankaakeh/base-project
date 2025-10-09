@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Action\Auditing;
+namespace Modules\AdminManagement\App\Action\Auditing;
 
 use Illuminate\Support\Facades\Route;
 use JetBrains\PhpStorm\ArrayShape;

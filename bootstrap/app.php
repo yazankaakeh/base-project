@@ -3,15 +3,15 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Modules\AdminManagement\Http\Middleware\AdminEnabled;
+use Modules\AdminManagement\Http\Middleware\AuditLogMiddleware;
+use Modules\AdminManagement\Http\Middleware\Authenticate;
+use Modules\AdminManagement\Http\Middleware\RedirectIfAuthenticated;
 use Modules\Core\App\Http\Middleware\AdminPermissionsMiddleware;
 use Modules\Core\app\Http\Middleware\ComingSoon;
 use Modules\Core\App\Http\Middleware\SetApiLocale;
 use Modules\Core\App\Http\Middleware\SetLocale;
 use Modules\Doctor\Http\Middleware\DoctorMenu;
-use Modules\AdminManagement\app\Http\Middleware\AdminEnabled;
-use Modules\AdminManagement\app\Http\Middleware\AuditLogMiddleware;
-use Modules\AdminManagement\App\Http\Middleware\Authenticate;
-use Modules\AdminManagement\App\Http\Middleware\RedirectIfAuthenticated;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

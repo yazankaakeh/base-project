@@ -8,9 +8,9 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Modules\AdminManagement\app\Http\Requests\PermissionsRequest;
-use Modules\AdminManagement\app\Repository\Role\RoleInterface;
-use Modules\AdminManagement\app\Repository\Role\RoleRepository;
+use Modules\AdminManagement\Http\Requests\PermissionsRequest;
+use Modules\AdminManagement\Repository\Role\RoleInterface;
+use Modules\AdminManagement\Repository\Role\RoleRepository;
 
 class RoleManagementController extends Controller
 {

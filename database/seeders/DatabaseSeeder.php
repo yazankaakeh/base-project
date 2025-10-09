@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\AdminManagement\database\seeders\AdminManagementDatabaseSeeder;
 use Modules\Core\database\seeders\CoreDatabaseSeeder;
 use Modules\Doctor\Database\Seeders\DoctorDatabaseSeeder;
-use Modules\AdminManagement\database\seeders\UserManagementDatabaseSeeder;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UserManagementDatabaseSeeder::class,
+            AdminManagementDatabaseSeeder::class,
             CoreDatabaseSeeder::class,
             DoctorDatabaseSeeder::class,
         ]);

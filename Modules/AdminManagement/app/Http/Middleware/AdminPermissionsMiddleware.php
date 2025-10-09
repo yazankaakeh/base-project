@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Http\Middleware;
+namespace Modules\AdminManagement\Http\Middleware;
 
 use Closure;
 use Closure as ClosureAlias;
