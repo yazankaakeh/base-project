@@ -16,6 +16,7 @@ return [
         'create_title' => 'Create Category',
         'edit_title' => 'Edit Category',
         'title' => 'Category Title',
+        'image' => 'Category Image',
         'description' => 'Category Description',
     ],
     'post' => [
@@ -23,7 +24,9 @@ return [
         'create_title' => 'Create Post',
         'update_title' => 'Update Post',
         'title' => 'Post Title',
+        'image' => 'Post Image',
         'description' => 'Post Description',
         'type' => 'Post Type',
+        'relatedPost' => 'Related Post',
     ],
 ];

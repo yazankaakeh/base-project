@@ -48,7 +48,6 @@ $page = 'sales-dashboard'; ?>
             'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
             'resources/assets/vendor/libs/@form-validation/auto-focus.js'],
             'build/modules/theme')
-
 @endsection
 
 <!-- Page Scripts -->
@@ -74,24 +73,19 @@ $page = 'sales-dashboard'; ?>
                                                     aria-controls="navs-tab-home" aria-selected="true">{{$lang}}
                                             </button>
                                         </li>
-
                                     @endforeach
-
                                 </ul>
                             </div>
                         </div>
-
                         <div class="tab-content mt-3 p-0">
                             @foreach(LanguageEnum::values() as $lang)
                                 <div class="tab-pane fade {{$lang == app()->getLocale() ? 'active show': ''}}"
                                      id="navs-tab-{{$lang}}" role="tabpanel">
-
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h5 class="mb-1">{{$lang}}</h5>
-
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="row">
@@ -140,12 +134,45 @@ $page = 'sales-dashboard'; ?>
                                         </div>
                                         <div class="col-3">
                                             @includeIf('seo::partials.create_seo')
+                                            <div class="card my-3">
+                                                <div class="card-header">
+                                                    <h5 class="mb-1">{{trans('blog::blog.post.image')}}</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <x-core::input label="blog::blog.post.image"
+                                                                   type="file"
+                                                                   name="image"
+                                                                   id="image">
+
+                                                    </x-core::input>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
                                 </div>
                             @endforeach
-
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="card my-3">
+                                        <div class="card-header">
+                                            <h5 class="mb-1">{{trans('blog::blog.post.relatedPost')}}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <x-core::select
+                                                    :label="trans('blog::blog.post.relatedPost')"
+                                                    :placeholder="trans('blog::blog.post.relatedPost')"
+                                                    id="relatedPosts[]"
+                                                    name="relatedPosts[]"
+                                                    required="required"
+                                                    multiple="true"
+                                                    :options="PostTypeEnum::getAllEnumValuesKeysLabel()"
+                                                    value="">
+                                            </x-core::select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
