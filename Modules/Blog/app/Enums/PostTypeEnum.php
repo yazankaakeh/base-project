@@ -12,6 +12,7 @@ enum PostTypeEnum: int
     case PUBLISHED = 1;
     case DRAFT = 2;
     case PENDING = 3;
+    case FEATURED = 4;
 
     public function label(): string
     {

@@ -9,6 +9,7 @@ return [
             PostTypeEnum::PUBLISHED->value => 'Published',
             PostTypeEnum::DRAFT->value => 'Draft',
             PostTypeEnum::PENDING->value => 'Pending',
+            PostTypeEnum::FEATURED->value => 'Featured',
         ],
     ],
     'category' => [
