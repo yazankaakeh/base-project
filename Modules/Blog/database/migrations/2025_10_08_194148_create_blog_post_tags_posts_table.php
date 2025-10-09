@@ -26,7 +26,7 @@ return new class extends Migration {
             $table
                 ->foreign('tag_id')
                 ->references('id')
-                ->on('post_tags');
+                ->on('blog_post_tags');
 
             $table->timestamps();
         });

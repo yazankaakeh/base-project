@@ -17,6 +17,7 @@ class Address extends Model
         'addressable_id',
         'addressable_type',
         'city_id',
+        'state_id',
         'full_address',
         'latitude',
         'longitude',
@@ -25,6 +26,9 @@ class Address extends Model
 
     protected $casts = [
         'is_primary' => PrimaryAddressStatus::class,
+        'country_id' => 'int',
+        'city_id' => 'int',
+        'state_id' => 'int',
     ];
 
     public function country(): BelongsTo
@@ -35,6 +39,11 @@ class Address extends Model
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
     }
 
     public function addressable(): MorphTo

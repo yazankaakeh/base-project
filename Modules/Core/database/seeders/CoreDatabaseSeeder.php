@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\database\seeders;
+namespace Modules\Core\database\Seeders;
 
 use Illuminate\Database\Seeder;
 
@@ -14,6 +14,7 @@ class CoreDatabaseSeeder extends Seeder
     $this->call([
       CountriesSeeder::class,
       CitiesSeeder::class,
+      StatesSeeder::class,
     ]);
   }
 }

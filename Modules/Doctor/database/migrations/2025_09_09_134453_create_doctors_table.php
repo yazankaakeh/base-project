@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->bigInteger('medical_specialty_id')->unsigned();
             $table->foreign('medical_specialty_id')->references('id')->on('medical_specialties');
             $table->unsignedBigInteger('nationality_id')->nullable();
-            $table->foreign('nationality_id')->references('id')->on('countries');
+            /*$table->foreign('nationality_id')->references('id')->on('countries');*/
             $table->timestamps();
         });
     }

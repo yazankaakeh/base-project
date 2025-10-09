@@ -4,8 +4,7 @@ namespace Modules\AdminManagement\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Modules\AdminManagement\app\Enums\Roles;
-use Modules\AdminManagement\app\Models\Admin;
+use Modules\AdminManagement\Enums\Roles;
 use Modules\Core\App\Enums\Gender;
 use Modules\Doctor\Enums\MedicalSpecialtyCodeEnum;
 use Modules\Doctor\Models\Doctor;
@@ -33,7 +32,7 @@ class DoctorSeeder extends Seeder
             'code' => MedicalSpecialtyCodeEnum::INTERNAL_MEDICINE_AND_ENDOCRINOLOGY,
 
         ]);
-        /** @var Admin $adminYazan */
+        /** @var Doctor $adminYazan */
         $adminYazan = Doctor::query()->create([
             'name' => 'Yazan Kaakeh',
             'email' => 'yazanka187@gmail.com',

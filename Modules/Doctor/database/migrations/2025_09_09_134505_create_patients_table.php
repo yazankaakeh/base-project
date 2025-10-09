@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('nationality_id')->nullable();
-            $table->foreign('nationality_id')->references('id')->on('countries');
+            // $table->foreign('nationality_id')->references('id')->on('countries');
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->integer('age');

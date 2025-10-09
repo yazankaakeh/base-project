@@ -17,9 +17,9 @@ return new class extends Migration {
             $table->morphs('notifiable');
             $table->string('type');
             $table->boolean('read')->default(0);
-            $table->string('action_key')->after('read')->nullable();
-            $table->string('action_value')->after('action_key')->nullable();
-            $table->longText('data')->nullable()->after('action_value');
+            $table->string('action_key')->nullable();
+            $table->string('action_value')->nullable();
+            $table->longText('data')->nullable();
             $table->timestamps();
         });
     }
