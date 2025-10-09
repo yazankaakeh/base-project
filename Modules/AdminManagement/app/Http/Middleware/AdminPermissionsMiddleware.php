@@ -6,8 +6,7 @@ use Closure;
 use Closure as ClosureAlias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Modules\AdminManagement\app\Enums\Roles;
-use Modules\AdminManagement\App\Models\Admin;
+use Modules\AdminManagement\Enums\Roles;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminPermissionsMiddleware
@@ -19,9 +18,6 @@ class AdminPermissionsMiddleware
      */
     public function handle(Request $request, ClosureAlias $next)
     {
-        /**
-         * @var Admin $user
-         */
         $user = Auth::user();
         abort_if(
             !($user->can($request->route()->getName()) || $user->hasRole(Roles::SUPER_ADMIN->value)),

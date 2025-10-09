@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Blog\Enums\PostTypeEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 
 return new class extends Migration {
     /**
@@ -15,8 +17,8 @@ return new class extends Migration {
             $table->nullableMorphs('authorable'); // creates authorable_id (bigint) + authorable_type (string, indexed)
             $table->json('title');
             $table->json('description');
-            $table->boolean('is_active')->default(true);
-            $table->integer('type');
+            $table->boolean('is_active')->default(ActiveEnum::ACTIVE->value);
+            $table->integer('type')->default(PostTypeEnum::PUBLISHED->value);
             $table->integer('clapping')->default(0);
             $table->timestamps();
         });

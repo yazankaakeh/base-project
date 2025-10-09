@@ -5,8 +5,8 @@ namespace Modules\Core\App\Http\Middleware;
 use Closure as ClosureAlias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\AdminManagement\Enums\Roles;
 use Modules\Doctor\Models\Doctor;
-use Modules\AdminManagement\app\Enums\Roles;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminPermissionsMiddleware

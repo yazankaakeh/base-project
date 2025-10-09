@@ -1,4 +1,4 @@
-@php use Modules\Core\App\Enums\ActiveEnum; @endphp
+@php use Modules\Core\App\Enums\ActiveEnum;use Modules\Doctor\Enums\MedicalTestTypeEnum; @endphp
 <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

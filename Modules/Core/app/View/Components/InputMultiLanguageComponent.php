@@ -4,7 +4,7 @@ namespace Modules\Core\App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
-use Modules\Blog\Enum\Languages;
+use Modules\Core\App\Enums\LanguageEnum;
 
 class InputMultiLanguageComponent extends Component
 {
@@ -27,7 +27,7 @@ class InputMultiLanguageComponent extends Component
      */
     public function render(): View|string
     {
-        $this->langs = Languages::cases();
+        $this->langs = LanguageEnum::cases();
         return view('core::components.inputmultilanguagecomponent');
     }
 }

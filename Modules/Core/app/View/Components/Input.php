@@ -18,12 +18,11 @@ class Input extends Component
         public ?string $modelSearch,
         public ?string $label,
         public ?string $placeholder,
-        public ?string $multiple,
-        public ?array $labelValue = [],
+        public ?string $tooltip,
         public string $required = 'required',
-        public ?string $value = '',
-        public bool $checked = false,
+        public string $value = '',
         public string $class = '',
+        public string $lang = '',
     ) {
         //
     }

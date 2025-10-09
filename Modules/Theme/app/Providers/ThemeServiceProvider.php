@@ -3,7 +3,9 @@
 namespace Modules\Theme\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Modules\Seo\Models\SeoSettings;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -132,6 +134,11 @@ class ThemeServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->singleton('globalSeo', function () {
+            return Cache::remember("seo:settings", 3600, function () {
+                return SeoSettings::query()->get();
+            });
+        });
     }
 
     /**

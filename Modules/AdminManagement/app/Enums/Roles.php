@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Enums;
+namespace Modules\AdminManagement\Enums;
 
 enum Roles: string
 {

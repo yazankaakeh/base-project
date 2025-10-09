@@ -4,6 +4,7 @@ namespace Modules\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Seo\Traits\HasSeo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -25,11 +26,13 @@ class BlogCategory extends Model implements HasMedia
     protected $fillable = [
         'title',
         'description',
+        'active',
     ];
 
     protected $casts = [
         'title' => 'array',
         'description' => 'array',
+        'active' => ActiveEnum::class,
     ];
 
     public function posts(): HasMany

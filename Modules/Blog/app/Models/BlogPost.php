@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Modules\Blog\Enums\PostTypeEnum;
 use Modules\Seo\Traits\HasSeo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -35,11 +36,13 @@ class BlogPost extends Model implements HasMedia
         'title',
         'description',
         'clapping',
+        'type',
     ];
 
     protected $casts = [
         'title' => 'array',
         'description' => 'array',
+        'type' => PostTypeEnum::class,
     ];
 
     public function category(): HasOne
@@ -70,5 +73,28 @@ class BlogPost extends Model implements HasMedia
     public function authorable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function relatedPosts(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(self::class, 'post_related', 'post_id', 'related_post_id')
+            ->withPivot(['position', 'relation_type'])
+            ->orderBy('position');
+    }
+
+    public function relatedOfPosts(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(self::class, 'post_related', 'related_post_id', 'post_id')
+            ->withPivot(['position', 'relation_type'])
+            ->orderBy('position');
+    }
+
+    public function allRelatedPosts()
+    {
+        $a = $this->relatedPosts;
+        $b = $this->relatedOfPosts;
+        return $a->merge($b)->unique('id')->values();
     }
 }
