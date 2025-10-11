@@ -31,11 +31,9 @@
                         const $el = $('#' + elId);
                         if (!$el.length) return;
 
-                        // إذا Select2 جاهز
                         if ($el.data('select2')) {
                             $el.val(value).trigger('change');
                         } else {
-                            // في حال التهيئة تصير لاحقًا
                             $el.val(value);
                             $el.trigger('change');
                         }
@@ -47,7 +45,6 @@
                         apply();
                     }
 
-                    // لو العنصر داخل مودال، أعد التعيين بعد فتحه
                     $('#storeModal').on('shown.bs.modal', apply);
                 })();
             </script>

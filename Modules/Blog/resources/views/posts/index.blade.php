@@ -45,8 +45,6 @@ $page = 'sales-dashboard'; ?>
 
 <!-- Page Scripts -->
 @section('page-script')
-    @includeIf('doctor::doctor.clinics.modals.createModal')
-    @includeIf('doctor::doctor.clinics.modals.editModal')
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
 @endsection
 
@@ -57,16 +55,12 @@ $page = 'sales-dashboard'; ?>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
-                            <h5 class="">{{trans('customer.sidebar.clinic')}}</h5>
+                            <h5 class="">{{ trans('blog::blog.post.main_title') }}</h5>
                             <h5 class="">
-                                @can('doctor.clinic.store')
-                                    <button type="button"
-                                            data-bs-toggle="modal" data-bs-target="#storeModal"
-                                            class="btn btn-primary">
-                                        <i class="ti tabler-plus icon-base me-1"></i>
-                                        {{trans('doctor::doctor.create')}}
-                                    </button>
-                                @endcan
+                                <a href="{{ route('doctor.posts.create') }}" class="btn btn-primary">
+                                    <i class="ti tabler-plus icon-base me-1"></i>
+                                    {{ trans('doctor::doctor.create') }}
+                                </a>
                             </h5>
                         </div>
                         <div class="card-body">
@@ -75,55 +69,43 @@ $page = 'sales-dashboard'; ?>
                                     <table class="table datanew">
                                         <thead>
                                         <tr>
-                                            <th>{{trans('doctor::doctor.id')}}</th>
-                                            <th>{{trans('doctor::doctor.clinic.name')}}</th>
-                                            <th>{{trans('doctor::doctor.clinic.img')}}</th>
-                                            <th>{{trans('customer.account.status')}}</th>
-                                            <th>{{trans('admin.audits.action')}}</th>
+                                            <th>{{ trans('doctor::doctor.id') }}</th>
+                                            <th>{{ trans('blog::blog.post.title') }}</th>
+                                            <th>{{ trans('blog::blog.post.image') }}</th>
+                                            <th>{{ trans('admin.audits.action') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">
-                                        @foreach($data as $clinic)
+                                        @foreach($data as $post)
                                             <tr>
-                                                <td>{{$clinic->id}}</td>
-                                                <td>{{$clinic->name}}</td>
+                                                <td>{{ $post->id }}</td>
+                                                <td>{{ $post->getTranslation('title', app()->getLocale()) }}</td>
                                                 <td>
                                                     <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                            data-bs-placement="top"
-                                                            class="avatar avatar-xl pull-up"
-                                                            aria-label="{{$clinic->name}}"
-                                                            data-bs-original-title="{{$clinic->name}}">
-                                                            <img src="{{$clinic->getFirstMediaUrl('images')}}"
-                                                                 alt="Avatar"
-                                                                 class="rounded-circle">
+                                                        <li class="avatar avatar-xl pull-up">
+                                                            <img src="{{ $post->getFirstMediaUrl('img') }}" alt="" class="rounded-circle">
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td>
-                                                    <span class="badge text-bg-{{$clinic->is_active->class()}} me-1">{{$clinic->is_active->label()}} </span>
-                                                </td>
                                                 <td class="action-table-data">
-                                                    <div class="edit-delete-action">
-                                                        @can('doctor.clinic.update')
-                                                            <a type="button" data-bs-toggle="modal"
-                                                               data-bs-target="#editModal"
-                                                               class="me-2 btn btn-outline-primary text-primary p-2 btn-sm EditModalBTN"
-                                                               data-id="{{$clinic->id}}"
-                                                               data-img="{{$clinic->getFirstMediaUrl('images')}}"
-                                                               data-name='@json($clinic->getTranslations('name'))'
-                                                               data-active="{{$clinic->is_active}}">
-                                                                <i data-feather="edit"
-                                                                   class="ti tabler-edit icon-base"></i>
-                                                            </a>
-                                                        @endcan
+                                                    <div class="edit-delete-action d-flex">
+                                                        <a href="{{ route('doctor.posts.edit', $post->id) }}" class="me-2 btn btn-outline-primary text-primary p-2 btn-sm">
+                                                            <i data-feather="edit" class="ti tabler-edit icon-base"></i>
+                                                        </a>
+                                                        <form action="{{ route('doctor.posts.destroy', $post->id) }}" method="post" onsubmit="return confirm('Are you sure?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger text-danger p-2 btn-sm">
+                                                                <i class="ti tabler-trash icon-base"></i>
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    {{$data->links()}}
+                                    {{ $data->links() }}
                                 </div>
                             </div>
                         </div>

@@ -37,7 +37,6 @@ $page = 'sales-dashboard'; ?>
             'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
             'resources/assets/vendor/libs/@form-validation/auto-focus.js'],
             'build/modules/theme')
-
 @endsection
 
 <!-- Page Scripts -->
@@ -70,61 +69,69 @@ $page = 'sales-dashboard'; ?>
                             </div>
                         </div>
 
-                        <div class="tab-content mt-3 p-0">
-                            @foreach(LanguageEnum::values() as $lang)
-                                <div class="tab-pane fade {{$lang == app()->getLocale() ? 'active show': ''}}"
-                                     id="navs-tab-{{$lang}}" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5 class="mb-1">{{$lang}}</h5>
+                        <form action="{{ route('doctor.categories.store') }}" method="post"
+                              enctype="multipart/form-data">
+                            @csrf
+                            <div class="row mt-3">
+                                <div class="col-9">
+                                    <div class="tab-content m-0 p-0">
+                                        @foreach(LanguageEnum::values() as $lang)
+                                            <div class="tab-pane fade {{$lang == app()->getLocale() ? 'active show': ''}}"
+                                                 id="navs-tab-{{$lang}}" role="tabpanel">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-1">{{$lang}}</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <x-core::input label="blog::blog.category.title"
+                                                                       type="text" name="title[{{$lang}}]"
+                                                                       id="title[{{$lang}}]">
+                                                        </x-core::input>
+                                                        <div class="my-3">
+                                                            <!-- Full Editor -->
+                                                            <div id="editor-{{ $lang }}"
+                                                                 class="quill-editor"
+                                                                 data-lang="{{ $lang }}"
+                                                                 data-input="postContent-{{ $lang }}"
+                                                                 data-upload="{{ route('doctor.quillUpload.store') }}"
+                                                                 dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
 
-                                                </div>
-                                                <div class="card-body">
-                                                    <x-core::input label="blog::blog.category.title"
-                                                                   type="text" name="title[{{$lang}}]"
-                                                                   id="title[{{$lang}}]">
-                                                    </x-core::input>
-                                                    <div class="my-3">
-                                                        <!-- Full Editor -->
-                                                        <div id="editor-{{ $lang }}"
-                                                             class="quill-editor"
-                                                             data-lang="{{ $lang }}"
-                                                             data-input="postContent-{{ $lang }}"
-                                                             data-upload="/quill/upload-image"
-                                                             dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-                                                            <h6>Quill Rich Text Editor</h6>
-                                                            <p>Cupcake ipsum dolor sit amet. Halvah cheesecake chocolate
-                                                                bar
-                                                                gummi bears cupcake. Pie macaroon bear claw.
-                                                                Soufflé I love candy canes I love cotton candy I
-                                                                love.</p>
+                                                            </div>
+                                                            <input type="hidden" name="description[{{$lang}}]"
+                                                                   id="postContent-{{$lang}}">
                                                         </div>
+                                                        @includeIf('blog::partials.seo_form', ['seoTitle' => null, 'seoDescription' => null, 'lang' => $lang])
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="card my-3">
+                                        <div class="card-header">
+                                            <h5 class="mb-1">{{trans('blog::blog.category.image')}}</h5>
                                         </div>
-                                        <div class="col-3">
-                                            @includeIf('seo::partials.create_seo')
-                                            <div class="card my-3">
-                                                <div class="card-header">
-                                                    <h5 class="mb-1">{{trans('blog::blog.category.image')}}</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <x-core::input label="blog::blog.category.image"
-                                                                   type="file"
-                                                                   name="image"
-                                                                   id="image">
+                                        <div class="card-body">
+                                            <x-core::input label="blog::blog.category.image"
+                                                           type="file"
+                                                           name="image"
+                                                           id="image">
 
-                                                    </x-core::input>
-                                                </div>
+                                            </x-core::input>
+                                            <x-core::checkbox :label="trans('customer.account.status')"
+                                                              id="is_active"
+                                                              name="is_active"
+                                                              :value="true"></x-core::checkbox>
+                                            <div class="mt-3">
+                                                <button type="submit"
+                                                        class="btn btn-primary">{{ trans('core::core.env.save') }}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

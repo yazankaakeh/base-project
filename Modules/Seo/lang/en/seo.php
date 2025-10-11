@@ -5,6 +5,7 @@ return [
         'meta_title' => 'Meta Title',
         'meta_description' => 'Meta Description',
         'canonical_url' => 'Canonical URL',
+        'seo_settings_title' => 'SEO Settings',
     ],
     'seo_settings' => [
 

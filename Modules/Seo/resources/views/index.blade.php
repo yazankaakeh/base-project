@@ -3,7 +3,7 @@
 $page = 'sales-dashboard'; ?>
 @extends('theme::user.layouts.horizontalLayout')
 
-@section('title', trans('blog::blog.category.main_title'))
+@section('title', trans('seo::seo.seo.seo_settings_title'))
 
 <!-- Vendor Styles -->
 @section('vendor-style')
@@ -57,33 +57,62 @@ $page = 'sales-dashboard'; ?>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
-                            <h5 class="">{{trans('customer.sidebar.clinic')}}</h5>
-                            <h5 class="">
-                                @can('doctor.clinic.store')
-                                    <button type="button"
-                                            data-bs-toggle="modal" data-bs-target="#storeModal"
-                                            class="btn btn-primary">
-                                        <i class="ti tabler-plus icon-base me-1"></i>
-                                        {{trans('doctor::doctor.create')}}
-                                    </button>
-                                @endcan
-                            </h5>
+                            <h5 class="">{{trans('seo::seo.seo.seo_settings_title')}}</h5>
                         </div>
                         <div class="card-body">
                             <div class="card-content">
-                                <form enctype="multipart/form-data" id="createUser"
-                                      action="{{route('admin.user_management.store')}}"
+                                <!-- Success/Error Messages -->
+                                {{--@if(session('success'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                    </div>
+                                @endif
+
+                                @if(session('error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{ session('error') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                    </div>
+                                @endif
+
+                                @if(session('warning'))
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        {{ session('warning') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                    </div>
+                                @endif--}}
+
+                                <form enctype="multipart/form-data" id="seoSettingsForm"
+                                      action="{{route('doctor.seoConfig.update')}}"
                                       method="POST">
                                     @csrf
-                                    @foreach($data as $seo_setting)
-                                        <x-core::input label="seo::seo.seo_settings.{{$seo_setting->key}}"
-                                                       type="text"
-                                                       :tooltip="trans('seo::seo.seo_settings.'.$seo_setting->key.'__desc')"
-                                                       :value="$seo_setting->value"
-                                                       :name="$seo_setting->key"
-                                                       :id="$seo_setting->key">
-                                        </x-core::input>
-                                    @endforeach
+                                    @method('POST')
+
+                                    <div class="row">
+                                        @foreach($data as $seo_setting)
+                                            <div class="col-lg-3 col-md-4 my-3 col-sm-12">
+
+                                                <x-core::input label="seo::seo.seo_settings.{{$seo_setting->key}}"
+                                                               type="text"
+                                                               :tooltip="trans('seo::seo.seo_settings.'.$seo_setting->key.'_desc')"
+                                                               :value="old($seo_setting->key, $seo_setting->value)"
+                                                               :name="$seo_setting->key"
+                                                               :id="$seo_setting->key">
+                                                </x-core::input>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="ti tabler-device-floppy me-1"></i>
+                                            {{ trans('core::core.save') }}
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

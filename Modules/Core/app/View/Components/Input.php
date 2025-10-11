@@ -20,9 +20,9 @@ class Input extends Component
         public ?string $placeholder,
         public ?string $tooltip,
         public string $required = 'required',
-        public string $value = '',
-        public string $class = '',
-        public string $lang = '',
+        public ?string $value = null,
+        public ?string $class = null,
+        public ?string $lang = null,
     ) {
         //
     }

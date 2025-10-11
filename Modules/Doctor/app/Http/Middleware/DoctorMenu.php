@@ -111,38 +111,46 @@ class DoctorMenu
                     ],
                 ],
             ],
-            /* [
-               "name" => "admin.sidebar.blogs",
-               "icon" => "menu-icon tf-icons ti tabler-smart-home",
-               "slug" => "blog",
-               "url" => "blog",
-               "submenu" => [
-                 [
-                       "url" => route('blogPosts.posts.index'),
-                       "slug" => route('blogPosts.posts.index'),
-                       "name" => trans("admin.sidebar.posts"),
-                       "icon" => "menu-icon tf-icons ti tabler-truck",
-                   ],
-                   [
-                       "url" => route('blogCategory.category.index'),
-                       "slug" => route('blogCategory.category.index'),
-                       "name" => trans("admin.sidebar.categories"),
-                       "icon" => "menu-icon tf-icons ti tabler-book",
-                   ],
-                   [
-                       "url" => route('blogTags.tags.index'),
-                       "slug" => route('blogTags.tags.index'),
-                       "name" => trans("admin.sidebar.tags"),
-                       "icon" => "menu-icon tf-icons ti tabler-book",
-                   ],
-                   [
-                       "url" => route('blogPostType.postType.index'),
-                       "slug" => route('blogPostType.postType.index'),
-                       "name" => trans("admin.sidebar.postType"),
-                       "icon" => "menu-icon tf-icons ti tabler-book",
-                   ],
-               ],
-           ],*/
+            [
+                "name" => trans("customer.sidebar.blog"),
+                "icon" => "menu-icon tf-icons ti tabler-article",
+                "slug" => "blog",
+                "url" => "javascript:void(0)",
+                "submenu" => [
+                    [
+                        "url" => route('doctor.categories.index'),
+                        "slug" => route('doctor.categories.index'),
+                        "name" => trans("customer.sidebar.blogCategories"),
+                        "icon" => "menu-icon tf-icons ti tabler-category",
+                    ],
+                    [
+                        "url" => route('doctor.posts.index'),
+                        "slug" => route('doctor.posts.index'),
+                        "name" => trans("customer.sidebar.blogPosts"),
+                        "icon" => "menu-icon tf-icons ti tabler-article",
+                    ],
+                    [
+                        "url" => route('doctor.tags.index'),
+                        "slug" => route('doctor.tags.index'),
+                        "name" => trans("customer.sidebar.blogTags"),
+                        "icon" => "menu-icon tf-icons ti tabler-tag",
+                    ],
+                ],
+            ],
+            [
+                "name" => trans("customer.sidebar.settings"),
+                "icon" => "menu-icon tf-icons ti tabler-settings",
+                "slug" => "settings",
+                "url" => "javascript:void(0)",
+                "submenu" => [
+                    [
+                        "url" => route('doctor.seoConfig.get'),
+                        "slug" => route('doctor.seoConfig.get'),
+                        "name" => trans("customer.sidebar.seoSettings"),
+                        "icon" => "menu-icon tf-icons ti tabler-seo",
+                    ],
+                ],
+            ],
 
         ];
     }

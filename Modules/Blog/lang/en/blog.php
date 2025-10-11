@@ -29,5 +29,13 @@ return [
         'description' => 'Post Description',
         'type' => 'Post Type',
         'relatedPost' => 'Related Post',
+        'tags' => 'Tags',
+    ],
+    'tag' => [
+        'main_title' => 'Tags',
+        'create' => 'Create Tag',
+        'edit' => 'Edit Tag',
+        'name' => 'Tag Name',
+        'no_tags' => 'No tags found',
     ],
 ];

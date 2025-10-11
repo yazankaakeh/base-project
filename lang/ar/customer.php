@@ -80,6 +80,12 @@ return [
         'SocialLinks' => 'الروابط الاجتماعية',
         'cardsSettings' => 'إعدادات البطاقات',
         'cards' => 'البطاقات',
+        'settings' => 'الإعدادات',
+        'seoSettings' => 'إعدادات SEO',
+        'blog' => 'المدونة',
+        'blogCategories' => 'تصنيفات المدونة',
+        'blogPosts' => 'مقالات المدونة',
+        'blogTags' => 'وسوم المدونة',
     ],
 
     'card' => [

@@ -11,6 +11,7 @@ class SeoMeta extends Model
 
     use  HasTranslations;
 
+    public $table = 'seo_meta';
     public array $translatable = [
         'title',
         'meta_description',

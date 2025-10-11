@@ -10,5 +10,6 @@
     "Doctor": true,
     "Notification": true,
     "AdminManagement": true,
-    "Seo": true
+    "Seo": true,
+    "CMS": true
 }

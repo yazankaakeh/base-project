@@ -36,6 +36,10 @@ class BlogServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        // Bind repositories
+        $this->app->bind(\Modules\Blog\Repository\Category\CategoryInterface::class, \Modules\Blog\Repository\Category\CategoryRepository::class);
+        $this->app->bind(\Modules\Blog\Repository\Post\PostInterface::class, \Modules\Blog\Repository\Post\PostRepository::class);
+        $this->app->bind(\Modules\Blog\Repository\Tag\TagInterface::class, \Modules\Blog\Repository\Tag\TagRepository::class);
     }
 
     /**

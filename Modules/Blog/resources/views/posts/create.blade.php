@@ -53,7 +53,21 @@ $page = 'sales-dashboard'; ?>
 <!-- Page Scripts -->
 @section('page-script')
     @vite(['resources/assets/js/forms-file-upload.js','resources/assets/js/forms-editors.js'],'build/modules/theme')
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for tags
+            $('#tags').select2({
+                placeholder: 'Select tags...',
+                allowClear: true,
+                tags: false
+            });
+
+        });
+    </script>
 @endsection
+
+@include('blog::partials.tag-modal')
 
 @section('content')
     <div class="page-wrapper">
@@ -77,103 +91,91 @@ $page = 'sales-dashboard'; ?>
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-content mt-3 p-0">
-                            @foreach(LanguageEnum::values() as $lang)
-                                <div class="tab-pane fade {{$lang == app()->getLocale() ? 'active show': ''}}"
-                                     id="navs-tab-{{$lang}}" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5 class="mb-1">{{$lang}}</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <x-core::input label="blog::blog.post.title"
-                                                                           type="text"
-                                                                           name="title[{{$lang}}]"
-                                                                           id="title[{{$lang}}]">
+                        <form action="{{ route('doctor.posts.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row mt-3">
+                                <div class="col-9">
+                                    <div class="tab-content m-0 p-0">
+                                        @foreach(LanguageEnum::values() as $lang)
+                                            <div class="tab-pane fade {{$lang == app()->getLocale() ? 'active show': ''}}"
+                                                 id="navs-tab-{{$lang}}" role="tabpanel">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-1">{{$lang}}</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <x-core::input label="blog::blog.post.title" type="text"
+                                                                               name="title[{{$lang}}]"
+                                                                               id="title[{{$lang}}]"></x-core::input>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="my-3">
+                                                                    <div id="editor-{{ $lang }}" class="quill-editor"
+                                                                         data-lang="{{ $lang }}"
+                                                                         data-input="postContent-{{ $lang }}"
+                                                                         data-upload="{{ route('doctor.quillUpload.store') }}"
+                                                                         dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
 
-                                                            </x-core::input>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <x-core::select
-                                                                    :label="trans('blog::blog.post.type')"
-                                                                    :placeholder="trans('blog::blog.post.type')"
-                                                                    id="type[{{$lang}}]"
-                                                                    name="type[{{$lang}}]"
-                                                                    required="required"
-                                                                    :options="PostTypeEnum::getAllEnumValuesKeysLabel()"
-                                                                    value="">
-                                                            </x-core::select>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="my-3">
-                                                                <!-- Full Editor -->
-                                                                <div id="editor-{{ $lang }}"
-                                                                     class="quill-editor"
-                                                                     data-lang="{{ $lang }}"
-                                                                     data-input="postContent-{{ $lang }}"
-                                                                     data-upload="/quillUpload/store"
-                                                                     dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-                                                                    <h6>Quill Rich Text Editor</h6>
-                                                                    <p>Cupcake ipsum dolor sit amet. Halvah cheesecake
-                                                                        chocolate
-                                                                        bar
-                                                                        gummi bears cupcake. Pie macaroon bear claw.
-                                                                        Soufflé I love candy canes I love cotton candy I
-                                                                        love.
-                                                                    </p>
+                                                                    </div>
+                                                                    <input type="hidden" name="description[{{$lang}}]"
+                                                                           id="postContent-{{$lang}}">
                                                                 </div>
                                                             </div>
+                                                            @includeIf('blog::partials.seo_form', ['seoTitle' => null, 'seoDescription' => null, 'lang' => $lang])
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-3">
-                                            @includeIf('seo::partials.create_seo')
-                                            <div class="card my-3">
-                                                <div class="card-header">
-                                                    <h5 class="mb-1">{{trans('blog::blog.post.image')}}</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <x-core::input label="blog::blog.post.image"
-                                                                   type="file"
-                                                                   name="image"
-                                                                   id="image">
-
-                                                    </x-core::input>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        @endforeach
                                     </div>
                                 </div>
-                            @endforeach
-                            <div class="row">
                                 <div class="col-3">
                                     <div class="card my-3">
                                         <div class="card-header">
-                                            <h5 class="mb-1">{{trans('blog::blog.post.relatedPost')}}</h5>
+                                            <h5 class="mb-1">{{trans('blog::blog.post.image')}}</h5>
                                         </div>
                                         <div class="card-body">
-                                            <x-core::select
-                                                    :label="trans('blog::blog.post.relatedPost')"
-                                                    :placeholder="trans('blog::blog.post.relatedPost')"
-                                                    id="relatedPosts[]"
-                                                    name="relatedPosts[]"
-                                                    required="required"
-                                                    multiple="true"
-                                                    :options="PostTypeEnum::getAllEnumValuesKeysLabel()"
-                                                    value="">
-                                            </x-core::select>
+                                            <x-core::input label="blog::blog.post.image" type="file" name="image"
+                                                           id="image"></x-core::input>
+                                            <div class="mt-3">
+                                                <x-core::select :label="trans('blog::blog.post.relatedPost')"
+                                                                :placeholder="trans('blog::blog.post.relatedPost')"
+                                                                id="relatedPosts" name="relatedPosts[]" required=""
+                                                                multiple="true" :options="$relatedPostsOptions"
+                                                                ></x-core::select>
+                                            </div>
+                                            <div class="mt-3">
+                                                <label for="tags" class="form-label">{{ trans('blog::blog.post.tags') }}</label>
+                                                <div class="d-flex gap-2">
+                                                    <select id="tags" name="tags[]" multiple class="form-select select2" style="flex: 1;">
+                                                        @foreach($tagOptions as $id => $name)
+                                                            <option value="{{ $id }}">{{ $name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                            data-bs-toggle="modal" data-bs-target="#createTagModal">
+                                                        <i class="ti tabler-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <x-core::select :label="trans('blog::blog.post.type')"
+                                                                :placeholder="trans('blog::blog.post.type')" id="type"
+                                                                name="type" required="required"
+                                                                :options="PostTypeEnum::getAllEnumValuesKeysLabel()"
+                                                                value=""></x-core::select>
+                                            </div>
+                                            <div class="mt-3">
+                                                <button type="submit"
+                                                        class="btn btn-primary">{{ trans('core::core.env.save') }}</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

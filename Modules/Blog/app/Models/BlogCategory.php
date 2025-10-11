@@ -3,6 +3,7 @@
 namespace Modules\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Seo\Traits\HasSeo;
@@ -14,7 +15,7 @@ use Spatie\Translatable\HasTranslations;
 class BlogCategory extends Model implements HasMedia
 {
 
-    use InteractsWithMedia, HasSeo, HasTranslations;
+    use InteractsWithMedia, HasSeo, HasTranslations, SoftDeletes;
 
     public array $translatable = [
         'title',
@@ -26,13 +27,13 @@ class BlogCategory extends Model implements HasMedia
     protected $fillable = [
         'title',
         'description',
-        'active',
+        'is_active',
     ];
 
     protected $casts = [
         'title' => 'array',
         'description' => 'array',
-        'active' => ActiveEnum::class,
+        'is_active' => ActiveEnum::class,
     ];
 
     public function posts(): HasMany

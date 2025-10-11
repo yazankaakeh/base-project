@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Blog\Enums\PostTypeEnum;
+use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Seo\Traits\HasSeo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -37,12 +38,14 @@ class BlogPost extends Model implements HasMedia
         'description',
         'clapping',
         'type',
+        'is_active',
     ];
 
     protected $casts = [
         'title' => 'array',
         'description' => 'array',
         'type' => PostTypeEnum::class,
+        'is_active' => ActiveEnum::class,
     ];
 
     public function category(): HasOne
@@ -63,22 +66,17 @@ class BlogPost extends Model implements HasMedia
             })->singleFile();
     }
 
-    public function patient(): BelongsToMany
+    public function tags(): BelongsToMany
     {
         return $this
-            ->belongsToMany(BlogPostTags::class, 'blog_post_tags_posts')
-            ->using(BlogPostTagsPosts::class); // optional
-    }
-
-    public function authorable(): MorphTo
-    {
-        return $this->morphTo();
+            ->belongsToMany(BlogPostTags::class, 'blog_post_tags_posts', 'post_id', 'tag_id')
+            ->using(BlogPostTagsPosts::class);
     }
 
     public function relatedPosts(): BelongsToMany
     {
         return $this
-            ->belongsToMany(self::class, 'post_related', 'post_id', 'related_post_id')
+            ->belongsToMany(self::class, 'related_posts', 'post_id', 'related_post_id')
             ->withPivot(['position', 'relation_type'])
             ->orderBy('position');
     }
@@ -86,7 +84,7 @@ class BlogPost extends Model implements HasMedia
     public function relatedOfPosts(): BelongsToMany
     {
         return $this
-            ->belongsToMany(self::class, 'post_related', 'related_post_id', 'post_id')
+            ->belongsToMany(self::class, 'related_posts', 'related_post_id', 'post_id')
             ->withPivot(['position', 'relation_type'])
             ->orderBy('position');
     }

@@ -76,6 +76,12 @@ Erişmeye çalıştığınız Tagiy kartı ya devre dışı bırakılmış ya da
         'SocialLinks' => 'Sosyal Linkler',
         'cardsSettings' => 'Kart Ayarları',
         'cards' => 'Kartlar',
+        'settings' => 'Ayarlar',
+        'seoSettings' => 'SEO Ayarları',
+        'blog' => 'Blog Details',
+        'blogCategories' => 'Blog Kategorileri',
+        'blogPosts' => 'Blog Gönderileri',
+        'blogTags' => 'Blog Etiketleri',
     ],
     'card' => [
         'doneText' => '🎉 Tamamlandı!',
