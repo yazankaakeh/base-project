@@ -88,6 +88,7 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
         'cards' => 'Cards',
         'settings' => 'Settings',
         'seoSettings' => 'SEO Settings',
+        'envSettings' => 'Environment Settings',
         'blog' => 'Blog Details',
         'blogCategories' => 'Blog Categories',
         'blogPosts' => 'Blog Posts',

@@ -16,15 +16,16 @@ use Modules\Core\app\Http\Controllers\SocialController;
 |
 */
 
-Route::middleware(['auth:doctor', 'adminMenu', 'admin-enabled', 'setLocale', 'authorize', 'audit'])->prefix(
-    'admin',
-)->group(
-    function () {
-        Route::get('get/env', [EnvController::class, 'index'])->name('getEnv');
-        Route::post('update-env', [EnvController::class, 'update'])->name('env.updateEnv');
-        Route::post('sendTestEmail', [EnvController::class, 'sendTestEmail'])->name('env.sendTestEmail');
-    },
-);
+// Doctor environment settings routes
+Route::middleware(['auth:doctor', 'doctorMenu', 'admin-enabled', 'setLocale', 'authorize', 'audit'])->name(
+    'doctor.',
+)->prefix(
+    'doctor',
+)->group(function () {
+    Route::get('env', [EnvController::class, 'index'])->name('env.get');
+    Route::post('env/update', [EnvController::class, 'update'])->name('env.update');
+    Route::post('env/sendTestEmail', [EnvController::class, 'sendTestEmail'])->name('env.sendTestEmail');
+});
 Route::post('submitContactUs', [ContactUsController::class, 'submitContactForm'])->name('env.submitContactForm');
 
 Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])

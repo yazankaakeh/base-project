@@ -12,25 +12,28 @@ class EnvUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // RECAPTCHA Settings
+            'RECAPTCHA_SITE_KEY' => 'nullable|string|max:255',
+            'RECAPTCHA_SECRET_KEY' => 'nullable|string|max:255',
+            'RECAPTCHA_LINK' => 'nullable|string|max:255',
+
             // Email Settings
-            'mail' => 'nullable|bool',
-            'mail_mailer' => 'required_if:mail=1|string',
-            'mail_host' => 'required_if:mail=1|string',
-            'mail_port' => 'required_if:mail=1|numeric',
-            'mail_username' => 'required_if:mail=1|string',
-            'mail_password' => 'required_if:mail=1|string',
-            'mail_encryption' => 'required_if:mail=1|string',
-            'mail_from_address' => 'required_if:mail=1|email',
-            'mail_from_name' => 'required_if:mail=1|string',
+            'MAIL_MAILER' => 'nullable|string|max:255',
+            'MAIL_HOST' => 'nullable|string|max:255',
+            'MAIL_PORT' => 'nullable|string|max:255',
+            'MAIL_USERNAME' => 'nullable|string|max:255',
+            'MAIL_PASSWORD' => 'nullable|string|max:255',
+            'MAIL_ENCRYPTION' => 'nullable|string|max:255',
+            'MAIL_FROM_ADDRESS' => 'nullable|email|max:255',
+            'MAIL_FROM_NAME' => 'nullable|string|max:255',
 
             // Firebase Settings
-            'firebase' => 'nullable|bool',
-            'firebase_api_key' => 'required_if:firebase=1|string',
-            'firebase_auth_domain' => 'required_if:firebase=1|string',
-            'firebase_project_id' => 'required_if:firebase=1|string',
-            'firebase_storage_bucket' => 'required_if:firebase=1|string',
-            'firebase_messaging_sender_id' => 'required_if:firebase=1|string',
-            'firebase_app_id' => 'required_if:firebase=1|string',
+            'FIREBASE_API_KEY' => 'nullable|string|max:255',
+            'FIREBASE_AUTH_DOMAIN' => 'nullable|string|max:255',
+            'FIREBASE_PROJECT_ID' => 'nullable|string|max:255',
+            'FIREBASE_STORAGE_BUCKET' => 'nullable|string|max:255',
+            'FIREBASE_MESSAGING_SENDER_ID' => 'nullable|string|max:255',
+            'FIREBASE_APP_ID' => 'nullable|string|max:255',
         ];
     }
 

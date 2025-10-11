@@ -78,6 +78,7 @@ Erişmeye çalıştığınız Tagiy kartı ya devre dışı bırakılmış ya da
         'cards' => 'Kartlar',
         'settings' => 'Ayarlar',
         'seoSettings' => 'SEO Ayarları',
+        'envSettings' => 'Ortam Ayarları',
         'blog' => 'Blog Details',
         'blogCategories' => 'Blog Kategorileri',
         'blogPosts' => 'Blog Gönderileri',

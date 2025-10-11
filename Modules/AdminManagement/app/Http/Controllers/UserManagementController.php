@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Http\Controllers;
+namespace Modules\AdminManagement\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;

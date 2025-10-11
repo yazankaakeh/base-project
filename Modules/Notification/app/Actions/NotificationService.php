@@ -5,9 +5,9 @@ namespace Modules\Notification\App\Actions;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Modules\AdminManagement\app\Models\Admin;
 use Modules\Doctor\Models\Doctor;
 use Modules\Doctor\Models\Patient;
-use Modules\AdminManagement\app\Models\Admin;
 
 class NotificationService
 {

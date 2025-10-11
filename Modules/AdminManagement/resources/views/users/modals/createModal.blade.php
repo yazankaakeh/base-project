@@ -10,15 +10,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{trans('usermanagement::user_management.user.create.title')}}
+                        {{trans('adminmanagement::admin_management.user.create.title')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.name"
-                                           placeholder="usermanagement::user_management.user.create.name"
+                            <x-core::input label="adminmanagement::admin_management.user.create.name"
+                                           placeholder="adminmanagement::admin_management.user.create.name"
                                            id="create_name"
                                            name="name"
                                            type="text"
@@ -29,8 +29,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.email"
-                                           placeholder="usermanagement::user_management.user.create.email"
+                            <x-core::input label="adminmanagement::admin_management.user.create.email"
+                                           placeholder="adminmanagement::admin_management.user.create.email"
                                            id="create_email"
                                            name="email"
                                            type="text"
@@ -41,8 +41,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.phone"
-                                           placeholder="usermanagement::user_management.user.create.phone"
+                            <x-core::input label="adminmanagement::admin_management.user.create.phone"
+                                           placeholder="adminmanagement::admin_management.user.create.phone"
                                            id="create_phone"
                                            name="phone"
                                            type="text"
@@ -65,8 +65,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::select :label="trans('usermanagement::user_management.user.create.role')"
-                                            :placeholder="trans('usermanagement::user_management.user.create.role')"
+                            <x-core::select :label="trans('adminmanagement::admin_management.user.create.role')"
+                                            :placeholder="trans('adminmanagement::admin_management.user.create.role')"
                                             id="create_role"
                                             name="role"
                                             required="required"
@@ -101,7 +101,7 @@
                             </x-core::select>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.img" id="create_img"
+                            <x-core::input label="adminmanagement::admin_management.user.create.img" id="create_img"
                                            name="img"
                                            type="file"
                                            required="required"
@@ -110,7 +110,7 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.password"
+                            <x-core::input label="adminmanagement::admin_management.user.create.password"
                                            id="create_password" name="password"
                                            type="password"
                                            model="create_password"
@@ -119,7 +119,7 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.password_confirmation"
+                            <x-core::input label="adminmanagement::admin_management.user.create.password_confirmation"
                                            id="create_password_confirmation" name="password_confirmation"
                                            type="password"
                                            model="create_password_confirmation"
@@ -128,7 +128,7 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.isActive"
+                            <x-core::input label="adminmanagement::admin_management.user.create.isActive"
                                            id="create_active" name="is_active"
                                            type="checkbox"
                                            model="create_active"
@@ -141,10 +141,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        {{trans('usermanagement::user_management.close')}}
+                        {{trans('adminmanagement::admin_management.close')}}
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        {{trans('usermanagement::user_management.save')}}
+                        {{trans('adminmanagement::admin_management.save')}}
                     </button>
                 </div>
             </div>

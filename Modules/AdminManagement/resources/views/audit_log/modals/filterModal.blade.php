@@ -1,7 +1,7 @@
 @php
 
     /* @var Admin $doctors */
-    use Modules\AdminManagement\app\Action\Auditing\RouteName;use Modules\AdminManagement\app\Models\Admin;use Modules\AdminManagement\app\Models\AuditLog;
+    use Modules\AdminManagement\Action\Auditing\RouteName;use Modules\AdminManagement\app\Models\Admin;use Modules\AdminManagement\app\Models\AuditLog;
     $doctors = AuditLog::GetDoctors();
 
     $startDate = app('request')->input('start_date');
@@ -16,7 +16,7 @@
             <!-- BEGIN: Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title"
-                    id="exampleModalLabel1">{{trans('usermanagement::user_management.audits.filterModal.index')}}</h5>
+                    id="exampleModalLabel1">{{trans('adminmanagement::admin_management.audits.filterModal.index')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- END: Modal Header -->
@@ -25,10 +25,10 @@
                 <div class="col-md-12 col-12 mb-4">
                     <div class="col-md-12 mb-4">
                         <label for="doctorId"
-                               class="form-label">{{trans('usermanagement::user_management.audits.filterModal.adminId')}}</label>
+                               class="form-label">{{trans('adminmanagement::admin_management.audits.filterModal.adminId')}}</label>
                         <select id="doctorId" class="select2 form-select form-select-lg" data-allow-clear="true">
                             <option value="all">
-                                {{trans('usermanagement::user_management.pleaseSelectOne')}}
+                                {{trans('adminmanagement::admin_management.pleaseSelectOne')}}
                             </option>
                             @foreach($doctors as $index => $doctor)
                                 <option value="{{$doctor->id}}"
@@ -42,17 +42,17 @@
                 </div>
                 <div class="col-md-12 col-12 mb-4">
                     <label for="bs-rangepicker-basic"
-                           class="form-label">{{trans('usermanagement::user_management.audits.filterModal.date')}}</label>
+                           class="form-label">{{trans('adminmanagement::admin_management.audits.filterModal.date')}}</label>
                     <input type="text" id="bs-rangepicker-basic" class="form-control date-range"/>
                 </div>
 
                 <div class="col-md-12 col-12 mb-4">
                     <label class="form-label" for="routeName">
-                        {{trans('usermanagement::user_management.audits.filterModal.routeName')}}
+                        {{trans('adminmanagement::admin_management.audits.filterModal.routeName')}}
                     </label>
                     <select id="routeName" class="select2 form-select form-select-lg" data-allow-clear="true">
                         <option value="all">
-                            {{trans('usermanagement::user_management.pleaseSelectOne')}}
+                            {{trans('adminmanagement::admin_management.pleaseSelectOne')}}
                         </option>
                         @foreach($route_names as $index => $route)
                             <option value="{{$index}}"
@@ -68,9 +68,9 @@
             <!-- BEGIN: Modal Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-label-secondary"
-                        data-bs-dismiss="modal">{{trans('usermanagement::user_management.close')}}</button>
+                        data-bs-dismiss="modal">{{trans('adminmanagement::admin_management.close')}}</button>
                 <button type="submit" id="filter"
-                        class="btn btn-primary">{{trans('usermanagement::user_management.submit')}}</button>
+                        class="btn btn-primary">{{trans('adminmanagement::admin_management.submit')}}</button>
             </div>
             <!-- END: Modal Footer -->
         </div>

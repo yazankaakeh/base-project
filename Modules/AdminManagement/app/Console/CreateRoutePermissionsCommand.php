@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\AdminManagement\app\Console;
+namespace Modules\AdminManagement\Console;
 
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-use Modules\AdminManagement\app\Enums\Roles;
+use Modules\AdminManagement\Enums\Roles;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -17,7 +17,7 @@ class CreateRoutePermissionsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'perm';
+    protected $signature = 'perms';
 
     /**
      * The console command description.

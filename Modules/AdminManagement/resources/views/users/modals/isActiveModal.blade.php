@@ -9,7 +9,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">
-                        {{trans('usermanagement::user_management.user.editUserStatus')}}
+                        {{trans('adminmanagement::admin_management.user.editUserStatus')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Seo\Http\Controllers\SeoSettingsController;
 
-Route::middleware(['auth:doctor',/* 'audit',*/ 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->name(
+Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->name(
     'doctor.',
 )->prefix(
     'doctor',

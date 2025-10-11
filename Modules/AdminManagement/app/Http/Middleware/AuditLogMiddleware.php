@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Modules\AdminManagement\app\Action\Auditing\RouteName;
+use Modules\AdminManagement\Action\Auditing\RouteName;
 use Modules\AdminManagement\app\Models\AuditLog;
 
 class AuditLogMiddleware
@@ -34,7 +34,7 @@ class AuditLogMiddleware
             return $next($request);
         }
 
-        if (empty(\auth()?->id())) {
+        if (!Auth::check()) {
             return $next($request);
         }
 

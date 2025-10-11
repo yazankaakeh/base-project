@@ -8,7 +8,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"
-                        id="exampleModalLabel1"> {{trans('usermanagement::user_management.audits.getPayLoad')}}</h5>
+                        id="exampleModalLabel1"> {{trans('adminmanagement::admin_management.audits.getPayLoad')}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -18,9 +18,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary"
-                            data-bs-dismiss="modal">{{trans('usermanagement::user_management.close')}}</button>
+                            data-bs-dismiss="modal">{{trans('adminmanagement::admin_management.close')}}</button>
                     <button type="submit" id="filter"
-                            class="btn btn-primary">{{trans('usermanagement::user_management.submit')}}</button>
+                            class="btn btn-primary">{{trans('adminmanagement::admin_management.submit')}}</button>
                 </div>
             </div>
         </form>

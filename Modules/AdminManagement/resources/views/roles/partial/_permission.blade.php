@@ -5,7 +5,7 @@
             <div class="card-header d-flex justify-content-between pb-2 mb-1">
                 <h5 class="">
                     <label for="{{$index}}">
-                        {{ trans('usermanagement::user_management.sections.'.$index)}}
+                        {{ trans('adminmanagement::admin_management.sections.'.$index)}}
                     </label>
                 </h5>
 
@@ -20,7 +20,7 @@
 
                         <div class="d-flex justify-content-between pb-2 mb-1">
                             <label for="{{$perm->name}}">
-                                {{ trans('usermanagement::user_management.permissions.'.str_replace('.', '-', $perm->name))}}
+                                {{ trans('adminmanagement::admin_management.permissions.'.str_replace('.', '-', $perm->name))}}
                             </label>
 
                             <div class="form-switch text-end mx-6">

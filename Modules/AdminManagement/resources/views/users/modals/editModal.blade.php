@@ -11,15 +11,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{trans('usermanagement::user_management.user.edit.title')}}
+                        {{trans('adminmanagement::admin_management.user.edit.title')}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.name"
-                                           placeholder="usermanagement::user_management.user.create.name"
+                            <x-core::input label="adminmanagement::admin_management.user.create.name"
+                                           placeholder="adminmanagement::admin_management.user.create.name"
                                            id="name"
                                            name="name"
                                            type="text"
@@ -30,8 +30,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.email"
-                                           placeholder="usermanagement::user_management.user.create.email"
+                            <x-core::input label="adminmanagement::admin_management.user.create.email"
+                                           placeholder="adminmanagement::admin_management.user.create.email"
                                            id="email"
                                            name="email"
                                            type="email"
@@ -42,8 +42,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.email"
-                                           placeholder="usermanagement::user_management.user.create.email"
+                            <x-core::input label="adminmanagement::admin_management.user.create.email"
+                                           placeholder="adminmanagement::admin_management.user.create.email"
                                            id="email"
                                            name="email"
                                            type="email"
@@ -66,8 +66,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::select :label="trans('usermanagement::user_management.user.create.role')"
-                                            :placeholder="trans('usermanagement::user_management.user.create.role')"
+                            <x-core::select :label="trans('adminmanagement::admin_management.user.create.role')"
+                                            :placeholder="trans('adminmanagement::admin_management.user.create.role')"
                                             id="role"
                                             name="role"
                                             required="required"
@@ -102,8 +102,8 @@
                             </x-core::select>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.password"
-                                           placeholder="usermanagement::user_management.user.create.password"
+                            <x-core::input label="adminmanagement::admin_management.user.create.password"
+                                           placeholder="adminmanagement::admin_management.user.create.password"
                                            id="password"
                                            name="password"
                                            type="password"
@@ -114,8 +114,8 @@
                             </x-core::input>
                         </div>
                         <div class="col-6">
-                            <x-core::input label="usermanagement::user_management.user.create.password_confirmation"
-                                           placeholder="usermanagement::user_management.user.create.password_confirmation"
+                            <x-core::input label="adminmanagement::admin_management.user.create.password_confirmation"
+                                           placeholder="adminmanagement::admin_management.user.create.password_confirmation"
                                            id="password_confirmation"
                                            name="password_confirmation"
                                            type="password_confirmation"
@@ -126,7 +126,7 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3" style="margin-top: 2rem !important;">
-                            <x-core::input label="usermanagement::user_management.user.create.isActive"
+                            <x-core::input label="adminmanagement::admin_management.user.create.isActive"
                                            id="editIsActive" name="is_active"
                                            type="checkbox"
                                            model="editIsActive"
@@ -136,7 +136,7 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.img" id="img"
+                            <x-core::input label="adminmanagement::admin_management.user.create.img" id="img"
                                            name="img"
                                            type="file"
                                            required=""
@@ -159,10 +159,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                        {{trans('usermanagement::user_management.close')}}
+                        {{trans('adminmanagement::admin_management.close')}}
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        {{trans('usermanagement::user_management.save')}}
+                        {{trans('adminmanagement::admin_management.save')}}
                     </button>
                 </div>
             </div>

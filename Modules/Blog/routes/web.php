@@ -6,7 +6,7 @@ use Modules\Blog\Http\Controllers\PostController;
 use Modules\Blog\Http\Controllers\QuillUploadController;
 use Modules\Blog\Http\Controllers\TagController;
 
-Route::middleware(['auth:doctor',/* 'audit',*/ 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->name(
+Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->name(
     'doctor.',
 )->prefix(
     'doctor',

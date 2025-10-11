@@ -1,6 +1,6 @@
 @extends('theme::user.layouts.horizontalLayout')
 
-@section('title', trans('usermanagement::user_management.roles.title'))
+@section('title', trans('adminmanagement::admin_management.roles.title'))
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{asset('assets/vendor/libs/spinkit/spinkit.css')}}"/>
@@ -47,14 +47,14 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
                             <h5 class="">
-                                {{trans('usermanagement::user_management.roles.title')}}
+                                {{trans('adminmanagement::admin_management.roles.title')}}
                             </h5>
                             <h5 class="">
                                 @can('admin.role_management.create')
                                     <a type="button" href="{{route('admin.role_management.create')}}"
                                        class="btn btn-primary">
                                         <i class="fe fe-plus-circle me-1"></i>
-                                        {{trans('usermanagement::user_management.roles.createBtn')}}
+                                        {{trans('adminmanagement::admin_management.roles.createBtn')}}
                                     </a>
                                 @endcan
                             </h5>
@@ -66,11 +66,11 @@
                                     <table class="table datanew">
                                         <thead>
                                         <tr>
-                                            <th>{{trans('usermanagement::user_management.roles.id')}}</th>
-                                            <th>{{trans('usermanagement::user_management.roles.name')}}</th>
-                                            <th>{{trans('usermanagement::user_management.roles.created_at')}}</th>
-                                            <th>{{trans('usermanagement::user_management.roles.updated_at')}}</th>
-                                            <th>{{trans('usermanagement::user_management.roles.actions')}}</th>
+                                            <th>{{trans('adminmanagement::admin_management.roles.id')}}</th>
+                                            <th>{{trans('adminmanagement::admin_management.roles.name')}}</th>
+                                            <th>{{trans('adminmanagement::admin_management.roles.created_at')}}</th>
+                                            <th>{{trans('adminmanagement::admin_management.roles.updated_at')}}</th>
+                                            <th>{{trans('adminmanagement::admin_management.roles.actions')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="table-border-bottom-0">

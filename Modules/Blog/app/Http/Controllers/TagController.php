@@ -34,11 +34,6 @@ class TagController extends Controller
      */
     public function storeAjax(TagRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|array',
-            'name.*' => 'required|string|max:255',
-        ]);
-
         $tag = $this->tags->store($request);
 
         return response()->json([

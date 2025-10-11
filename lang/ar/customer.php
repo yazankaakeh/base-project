@@ -82,6 +82,7 @@ return [
         'cards' => 'البطاقات',
         'settings' => 'الإعدادات',
         'seoSettings' => 'إعدادات SEO',
+        'envSettings' => 'إعدادات البيئة',
         'blog' => 'المدونة',
         'blogCategories' => 'تصنيفات المدونة',
         'blogPosts' => 'مقالات المدونة',

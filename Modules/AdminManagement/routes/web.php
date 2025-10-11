@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\AdminManagement\app\Http\Controllers\AuditLogController;
-use Modules\AdminManagement\app\Http\Controllers\RoleManagementController;
-use Modules\AdminManagement\app\Http\Controllers\UserManagementController;
+use Modules\AdminManagement\Http\Controllers\AuditLogController;
+use Modules\AdminManagement\Http\Controllers\RoleManagementController;
+use Modules\AdminManagement\Http\Controllers\UserManagementController;
 
 
 Route::middleware(['auth:doctor', 'admin-enabled', 'authorize', 'doctorMenu', 'setLocale', 'audit'])->prefix(
@@ -26,7 +26,8 @@ Route::middleware(['auth:doctor', 'admin-enabled', 'authorize', 'doctorMenu', 's
         );
 
         Route::resource('role-management', RoleManagementController::class)
-            ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])->names('admin.role_management');
+            ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+            ->names('admin.role_management');
     },
 );
 

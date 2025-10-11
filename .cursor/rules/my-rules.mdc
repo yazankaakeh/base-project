@@ -16,6 +16,7 @@ alwaysApply: true
 - **Use Actions/Services + Repositories** for domain + data access.
 - **Use Blade components/partials** to remove repetition.
 - Follow Laravel/PSR-12 naming & structure. English comments only.
+- Follow the standard of Modules, and make all routes and repositories and blades inside the Modules that it's related to.
 
 ## Controllers (thin)
 - Accept FormRequest, delegate to an **Action/Service**, return view/resource.

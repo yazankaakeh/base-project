@@ -44,4 +44,9 @@ return [
         ],
 
     ],
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'edit' => 'Edit',
+    'actions' => 'Actions',
+    'close' => 'Close',
 ];

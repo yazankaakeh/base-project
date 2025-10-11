@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\App\Models;
+namespace Modules\AdminManagement\app\Models;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;

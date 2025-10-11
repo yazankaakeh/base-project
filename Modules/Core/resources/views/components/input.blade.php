@@ -1,4 +1,4 @@
-<div>
+<div class="my-2">
     @if(isset($label))
         <label class="form-label" for="{{$id}}">{{trans($label)}} {{ $lang ?? '' }}</label>
 

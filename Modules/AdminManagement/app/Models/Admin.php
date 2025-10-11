@@ -3,7 +3,7 @@
 namespace Modules\AdminManagement\app\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Modules\AdminManagement\App\Enums\ActiveAdminEnum;
+use Modules\AdminManagement\Enums\ActiveAdminEnum;
 use Spatie\Permission\Traits\HasRoles;
 
 /**

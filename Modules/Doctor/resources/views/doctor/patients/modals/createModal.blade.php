@@ -198,7 +198,7 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="usermanagement::user_management.user.create.img" id="create_img"
+                            <x-core::input label="admin_management::admin_management.user.create.img" id="create_img"
                                            name="img"
                                            type="file"
                                            required=""

@@ -1,4 +1,4 @@
-@php use Modules\AdminManagement\app\Action\Auditing\RouteName; @endphp
+@php use Modules\AdminManagement\Action\Auditing\RouteName; @endphp
 @extends('theme::user.layouts.horizontalLayout')
 
 {{--@section('title', 'Audit Log')
@@ -43,7 +43,7 @@
     <script src="{{asset('assets/js/forms-typeahead.js')}}"></script>
     <script src="{{asset('assets/js/forms-pickers.js')}}"></script>
 @endsection--}}
-@section('title', trans('usermanagement::user_management.audits.index'))
+@section('title', trans('adminmanagement::admin_management.audits.index'))
 
 @section('content')
     <div class="page-wrapper">
@@ -52,13 +52,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
-                            <h5 class="">{{trans('usermanagement::user_management.audits.index')}}</h5>
+                            <h5 class="">{{trans('adminmanagement::admin_management.audits.index')}}</h5>
                             <h5 class="">
                                 <button type="button"
                                         data-bs-toggle="modal" data-bs-target="#filterModal"
                                         class="btn btn-primary">
                                     <i class="ti ti-plus me-1"></i>
-                                    {{trans('usermanagement::user_management.audits.filter')}}
+                                    {{trans('adminmanagement::admin_management.audits.filter')}}
                                 </button>
                             </h5>
                         </div>
@@ -69,11 +69,11 @@
                                     <table id="table-draggable1" class="datanew table">
                                         <thead>
                                         <tr>
-                                            <th> {{trans('usermanagement::user_management.audits.admin')}}</th>
-                                            <th> {{trans('usermanagement::user_management.audits.action')}}</th>
-                                            <th> {{trans('usermanagement::user_management.audits.ip')}}</th>
-                                            <th> {{trans('usermanagement::user_management.audits.time')}}</th>
-                                            <th> {{trans('usermanagement::user_management.audits.changes')}}</th>
+                                            <th> {{trans('adminmanagement::admin_management.audits.admin')}}</th>
+                                            <th> {{trans('adminmanagement::admin_management.audits.action')}}</th>
+                                            <th> {{trans('adminmanagement::admin_management.audits.ip')}}</th>
+                                            <th> {{trans('adminmanagement::admin_management.audits.time')}}</th>
+                                            <th> {{trans('adminmanagement::admin_management.audits.changes')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody class="sortable">

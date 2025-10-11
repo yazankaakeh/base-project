@@ -3,7 +3,7 @@
 $page = 'sales-dashboard'; ?>
 @extends('theme::user.layouts.horizontalLayout')
 
-@section('title', trans('usermanagement::user_management.user.title'))
+@section('title', trans('adminmanagement::admin_management.user.title'))
 
 <!-- Vendor Styles -->
 @section('vendor-style')
@@ -122,7 +122,7 @@ $page = 'sales-dashboard'; ?>
                                                             @can('admin.user_management.update')
                                                                 <a type="button" data-bs-toggle="modal"
                                                                    data-bs-target="#editModal"
-                                                                   class="me-2 btn text-primary btn-outline-primary p-2 btn-sm EditModalBTN"
+                                                                   class="me-2 btn text-body btn-primary p-2 btn-sm EditModalBTN"
                                                                    data-id="{{$user->id}}"
                                                                    data-name="{{$user->name}}"
                                                                    data-email="{{$user->email}}"
@@ -135,7 +135,7 @@ $page = 'sales-dashboard'; ?>
                                                             @can('admin.user_management.status')
                                                                 <a type="button" data-bs-toggle="modal"
                                                                    data-bs-target="#isActiveModal"
-                                                                   class="me-2 p-2 text-primary btn btn-outline-slack btn-sm IsActiveModalBTN"
+                                                                   class="me-2 p-2 text-body btn btn-slack btn-sm IsActiveModalBTN"
                                                                    data-id="{{$user->id}}"
                                                                    data-name="{{$user->name}}"
                                                                    data-email="{{$user->email}}"

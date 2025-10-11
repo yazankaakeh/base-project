@@ -4,6 +4,10 @@ namespace Modules\AdminManagement\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\AdminManagement\Repository\Role\RoleInterface;
+use Modules\AdminManagement\Repository\Role\RoleRepository;
+use Modules\AdminManagement\Repository\User\DoctorInterface;
+use Modules\AdminManagement\Repository\User\DoctorRepository;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -34,7 +38,9 @@ class AdminManagementServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        $this->commands([
+            \Modules\AdminManagement\Console\CreateRoutePermissionsCommand::class,
+        ]);
     }
 
     /**
@@ -142,6 +148,8 @@ class AdminManagementServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(RoleInterface::class, RoleRepository::class);
+        $this->app->bind(DoctorInterface::class, DoctorRepository::class);
     }
 
     /**

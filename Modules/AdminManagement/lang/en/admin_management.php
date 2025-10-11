@@ -1,6 +1,6 @@
 <?php
 
-use Modules\AdminManagement\app\Enums\ActiveAdminEnum;
+use Modules\AdminManagement\Enums\ActiveAdminEnum;
 
 return [
     'ActiveAdminEnum' => [

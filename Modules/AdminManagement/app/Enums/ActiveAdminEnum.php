@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\App\Enums;
+namespace Modules\AdminManagement\Enums;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Foundation\Application;
