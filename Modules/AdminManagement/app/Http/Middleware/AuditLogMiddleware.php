@@ -8,9 +8,10 @@ use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Modules\AdminManagement\Action\Auditing\RouteName;
-use Modules\AdminManagement\app\Models\AuditLog;
+use Modules\AdminManagement\Models\AuditLog;
 
 class AuditLogMiddleware
 {
@@ -42,17 +43,34 @@ class AuditLogMiddleware
         $user = Auth::user();
         if ($user->email) {
             try {
-                AuditLog::query()->create([
-                    'doctor_id' => $user->id,
+                // Create audit log using morph relationship
+                $auditLogData = [
                     'url' => $request->url(),
                     'method' => $request->method(),
-                    'payload' => json_encode($request->except(['img', 'password', 'password_confirmation', '_method'])),
+                    'payload' => $request->except(['img', 'password', 'password_confirmation', '_method']),
                     'ip' => $request->ip(),
                     'route_name' => $currentRouteName,
-                    'created_at' => Carbon::now(),
-                ]);
+                ];
+
+                // Use the user's createAuditLog method if it has the trait
+                if (method_exists($user, 'createAuditLog') && is_callable([$user, 'createAuditLog'])) {
+                    /** @var \Modules\AdminManagement\Traits\AuditLogTrait $user */
+                    $user->createAuditLog($auditLogData);
+                } else {
+                    // Fallback to direct creation with morph fields
+                    AuditLog::query()->create([
+                        'auditable_type' => get_class($user),
+                        'auditable_id' => $user->id,
+                        ...$auditLogData
+                    ]);
+                }
             } catch (Exception $e) {
-                dd($e);
+                // Log the error instead of dd() for production
+                Log::error('AuditLog creation failed: ' . $e->getMessage(), [
+                    'user_id' => $user->id,
+                    'route' => $currentRouteName,
+                    'url' => $request->url(),
+                ]);
             }
         }
         return $next($request);

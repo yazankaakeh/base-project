@@ -78,12 +78,12 @@ $pageVar = 'cms-pages';
                                                         </div>
                                                         <div class="col-12">
                                                             <label class="form-label">Content</label>
-                                                            <div id="editor-{{ $lang }}" class="quill-editor"
-                                                                 data-lang="{{ $lang }}"
-                                                                 data-input="content-{{ $lang }}"
-                                                                 data-content="{{ $page->getTranslation('content', $lang) ?? '' }}"
-                                                                 dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-                                                            </div>
+                                                            <textarea id="editor-{{ $lang }}" class="tinymce-editor"
+                                                                      data-lang="{{ $lang }}"
+                                                                      data-input="content-{{ $lang }}"
+                                                                      data-content="{{ $page->getTranslation('content', $lang) ?? '' }}"
+                                                                      dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"
+                                                                      wire:model="content.{{ $lang }}">{{ $page->getTranslation('content', $lang) ?? '' }}</textarea>
                                                             <input type="hidden" name="content[{{$lang}}]" id="content-{{$lang}}"
                                                                    value="{{ old('content.'.$lang, $page->getTranslation('content', $lang)) }}">
                                                         </div>

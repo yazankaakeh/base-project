@@ -24,16 +24,6 @@ $page = 'sales-dashboard'; ?>
 
 <!-- Vendor Scripts -->
 @section('vendor-script')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            $('.select2').each(function () {
-                $(this).select2({
-                    allowClear: true,
-                    tags: false
-                });
-            });
-        })
-    </script>
     @vite(['resources/assets/vendor/libs/dropzone/dropzone.js'], 'build/modules/theme')
     @vite([ 'resources/assets/vendor/libs/bs-stepper/bs-stepper.js',
             'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js',
@@ -52,17 +42,25 @@ $page = 'sales-dashboard'; ?>
     <script>
         $(document).ready(function() {
             // Initialize Select2 for tags
-            $('#tags').select2({
+            $('.select2').select2({
                 placeholder: 'Select tags...',
                 allowClear: true,
                 tags: false
             });
 
+            // Manual TinyMCE initialization as fallback
+            setTimeout(function() {
+                if (typeof window.manualInitTinyMCE === 'function') {
+                    console.log('Manual TinyMCE initialization triggered');
+                    window.manualInitTinyMCE();
+                }
+            }, 1000);
         });
     </script>
+    @include('blog::partials.tag-modal')
+
 @endsection
 
-@include('blog::partials.tag-modal')
 
 @section('content')
     <div class="page-wrapper">
@@ -86,7 +84,7 @@ $page = 'sales-dashboard'; ?>
                                 </ul>
                             </div>
                         </div>
-                        <form action="{{ route('doctor.posts.store') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('doctor.posts.store') }}" method="post" enctype="multipart/form-data" id="create-post-form">
                             @csrf
                             <div class="row mt-3">
                                 <div class="col-9">
@@ -107,13 +105,11 @@ $page = 'sales-dashboard'; ?>
                                                             </div>
                                                             <div class="col-12">
                                                                 <div class="my-3">
-                                                                    <div id="editor-{{ $lang }}" class="quill-editor"
-                                                                         data-lang="{{ $lang }}"
-                                                                         data-input="postContent-{{ $lang }}"
-                                                                         data-upload="{{ route('doctor.quillUpload.store') }}"
-                                                                         dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-
-                                                                    </div>
+                                                                    <textarea id="editor-{{ $lang }}" class="tinymce-editor"
+                                                                              data-lang="{{ $lang }}"
+                                                                              data-input="postContent-{{ $lang }}"
+                                                                              data-upload="{{ route('tinymce.upload') }}"
+                                                                              dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"></textarea>
                                                                     <input type="hidden" name="description[{{$lang}}]"
                                                                            id="postContent-{{$lang}}">
                                                                 </div>

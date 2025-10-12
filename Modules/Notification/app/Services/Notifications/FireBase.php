@@ -4,6 +4,7 @@ namespace Modules\Notification\App\Services\Notifications;
 
 
 use Exception;
+use Google_Client;
 use Illuminate\Support\Facades\Log;
 use Modules\Core\App\Traits\ThirdPartyTrait;
 
@@ -83,9 +84,16 @@ class FireBase
      */
     public function getAccessToken()
     {
-        $firebaseCredentials = base_path(config('services.fireBase.firebaseCredentials'));
+        // Check for service account file in storage directory first
+        $firebaseCredentials = storage_path('firebase-service-account.json');
+
+        // Fallback to config path if not found in storage
         if (!file_exists($firebaseCredentials)) {
-            throw new Exception('Firebase credentials JSON file not found.');
+            $firebaseCredentials = base_path(config('services.fireBase.firebaseCredentials'));
+        }
+
+        if (!file_exists($firebaseCredentials)) {
+            throw new Exception('Firebase credentials JSON file not found. Please upload the service account file in the environment settings.');
         }
 
         $googleCredentials = json_decode(file_get_contents($firebaseCredentials), true);

@@ -5,6 +5,7 @@ use Modules\Core\App\Http\Controllers\LoginController;
 use Modules\Core\app\Http\Controllers\SocialController;
 use Modules\Theme\Http\Controllers\LandingPageController;
 use Modules\Theme\Http\Controllers\ThemeController;
+use Modules\Theme\Http\Controllers\TinyMCEUploadController;
 
 /*Auth::routes();*/
 Route::get('lang/{locale}', function ($locale) {
@@ -43,3 +44,11 @@ Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
 Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
     ->whereIn('provider', ['google', 'facebook', 'x'])
     ->name('oauth.callback');
+
+// TinyMCE Image Upload Routes
+Route::middleware(['web', 'auth:doctor'])->group(function () {
+    Route::post('/uploads/tinymce', [TinyMCEUploadController::class, 'uploadImage'])->name('tinymce.upload');
+    Route::post('/uploads/tinymce/multiple', [TinyMCEUploadController::class, 'uploadImages'])->name(
+        'tinymce.upload.multiple',
+    );
+});

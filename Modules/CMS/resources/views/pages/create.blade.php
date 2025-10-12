@@ -77,11 +77,11 @@ $page = 'cms-pages';
                                                         </div>
                                                         <div class="col-12">
                                                             <label class="form-label">{{ trans('cms::cms.pages.content') }}</label>
-                                                            <div id="editor-{{ $lang }}" class="quill-editor"
-                                                                 data-lang="{{ $lang }}"
-                                                                 data-input="content-{{ $lang }}"
-                                                                 dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-                                                            </div>
+                                                            <textarea id="editor-{{ $lang }}" class="tinymce-editor"
+                                                                      data-lang="{{ $lang }}"
+                                                                      data-input="content-{{ $lang }}"
+                                                                      dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"
+                                                                      wire:model="content.{{ $lang }}"></textarea>
                                                             <input type="hidden" name="content[{{$lang}}]" id="content-{{$lang}}">
                                                         </div>
                                                     </div>

@@ -27,6 +27,35 @@ class EnvController extends Controller
     public function update(EnvUpdateRequest $request): RedirectResponse
     {
         try {
+            // Handle Firebase service account file upload
+            if ($request->hasFile('FIREBASE_SERVICE_ACCOUNT_FILE')) {
+                $file = $request->file('FIREBASE_SERVICE_ACCOUNT_FILE');
+
+                // Validate file type
+                if ($file->getClientOriginalExtension() !== 'json') {
+                    return redirect()->back()->with('error', 'Firebase service account file must be a JSON file.');
+                }
+
+                // Validate JSON content
+                $content = file_get_contents($file->getPathname());
+                $json = json_decode($content, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    return redirect()->back()->with('error', 'Invalid JSON file for Firebase service account.');
+                }
+
+                // Check for required Firebase service account fields
+                $requiredFields = ['type', 'project_id', 'private_key', 'client_email'];
+                foreach ($requiredFields as $field) {
+                    if (!isset($json[$field])) {
+                        return redirect()->back()->with('error', "Missing required field '{$field}' in Firebase service account file.");
+                    }
+                }
+
+                // Store the file
+                $file->move(storage_path(), 'firebase-service-account.json');
+            }
+
             EnvUpdateClass::updateEnvSettings([
                 // recaptcha
                 'RECAPTCHA_SITE_KEY' => $request->RECAPTCHA_SITE_KEY,
@@ -72,6 +101,100 @@ class EnvController extends Controller
             return back()->with('success', 'Test email sent successfully.');
         } catch (Exception $e) {
             return back()->with('error', 'Failed: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Save Firebase push token for the authenticated user
+     */
+    public function savePushToken(Request $request)
+    {
+        $request->validate([
+            'push_token' => 'required|string',
+            'platform' => 'required|string|in:web,android,ios',
+        ]);
+
+        try {
+            $user = auth()->user();
+
+            // Check if token already exists for this user and platform
+            $existingToken = \Modules\Notification\Models\NotificationPushToken::where('tokenable_id', $user->id)
+                ->where('tokenable_type', get_class($user))
+                ->where('platform', $request->platform)
+                ->first();
+
+            if ($existingToken) {
+                // Update existing token
+                $existingToken->update(['push_token' => $request->push_token]);
+            } else {
+                // Create new token
+                \Modules\Notification\Models\NotificationPushToken::create([
+                    'tokenable_id' => $user->id,
+                    'tokenable_type' => get_class($user),
+                    'push_token' => $request->push_token,
+                    'platform' => $request->platform,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Push token saved successfully.'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to save push token: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Send test Firebase notification
+     */
+    public function sendTestNotification(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string|max:1000',
+        ]);
+
+        try {
+            $user = auth()->user();
+
+            // Check if user has push tokens
+            $pushTokens = $user->pushTokens;
+            if ($pushTokens->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No push tokens found. Please save a push token first.'
+                ], 400);
+            }
+
+            // Send notification using Firebase service
+            $firebaseService = new \Modules\Notification\App\Services\Notifications\FireBase();
+
+            $notificationData = [
+                'title' => $request->title,
+                'body' => $request->body,
+            ];
+
+            $firebaseService->prepareAndSend(
+                $user,
+                $notificationData,
+                true, // vibrate
+                'default', // sound
+                ['url' => route('doctor.dashboard')] // click action
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test notification sent successfully to ' . $pushTokens->count() . ' device(s).'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send notification: ' . $e->getMessage()
+            ], 500);
         }
     }
 

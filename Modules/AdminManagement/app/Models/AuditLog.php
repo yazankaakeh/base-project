@@ -1,11 +1,12 @@
 <?php
 
-namespace Modules\AdminManagement\app\Models;
+namespace Modules\AdminManagement\Models;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Doctor\Models\Doctor;
 
 class AuditLog extends Model
@@ -13,13 +14,13 @@ class AuditLog extends Model
 
     public $timestamps = true;
     protected $fillable = [
-        'doctor_id',
+        'auditable_type',
+        'auditable_id',
         'url',
         'method',
         'payload',
         'ip',
         'route_name',
-        'crated_at',
     ];
 
     protected $casts = [
@@ -28,13 +29,27 @@ class AuditLog extends Model
 
     public static function IndexFilter($logins, $request)
     {
-        if (isset($request['doctor_id']) && $request['doctor_id'] != 'all') {
-            $logins->where('doctor_id', $request['doctor_id']);
+        // Filter by auditable type (e.g., Doctor, Patient, etc.)
+        if (isset($request['auditable_type']) && $request['auditable_type'] != 'all') {
+            $logins->where('auditable_type', $request['auditable_type']);
         }
 
+        // Filter by specific auditable ID
+        if (isset($request['auditable_id']) && $request['auditable_id'] != 'all') {
+            $logins->where('auditable_id', $request['auditable_id']);
+        }
+
+        // Filter by route name
         if (isset($request['route_name']) && $request['route_name'] != 'all') {
             $logins->where('route_name', $request['route_name']);
         }
+
+        // Filter by method
+        if (isset($request['method']) && $request['method'] != 'all') {
+            $logins->where('method', $request['method']);
+        }
+
+        // Date range filter
         if ((isset($request['start_date']) && $request['start_date'] != 'undefined') && (isset($request['end_date']) && $request['end_date'] != 'undefined')) {
             $request['start_date'] = str_replace('/', '-', $request['start_date']);
             $request['end_date'] = str_replace('/', '-', $request['end_date']);
@@ -52,12 +67,12 @@ class AuditLog extends Model
 
     public static function filter($logins, $request)
     {
-        if (!is_null($request['doctor_id'])) {
-            $logins->where('payload', 'like', '%"doctor_id":"'.$request['doctor_id'].'"%');
+        if (!is_null($request['auditable_type'])) {
+            $logins->where('auditable_type', $request['auditable_type']);
         }
 
-        if (!is_null($request['doctor_id'])) {
-            $logins->where('doctor_id', $request['doctor_id']);
+        if (!is_null($request['auditable_id'])) {
+            $logins->where('auditable_id', $request['auditable_id']);
         }
 
         if (!is_null($request['created_at'])) {
@@ -67,13 +82,34 @@ class AuditLog extends Model
         return $logins;
     }
 
-    public static function GetDoctors(): Collection|array
+    public static function GetAuditableTypes(): array
+    {
+        return [
+            Doctor::class => 'Doctor',
+            // Add more auditable types as needed
+            // Patient::class => 'Patient',
+        ];
+    }
+
+    public static function GetAuditableModels(): Collection|array
     {
         return Doctor::query()->select('name', 'id')->get();
     }
 
+    /**
+     * Get the auditable model (polymorphic relationship)
+     */
+    public function auditable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * Legacy method for backward compatibility
+     * @deprecated Use auditable() instead
+     */
     public function doctor(): BelongsTo
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(Doctor::class, 'auditable_id')->where('auditable_type', Doctor::class);
     }
 }

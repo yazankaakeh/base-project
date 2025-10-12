@@ -3,8 +3,8 @@
 return [
     'category' => [
         'main_title' => 'Category',
-        'title' => '',
-        'description' => '',
+        'title' => 'asd',
+        'description' => 'asd',
     ],
     'post' => [
         'main_title' => 'Post',

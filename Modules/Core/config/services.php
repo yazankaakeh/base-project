@@ -16,12 +16,12 @@ return [
     'MAIL_FROM_NAME' => env('MAIL_FROM_NAME'),
   ],
   'firebase' => [
-    'FIREBASE_API_KEY' => env('FIREBASE_API_KEY'),
-    'FIREBASE_AUTH_DOMAIN' => env('FIREBASE_AUTH_DOMAIN'),
-    'FIREBASE_PROJECT_ID' => env('FIREBASE_PROJECT_ID'),
-    'FIREBASE_STORAGE_BUCKET' => env('FIREBASE_STORAGE_BUCKET'),
-    'FIREBASE_MESSAGING_SENDER_ID' => env('FIREBASE_MESSAGING_SENDER_ID'),
-    'FIREBASE_APP_ID' => env('FIREBASE_APP_ID'),
+    'api_key' => env('FIREBASE_API_KEY'),
+    'auth_domain' => env('FIREBASE_AUTH_DOMAIN'),
+    'project_id' => env('FIREBASE_PROJECT_ID'),
+    'storage_bucket' => env('FIREBASE_STORAGE_BUCKET'),
+    'messaging_sender_id' => env('FIREBASE_MESSAGING_SENDER_ID'),
+    'app_id' => env('FIREBASE_APP_ID'),
   ],
 
 ];

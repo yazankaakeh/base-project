@@ -1,0 +1,206 @@
+<?php
+
+use Modules\AdminManagement\Enums\ActiveAdminEnum;
+
+return [
+    'ActiveAdminEnum' => [
+        ActiveAdminEnum::ACTIVE->value => 'نشط',
+        ActiveAdminEnum::DE_ACTIVE->value => 'غير نشط',
+    ],
+    'user' => [
+        'title' => 'إدارة المستخدمين',
+        'editUserStatus' => 'تعديل حالة المستخدم',
+        'edit' => [
+            'title' => 'تعديل المستخدم',
+        ],
+        'create' => [
+            'title' => 'إنشاء مستخدم',
+            'img' => 'الصورة',
+            'password' => 'كلمة المرور',
+            'password_confirmation' => 'تأكيد كلمة المرور',
+            'isActive' => 'نشط',
+            'name' => 'الاسم',
+            'email' => 'البريد الإلكتروني',
+            'role' => 'الدور',
+            'phone' => 'الهاتف',
+        ],
+    ],
+    'roles' => [
+        'title' => 'الأدوار',
+        'createBtn' => 'إنشاء',
+        'id' => 'المعرف',
+        'name' => 'الاسم',
+        'created_at' => 'تاريخ الإنشاء',
+        'updated_at' => 'تاريخ التحديث',
+        'actions' => 'الإجراءات',
+        'create' => [
+            'title' => 'إنشاء دور',
+            'name' => 'الاسم',
+            'guard' => 'الحارس',
+            'allCheckBoxes' => 'جميع المربعات',
+        ],
+        'edit' => [
+            'title' => 'تعديل الدور',
+        ],
+    ],
+    'audits' => [
+        'index' => 'سجلات التدقيق',
+        'getPayLoad' => 'الحصول على الحمولة',
+        'filter' => 'تصفية',
+        'admin' => 'المدير',
+        'action' => 'الإجراء',
+        'ip' => 'عنوان IP',
+        'time' => 'الوقت',
+        'changes' => 'التغييرات',
+        'filterModal' => [
+            'all' => 'الكل',
+            'index' => 'تصفية',
+            'adminId' => 'المدير',
+            'date' => 'التاريخ',
+            'routeName' => 'اسم المسار',
+        ],
+    ],
+    'submit' => 'إرسال',
+    'close' => 'إغلاق',
+    'save' => 'حفظ التغييرات',
+    'pleaseSelectOne' => 'يرجى اختيار واحد',
+    'permissions' => [
+        // Admin Management Permissions
+        'admin-user_management-index' => 'عرض إدارة المستخدمين',
+        'admin-user_management-store' => 'إنشاء مستخدم',
+        'admin-user_management-update' => 'تحديث مستخدم',
+        'admin-user_management-status' => 'حذف/تغيير حالة المستخدم',
+
+        'admin-audits-index' => 'عرض سجل التدقيق',
+        'admin-audits-getPayload' => 'عرض تفاصيل سجل التدقيق',
+
+        'admin-role_management-index' => 'عرض إدارة الأدوار',
+        'admin-role_management-create' => 'إنشاء دور',
+        'admin-role_management-store' => 'حفظ دور',
+        'admin-role_management-edit' => 'تعديل دور',
+        'admin-role_management-update' => 'تحديث دور',
+        'admin-role_management-destroy' => 'حذف دور',
+
+        // Blog Permissions
+        'doctor-categories-index' => 'عرض الفئات',
+        'doctor-categories-create' => 'إنشاء فئة',
+        'doctor-categories-store' => 'حفظ فئة',
+        'doctor-categories-show' => 'عرض تفاصيل الفئة',
+        'doctor-categories-edit' => 'تعديل فئة',
+        'doctor-categories-update' => 'تحديث فئة',
+        'doctor-categories-destroy' => 'حذف فئة',
+
+        'doctor-posts-index' => 'عرض المقالات',
+        'doctor-posts-create' => 'إنشاء مقال',
+        'doctor-posts-store' => 'حفظ مقال',
+        'doctor-posts-show' => 'عرض تفاصيل المقال',
+        'doctor-posts-edit' => 'تعديل مقال',
+        'doctor-posts-update' => 'تحديث مقال',
+        'doctor-posts-destroy' => 'حذف مقال',
+
+        'doctor-quillUpload-store' => 'رفع الصور للمحرر',
+
+        'doctor-tags-index' => 'عرض العلامات',
+        'doctor-tags-create' => 'إنشاء علامة',
+        'doctor-tags-store' => 'حفظ علامة',
+        'doctor-tags-show' => 'عرض تفاصيل العلامة',
+        'doctor-tags-edit' => 'تعديل علامة',
+        'doctor-tags-update' => 'تحديث علامة',
+        'doctor-tags-destroy' => 'حذف علامة',
+        'doctor-tags-storeAjax' => 'إنشاء علامة عبر AJAX',
+        'doctor-tags-options' => 'الحصول على خيارات العلامات',
+
+        // CMS Permissions
+        'cms-home-edit' => 'تعديل الصفحة الرئيسية',
+        'cms-home-update' => 'تحديث الصفحة الرئيسية',
+
+        'cms-index' => 'عرض صفحات CMS',
+        'cms-create' => 'إنشاء صفحة CMS',
+        'cms-store' => 'حفظ صفحة CMS',
+        'cms-show' => 'عرض تفاصيل صفحة CMS',
+        'cms-edit' => 'تعديل صفحة CMS',
+        'cms-update' => 'تحديث صفحة CMS',
+        'cms-destroy' => 'حذف صفحة CMS',
+
+        'menus-index' => 'عرض القوائم',
+        'menus-create' => 'إنشاء قائمة',
+        'menus-store' => 'حفظ قائمة',
+        'menus-show' => 'عرض تفاصيل القائمة',
+        'menus-edit' => 'تعديل قائمة',
+        'menus-update' => 'تحديث قائمة',
+        'menus-destroy' => 'حذف قائمة',
+
+        // Doctor Permissions
+        'doctor-dashboard' => 'عرض لوحة التحكم',
+
+        'doctor-clinic-index' => 'عرض العيادة',
+        'doctor-clinic-store' => 'حفظ معلومات العيادة',
+        'doctor-clinic-update' => 'تحديث معلومات العيادة',
+
+        'doctor-patients-index' => 'عرض المرضى',
+        'doctor-patients-store' => 'إنشاء مريض',
+        'doctor-patients-update' => 'تحديث مريض',
+        'doctor-patients-show' => 'عرض تفاصيل المريض',
+        'doctor-patients-downloadVCard' => 'تحميل بطاقة المريض',
+
+        'doctor-medicalTest-index' => 'عرض الفحوصات الطبية',
+        'doctor-medicalTest-store' => 'إنشاء فحص طبي',
+        'doctor-medicalTest-update' => 'تحديث فحص طبي',
+
+        'doctor-medicine-index' => 'عرض الأدوية',
+        'doctor-medicine-store' => 'إنشاء دواء',
+        'doctor-medicine-update' => 'تحديث دواء',
+
+        'doctor-medicalSpecialty-index' => 'عرض التخصصات الطبية',
+        'doctor-medicalSpecialty-store' => 'إنشاء تخصص طبي',
+        'doctor-medicalSpecialty-update' => 'تحديث تخصص طبي',
+
+        'doctor-vitalSign-index' => 'عرض العلامات الحيوية',
+        'doctor-vitalSign-store' => 'إنشاء علامة حيوية',
+        'doctor-vitalSign-update' => 'تحديث علامة حيوية',
+
+        'doctor-finalDiagnosis-index' => 'عرض التشخيصات النهائية',
+        'doctor-finalDiagnosis-store' => 'إنشاء تشخيص نهائي',
+        'doctor-finalDiagnosis-update' => 'تحديث تشخيص نهائي',
+
+        'doctor-dosageForm-index' => 'عرض أشكال الجرعات',
+        'doctor-dosageForm-store' => 'إنشاء شكل جرعة',
+        'doctor-dosageForm-update' => 'تحديث شكل جرعة',
+
+        'doctor-medicalExamination-create' => 'إنشاء فحص طبي',
+        'doctor-medicalExamination-store' => 'حفظ فحص طبي',
+        'doctor-medicalExamination-submit' => 'إرسال فحص طبي',
+        'doctor-medicalExamination-show' => 'عرض فحص طبي',
+        'doctor-medicalExamination-index' => 'عرض الفحوصات الطبية',
+
+        'doctor-uploadFile-index' => 'رفع الملفات',
+        'doctor-uploadFile-delete' => 'حذف الملفات',
+
+        'doctor-pdf-downloadMedicines' => 'تحميل PDF الأدوية',
+        'doctor-pdf-downloadMedicalTest' => 'تحميل PDF الفحص الطبي',
+        'doctor-pdf-downloadMedicinesPharmacy' => 'تحميل PDF أدوية الصيدلية',
+    ],
+    'sections' => [
+        'admin' => 'إدارة النظام',
+        'audits' => 'التدقيق',
+        'role_management' => 'إدارة الأدوار',
+        'user_management' => 'إدارة المستخدمين',
+        'categories' => 'الفئات',
+        'posts' => 'المقالات',
+        'tags' => 'العلامات',
+        'cms' => 'نظام إدارة المحتوى',
+        'menus' => 'القوائم',
+        'dashboard' => 'لوحة التحكم',
+        'clinic' => 'العيادة',
+        'patients' => 'المرضى',
+        'medicalTest' => 'الفحوصات الطبية',
+        'medicine' => 'الأدوية',
+        'medicalSpecialty' => 'التخصصات الطبية',
+        'vitalSign' => 'العلامات الحيوية',
+        'finalDiagnosis' => 'التشخيصات النهائية',
+        'dosageForm' => 'أشكال الجرعات',
+        'medicalExamination' => 'الفحوصات الطبية',
+        'uploadFile' => 'رفع الملفات',
+        'pdf' => 'تقارير PDF',
+    ],
+];

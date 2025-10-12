@@ -37,6 +37,18 @@ $page = 'sales-dashboard'; ?>
 <!-- Page Scripts -->
 @section('page-script')
     @vite(['resources/assets/js/forms-file-upload.js','resources/assets/js/forms-editors.js'],'build/modules/theme')
+
+    <script>
+        $(document).ready(function() {
+            // Manual TinyMCE initialization as fallback
+            setTimeout(function() {
+                if (typeof window.manualInitTinyMCE === 'function') {
+                    console.log('Manual TinyMCE initialization triggered');
+                    window.manualInitTinyMCE();
+                }
+            }, 1000);
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -84,14 +96,13 @@ $page = 'sales-dashboard'; ?>
                                                         </x-core::input>
                                                         <div class="my-3">
                                                             <!-- Full Editor -->
-                                                            <div id="editor-{{ $lang }}"
-                                                                 class="quill-editor"
-                                                                 data-lang="{{ $lang }}"
-                                                                 data-input="postContent-{{ $lang }}"
-                                                                 data-upload="{{ route('doctor.quillUpload.store') }}"
-                                                                 dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-
-                                                            </div>
+                                                            <textarea id="editor-{{ $lang }}"
+                                                                      class="tinymce-editor"
+                                                                      data-lang="{{ $lang }}"
+                                                                      data-input="postContent-{{ $lang }}"
+                                                                      data-upload="{{ route('tinymce.upload') }}"
+                                                                      data-content="{{ $category->getTranslation('description', $lang) ?? '' }}"
+                                                                      dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">{{ $category->getTranslation('description', $lang) ?? '' }}</textarea>
                                                             <input type="hidden" name="description[{{$lang}}]"
                                                                    id="postContent-{{$lang}}"
                                                                    value="{{ $category->getTranslation('description', $lang) }}">

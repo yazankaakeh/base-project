@@ -59,7 +59,7 @@ $page = 'sales-dashboard';
                                     </div>
                                 @endif
 
-                                <form action="{{ route('doctor.env.update') }}" method="POST">
+                                <form action="{{ route('doctor.env.update') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('POST')
 
@@ -226,6 +226,27 @@ $page = 'sales-dashboard';
                                                     :value="config('services.firebase.app_id')">
                                             </x-core::input>
                                         </div>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="FIREBASE_SERVICE_ACCOUNT_FILE" class="form-label">
+                                                    {{ trans('core::core.env.firebase.FIREBASE_SERVICE_ACCOUNT_FILE') }}
+                                                </label>
+                                                <input type="file"
+                                                       class="form-control"
+                                                       id="FIREBASE_SERVICE_ACCOUNT_FILE"
+                                                       name="FIREBASE_SERVICE_ACCOUNT_FILE"
+                                                       accept=".json">
+                                                <div class="form-text">
+                                                    {{ trans('core::core.env.firebase.FIREBASE_SERVICE_ACCOUNT_FILE_HELP') }}
+                                                </div>
+                                                @if(file_exists(base_path('storage/firebase-service-account.json')))
+                                                    <div class="text-success mt-1">
+                                                        <i class="ti tabler-check me-1"></i>
+                                                        {{ trans('core::core.env.firebase.FIREBASE_SERVICE_ACCOUNT_FILE_EXISTS') }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="d-flex justify-content-end mt-4">
@@ -262,6 +283,89 @@ $page = 'sales-dashboard';
                                         </div>
                                     </div>
                                 </form>
+
+                                <!-- Firebase Notification Testing Section -->
+                                <hr class="my-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="mb-3">{{ trans('core::core.env.firebase.testNotifications') }}</h4>
+                                    </div>
+
+                                    <!-- Push Token Management -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">{{ trans('core::core.env.firebase.pushTokenManagement') }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="pushTokenForm">
+                                                    @csrf
+                                                    <div class="mb-3">
+                                                        <label for="push_token" class="form-label">
+                                                            {{ trans('core::core.env.firebase.pushToken') }}
+                                                        </label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="push_token"
+                                                               name="push_token"
+                                                               placeholder="{{ trans('core::core.env.firebase.pushTokenPlaceholder') }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="platform" class="form-label">
+                                                            {{ trans('core::core.env.firebase.platform') }}
+                                                        </label>
+                                                        <select class="form-select" id="platform" name="platform">
+                                                            <option value="web">{{ trans('core::core.env.firebase.platformWeb') }}</option>
+                                                            <option value="android">{{ trans('core::core.env.firebase.platformAndroid') }}</option>
+                                                            <option value="ios">{{ trans('core::core.env.firebase.platformIos') }}</option>
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" class="btn btn-primary" onclick="savePushToken()">
+                                                        <i class="ti tabler-device-floppy me-1"></i>
+                                                        {{ trans('core::core.env.firebase.saveToken') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Test Notification -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">{{ trans('core::core.env.firebase.testNotification') }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <form id="testNotificationForm">
+                                                    @csrf
+                                                    <div class="mb-3">
+                                                        <label for="notification_title" class="form-label">
+                                                            {{ trans('core::core.env.firebase.notificationTitle') }}
+                                                        </label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="notification_title"
+                                                               name="title"
+                                                               value="{{ trans('core::core.env.firebase.testNotificationTitle') }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="notification_body" class="form-label">
+                                                            {{ trans('core::core.env.firebase.notificationBody') }}
+                                                        </label>
+                                                        <textarea class="form-control"
+                                                                  id="notification_body"
+                                                                  name="body"
+                                                                  rows="3">{{ trans('core::core.env.firebase.testNotificationBody') }}</textarea>
+                                                    </div>
+                                                    <button type="button" class="btn btn-success" onclick="sendTestNotification()">
+                                                        <i class="ti tabler-send me-1"></i>
+                                                        {{ trans('core::core.env.firebase.sendTestNotification') }}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -269,4 +373,113 @@ $page = 'sales-dashboard';
             </div>
         </div>
     </div>
+@endsection
+
+@section('page-script')
+<script>
+    // Save Push Token
+    function savePushToken() {
+        const form = document.getElementById('pushTokenForm');
+        const formData = new FormData(form);
+
+        fetch('{{ route("doctor.firebase.saveToken") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('success', data.message);
+                form.reset();
+            } else {
+                showAlert('error', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'An error occurred while saving the token.');
+        });
+    }
+
+    // Send Test Notification
+    function sendTestNotification() {
+        const form = document.getElementById('testNotificationForm');
+        const formData = new FormData(form);
+
+        fetch('{{ route("doctor.firebase.sendTestNotification") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('success', data.message);
+            } else {
+                showAlert('error', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('error', 'An error occurred while sending the notification.');
+        });
+    }
+
+    // Show Alert
+    function showAlert(type, message) {
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+
+        // Remove existing alerts
+        document.querySelectorAll('.alert').forEach(alert => alert.remove());
+
+        // Add new alert at the top of the content
+        const content = document.querySelector('.content');
+        content.insertAdjacentHTML('afterbegin', alertHtml);
+
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) {
+                alert.remove();
+            }
+        }, 5000);
+    }
+
+    // Initialize Firebase for Web Push (if needed)
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if Firebase is configured
+        const firebaseConfig = {
+            apiKey: "{{ config('services.firebase.api_key') }}",
+            authDomain: "{{ config('services.firebase.auth_domain') }}",
+            projectId: "{{ config('services.firebase.project_id') }}",
+            storageBucket: "{{ config('services.firebase.storage_bucket') }}",
+            messagingSenderId: "{{ config('services.firebase.messaging_sender_id') }}",
+            appId: "{{ config('services.firebase.app_id') }}"
+        };
+
+        if (firebaseConfig.apiKey && firebaseConfig.projectId) {
+            console.log('Firebase configuration loaded:', firebaseConfig);
+
+            // Request permission for notifications
+            if ('Notification' in window && 'serviceWorker' in navigator) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted');
+                    }
+                });
+            }
+        }
+    });
+</script>
 @endsection

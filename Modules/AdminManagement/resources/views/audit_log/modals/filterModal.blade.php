@@ -1,7 +1,7 @@
 @php
 
     /* @var Admin $doctors */
-    use Modules\AdminManagement\Action\Auditing\RouteName;use Modules\AdminManagement\app\Models\Admin;use Modules\AdminManagement\app\Models\AuditLog;
+    use Modules\AdminManagement\Action\Auditing\RouteName;use Modules\AdminManagement\app\Models\Admin;use Modules\AdminManagement\Models\AuditLog;
     $doctors = AuditLog::GetDoctors();
 
     $startDate = app('request')->input('start_date');

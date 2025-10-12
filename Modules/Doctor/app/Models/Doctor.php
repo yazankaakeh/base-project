@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\AdminManagement\Traits\AuditLogTrait;
 use Modules\Blog\Traits\HasAuthor;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\App\Enums\Gender;
@@ -39,6 +40,7 @@ class Doctor extends Authenticatable implements HasMedia
     use Notifiable;
     use HasAuthor;
     use HasRoles;
+    use AuditLogTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -52,12 +52,19 @@ $page = 'sales-dashboard'; ?>
     <script>
         $(document).ready(function() {
             // Initialize Select2 for tags
-            $('#tags').select2({
+            $('.select2').select2({
                 placeholder: 'Select tags...',
                 allowClear: true,
                 tags: false
             });
 
+            // Manual TinyMCE initialization as fallback
+            setTimeout(function() {
+                if (typeof window.manualInitTinyMCE === 'function') {
+                    console.log('Manual TinyMCE initialization triggered');
+                    window.manualInitTinyMCE();
+                }
+            }, 1000);
         });
     </script>
     @includeIf('blog::partials.tag-modal')
@@ -111,13 +118,12 @@ $page = 'sales-dashboard'; ?>
                                                             </div>
                                                             <div class="col-12">
                                                                 <div class="my-3">
-                                                                    <div id="editor-{{ $lang }}" class="quill-editor"
-                                                                         data-lang="{{ $lang }}"
-                                                                         data-input="postContent-{{ $lang }}"
-                                                                         data-upload="{{ route('doctor.quillUpload.store') }}"
-                                                                         dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">
-
-                                                                    </div>
+                                                                    <textarea id="editor-{{ $lang }}" class="tinymce-editor"
+                                                                              data-lang="{{ $lang }}"
+                                                                              data-input="postContent-{{ $lang }}"
+                                                                              data-upload="{{ route('tinymce.upload') }}"
+                                                                              data-content="{{ $post->getTranslation('description', $lang) ?? '' }}"
+                                                                              dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">{{ $post->getTranslation('description', $lang) ?? '' }}</textarea>
                                                                     <input type="hidden" name="description[{{$lang}}]"
                                                                            id="postContent-{{$lang}}"
                                                                            value="{{ $post->getTranslation('description', $lang) }}">

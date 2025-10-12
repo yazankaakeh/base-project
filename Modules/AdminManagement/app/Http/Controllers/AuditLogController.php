@@ -9,16 +9,20 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\AdminManagement\app\Models\AuditLog;
+use Modules\AdminManagement\Models\AuditLog;
 
 class AuditLogController extends Controller
 {
     public function index(Request $request): Factory|View|Application
     {
-        $data = AuditLog::query()->with('doctor');
+        $data = AuditLog::query()->with('auditable');
         $data = AuditLog::IndexFilter($data, $request->all());
         $data = $data->orderByDesc('created_at')->paginate(Pagination::PAG->value);
-        return view('adminmanagement::audit_log.index', compact('data'));
+        
+        // Get auditable types for filter dropdown
+        $auditableTypes = AuditLog::GetAuditableTypes();
+        
+        return view('adminmanagement::audit_log.index', compact('data', 'auditableTypes'));
     }
 
     public function getPayload($id): JsonResponse
@@ -39,5 +43,49 @@ class AuditLogController extends Controller
         $payload_html .= "</table>";
 
         return response()->json(['payload' => $payload_html]);
+    }
+
+    /**
+     * Get audit logs for a specific auditable model
+     */
+    public function getAuditLogsForModel(Request $request): JsonResponse
+    {
+        $auditableType = $request->get('auditable_type');
+        $auditableId = $request->get('auditable_id');
+
+        if (!$auditableType || !$auditableId) {
+            return response()->json(['error' => 'Missing auditable_type or auditable_id'], 400);
+        }
+
+        $auditLogs = AuditLog::query()
+            ->where('auditable_type', $auditableType)
+            ->where('auditable_id', $auditableId)
+            ->with('auditable')
+            ->orderByDesc('created_at')
+            ->paginate(15);
+
+        return response()->json($auditLogs);
+    }
+
+    /**
+     * Get audit log statistics
+     */
+    public function getStatistics(): JsonResponse
+    {
+        $stats = [
+            'total_logs' => AuditLog::count(),
+            'logs_by_type' => AuditLog::selectRaw('auditable_type, COUNT(*) as count')
+                ->groupBy('auditable_type')
+                ->get(),
+            'logs_by_method' => AuditLog::selectRaw('method, COUNT(*) as count')
+                ->groupBy('method')
+                ->get(),
+            'recent_activity' => AuditLog::with('auditable')
+                ->latest()
+                ->limit(10)
+                ->get(),
+        ];
+
+        return response()->json($stats);
     }
 }

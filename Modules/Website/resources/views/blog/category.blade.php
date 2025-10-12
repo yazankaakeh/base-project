@@ -28,7 +28,7 @@
                     @endif
                     <h2 class="mb-2">{{ $category->getTranslation('title', app()->getLocale()) }}</h2>
                     @if($category->getTranslation('description', app()->getLocale()))
-                        <p class="text-muted">{{ $category->getTranslation('description', app()->getLocale()) }}</p>
+                        <p class="text-muted">{!!   $category->getTranslation('description', app()->getLocale()) !!}</p>
                     @endif
                     <p class="text-muted">
                         <i class="ti tabler-article me-1"></i>{{ $posts->total() }} {{__('posts in this category')}}
