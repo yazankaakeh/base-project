@@ -57,7 +57,7 @@
                                 <button type="button"
                                         data-bs-toggle="modal" data-bs-target="#filterModal"
                                         class="btn btn-primary">
-                                    <i class="ti ti-plus me-1"></i>
+                                    <i class="ti tabler-plus me-1"></i>
                                     {{trans('adminmanagement::admin_management.audits.filter')}}
                                 </button>
                             </h5>

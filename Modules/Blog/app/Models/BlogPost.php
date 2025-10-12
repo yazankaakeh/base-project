@@ -4,8 +4,8 @@ namespace Modules\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Blog\Enums\PostTypeEnum;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Seo\Traits\HasSeo;
@@ -14,6 +14,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @property mixed $category_id
+ */
 class BlogPost extends Model implements HasMedia
 {
 
@@ -94,5 +97,15 @@ class BlogPost extends Model implements HasMedia
         $a = $this->relatedPosts;
         $b = $this->relatedOfPosts;
         return $a->merge($b)->unique('id')->values();
+    }
+
+    public function totalClaps(): int
+    {
+        return $this->claps()->sum('clap_count');
+    }
+
+    public function claps(): HasMany
+    {
+        return $this->hasMany(BlogPostClap::class, 'post_id');
     }
 }

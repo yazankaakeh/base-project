@@ -6,12 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Modules\CMS\Models\Page;
+use Modules\CMS\Enums\PageTemplateEnum;
 
 class LandingPageController extends Controller
 {
     public function home(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        return view('theme::newLanding.home');
+        // Fetch the landing page from CMS
+        $landingPage = Page::published()
+            ->where('template', PageTemplateEnum::LANDING)
+            ->where('slug', 'home')
+            ->firstOrFail();
+
+        // Get current locale
+        $locale = app()->getLocale();
+
+        // Extract meta_data sections
+        $sections = $landingPage->meta_data ?? [];
+
+        return view('theme::newLanding.home', compact('landingPage', 'sections', 'locale'));
     }
 
     public function privacy(): View|\Illuminate\Foundation\Application|Factory|Application

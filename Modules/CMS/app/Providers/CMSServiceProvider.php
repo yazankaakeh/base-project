@@ -36,6 +36,33 @@ class CMSServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->registerRepositories();
+    }
+
+    /**
+     * Register repository bindings.
+     */
+    protected function registerRepositories(): void
+    {
+        $this->app->bind(
+            \Modules\CMS\Repository\Page\PageInterface::class,
+            \Modules\CMS\Repository\Page\PageRepository::class
+        );
+
+        $this->app->bind(
+            \Modules\CMS\Repository\Menu\MenuInterface::class,
+            \Modules\CMS\Repository\Menu\MenuRepository::class
+        );
+
+        $this->app->bind(
+            \Modules\CMS\Repository\Panel\PanelInterface::class,
+            \Modules\CMS\Repository\Panel\PanelRepository::class
+        );
+
+        $this->app->bind(
+            \Modules\CMS\Repository\PanelItem\PanelItemInterface::class,
+            \Modules\CMS\Repository\PanelItem\PanelItemRepository::class
+        );
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Notification\App\channels;
+namespace Modules\Notification\App\Channels;
 
 use Google\Exception;
 use Illuminate\Support\Facades\Log;

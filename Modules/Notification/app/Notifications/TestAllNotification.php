@@ -4,8 +4,8 @@ namespace Modules\Notification\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
-use Modules\Notification\app\channels\SendPushNotificationChannel;
-use Modules\Notification\app\channels\SendWhatsAppChannel;
+use Modules\Notification\App\Channels\SendPushNotificationChannel;
+use Modules\Notification\App\Channels\SendWhatsAppChannel;
 use Modules\Notification\Enums\NotificationTypes;
 use Modules\Notification\Enums\WhatsAppTemplateIDS;
 

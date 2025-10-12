@@ -2,11 +2,10 @@
 
 namespace Modules\Blog\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class BlogPostTagsPosts extends Model
+class BlogPostTagsPosts extends Pivot
 {
-
     /**
      * The attributes that are mass assignable.
      */
@@ -14,5 +13,4 @@ class BlogPostTagsPosts extends Model
         'post_id',
         'tag_id',
     ];
-
 }

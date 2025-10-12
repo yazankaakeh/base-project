@@ -2,6 +2,7 @@
 
 namespace Modules\Doctor\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,7 +46,7 @@ use Spatie\MediaLibrary\MediaCollections\File;
  * @property mixed $email
  * @property mixed $id
  */
-class Patient extends Authenticatable implements HasMedia
+class Patient extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasFactory;
     use InteractsWithMedia;

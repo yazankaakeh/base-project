@@ -138,6 +138,26 @@ class DoctorMenu
                 ],
             ],
             [
+                "name" => trans("cms::cms.title"),
+                "icon" => "menu-icon tf-icons ti tabler-layout",
+                "slug" => "cms",
+                "url" => "javascript:void(0)",
+                "submenu" => [
+                    [
+                        "url" => route('cms.index'),
+                        "slug" => route('cms.index'),
+                        "name" => trans("cms::cms.pages.title"),
+                        "icon" => "menu-icon tf-icons ti tabler-file",
+                    ],
+                    [
+                        "url" => route('menus.index'),
+                        "slug" => route('menus.index'),
+                        "name" => trans("cms::cms.menus.title"),
+                        "icon" => "menu-icon tf-icons ti tabler-menu-2",
+                    ],
+                ],
+            ],
+            [
                 "name" => trans("customer.sidebar.settings"),
                 "icon" => "menu-icon tf-icons ti tabler-settings",
                 "slug" => "settings",

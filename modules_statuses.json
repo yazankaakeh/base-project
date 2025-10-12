@@ -1,15 +1,12 @@
 {
     "Core": true,
-    "Mps": true,
-    "UserManagment": true,
-    "UserManagement": true,
     "Theme": true,
-    "API": true,
-    "ResetFullAPI": true,
     "Blog": true,
     "Doctor": true,
     "Notification": true,
     "AdminManagement": true,
     "Seo": true,
-    "CMS": true
+    "CMS": true,
+    "Website": true,
+    "Auth": true
 }

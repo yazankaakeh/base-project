@@ -1,312 +1,446 @@
 /**
- * Form Editors
+ * Form Editors - Quill Implementation
+ * Enhanced implementation with table support and theme awareness
  */
 
 'use strict';
 
-// --- Imports ---
-// You must have these packages installed:
-// npm install quill quill-blot-formatter highlight.js
-// or
-// yarn add quill quill-blot-formatter highlight.js
+// --- Quill Import ---
+import Quill from 'quill/dist/quill';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
 
-import Quill from 'quill';
-import BlotFormatter from 'quill-blot-formatter';
-import hljs from 'highlight.js'; // Import highlight.js
-import 'highlight.js/styles/monokai.css'; // Or any other theme you prefer
+// Import Quill Blot Formatter for image resizing
+import QuillBlotFormatter from 'quill-blot-formatter';
 
-// Ensure Quill is globally available for any external scripts or legacy code
-// if your Vite configuration doesn't do this by default.
+// Make Quill globally available
 window.Quill = window.Quill || Quill;
 
-// --- Quill Module Registrations ---
-
-// 1. BlotFormatter: For image resizing and drag-and-drop functionality
-//    This replaces `quill-image-resize-module` and `quill-image-drop-module` for Quill 2.x compatibility.
-//    Register it directly after imports to ensure it's available.
-Quill.register('modules/blotFormatter', BlotFormatter);
-
-// 2. Syntax: For code block highlighting using highlight.js
-//    Quill 2.x has a built-in 'syntax' module that integrates with highlight.js.
-//    No explicit Quill.register call needed, just enable in modules config.
-
-// 3. Table: For rich table editing functionality
-//    Quill 2.x has a built-in 'table' module.
-//    No explicit Quill.register call needed, just enable in modules config.
-
-// --- Modules without direct Quill 2.x plug-and-play alternatives (as of writing) ---
-// For 'quill-mention', 'quill-emoji', 'quill-markdown-shortcuts':
-// Quill 2.x introduced significant architectural changes. Many Quill 1.x plugins
-// are not directly compatible. Robust implementations for these often involve:
-// - Custom Quill Blots for UI elements (e.g., mentions, emojis)
-// - Integrating external UI libraries (e.g., a React/Vue mention component) that
-//   interact with Quill's API to insert content.
-// - Custom `text-change` event listeners and Delta operations for markdown shortcuts.
-// It's a more involved process than simply registering a plugin.
-// For simplicity in this comprehensive setup, we will omit these and provide guidance.
-// You would typically add their registration here if compatible Quill 2.x modules exist.
-
-
-// --- Quill Toolbar Configuration ---
-const fullToolbar = [
-    [{ font: [] }, { size: [] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    [{ color: [] }, { background: [] }],
-    [{ script: 'super' }, { script: 'sub' }],
-    [{ header: '1' }, { header: '2' }, 'blockquote', 'code-block'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    [{ direction: 'rtl' }, { align: [] }],
-    ['link', 'image', 'video'],
-    ['clean'], // Remove formatting button
-    ['formula'], // Optional if you need math formulas
-    [{ 'table': 'insert' }, { 'table': 'remove' }], // Table options
-    [{ 'table-row': 'insert' }, { 'table-row': 'remove' }], // Table row options
-    [{ 'table-col': 'insert' }, { 'table-col': 'remove' }] // Table column options
-];
-
-// Ensure Delta is imported after Quill is available
-const Delta = window.Quill ? Quill.import('delta') : null;
-
-// --- Helper Functions ---
+// --- Quill Configuration ---
 
 /**
- * Uploads an image file to the server.
- * @param {File} file - The image file to upload.
- * @param {string} uploadUrl - The URL for the image upload endpoint.
- * @returns {Promise<{url: string}>} A promise that resolves with the URL of the uploaded image.
+ * Default Quill configuration
  */
-async function uploadToServer(file, uploadUrl) {
-    const form = new FormData();
-    form.append('image', file);
-
-    // Get CSRF token for Laravel
-    const csrfToken = document.querySelector('meta[name="csrf-token"]') ?
-                      document.querySelector('meta[name="csrf-token"]').content :
-                      '';
-
-    try {
-        const response = await fetch(uploadUrl, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                // Do NOT set 'Content-Type': 'multipart/form-data' here,
-                // fetch will set it automatically with the correct boundary for FormData.
-            },
-            body: form
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Image upload failed: ${response.status} - ${errorText}`);
+const defaultConfig = {
+    theme: 'snow',
+    modules: {
+        toolbar: {
+            container: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                [{ 'align': [] }],
+                ['link', 'image', 'video'],
+                ['blockquote', 'code-block'],
+                ['clean']
+            ],
+            handlers: {
+                'image': imageHandler,
+                'table': tableHandler
+            }
+        },
+        table: true,
+        keyboard: {
+            bindings: {
+                tab: {
+                    key: 9,
+                    handler: function(range, context) {
+                        return true;
+                    }
+                }
+            }
         }
-
-        return response.json(); // Expected: { url: 'https://...' }
-    } catch (e) {
-        console.error('Error uploading image:', e);
-        throw e; // Re-throw to be caught by the caller
-    }
-}
+    },
+    placeholder: 'Start writing...'
+};
 
 /**
- * Handles local image selection and upload for Quill.
- * @param {Quill} quill - The Quill instance.
- * @param {string} uploadUrl - The URL for the image upload endpoint.
+ * Image handler for Quill
  */
-function selectLocalImage(quill, uploadUrl) {
+function imageHandler() {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
-    input.classList.add('ql-image'); // Add this class to ensure Quill handles it
+    input.click();
 
-    input.onchange = async () => {
-        const file = input.files?.[0];
-        if (!file) return;
-
-        const range = quill.getSelection(true) || { index: quill.getLength(), length: 0 };
-        // Insert a placeholder/spinner while uploading
-        quill.insertEmbed(range.index, 'image', '/img/spinner.svg', 'user');
-
-        try {
-            const { url } = await uploadToServer(file, uploadUrl);
-            // Remove the spinner and insert the actual image
-            quill.deleteText(range.index, 1);
-            quill.insertEmbed(range.index, 'image', url, 'user');
-            quill.setSelection(range.index + 1, 0, 'user'); // Move cursor after the image
-        } catch (e) {
-            console.error('Image upload failed:', e);
-            quill.deleteText(range.index, 1); // Remove spinner on failure
-            alert('Image upload failed: ' + e.message);
+    input.onchange = function() {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const range = this.quill.getSelection();
+                this.quill.insertEmbed(range.index, 'image', e.target.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
-    input.click();
 }
 
-
-// --- Main Initialization Function ---
+/**
+ * Table handler for Quill
+ */
+function tableHandler() {
+    showTableDialog();
+}
 
 /**
- * Initializes Quill editor(s) for the given selector.
- * @param {string} selector - CSS selector for the Quill editor container(s).
- * @param {object} [options={}] - Optional configuration for Quill.
- * @returns {Quill[]} An array of initialized Quill instances.
+ * Show table insertion dialog
  */
-function initQuill(selector, options = {}) {
-    console.log("forms-editors.js: initQuill called for selector:", selector); // Debugging line
-    const editorElements = document.querySelectorAll(selector);
-    console.log("forms-editors.js: Found editor elements:", editorElements.length, editorElements); // Debugging line
-    const quillInstances = [];
+function showTableDialog() {
+    // Create modal backdrop
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop fade show';
+    backdrop.style.zIndex = '1055';
+    document.body.appendChild(backdrop);
 
-    if (!window.Quill) {
-        console.error("forms-editors.js: Quill is not globally available when initQuill is called.");
-        return [];
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'modal fade show';
+    modal.style.display = 'block';
+    modal.style.zIndex = '1056';
+    modal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert Table</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select table size:</p>
+                    <div class="table-grid-selector" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; max-width: 300px;">
+                        ${Array.from({length: 100}, (_, i) => {
+                            const row = Math.floor(i / 10) + 1;
+                            const col = (i % 10) + 1;
+                            return `<div class="table-cell" data-row="${row}" data-col="${col}" style="width: 20px; height: 20px; border: 1px solid #ddd; cursor: pointer; background: #f8f9fa;"></div>`;
+                        }).join('')}
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">Selected: <span id="table-size">1x1</span></small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="insert-table-btn">Insert Table</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Add event listeners
+    let selectedRows = 1, selectedCols = 1;
+    const cells = modal.querySelectorAll('.table-cell');
+    const sizeDisplay = modal.querySelector('#table-size');
+    const insertBtn = modal.querySelector('#insert-table-btn');
+
+    cells.forEach(cell => {
+        cell.addEventListener('mouseenter', function() {
+            const row = parseInt(this.dataset.row);
+            const col = parseInt(this.dataset.col);
+            
+            // Clear previous selection
+            cells.forEach(c => c.style.background = '#f8f9fa');
+            
+            // Highlight selected area
+            cells.forEach(c => {
+                const cRow = parseInt(c.dataset.row);
+                const cCol = parseInt(c.dataset.col);
+                if (cRow <= row && cCol <= col) {
+                            c.style.background = '#007bff';
+                }
+            });
+            
+            selectedRows = row;
+            selectedCols = col;
+            sizeDisplay.textContent = `${row}x${col}`;
+        });
+
+        cell.addEventListener('click', function() {
+            insertTableHTML(selectedRows, selectedCols);
+            closeModal();
+        });
+    });
+
+    insertBtn.addEventListener('click', function() {
+        insertTableHTML(selectedRows, selectedCols);
+        closeModal();
+    });
+
+    // Close modal handlers
+    function closeModal() {
+        document.body.removeChild(backdrop);
+        document.body.removeChild(modal);
     }
 
-    editorElements.forEach((el) => {
-        console.log("forms-editors.js: Initializing Quill for element:", el.id || el.className); // Debugging line
-        const lang = el.dataset.lang || 'en';
-        const uploadUrl = el.dataset.upload || '/quill/upload-image'; // Default upload URL
-        const hiddenInputId = el.dataset.input;
-        const hiddenInput = hiddenInputId ? document.getElementById(hiddenInputId) : null;
-        const isRTL = ['ar', 'fa', 'he', 'ur'].includes(lang);
+    modal.querySelector('.btn-close').addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+}
 
-        // Merge default modules with provided options
-        const modules = {
-            syntax: {
-                highlight: hljs // Use highlight.js for syntax highlighting
-            },
-            toolbar: {
-                container: fullToolbar,
-                handlers: {
-                    // Custom image handler to trigger our upload logic
-                    image: function () {
-                        selectLocalImage(this.quill, uploadUrl);
-                    }
-                }
-            },
-            clipboard: {
-                matchVisual: false // Prevent issues with pasting rich content
-            },
-            // BlotFormatter for Quill 2.x image resizing and drag/drop
-            // Must be enabled here after registration.
-            blotFormatter: {},
-            // Built-in Quill 2.x table module
-            table: true, // Enable Quill's built-in table module
-            // For other modules like 'mention', 'emoji', 'markdown-shortcuts':
-            // You would enable them here if compatible Quill 2.x modules were registered.
-            // Example: mention: { ... config ... },
-        };
+/**
+ * Insert table HTML into Quill editor
+ */
+function insertTableHTML(rows, cols) {
+    const tableHTML = `
+        <table class="table table-bordered" style="width: 100%;">
+            <tbody>
+                ${Array.from({length: rows}, () => 
+                    `<tr>${Array.from({length: cols}, () => '<td>&nbsp;</td>').join('')}</tr>`
+                ).join('')}
+            </tbody>
+        </table>
+    `;
+    
+    const range = this.quill.getSelection();
+    if (range) {
+        this.quill.clipboard.dangerouslyPasteHTML(range.index, tableHTML);
+    }
+}
 
-        const quill = new Quill(el, {
-            bounds: el, // Constrain tooltip/toolbar to editor bounds
-            placeholder: options.placeholder || 'Type Something...',
-            theme: options.theme || 'snow', // 'snow' or 'bubble'
-            modules: { ...modules, ...options.modules }, // Merge with custom modules
-            readOnly: options.readOnly || false,
-        });
-        console.log("forms-editors.js: Quill instance created for:", el.id || el.className, quill); // Debugging line
+/**
+ * Apply theme-aware styling to Quill editor
+ */
+function applyThemeStyling(quill) {
+    const isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark' ||
+                      document.body.classList.contains('dark') ||
+                      document.body.classList.contains('theme-dark') ||
+                      document.body.classList.contains('dark-mode');
 
-        // Set default text direction for RTL languages
-        if (isRTL) {
-            quill.format('direction', 'rtl');
-            quill.format('align', 'right');
+    const editorElement = quill.container;
+    
+    if (isDarkMode) {
+        editorElement.classList.add('quill-dark');
+    } else {
+        editorElement.classList.add('quill-light');
+    }
+
+    // Inject theme-specific CSS
+    injectThemeCSS();
+}
+
+/**
+ * Inject theme-specific CSS for Quill
+ */
+function injectThemeCSS() {
+    if (document.getElementById('quill-theme-css')) {
+        return;
+    }
+
+    const style = document.createElement('style');
+    style.id = 'quill-theme-css';
+    style.textContent = `
+        /* Light theme styles */
+        .quill-light .ql-editor {
+            background: var(--bs-body-bg, #ffffff) !important;
+            color: var(--bs-body-color, #212529) !important;
         }
 
-        // Preload existing content from hidden input (for edit forms)
-        if (hiddenInput && hiddenInput.value) {
+        .quill-light .ql-toolbar {
+            background: var(--bs-body-bg, #ffffff) !important;
+            border-color: var(--bs-border-color, #dee2e6) !important;
+        }
+
+        .quill-light .ql-container {
+            border-color: var(--bs-border-color, #dee2e6) !important;
+        }
+
+        /* Dark theme styles */
+        .quill-dark .ql-editor {
+            background: var(--bs-dark, #212529) !important;
+            color: var(--bs-light, #f8f9fa) !important;
+        }
+
+        .quill-dark .ql-toolbar {
+            background: var(--bs-dark, #212529) !important;
+            border-color: var(--bs-border-color, #495057) !important;
+        }
+
+        .quill-dark .ql-container {
+            border-color: var(--bs-border-color, #495057) !important;
+        }
+
+        .quill-dark .ql-toolbar .ql-stroke {
+            stroke: var(--bs-light, #f8f9fa) !important;
+        }
+
+        .quill-dark .ql-toolbar .ql-fill {
+            fill: var(--bs-light, #f8f9fa) !important;
+        }
+
+        .quill-dark .ql-toolbar button:hover {
+            background: var(--bs-secondary, #6c757d) !important;
+        }
+
+        .quill-dark .ql-toolbar button.ql-active {
+            background: var(--bs-primary, #0d6efd) !important;
+        }
+
+        /* Table styles */
+        .ql-editor table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .ql-editor table td,
+        .ql-editor table th {
+            border: 1px solid var(--bs-border-color, #dee2e6);
+            padding: 8px;
+        }
+
+        .quill-dark .ql-editor table td,
+        .quill-dark .ql-editor table th {
+            border-color: var(--bs-border-color, #495057);
+        }
+    `;
+
+    document.head.appendChild(style);
+}
+
+/**
+ * Add theme change listener
+ */
+function addThemeChangeListener(quill) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' &&
+                (mutation.attributeName === 'data-bs-theme' ||
+                 mutation.attributeName === 'class')) {
+                updateEditorTheme(quill);
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-bs-theme', 'class']
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class']
+    });
+
+    quill._themeObserver = observer;
+}
+
+/**
+ * Update editor theme
+ */
+function updateEditorTheme(quill) {
+    const editorElement = quill.container;
+    const isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark' ||
+                      document.body.classList.contains('dark') ||
+                      document.body.classList.contains('theme-dark') ||
+                      document.body.classList.contains('dark-mode');
+
+    editorElement.classList.remove('quill-dark', 'quill-light');
+
+    if (isDarkMode) {
+        editorElement.classList.add('quill-dark');
+    } else {
+        editorElement.classList.add('quill-light');
+    }
+}
+
+/**
+ * Initialize Quill for a single element
+ */
+function initSingleEditor(element, options = {}) {
+    try {
+        console.log('Initializing Quill for element:', element.id || element.className);
+
+        const config = { ...defaultConfig, ...options };
+        const quill = new Quill(element, config);
+
+        // Apply theme-aware styling
+        applyThemeStyling(quill);
+
+        // Set RTL direction if specified
+        if (options.rtl || element.dataset.rtl === 'true') {
+            quill.root.setAttribute('dir', 'rtl');
+        }
+
+        // Sync with hidden input if specified
+        const hiddenInputId = element.dataset.input;
+        const hiddenInput = hiddenInputId ? document.getElementById(hiddenInputId) : null;
+
+        if (hiddenInput) {
+            // Load existing content
+            if (hiddenInput.value) {
             quill.root.innerHTML = hiddenInput.value;
         }
 
-        // Keep hidden input in sync with Quill's content
-        quill.on('text-change', () => {
-            if (hiddenInput) {
+            // Sync changes to hidden input
+            quill.on('text-change', function() {
                 hiddenInput.value = quill.root.innerHTML;
-            }
-        });
-
-        // Block base64 image pastes (force server uploads via our handler)
-        if (Delta) { // Check if Delta is available before using
-            quill.clipboard.addMatcher('IMG', (node, delta) => {
-                const src = node.getAttribute('src') || '';
-                if (src.startsWith('data:')) {
-                    // console.warn('Blocked base64 image paste. Please upload images via the toolbar.');
-                    return new Delta(); // Return an empty delta to remove the image
-                }
-                return delta;
             });
         }
 
+        // Load existing content from data-content attribute
+        const existingContent = element.dataset.content;
+        if (existingContent) {
+            quill.root.innerHTML = existingContent;
+        }
 
-        // Handle drag & drop file uploads (complementary to BlotFormatter's drag-and-drop for images already in content)
-        // This handles dropping a file from outside the editor into the editor.
-        quill.root.addEventListener('drop', async (e) => {
-            e.preventDefault(); // Prevent default browser handling of dropped files
-            e.stopPropagation();
+        // Livewire integration if wire:model is present
+        if (element.hasAttribute('wire:model') || element.hasAttribute('wire:model.live')) {
+            const wireModel = element.getAttribute('wire:model') || element.getAttribute('wire:model.live');
+            
+            // Set initial data for Livewire
+            if (element.dataset.initialValue) {
+                quill.root.innerHTML = element.dataset.initialValue;
+            }
 
-            const files = e.dataTransfer?.files;
-            if (!files || files.length === 0) return;
+            // Update Livewire model on editor change
+            quill.on('text-change', function() {
+                if (window.Livewire) {
+                    Livewire.find(element.closest('[wire:id]').getAttribute('wire:id'))
+                        .set(wireModel, quill.root.innerHTML);
+                }
+            });
+        }
 
-            const imageFile = Array.from(files).find(file => file.type.startsWith('image/'));
-            if (!imageFile) return;
+        // Add theme change listener
+        addThemeChangeListener(quill);
 
-            const range = quill.getSelection(true) || { index: quill.getLength(), length: 0 };
-            quill.insertEmbed(range.index, 'image', '/img/spinner.svg', 'user'); // Placeholder
+        // Store editor instance
+        element._quill = quill;
 
-            try {
-                const { url } = await uploadToServer(imageFile, uploadUrl);
-                quill.deleteText(range.index, 1); // Remove placeholder
-                quill.insertEmbed(range.index, 'image', url, 'user');
-                quill.setSelection(range.index + 1, 0, 'user');
-            } catch (e2) {
-                console.error('Drag-and-drop image upload failed:', e2);
-                quill.deleteText(range.index, 1); // Remove placeholder on error
-                alert('Drag-and-drop image upload failed');
+        // Add cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (quill._themeObserver) {
+                quill._themeObserver.disconnect();
             }
         });
 
-        quillInstances.push(quill);
-    });
+        console.log('Quill initialized successfully for:', element.id || element.className);
+        return quill;
 
-    // Handle tab switching for editor resizing (important for editors in hidden tabs)
-    document.addEventListener('shown.bs.tab', () => {
-        quillInstances.forEach(q => q?.resize?.());
-    });
-
-    return quillInstances;
+    } catch (error) {
+        console.error('Error initializing Quill:', error);
+        throw error;
+    }
 }
 
-// Auto-initialize Quill editors on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    initQuill('.quill-editor');
+/**
+ * Initialize Quill for multiple elements
+ */
+function initEditors() {
+    const editors = document.querySelectorAll('.quill-editor');
+    editors.forEach((element) => {
+        const rtl = element.dataset.rtl === 'true';
+        initSingleEditor(element, { rtl });
+    });
+}
+
+// Initialize editors on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', initEditors);
+
+// Re-initialize editors after Livewire updates
+document.addEventListener('livewire:navigated', initEditors);
+document.addEventListener('livewire:initialized', () => {
+    Livewire.on('dom-updated', () => {
+        initEditors();
+    });
 });
-
-
-// --- Example Usage in a Blade File (add this to a <script> section in your Blade view) ---
-//
-// <div class="card-body">
-//     <!-- Editor container -->
-//     <div id="editor-en" class="quill-editor"
-//          data-lang="en"
-//          data-input="postContent-en"
-//          data-upload="{{ route('doctor.quillUpload.store') }}"
-//          style="min-height: 200px;">
-//         <h6>Quill Rich Text Editor</h6>
-//         <p>English content...</p>
-//     </div>
-//     <!-- Hidden input to store Quill's HTML content -->
-//     <input type="hidden" name="description[en]" id="postContent-en">
-// </div>
-//
-// <script type="module">
-//     // This section is now deprecated as forms-editors.js is self-initializing.
-//     // import { initQuill } from '~/Modules/Theme/resources/assets/js/forms-editors.js';
-//     // initQuill('.quill-editor');
-//
-//     // If you need to initialize a specific editor or pass custom options dynamically,
-//     // you would export initQuill and call it. For this setup, we assume auto-init.
-//     // const mySpecificQuillEditor = initQuill('#my-custom-editor', {
-//     //   placeholder: 'Start typing...',
-//     //   theme: 'bubble'
-//     // });
-// </script>
-//
-//

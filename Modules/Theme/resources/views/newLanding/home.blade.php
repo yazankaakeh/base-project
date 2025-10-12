@@ -74,7 +74,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Timeline
                   </h5>
@@ -82,7 +82,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Basic search
                   </h5>
@@ -90,7 +90,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Live chat widget
                   </h5>
@@ -98,7 +98,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Email marketing
                   </h5>
@@ -106,7 +106,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Custom Forms
                   </h5>
@@ -114,7 +114,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Traffic analytics
                   </h5>
@@ -122,7 +122,7 @@
                 <li>
                   <h5>
                         <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                        ><i class="ti ti-check ti-xs"></i
+                        ><i class="ti tabler-check ti-xs"></i
                           ></span>
                     Basic Support
                   </h5>

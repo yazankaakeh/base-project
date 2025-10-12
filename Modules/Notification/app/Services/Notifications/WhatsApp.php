@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Notification\app\Services\Notifications;
+namespace Modules\Notification\App\Services\Notifications;
 
 use GuzzleHttp\Client;
 use Modules\Core\App\Traits\ThirdPartyTrait;

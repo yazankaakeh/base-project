@@ -2,7 +2,7 @@
     $customizerHidden = 'customizer-hide';
 @endphp
 
-@extends('theme::user.layouts.blankLayout')
+@extends('theme::user.layouts.layoutFront')
 
 @section('title', trans('auth.login.title', ['name' => config('variables.templateName')]))
 
