@@ -18,10 +18,7 @@ $page = 'sales-dashboard'; ?>
             'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss',
             'resources/assets/vendor/libs/select2/select2.scss',
             'resources/assets/vendor/libs/@form-validation/form-validation.scss',
-            'resources/assets/vendor/libs/quill/typography.scss',
-            'resources/assets/vendor/libs/highlight/highlight.scss',
-            'resources/assets/vendor/libs/quill/katex.scss',
-            'resources/assets/vendor/libs/quill/editor.scss'],
+            'resources/assets/vendor/libs/highlight/highlight.scss'],
             'build/modules/theme')
 @endsection
 
@@ -41,9 +38,7 @@ $page = 'sales-dashboard'; ?>
     @vite([ 'resources/assets/vendor/libs/bs-stepper/bs-stepper.js',
             'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js',
             'resources/assets/vendor/libs/select2/select2.js',
-            'resources/assets/vendor/libs/quill/katex.js',
             'resources/assets/vendor/libs/highlight/highlight.js',
-            'resources/assets/vendor/libs/quill/quill.js',
             'resources/assets/vendor/libs/@form-validation/popular.js',
             'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
             'resources/assets/vendor/libs/@form-validation/auto-focus.js'],

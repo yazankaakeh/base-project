@@ -8,15 +8,12 @@ $page = 'cms-pages';
 @section('title', trans('cms::cms.pages.create'))
 
 @section('vendor-style')
-    @vite(['resources/assets/vendor/libs/select2/select2.scss',
-            'resources/assets/vendor/libs/quill/typography.scss',
-            'resources/assets/vendor/libs/quill/editor.scss'],
+    @vite(['resources/assets/vendor/libs/select2/select2.scss'],
             'build/modules/theme')
 @endsection
 
 @section('vendor-script')
-    @vite(['resources/assets/vendor/libs/select2/select2.js',
-            'resources/assets/vendor/libs/quill/quill.js'],
+    @vite(['resources/assets/vendor/libs/select2/select2.js'],
             'build/modules/theme')
 @endsection
 

@@ -83,6 +83,7 @@
     "qr-code-styling": "^1.9.2",
     "quill": "^2.0.3",
     "quill-blot-formatter": "^1.0.5",
+    "quill-table-ui": "^1.0.7",
     "raty-js": "4.3.0",
     "select2": "4.0.13",
     "shepherd.js": "14.3.0",

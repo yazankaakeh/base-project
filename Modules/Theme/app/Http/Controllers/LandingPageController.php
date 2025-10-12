@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Modules\CMS\Models\Page;
 use Modules\CMS\Enums\PageTemplateEnum;
+use Modules\CMS\Models\Page;
 
 class LandingPageController extends Controller
 {
     public function home(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         // Fetch the landing page from CMS
-        $landingPage = Page::published()
+        $landingPage = Page::query()->published()
             ->where('template', PageTemplateEnum::LANDING)
             ->where('slug', 'home')
             ->firstOrFail();

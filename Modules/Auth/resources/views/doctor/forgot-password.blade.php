@@ -1,6 +1,6 @@
 @extends('theme::user.layouts.layoutFront')
 
-@section('title', __('Forgot Password'))
+@section('title', trans('auth::auth.forgot_password_title'))
 
 @section('content')
     <div class="container-xxl">
@@ -14,8 +14,8 @@
                             <span class="app-brand-text demo text-body fw-bold">{{ config('app.name') }}</span>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">{{ __('Forgot Password?') }}</h4>
-                        <p class="mb-4">{{ __('Enter your email and we will send you instructions to reset your password') }}</p>
+                        <h4 class="mb-2">{{ trans('auth::auth.forgot_password_title') }}</h4>
+                        <p class="mb-4">{{ trans('auth::auth.forgot_password_subtitle') }}</p>
 
                         @if (session('success'))
                             <div class="alert alert-success" role="alert">
@@ -35,23 +35,23 @@
                               method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">{{ __('Email') }}</label>
+                                <label for="email" class="form-label">{{ trans('auth::auth.email') }}</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
                                        name="email" value="{{ old('email') }}"
-                                       placeholder="{{ __('Enter your email') }}"
+                                       placeholder="{{ trans('auth::auth.enter_email') }}"
                                        autofocus required>
                                 @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <button class="btn btn-primary d-grid w-100">{{ __('Send Reset Link') }}</button>
+                            <button class="btn btn-primary d-grid w-100">{{ trans('auth::auth.send_reset_link') }}</button>
                         </form>
 
                         <div class="text-center">
                             <a href="{{ route('doctor.login') }}"
                                class="d-flex align-items-center justify-content-center">
                                 <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
-                                {{ __('Back to login') }}
+                                {{ trans('auth::auth.back_to_login') }}
                             </a>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 @extends('theme::user.layouts.layoutFront')
 
-@section('title', __('Verify Email'))
+@section('title', trans('auth::auth.verify_email'))
 
 @section('content')
     <div class="container-xxl">
@@ -14,10 +14,10 @@
                             <span class="app-brand-text demo text-body fw-bold">{{ config('app.name') }}</span>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">{{ __('Verify Your Email Address') }}</h4>
+                        <h4 class="mb-2">{{ trans('auth::auth.verify_email') }}</h4>
                         <p class="mb-4">
-                            {{ __('Before proceeding, please check your email for a verification link.') }}
-                            {{ __('If you did not receive the email') }}
+                            {{ trans('auth::auth.verify_email_message') }}
+                            {{ trans('auth::auth.did_not_receive_email') }}
                         </p>
 
                         @if (session('success'))
@@ -29,7 +29,7 @@
                         <form class="d-inline" method="POST" action="{{ route('doctor.verification.resend') }}">
                             @csrf
                             <button type="submit" class="btn btn-primary d-grid w-100 mb-3">
-                                {{ __('Click here to request another') }}
+                                {{ trans('auth::auth.request_another') }}
                             </button>
                         </form>
 
@@ -37,7 +37,7 @@
                             <form method="POST" action="{{ route('doctor.logout') }}">
                                 @csrf
                                 <button type="submit" class="btn btn-link">
-                                    {{ __('Logout') }}
+                                    {{ trans('auth::auth.logout') }}
                                 </button>
                             </form>
                         </div>

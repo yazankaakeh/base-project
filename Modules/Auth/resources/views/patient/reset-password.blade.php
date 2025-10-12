@@ -1,6 +1,6 @@
 @extends('theme::user.layouts.layoutFront')
 
-@section('title', __('Reset Password'))
+@section('title', trans('auth::auth.reset_password'))
 
 @section('content')
     <div class="container-xxl">
@@ -14,8 +14,8 @@
                             <span class="app-brand-text demo text-body fw-bold">{{ config('app.name') }}</span>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">{{ __('Reset Password') }}</h4>
-                        <p class="mb-4">{{ __('Enter your new password') }}</p>
+                        <h4 class="mb-2">{{ trans('auth::auth.reset_password') }}</h4>
+                        <p class="mb-4">{{ trans('auth::auth.reset_password_subtitle') }}</p>
 
                         @if ($errors->any())
                             <div class="alert alert-danger" role="alert">
@@ -32,7 +32,7 @@
                             <input type="hidden" name="email" value="{{ $email }}">
 
                             <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="password">{{ __('New Password') }}</label>
+                                <label class="form-label" for="password">{{ trans('auth::auth.new_password') }}</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password"
                                            class="form-control @error('password') is-invalid @enderror" name="password"
@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="password-confirm">{{ __('Confirm Password') }}</label>
+                                <label class="form-label" for="password-confirm">{{ trans('auth::auth.confirm_password') }}</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password-confirm" class="form-control"
                                            name="password_confirmation"
@@ -56,13 +56,13 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary d-grid w-100 mb-3">{{ __('Reset Password') }}</button>
+                            <button class="btn btn-primary d-grid w-100 mb-3">{{ trans('auth::auth.reset_password') }}</button>
 
                             <div class="text-center">
                                 <a href="{{ route('patient.login') }}"
                                    class="d-flex align-items-center justify-content-center">
                                     <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
-                                    {{ __('Back to login') }}
+                                    {{ trans('auth::auth.back_to_login') }}
                                 </a>
                             </div>
                         </form>

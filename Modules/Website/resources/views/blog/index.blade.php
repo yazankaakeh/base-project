@@ -30,7 +30,7 @@
                             <input type="text" name="search" class="form-control form-control-lg"
                                    placeholder="{{__('Search articles...')}}"
                                    value="{{ request('search') }}">
-                            <button type="submit" class="btn btn-primary">{{__('Search')}}</button>
+                            <button type="submit" class="btn btn-primary z-1">{{__('Search')}}</button>
                         </div>
                     </form>
                 </div>
