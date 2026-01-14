@@ -1,4 +1,7 @@
 @php
+    if (!isset($panel)) {
+        return;
+    }
     $faq = $panel;
     $faqBadge = $faq['settings']['badge'][$locale] ?? 'FAQ';
     $faqTitle = $faq['title'][$locale] ?? 'Frequently asked questions';

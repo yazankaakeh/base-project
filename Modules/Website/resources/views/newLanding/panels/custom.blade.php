@@ -1,4 +1,7 @@
 @php
+    if (!isset($panel)) {
+        return;
+    }
     $custom = $panel;
     $customTitle = $custom['title'][$locale] ?? 'Custom Section';
     $customContent = $custom['settings']['html_content'] ?? '';

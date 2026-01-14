@@ -30,62 +30,6 @@ class DoctorMenu
                 "url" => route('doctor.dashboard'),
             ],
             [
-                "name" => trans("customer.sidebar.medicalPreviewSettings"),
-                "icon" => "menu-icon tf-icons ti tabler-stethoscope",
-                "slug" => "dashboard",
-                "url" => "dashboard",
-                "submenu" => [
-                    [
-                        "slug" => route('doctor.patients.index'),
-                        "url" => route('doctor.patients.index'),
-                        "name" => trans("customer.sidebar.patients"),
-                        "icon" => "menu-icon tf-icons ti tabler-users",
-                    ],
-                    [
-                        "url" => route('doctor.clinic.index'),
-                        "name" => trans("customer.sidebar.clinic"),
-                        "icon" => "menu-icon tf-icons ti tabler-building-hospital",
-                        "slug" => route('doctor.clinic.index'),
-                    ],
-                    [
-                        "slug" => route('doctor.medicalTest.index'),
-                        "url" => route('doctor.medicalTest.index'),
-                        "name" => trans("customer.sidebar.medicalTest"),
-                        "icon" => "menu-icon tf-icons ti tabler-test-pipe",
-                    ],
-                    [
-                        "slug" => route('doctor.medicine.index'),
-                        "url" => route('doctor.medicine.index'),
-                        "name" => trans("customer.sidebar.medicine"),
-                        "icon" => "menu-icon tf-icons ti tabler-pill",
-                    ],
-                    [
-                        "slug" => route('doctor.dosageForm.index'),
-                        "url" => route('doctor.dosageForm.index'),
-                        "name" => trans("customer.sidebar.dosageForm"),
-                        "icon" => "menu-icon tf-icons ti tabler-forms",
-                    ],
-                    [
-                        "slug" => route('doctor.medicalSpecialty.index'),
-                        "url" => route('doctor.medicalSpecialty.index'),
-                        "name" => trans("customer.sidebar.medicalSpecialty"),
-                        "icon" => "menu-icon tf-icons ti tabler-medical-cross",
-                    ],
-                    [
-                        "slug" => route('doctor.vitalSign.index'),
-                        "url" => route('doctor.vitalSign.index'),
-                        "name" => trans("customer.sidebar.vitalSign"),
-                        "icon" => "menu-icon tf-icons ti tabler-heartbeat",
-                    ],
-                    [
-                        "slug" => route('doctor.finalDiagnosis.index'),
-                        "url" => route('doctor.finalDiagnosis.index'),
-                        "name" => trans("customer.sidebar.finalDiagnosis"),
-                        "icon" => "menu-icon tf-icons ti tabler-clipboard-check",
-                    ],
-                ],
-            ],
-            [
                 "name" => trans("admin.sidebar.admins"),
                 "icon" => "menu-icon tf-icons ti tabler-user-cog",
                 "slug" => "user-management",

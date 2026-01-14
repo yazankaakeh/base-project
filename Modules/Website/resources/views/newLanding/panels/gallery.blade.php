@@ -1,4 +1,7 @@
 @php
+    if (!isset($panel)) {
+        return;
+    }
     $gallery = $panel;
     $galleryBadge = $gallery['settings']['badge'][$locale] ?? 'Gallery';
     $galleryTitle = $gallery['title'][$locale] ?? 'Image Gallery';

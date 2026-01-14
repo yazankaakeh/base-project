@@ -1,4 +1,7 @@
 @php
+    if (!isset($panel)) {
+        return;
+    }
     $team = $panel;
     $teamBadge = $team['settings']['badge'][$locale] ?? trans('newLandingPage.howItWorksSection.titleSm');
     $teamTitle = $team['title'][$locale] ?? trans('newLandingPage.howItWorksSection.title1');

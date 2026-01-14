@@ -1,4 +1,7 @@
 @php
+    if (!isset($panel)) {
+        return;
+    }
     $features = $panel;
     $featuresBadge = $features['settings']['badge'][$locale] ?? trans('newLandingPage.featuresSection.titleSM');
     $featuresTitle = $features['title'][$locale] ?? trans('newLandingPage.featuresSection.description1');
