@@ -49,7 +49,7 @@ class ThemeSettingsSeeder extends Seeder
         );
 
         // Seed Website Theme Settings
-        ThemeSetting::updateOrCreate(
+        ThemeSetting::query()->updateOrCreate(
             ['scope' => 'website'],
             [
                 // Light mode colors
