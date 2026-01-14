@@ -4,6 +4,7 @@ namespace Modules\Core\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Core\App\View\Composers\ThemeSettingsComposer;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerViewComposers();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->publishes([
             module_path('Core', 'resources/assets/flags/svg') => public_path('assets/flags'),
@@ -109,6 +111,14 @@ class CoreServiceProvider extends ServiceProvider
         }
 
         return $paths;
+    }
+
+    /**
+     * Register view composers.
+     */
+    protected function registerViewComposers(): void
+    {
+        view()->composer('*', ThemeSettingsComposer::class);
     }
 
     /**

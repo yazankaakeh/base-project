@@ -43,15 +43,13 @@ $pageVar = 'cms-menus';
                                                     <h5 class="mb-1">{{ strtoupper($lang) }}</h5>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div class="mb-3">
-                                                        <label for="name-{{$lang}}" class="form-label">{{ trans('cms::cms.menus.name') }} *</label>
-                                                        <input type="text" class="form-control @error('name.'.$lang) is-invalid @enderror"
-                                                               name="name[{{$lang}}]" id="name-{{$lang}}"
-                                                               value="{{ old('name.'.$lang, $menu->getTranslation('name', $lang)) }}" required>
-                                                        @error('name.'.$lang)
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
+                                                    <x-core::input
+                                                        label="cms::cms.menus.name"
+                                                        type="text"
+                                                        name="name[{{$lang}}]"
+                                                        id="name-{{$lang}}"
+                                                        value="{{ old('name.'.$lang, $menu->getTranslation('name', $lang)) }}"
+                                                        required="required" />
                                                 </div>
                                             </div>
                                         </div>
@@ -173,21 +171,22 @@ $pageVar = 'cms-menus';
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <label for="slug" class="form-label">{{ trans('cms::cms.menus.slug') }} *</label>
-                                            <input type="text" class="form-control @error('slug') is-invalid @enderror"
-                                                   name="slug" id="slug" value="{{ old('slug', $menu->slug) }}" required>
-                                            @error('slug')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            <x-core::input
+                                                label="cms::cms.menus.slug"
+                                                type="text"
+                                                name="slug"
+                                                id="slug"
+                                                value="{{ old('slug', $menu->slug) }}"
+                                                required="required" />
                                             <small class="text-muted">{{ trans('cms::cms.menus.slug_help') }}</small>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="location" class="form-label">{{ trans('cms::cms.menus.location') }}</label>
-                                            <input type="text" class="form-control @error('location') is-invalid @enderror"
-                                                   name="location" id="location" value="{{ old('location', $menu->location) }}">
-                                            @error('location')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            <x-core::input
+                                                label="cms::cms.menus.location"
+                                                type="text"
+                                                name="location"
+                                                id="location"
+                                                value="{{ old('location', $menu->location) }}" />
                                             <small class="text-muted">{{ trans('cms::cms.menus.location_help') }}</small>
                                         </div>
                                         <div class="mb-3">

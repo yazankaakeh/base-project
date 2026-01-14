@@ -21,6 +21,7 @@ use Modules\Mps\Models\Permit;
 use Modules\Mps\Models\UserAgreement;
 use Modules\Mps\Models\UserIntegrations;
 use Modules\Mps\Models\VerificationCode;
+use Modules\Auth\app\Models\SocialAccount;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -159,5 +160,13 @@ class User extends Authenticatable implements HasMedia
                 fn($q)
                     => $q->where('status', $filters['status']),
             );
+    }
+
+    /**
+     * Get the social accounts for the user.
+     */
+    public function socialAccounts()
+    {
+        return $this->morphMany(SocialAccount::class, 'user');
     }
 }

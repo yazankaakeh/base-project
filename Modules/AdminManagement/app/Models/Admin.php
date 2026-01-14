@@ -4,6 +4,7 @@ namespace Modules\AdminManagement\app\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\AdminManagement\Enums\ActiveAdminEnum;
+use Modules\Auth\app\Models\SocialAccount;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -51,5 +52,12 @@ class Admin extends Authenticatable
         'is_active',
     ];
 
+    /**
+     * Get the social accounts for the admin.
+     */
+    public function socialAccounts()
+    {
+        return $this->morphMany(SocialAccount::class, 'user');
+    }
 
 }

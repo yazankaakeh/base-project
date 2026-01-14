@@ -39,20 +39,13 @@
 
             <!-- TinyMCE Editor -->
             <div class="mb-3">
-                <label class="form-label">{{ trans('blog::blog.post.content') }}</label>
-                <textarea id="editor-{{ $currentLang }}"
-                          class="tinymce-editor"
-                          data-lang="{{ $currentLang }}"
-                          data-input="{{ $descriptionField }}-{{ $currentLang }}"
-                          data-upload="{{ route('tinymce.upload') }}"
-                          data-content="{{ $isEdit && $model ? $model->getTranslation($descriptionField, $currentLang) : '' }}"
-                          dir="{{ in_array($currentLang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"
-                          rows="10"
-                          :placeholder="trans('blog::blog.post.contentPlaceholder')">{{ $isEdit && $model ? $model->getTranslation($descriptionField, $currentLang) : '' }}</textarea>
-                <input type="hidden"
-                       name="{{ $descriptionField }}[{{$currentLang}}]"
-                       id="{{ $descriptionField }}-{{$currentLang}}"
-                       value="{{ $isEdit && $model ? $model->getTranslation($descriptionField, $currentLang) : '' }}">
+                <x-core::tinymce
+                    label="blog::blog.post.content"
+                    :name="$descriptionField . '[' . $currentLang . ']'"
+                    :id="$descriptionField . '-' . $currentLang"
+                    :lang="$currentLang"
+                    :uploadRoute="route('tinymce.upload')"
+                    :value="$isEdit && $model ? $model->getTranslation($descriptionField, $currentLang) : ''" />
             </div>
 
             <!-- Image Upload -->

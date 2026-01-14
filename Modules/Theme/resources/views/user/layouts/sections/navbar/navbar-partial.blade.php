@@ -106,6 +106,14 @@
               {{trans('customer.profile')}}
             </span> </a>
                 </li>
+                @if(Auth::check() && Route::has('doctor.theme.settings.index'))
+                <li>
+                    <a class="dropdown-item" href="{{ route('doctor.theme.settings.index') }}">
+                        <i class="icon-base ti tabler-palette me-3 icon-md"></i><span class="align-middle">
+              {{ trans('core::core.theme_settings.title') }}
+            </span> </a>
+                </li>
+                @endif
                 <li>
                     <div class="dropdown-divider my-1 mx-n2"></div>
                 </li>

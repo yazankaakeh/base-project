@@ -67,7 +67,8 @@
                         action
                         item. Use <code>.card-alert</code> class to show custom response message.</p>
                     <p class="card-text d-flex align-items-center gap-1">Click on <i
-                                class="tf-icons ti ti-rotate-clockwise-2 scaleX-n1-rtl"></i> icon to see refresh card
+                                class="tf-icons ti tabler-rotate-clockwise-2 scaleX-n1-rtl"></i> icon to see refresh
+                        card
                         content in action.
                     </p>
                 </div>
@@ -82,7 +83,7 @@
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item">
                                 <a href="javascript:void(0);" class="card-expand"><i
-                                            class="tf-icons ti ti-arrows-maximize ti-sm"></i></a>
+                                            class="tf-icons ti tabler-arrows-maximize ti-sm"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -93,7 +94,7 @@
                         class with
                         action item. Use <kbd>ESC</kbd> key to exit from the fullscreen mode.</p>
                     <p class="card-text d-flex align-items-center gap-1">Click on <i
-                                class="tf-icons ti ti-arrows-maximize"></i>
+                                class="tf-icons ti tabler-arrows-maximize"></i>
                         icon to see expand card in action.</p>
                 </div>
             </div>
@@ -106,7 +107,8 @@
                     <div class="card-action-element">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item">
-                                <a href="javascript:void(0);" class="card-close"><i class="tf-icons ti ti-x ti-sm"></i></a>
+                                <a href="javascript:void(0);" class="card-close"><i
+                                            class="tf-icons ti tabler-x ti-sm"></i></a>
                             </li>
                         </ul>
                     </div>

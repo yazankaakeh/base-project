@@ -15,6 +15,7 @@ class CoreDatabaseSeeder extends Seeder
       CountriesSeeder::class,
       CitiesSeeder::class,
       StatesSeeder::class,
+      ThemeSettingsSeeder::class,
     ]);
   }
 }

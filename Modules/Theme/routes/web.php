@@ -37,13 +37,7 @@ Route::middleware('setLocale')->group(function () {
     Route::post('/admin/login/post', [LoginController::class, 'login'])->name('admin.login.submit');
 });
 
-Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
-    ->whereIn('provider', ['google', 'facebook', 'x'])
-    ->name('oauth.redirect');
-
-Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
-    ->whereIn('provider', ['google', 'facebook', 'x'])
-    ->name('oauth.callback');
+// Social login routes are now handled by Auth module
 
 // TinyMCE Image Upload Routes
 Route::middleware(['web', 'auth:doctor'])->group(function () {

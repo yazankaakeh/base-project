@@ -20,4 +20,14 @@ return [
     'menus.edit' => 'Menüyü Düzenle',
     'menus.update' => 'Menüyü Güncelle',
     'menus.destroy' => 'Menüyü Sil',
+
+    // Panel Permissions
+    'cms.panels.forPage' => 'Sayfa Panellerini Görüntüle',
+    'cms.panels.store' => 'Panel Oluştur',
+    'cms.panels.show' => 'Panel Detaylarını Görüntüle',
+    'cms.panels.update' => 'Panel Güncelle',
+    'cms.panels.destroy' => 'Panel Sil',
+    'cms.panels.toggle' => 'Panel Durumunu Değiştir',
+    'cms.panels.duplicate' => 'Panel Kopyala',
+    'cms.panels.reorder' => 'Panelleri Yeniden Sırala',
 ];

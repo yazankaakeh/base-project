@@ -29,7 +29,7 @@
                             <span class="input-group-text"><i class="ti tabler-search"></i></span>
                             <input type="text" name="search" class="form-control form-control-lg"
                                    placeholder="{{__('Search articles...')}}"
-                                   value="{{ request('search') }}">
+                                   value="{{ old('search', request('search')) }}">
                             <button type="submit" class="btn btn-primary z-1">{{__('Search')}}</button>
                         </div>
                     </form>

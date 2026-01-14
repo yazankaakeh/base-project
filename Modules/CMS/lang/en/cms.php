@@ -60,4 +60,15 @@ return [
         'success' => 'Success',
         'confirm_delete' => 'Are you sure?',
     ],
+    'panels' => [
+        'title' => 'Content Panels',
+        'add_panel' => 'Add Panel',
+        'no_panels' => 'No panels yet. Click "Add Panel" to get started.',
+        'select_panel_type' => 'Select Panel Type',
+        'edit_panel' => 'Edit Panel',
+        'delete_panel' => 'Delete Panel',
+        'duplicate_panel' => 'Duplicate Panel',
+        'toggle_visibility' => 'Toggle Visibility',
+        'reorder_help' => 'Drag panels to reorder them',
+    ],
 ];

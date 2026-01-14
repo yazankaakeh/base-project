@@ -24,19 +24,13 @@
                         </div>
                         <div class="col-12">
                             <div class="my-3">
-                                <textarea id="editor-{{ $lang }}" class="tinymce-editor"
-                                          data-lang="{{ $lang }}"
-                                          data-input="{{ $descriptionField ?? 'postContent' }}-{{ $lang }}"
-                                          data-upload="{{ route('doctor.quillUpload.store') }}"
-                                          data-content="{{ $isEdit && $model ? $model->getTranslation(str_replace('[{{$lang}}]', '', $descriptionField ?? 'description'), $lang) ?? '' : '' }}"
-                                          dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"
-                                          wire:model="{{ $descriptionField ?? 'description' }}.{{ $lang }}">
-                                    {{ $isEdit && $model ? $model->getTranslation(str_replace('[{{$lang}}]', '', $descriptionField ?? 'description'), $lang) ?? '' : '' }}
-                                </textarea>
-                                <input type="hidden"
-                                       :name="$descriptionField ?? 'description[{{$lang}}]'"
-                                       :id="{{ $descriptionField ?? 'postContent' }}-{{$lang}}"
-                                       :value="$isEdit && $model ? $model->getTranslation(str_replace('[{{$lang}}]', '', $descriptionField ?? 'description'), $lang) : ''">
+                                <x-core::tinymce
+                                    label="blog::blog.post.description"
+                                    :name="($descriptionField ?? 'description') . '[' . $lang . ']'"
+                                    :id="($descriptionField ?? 'postContent') . '-' . $lang"
+                                    :lang="$lang"
+                                    :uploadRoute="route('doctor.quillUpload.store')"
+                                    :value="$isEdit && $model ? $model->getTranslation(str_replace('[{{$lang}}]', '', $descriptionField ?? 'description'), $lang) ?? '' : ''" />
                             </div>
                         </div>
                         @php

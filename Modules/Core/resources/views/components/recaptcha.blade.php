@@ -1,39 +1,35 @@
 <div>
-    <div class="form-one__control form-one__control--full">
-        <input type="hidden" name="{{$name}}" wire:model="{{$name}}"
-               id="{{$id}}">
-
-    </div><!-- /.form-one__control -->
-
+    <input type="hidden" name="{{$name}}" id="{{$id}}">
     @push('scripts')
         <script src="https://www.google.com/recaptcha/api.js?render={{ config('core.recaptcha.site_key') }}"></script>
         <script>
-            refreshRecaptcha();
-            setTimeout(() => {
-                interval = setInterval(function () {
-                    refreshRecaptcha();
-                }, 90 * 1000);
-            }, 2000);
+            document.addEventListener('DOMContentLoaded', function () {
+                refreshRecaptcha();
+                setTimeout(() => {
+                    interval = setInterval(function () {
+                        refreshRecaptcha();
+                    }, 90 * 1000);
+                }, 2000);
+            });
 
             function refreshRecaptcha() {
-                grecaptcha.ready(function () {
-                    grecaptcha.execute('{{ config('core.recaptcha.site_key') }}', {action: 'submit'}).then(function (token) {
-                        document.getElementById('{{$id}}').value = token;
-                        let componentId = $('#{{$id}}').parents().closest('div[data-livewire]').data('livewire');
-                        if (typeof Livewire !== 'undefined') {
-                            Livewire.dispatch(`recaptchaUpdated_${componentId}`, {token: token}); // Dispatch event to Livewire
-                        }
-                        console.log('componentId' + componentId);
-                        console.log('token ' + token);
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.ready(function () {
+                        grecaptcha.execute('{{ config('core.recaptcha.site_key') }}', {action: 'submit'}).then(function (token) {
+                            document.getElementById('{{$id}}').value = token;
+                            console.log('reCAPTCHA token updated for {{$id}}:', token);
+                        });
                     });
-                });
+                }
             }
 
-            if (typeof Livewire !== 'undefined') {
-                Livewire.on('refreshRecaptcha', (event) => {
+            // Refresh token on form submit
+            document.addEventListener('submit', function (e) {
+                const form = e.target;
+                if (form.querySelector('#{{$id}}')) {
                     refreshRecaptcha();
-                });
-            }
+                }
+            });
         </script>
     @endpush
 </div>

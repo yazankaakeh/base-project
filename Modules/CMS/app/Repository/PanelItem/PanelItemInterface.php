@@ -68,4 +68,9 @@ interface PanelItemInterface
      * Get next order number for a panel
      */
     public function getNextOrder(int $panelId): int;
+
+    /**
+     * Bulk update order for multiple panel items
+     */
+    public function bulkUpdateOrder(array $orderedIds): void;
 }

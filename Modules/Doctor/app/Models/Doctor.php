@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\AdminManagement\Traits\AuditLogTrait;
+use Modules\Auth\app\Models\SocialAccount;
 use Modules\Blog\Traits\HasAuthor;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\App\Enums\Gender;
@@ -96,6 +97,14 @@ class Doctor extends Authenticatable implements HasMedia
     public function pushTokens(): MorphTo
     {
         return $this->morphTo(NotificationPushToken::class, 'tokenable');
+    }
+
+    /**
+     * Get the social accounts for the doctor.
+     */
+    public function socialAccounts()
+    {
+        return $this->morphMany(SocialAccount::class, 'user');
     }
 
 }

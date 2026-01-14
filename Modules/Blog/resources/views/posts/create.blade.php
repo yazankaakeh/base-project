@@ -105,13 +105,13 @@ $page = 'sales-dashboard'; ?>
                                                             </div>
                                                             <div class="col-12">
                                                                 <div class="my-3">
-                                                                    <textarea id="editor-{{ $lang }}" class="tinymce-editor"
-                                                                              data-lang="{{ $lang }}"
-                                                                              data-input="postContent-{{ $lang }}"
-                                                                              data-upload="{{ route('tinymce.upload') }}"
-                                                                              dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"></textarea>
-                                                                    <input type="hidden" name="description[{{$lang}}]"
-                                                                           id="postContent-{{$lang}}">
+                                                                    <x-core::tinymce
+                                                                        label="blog::blog.post.description"
+                                                                        name="description[{{$lang}}]"
+                                                                        id="postContent-{{$lang}}"
+                                                                        :lang="$lang"
+                                                                        :uploadRoute="route('tinymce.upload')"
+                                                                        :value="old('description.'.$lang)" />
                                                                 </div>
                                                             </div>
                                                             @includeIf('blog::partials.seo_form', ['seoTitle' => null, 'seoDescription' => null, 'lang' => $lang])
@@ -138,13 +138,18 @@ $page = 'sales-dashboard'; ?>
                                                                 ></x-core::select>
                                             </div>
                                             <div class="mt-3">
-                                                <label for="tags" class="form-label">{{ trans('blog::blog.post.tags') }}</label>
-                                                <div class="d-flex gap-2">
-                                                    <select id="tags" name="tags[]" multiple class="form-select select2" style="flex: 1;">
-                                                        @foreach($tagOptions as $id => $name)
-                                                            <option value="{{ $id }}">{{ $name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="d-flex gap-2 align-items-end">
+                                                    <div style="flex: 1;">
+                                                        <x-core::select
+                                                            :label="'blog::blog.post.tags'"
+                                                            :placeholder="trans('blog::blog.post.tags')"
+                                                            id="tags"
+                                                            name="tags[]"
+                                                            multiple="true"
+                                                            :options="$tagOptions"
+                                                            value="">
+                                                        </x-core::select>
+                                                    </div>
                                                     <button type="button" class="btn btn-outline-primary"
                                                             data-bs-toggle="modal" data-bs-target="#createTagModal">
                                                         <i class="ti tabler-plus"></i>

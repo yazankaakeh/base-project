@@ -73,19 +73,13 @@
                             <!-- TinyMCE Editor -->
                             <div class="col-12">
                                 <div class="my-3">
-                                    <label class="form-label">{{ trans('blog::blog.post.content') }}</label>
-                                    <textarea id="editor-{{ $lang }}"
-                                              class="tinymce-editor"
-                                              data-lang="{{ $lang }}"
-                                              data-input="{{ $descriptionField }}-{{ $lang }}"
-                                              data-upload="{{ route('tinymce.upload') }}"
-                                              data-content="{{ $isEdit && $model ? $model->getTranslation($descriptionField, $lang) : '' }}"
-                                              dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"
-                                              rows="15">{{ $isEdit && $model ? $model->getTranslation($descriptionField, $lang) : '' }}</textarea>
-                                    <input type="hidden"
-                                           name="{{ $descriptionField }}[{{$lang}}]"
-                                           id="{{ $descriptionField }}-{{$lang}}"
-                                           value="{{ $isEdit && $model ? $model->getTranslation($descriptionField, $lang) : '' }}">
+                                    <x-core::tinymce
+                                        label="blog::blog.post.content"
+                                        :name="$descriptionField . '[' . $lang . ']'"
+                                        :id="$descriptionField . '-' . $lang"
+                                        :lang="$lang"
+                                        :uploadRoute="route('tinymce.upload')"
+                                        :value="$isEdit && $model ? $model->getTranslation($descriptionField, $lang) : ''" />
                                 </div>
                             </div>
 

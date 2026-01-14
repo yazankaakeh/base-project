@@ -43,12 +43,14 @@
                         <p class="mb-4">{{trans('auth.email.desc')}}</p>
                         <form id="" class="mb-3" method="POST" action="{{ route('password.email') }}">
                             @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">{{trans('auth.email.email')}}</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                       placeholder="Enter your email"
-                                       autofocus>
-                            </div>
+                            <x-core::input
+                                label="auth.email.email"
+                                type="text"
+                                name="email"
+                                id="email"
+                                value="{{ old('email') }}"
+                                placeholder="Enter your email"
+                                autofocus="autofocus" />
                             <button class="btn btn-primary d-grid w-100">{{trans('auth.email.sendResetLink')}}</button>
                             <x-core::recaptcha id="recaptcha" name="recaptcha"/>
                         </form>

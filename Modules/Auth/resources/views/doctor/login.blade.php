@@ -35,16 +35,13 @@
                               method="POST">
                             @csrf
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">{{ trans('auth::auth.email') }}</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                       name="email" value="{{ old('email') }}"
-                                       placeholder="{{ trans('auth::auth.enter_email') }}"
-                                       autofocus required>
-                                @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            <x-core::input
+                                label="auth::auth.email"
+                                type="email"
+                                name="email"
+                                id="email"
+                                value="{{ old('email') }}"
+                                required="required" />
 
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">

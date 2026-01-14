@@ -54,16 +54,16 @@ enum PanelTypeEnum: string
     public function icon(): string
     {
         return match ($this) {
-            self::HERO => 'ti-rocket',
-            self::FEATURES => 'ti-list-check',
-            self::TEAM => 'ti-users',
-            self::REVIEWS => 'ti-message-star',
-            self::FAQ => 'ti-help',
-            self::CTA => 'ti-click',
-            self::CONTACT => 'ti-mail',
-            self::STATS => 'ti-chart-bar',
-            self::GALLERY => 'ti-photo',
-            self::CUSTOM => 'ti-code',
+            self::HERO => 'tabler-rocket',
+            self::FEATURES => 'tabler-list-check',
+            self::TEAM => 'tabler-users',
+            self::REVIEWS => 'tabler-message-star',
+            self::FAQ => 'tabler-help',
+            self::CTA => 'tabler-click',
+            self::CONTACT => 'tabler-mail',
+            self::STATS => 'tabler-chart-bar',
+            self::GALLERY => 'tabler-photo',
+            self::CUSTOM => 'tabler-code',
         };
     }
 
@@ -82,9 +82,7 @@ enum PanelTypeEnum: string
     public function maxItems(): ?int
     {
         return match ($this) {
-            self::HERO => 1,
-            self::CTA => 1,
-            self::CONTACT => 1,
+            self::HERO, self::CONTACT, self::CTA => 1,
             default => null, // Unlimited
         };
     }

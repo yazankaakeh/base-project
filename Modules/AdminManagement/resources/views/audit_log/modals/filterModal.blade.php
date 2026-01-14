@@ -24,44 +24,36 @@
             <div class="modal-body">
                 <div class="col-md-12 col-12 mb-4">
                     <div class="col-md-12 mb-4">
-                        <label for="doctorId"
-                               class="form-label">{{trans('adminmanagement::admin_management.audits.filterModal.adminId')}}</label>
-                        <select id="doctorId" class="select2 form-select form-select-lg" data-allow-clear="true">
-                            <option value="all">
-                                {{trans('adminmanagement::admin_management.pleaseSelectOne')}}
-                            </option>
-                            @foreach($doctors as $index => $doctor)
-                                <option value="{{$doctor->id}}"
-                                        @if($doctor->id == app('request')->input('doctorId') ) selected @endIf >
-                                    {{ $doctor->name}}
-                                </option>
-                            @endforeach
-                        </select>
+                        <x-core::select
+                            :label="trans('adminmanagement::admin_management.audits.filterModal.adminId')"
+                            :placeholder="trans('adminmanagement::admin_management.pleaseSelectOne')"
+                            id="doctorId"
+                            name="doctorId"
+                            :options="$doctors->pluck('name', 'id')->prepend(trans('adminmanagement::admin_management.pleaseSelectOne'), 'all')"
+                            :value="app('request')->input('doctorId')">
+                        </x-core::select>
                     </div>
-
                 </div>
                 <div class="col-md-12 col-12 mb-4">
-                    <label for="bs-rangepicker-basic"
-                           class="form-label">{{trans('adminmanagement::admin_management.audits.filterModal.date')}}</label>
-                    <input type="text" id="bs-rangepicker-basic" class="form-control date-range"/>
+                    <x-core::input
+                        label="adminmanagement::admin_management.audits.filterModal.date"
+                        id="bs-rangepicker-basic"
+                        name="date_range"
+                        type="text"
+                        class="date-range"
+                        value="">
+                    </x-core::input>
                 </div>
 
                 <div class="col-md-12 col-12 mb-4">
-                    <label class="form-label" for="routeName">
-                        {{trans('adminmanagement::admin_management.audits.filterModal.routeName')}}
-                    </label>
-                    <select id="routeName" class="select2 form-select form-select-lg" data-allow-clear="true">
-                        <option value="all">
-                            {{trans('adminmanagement::admin_management.pleaseSelectOne')}}
-                        </option>
-                        @foreach($route_names as $index => $route)
-                            <option value="{{$index}}"
-                                    @if($index == app('request')->input('route_name') ) selected @endIf >
-                                {{ $route}}
-                            </option>
-                        @endforeach
-
-                    </select>
+                    <x-core::select
+                        :label="trans('adminmanagement::admin_management.audits.filterModal.routeName')"
+                        :placeholder="trans('adminmanagement::admin_management.pleaseSelectOne')"
+                        id="routeName"
+                        name="routeName"
+                        :options="collect($route_names)->prepend(trans('adminmanagement::admin_management.pleaseSelectOne'), 'all')"
+                        :value="app('request')->input('route_name')">
+                    </x-core::select>
                 </div>
             </div>
             <!-- END: Modal Body -->

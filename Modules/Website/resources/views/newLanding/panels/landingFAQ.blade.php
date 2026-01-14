@@ -1,9 +1,9 @@
 @php
-    $faq = $sections['faq'] ?? [];
-    $faqBadge = $faq['badge'][$locale] ?? 'FAQ';
+    $faq = $panel;
+    $faqBadge = $faq['settings']['badge'][$locale] ?? 'FAQ';
     $faqTitle = $faq['title'][$locale] ?? 'Frequently asked questions';
-    $faqDescription = $faq['description'][$locale] ?? 'Browse through these FAQs to find answers to commonly asked questions.';
-    $faqItems = $faq['items'] ?? [];
+    $faqDescription = $faq['settings']['description'][$locale] ?? 'Browse through these FAQs to find answers to commonly asked questions.';
+    $faqItems = $items ?? collect();
 @endphp
 
 <!-- FAQ: Start -->
@@ -42,13 +42,13 @@
                                     data-bs-target="#accordion{{ $index }}"
                                     aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
                                     aria-controls="accordion{{ $index }}">
-                                    {{ $item['question'][$locale] ?? '' }}
+                                    {{ $item['title'][$locale] ?? '' }}
                                 </button>
                             </h2>
 
                             <div id="accordion{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    {{ $item['answer'][$locale] ?? '' }}
+                                    {{ $item['content'][$locale] ?? '' }}
                                 </div>
                             </div>
                         </div>

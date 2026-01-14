@@ -4,6 +4,7 @@ namespace Modules\CMS\Repository\Panel;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\CMS\Enums\PanelTypeEnum;
 use Modules\CMS\Models\Panel;
 
@@ -158,5 +159,14 @@ class PanelRepository implements PanelInterface
     {
         $maxOrder = Panel::byPage($pageId)->max('order');
         return ($maxOrder ?? -1) + 1;
+    }
+
+    public function bulkUpdateOrder(array $orderedIds): void
+    {
+        DB::transaction(function () use ($orderedIds) {
+            foreach ($orderedIds as $index => $id) {
+                Panel::whereKey($id)->update(['order' => $index]);
+            }
+        });
     }
 }

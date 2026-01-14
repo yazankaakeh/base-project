@@ -14,7 +14,7 @@ class Textarea extends Component
         public string $label,
         public string $id,
         public string $name,
-        public string $model,
+        public ?string $model,
         public string $required = 'required',
         public ?string $value = null,
         public string $class = '',

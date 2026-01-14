@@ -93,6 +93,13 @@
         </style>
     @endif
 
+    @if(isset($customThemeCss) && $customThemeCss)
+        <!-- Custom Theme Settings CSS -->
+        <style id="custom-theme-style">
+            {!! $customThemeCss !!}
+        </style>
+    @endif
+
     <!-- Include Scripts for customizer, helper, analytics, config -->
     <!-- $isFront is used to append the front layout scriptsIncludes only on the front layout otherwise the variable will be blank -->
     @includeIf('theme::user/layouts/sections/scriptsIncludes' . $isFront)

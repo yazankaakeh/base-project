@@ -1,9 +1,9 @@
 @php
-    $features = $sections['features'] ?? [];
-    $featuresBadge = $features['badge'][$locale] ?? trans('newLandingPage.featuresSection.titleSM');
+    $features = $panel;
+    $featuresBadge = $features['settings']['badge'][$locale] ?? trans('newLandingPage.featuresSection.titleSM');
     $featuresTitle = $features['title'][$locale] ?? trans('newLandingPage.featuresSection.description1');
-    $featuresDescription = $features['description'][$locale] ?? trans('newLandingPage.featuresSection.description3');
-    $featureItems = $features['items'] ?? [];
+    $featuresDescription = $features['settings']['description'][$locale] ?? trans('newLandingPage.featuresSection.description3');
+    $featureItems = $items ?? collect();
 @endphp
 
 <section id="landingFeatures" class="section-py landing-features">
@@ -25,8 +25,8 @@
             @foreach($featureItems as $item)
                 <div class="col-lg-4 col-sm-6 text-center features-icon-box">
                     <div class="mb-4 text-primary text-center">
-                        @if(isset($item['icon']))
-                            <i class="{{ $item['icon'] }}" style="font-size: 64px;"></i>
+                        @if(isset($item['data']['icon']))
+                            <i class="{{ $item['data']['icon'] }}" style="font-size: 64px;"></i>
                         @else
                             <i class="ti tabler-star" style="font-size: 64px;"></i>
                         @endif
@@ -35,7 +35,7 @@
                         {{ $item['title'][$locale] ?? '' }}
                     </h5>
                     <p class="features-icon-description">
-                        {{ $item['description'][$locale] ?? '' }}
+                        {{ $item['content'][$locale] ?? '' }}
                     </p>
                 </div>
             @endforeach

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Auth\app\Models\SocialAccount;
 use Modules\Core\App\Enums\ActiveEnum;
 use Modules\Core\App\Enums\Gender;
 use Modules\Core\app\Models\Address;
@@ -210,6 +211,14 @@ class Patient extends Authenticatable implements HasMedia, MustVerifyEmail
     public function pushTokens(): MorphTo
     {
         return $this->morphTo(NotificationPushToken::class, 'tokenable');
+    }
+
+    /**
+     * Get the social accounts for the patient.
+     */
+    public function socialAccounts()
+    {
+        return $this->morphMany(SocialAccount::class, 'user');
     }
 
 }

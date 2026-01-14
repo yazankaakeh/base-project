@@ -1,4 +1,5 @@
 <!-- Footer: Start -->
+@livewire('mcp::chat-widget')
 <footer class="landing-footer bg-body footer-text">
     <div class="footer-top position-relative overflow-hidden z-1">
         <img src="{{ asset('assets/img/front-pages/backgrounds/footer-bg.png') }}" alt="footer bg"
@@ -21,6 +22,7 @@
                         <div class="d-flex mt-1">
                             <input type="email" class="form-control rounded-0 rounded-start-bottom rounded-start-top"
                                    id="footer-email"
+                                   name="email"
                                    placeholder="{{trans('newLandingPage.footer.subscribePlaceHolder')}}"/>
                             <button type="submit"
                                     class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">

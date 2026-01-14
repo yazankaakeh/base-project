@@ -95,17 +95,13 @@ $page = 'sales-dashboard'; ?>
                                                                        :value="$category->getTranslation('title', $lang)">
                                                         </x-core::input>
                                                         <div class="my-3">
-                                                            <!-- Full Editor -->
-                                                            <textarea id="editor-{{ $lang }}"
-                                                                      class="tinymce-editor"
-                                                                      data-lang="{{ $lang }}"
-                                                                      data-input="postContent-{{ $lang }}"
-                                                                      data-upload="{{ route('tinymce.upload') }}"
-                                                                      data-content="{{ $category->getTranslation('description', $lang) ?? '' }}"
-                                                                      dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">{{ $category->getTranslation('description', $lang) ?? '' }}</textarea>
-                                                            <input type="hidden" name="description[{{$lang}}]"
-                                                                   id="postContent-{{$lang}}"
-                                                                   value="{{ $category->getTranslation('description', $lang) }}">
+                                                            <x-core::tinymce
+                                                                label="blog::blog.category.description"
+                                                                name="description[{{$lang}}]"
+                                                                id="postContent-{{$lang}}"
+                                                                :lang="$lang"
+                                                                :uploadRoute="route('tinymce.upload')"
+                                                                :value="old('description.'.$lang, $category->getTranslation('description', $lang) ?? '')" />
                                                         </div>
                                                         @php($seo = $category->seo)
                                                         @includeIf('blog::partials.seo_form', [

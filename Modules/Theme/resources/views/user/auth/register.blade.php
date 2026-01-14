@@ -45,28 +45,22 @@
                         <form id="formAuthentication" class="mb-3" action="{{route('register')}}" method="POST">
                             @csrf
                             @method('POST')
-                            <div class="mb-3">
-                                <label for="name" class="form-label">{{trans('auth.register.name')}}</label>
-                                <input type="text" value="{{old('name')}}" class="form-control" id="name" name="name"
-                                       placeholder="Enter your username"
-                                       autofocus>
-                                @error('username')
-                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">{{trans('auth.register.email')}}</label>
-                                <input type="email" value="{{old('email')}}" class="form-control" id="email"
-                                       name="email"
-                                       placeholder="Enter your email">
-                                @error('email')
-                                <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+                            <x-core::input
+                                label="auth.register.name"
+                                type="text"
+                                name="name"
+                                id="name"
+                                value="{{ old('name') }}"
+                                placeholder="Enter your username"
+                                autofocus="autofocus" />
+
+                            <x-core::input
+                                label="auth.register.email"
+                                type="email"
+                                name="email"
+                                id="email"
+                                value="{{ old('email') }}"
+                                placeholder="Enter your email" />
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="password">{{trans('auth.register.password')}}</label>
                                 <div class="input-group input-group-merge">

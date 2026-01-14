@@ -20,4 +20,14 @@ return [
     'menus.edit' => 'Edit Menu',
     'menus.update' => 'Update Menu',
     'menus.destroy' => 'Delete Menu',
+
+    // Panel Permissions
+    'cms.panels.forPage' => 'View Page Panels',
+    'cms.panels.store' => 'Create Panel',
+    'cms.panels.show' => 'View Panel Details',
+    'cms.panels.update' => 'Update Panel',
+    'cms.panels.destroy' => 'Delete Panel',
+    'cms.panels.toggle' => 'Toggle Panel Status',
+    'cms.panels.duplicate' => 'Duplicate Panel',
+    'cms.panels.reorder' => 'Reorder Panels',
 ];

@@ -34,18 +34,13 @@
 
             <!-- TinyMCE Editor -->
             <div class="mb-3">
-                <label class="form-label">{{ trans('blog::blog.post.content') }}</label>
-                <textarea id="quick-editor-{{ $currentLang }}"
-                          class="tinymce-editor"
-                          data-lang="{{ $currentLang }}"
-                          data-input="quick-description-{{ $currentLang }}"
-                          data-upload="{{ route('tinymce.upload') }}"
-                          dir="{{ in_array($currentLang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"
-                          rows="8"
-                          placeholder="{{ trans('blog::blog.post.contentPlaceholder') }}"></textarea>
-                <input type="hidden"
-                       name="description[{{$currentLang}}]"
-                       id="quick-description-{{$currentLang}}">
+                <x-core::tinymce
+                    label="blog::blog.post.content"
+                    name="description[{{$currentLang}}]"
+                    id="quick-description-{{$currentLang}}"
+                    :lang="$currentLang"
+                    :uploadRoute="route('tinymce.upload')"
+                    :value="''" />
             </div>
 
             <!-- Image Upload -->

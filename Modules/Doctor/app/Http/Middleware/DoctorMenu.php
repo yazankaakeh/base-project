@@ -164,6 +164,12 @@ class DoctorMenu
                 "url" => "javascript:void(0)",
                 "submenu" => [
                     [
+                        "url" => route('doctor.theme.settings.index'),
+                        "slug" => route('doctor.theme.settings.index'),
+                        "name" => trans("core::core.theme_settings.title"),
+                        "icon" => "menu-icon tf-icons ti tabler-palette",
+                    ],
+                    [
                         "url" => route('doctor.seoConfig.get'),
                         "slug" => route('doctor.seoConfig.get'),
                         "name" => trans("customer.sidebar.seoSettings"),

@@ -75,34 +75,31 @@
               @csrf
               <div class="row g-4">
                 <div class="col-md-6">
-                  <label class="form-label" for="contact-form-fullname">
-                    {{trans('newLandingPage.contactSection.fullName')}}
-                  </label>
-                  <input type="text" name="fullName" class="form-control" id="contact-form-fullname"
-                         placeholder="{{trans('newLandingPage.contactSection.fullNamePlaceHolder')}}" />
-                  @error('fullName')
-                  <span class="error">{{ $message }}</span>
-                  @enderror
+                  <x-core::input
+                      label="newLandingPage.contactSection.fullName"
+                      type="text"
+                      name="fullName"
+                      id="contact-form-fullname"
+                      value="{{ old('fullName') }}"
+                      placeholder="{{ trans('newLandingPage.contactSection.fullNamePlaceHolder') }}" />
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="contact-form-email">
-                    {{trans('newLandingPage.contactSection.email')}}
-                  </label>
-                  <input type="text" name="email" id="contact-form-email" class="form-control"
-                         placeholder="johndoe@gmail.com" />
-                  @error('email')
-                  <span class="error">{{ $message }}</span>
-                  @enderror
+                  <x-core::input
+                      label="newLandingPage.contactSection.email"
+                      type="text"
+                      name="email"
+                      id="contact-form-email"
+                      value="{{ old('email') }}"
+                      placeholder="johndoe@gmail.com" />
                 </div>
                 <div class="col-12">
-                  <label class="form-label" for="contact-form-message">
-                    {{trans('newLandingPage.contactSection.message')}}
-                  </label>
-                  <textarea id="contact-form-message" name="message" class="form-control" rows="7"
-                            placeholder="{{trans('newLandingPage.contactSection.messagePlaceHolder')}}"></textarea>
-                  @error('message')
-                  <span class="error">{{ $message }}</span>
-                  @enderror
+                  <x-core::textarea
+                      label="newLandingPage.contactSection.message"
+                      name="message"
+                      id="contact-form-message"
+                      value="{{ old('message') }}"
+                      rows="7"
+                      placeholder="{{ trans('newLandingPage.contactSection.messagePlaceHolder') }}" />
                 </div>
                 <div class="col-12">
                   <button type="submit" class="btn btn-primary">

@@ -4,6 +4,7 @@ namespace Modules\Website\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -26,6 +27,7 @@ class WebsiteServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerLivewireComponents();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
     }
 
@@ -156,5 +158,30 @@ class WebsiteServiceProvider extends ServiceProvider
         }
 
         return $paths;
+    }
+
+    /**
+     * Register Livewire components
+     */
+    protected function registerLivewireComponents(): void
+    {
+        // Main landing page component
+        Livewire::component('website::new-landing-page', \Modules\Website\Livewire\NewLandingPage::class);
+
+        // Panel components
+        Livewire::component('website.panels.faq-panel', \Modules\Website\Livewire\Panels\FaqPanel::class);
+        Livewire::component('website.panels.team-panel', \Modules\Website\Livewire\Panels\TeamPanel::class);
+        Livewire::component('website.panels.cta-panel', \Modules\Website\Livewire\Panels\CtaPanel::class);
+        Livewire::component('website.panels.features-panel', \Modules\Website\Livewire\Panels\FeaturesPanel::class);
+        Livewire::component('website.panels.hero-panel', \Modules\Website\Livewire\Panels\HeroPanel::class);
+        Livewire::component('website.panels.reviews-panel', \Modules\Website\Livewire\Panels\ReviewsPanel::class);
+        Livewire::component('website.panels.contact-panel', \Modules\Website\Livewire\Panels\ContactPanel::class);
+        Livewire::component('website.panels.stats-panel', \Modules\Website\Livewire\Panels\StatsPanel::class);
+        Livewire::component('website.panels.gallery-panel', \Modules\Website\Livewire\Panels\GalleryPanel::class);
+        Livewire::component('website.panels.custom-panel', \Modules\Website\Livewire\Panels\CustomPanel::class);
+
+        // Admin components
+        Livewire::component('website::admin.sort-panels', \Modules\Website\Livewire\Admin\SortPanels::class);
+        Livewire::component('website::admin.sort-panel-items', \Modules\Website\Livewire\Admin\SortPanelItems::class);
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Core\app\Http\Controllers\ContactUsController;
 use Modules\Core\app\Http\Controllers\EnvController;
-use Modules\Core\app\Http\Controllers\SocialController;
+use Modules\Core\App\Http\Controllers\ThemeSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +28,13 @@ Route::middleware(['auth:doctor', 'doctorMenu', 'admin-enabled', 'setLocale', 'a
 
     // Firebase routes
     Route::post('firebase/saveToken', [EnvController::class, 'savePushToken'])->name('firebase.saveToken');
-    Route::post('firebase/sendTestNotification', [EnvController::class, 'sendTestNotification'])->name('firebase.sendTestNotification');
+    Route::post('firebase/sendTestNotification', [EnvController::class, 'sendTestNotification'])->name(
+        'firebase.sendTestNotification',
+    );
+
+    // Theme Settings routes
+    Route::get('theme-settings', [ThemeSettingsController::class, 'index'])->name('theme.settings.index');
+    Route::post('theme-settings/update', [ThemeSettingsController::class, 'update'])->name('theme.settings.update');
+    Route::post('theme-settings/reset', [ThemeSettingsController::class, 'reset'])->name('theme.settings.reset');
 });
 Route::post('submitContactUs', [ContactUsController::class, 'submitContactForm'])->name('env.submitContactForm');
-
-Route::get('/auth/{provider}/redirect', [SocialController::class, 'redirect'])
-    ->whereIn('provider', ['google', 'facebook', 'x'])
-    ->name('oauth.redirect');
-
-Route::get('/auth/{provider}/callback', [SocialController::class, 'callback'])
-    ->whereIn('provider', ['google', 'facebook', 'x'])
-    ->name('oauth.callback');

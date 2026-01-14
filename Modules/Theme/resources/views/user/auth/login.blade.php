@@ -48,18 +48,14 @@
                         <form method="POST" id="formAuthentication" action="{{ route('admin.login.submit') }}"
                               class="mb-3">
                             @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">
-                                    {{trans('auth.login.email')}}
-                                </label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                       placeholder="jon_doe@gmail.com" autofocus>
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                                @enderror
-                            </div>
+                            <x-core::input
+                                label="auth.login.email"
+                                type="text"
+                                name="email"
+                                id="email"
+                                placeholder="jon_doe@gmail.com"
+                                value="{{ old('email') }}"
+                                autofocus="autofocus" />
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">
@@ -88,11 +84,18 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <x-core::recaptcha id="recaptcha" name="recaptcha"/>
+                                @error('recaptcha')
+                                <span class="invalid-feedback d-block" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit">
                                     {{trans('auth.login.signIn')}}
                                 </button>
                             </div>
-                            <x-core::recaptcha id="recaptcha" name="recaptcha"/>
                         </form>
 
                         <p class="text-center">
@@ -106,13 +109,8 @@
                             </a>--}}
                         </p>
 
-                        <div class="divider my-4">
-                            <div class="divider-text">
-                                {{trans('auth.login.or')}}
-                            </div>
-                        </div>
-
-                        @includeIf('theme::user.auth.partial.socials')
+                        {{-- Social Login Buttons for Doctor --}}
+                        <x-auth::social-login-buttons user-type="doctor" />
                     </div>
                 </div>
                 <!-- /Register -->

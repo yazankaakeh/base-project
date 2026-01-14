@@ -39,8 +39,8 @@ class CMSController extends Controller
      */
     public function store(PageRequest $request)
     {
-        $this->pages->store($request);
-        return redirect()->route('cms.index')->with('success', trans('core::core.env.save'));
+        $page = $this->pages->store($request);
+        return redirect()->route('cms.edit', $page->id)->with('success', trans('core::core.env.save'));
     }
 
     /**

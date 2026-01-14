@@ -20,4 +20,14 @@ return [
     'menus.edit' => 'تعديل قائمة',
     'menus.update' => 'تحديث قائمة',
     'menus.destroy' => 'حذف قائمة',
+
+    // Panel Permissions
+    'cms.panels.forPage' => 'عرض لوحات الصفحة',
+    'cms.panels.store' => 'إنشاء لوحة',
+    'cms.panels.show' => 'عرض تفاصيل اللوحة',
+    'cms.panels.update' => 'تحديث اللوحة',
+    'cms.panels.destroy' => 'حذف اللوحة',
+    'cms.panels.toggle' => 'تبديل حالة اللوحة',
+    'cms.panels.duplicate' => 'نسخ اللوحة',
+    'cms.panels.reorder' => 'إعادة ترتيب اللوحات',
 ];

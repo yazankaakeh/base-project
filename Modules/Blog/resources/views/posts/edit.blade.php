@@ -118,15 +118,13 @@ $page = 'sales-dashboard'; ?>
                                                             </div>
                                                             <div class="col-12">
                                                                 <div class="my-3">
-                                                                    <textarea id="editor-{{ $lang }}" class="tinymce-editor"
-                                                                              data-lang="{{ $lang }}"
-                                                                              data-input="postContent-{{ $lang }}"
-                                                                              data-upload="{{ route('tinymce.upload') }}"
-                                                                              data-content="{{ $post->getTranslation('description', $lang) ?? '' }}"
-                                                                              dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}">{{ $post->getTranslation('description', $lang) ?? '' }}</textarea>
-                                                                    <input type="hidden" name="description[{{$lang}}]"
-                                                                           id="postContent-{{$lang}}"
-                                                                           value="{{ $post->getTranslation('description', $lang) }}">
+                                                                    <x-core::tinymce
+                                                                        label="blog::blog.post.description"
+                                                                        name="description[{{$lang}}]"
+                                                                        id="postContent-{{$lang}}"
+                                                                        :lang="$lang"
+                                                                        :uploadRoute="route('tinymce.upload')"
+                                                                        :value="old('description.'.$lang, $post->getTranslation('description', $lang) ?? '')" />
                                                                 </div>
                                                             </div>
                                                             @php($seo = $post->seo)
@@ -162,18 +160,17 @@ $page = 'sales-dashboard'; ?>
                                                                 :values="$post->relatedPosts->pluck('id')->toArray()"></x-core::select>
                                             </div>
                                             <div class="mt-3">
-                                                <label for="tags" class="form-label">{{ trans('blog::blog.post.tags') }}</label>
                                                 <div class="d-flex gap-2">
-                                                    <select id="tags" name="tags[]" multiple class="form-select select2" style="flex: 1;">
-                                                        @foreach($tagOptions as $id => $name)
-                                                            <option value="{{ $id }}"
-                                                                @if($post->tags->contains('id', $id)) selected @endif>
-                                                                {{ $name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    <div style="flex: 1;">
+                                                        <x-core::select :label="trans('blog::blog.post.tags')"
+                                                                        :placeholder="trans('blog::blog.post.tags')"
+                                                                        id="tags" name="tags[]" required=""
+                                                                        multiple="true" :options="$tagOptions"
+                                                                        :value="$post->tags->pluck('id')->toArray()"></x-core::select>
+                                                    </div>
                                                     <button type="button" class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal" data-bs-target="#createTagModal">
+                                                            data-bs-toggle="modal" data-bs-target="#createTagModal"
+                                                            style="margin-top: 32px; height: 38px;">
                                                         <i class="ti tabler-plus"></i>
                                                     </button>
                                                 </div>

@@ -1,9 +1,9 @@
 @php
-    $team = $sections['team'] ?? [];
-    $teamBadge = $team['badge'][$locale] ?? trans('newLandingPage.howItWorksSection.titleSm');
+    $team = $panel;
+    $teamBadge = $team['settings']['badge'][$locale] ?? trans('newLandingPage.howItWorksSection.titleSm');
     $teamTitle = $team['title'][$locale] ?? trans('newLandingPage.howItWorksSection.title1');
-    $teamDescription = $team['description'][$locale] ?? trans('newLandingPage.howItWorksSection.title2');
-    $teamMembers = $team['members'] ?? [];
+    $teamDescription = $team['settings']['description'][$locale] ?? trans('newLandingPage.howItWorksSection.title2');
+    $teamMembers = $items ?? collect();
 @endphp
 
 <section id="theHow" class="section-py landing-team">
@@ -26,12 +26,12 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="card mt-3 mt-lg-0 shadow-none">
                         <div class="bg-label-info border border-bottom-0 border-label-info position-relative team-image-box">
-                            <img src="{{ asset($member['avatar'] ?? 'assets/img/avatars/1.png') }}"
-                                 class="position-absolute card-img-position bottom-0 start-50" alt="{{ $member['name'] ?? '' }}" />
+                            <img src="{{ $member['media']['item_image'] ?? asset('assets/img/avatars/1.png') }}"
+                                 class="position-absolute card-img-position bottom-0 start-50" alt="{{ $member['data']['name'] ?? $member['title'][$locale] ?? '' }}" />
                         </div>
                         <div class="card-body border border-top-0 border-label-info text-center">
-                            <h5 class="card-title mb-0">{{ $member['name'] ?? '' }}</h5>
-                            <p class="text-body-secondary mb-0">{{ $member['position'][$locale] ?? '' }}</p>
+                            <h5 class="card-title mb-0">{{ $member['data']['name'] ?? $member['title'][$locale] ?? '' }}</h5>
+                            <p class="text-body-secondary mb-0">{{ $member['data']['role'][$locale] ?? $member['content'][$locale] ?? '' }}</p>
                         </div>
                     </div>
                 </div>

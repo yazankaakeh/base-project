@@ -259,6 +259,11 @@ const fontsScss = pick('resources/assets/vendor/fonts/!(_)*.scss')
 const fontsJs = pick('resources/assets/vendor/fonts/**/!(_)*.js')
 const fontsCss = pick('resources/assets/vendor/fonts/**/!(_)*.css')
 
+// CMS Module Assets
+const cmsJsFiles = pick('../CMS/resources/assets/js/*.js')
+// Blog Module Assets
+const blogJsFiles = pick('../Blog/resources/assets/js/*.js')
+
 // بعض المكتبات تحتاج window assignment
 function libsWindowAssignment() {
     return {
@@ -311,6 +316,10 @@ export default defineConfig({
                 ...fontsCss,
                 // بما أنك تستدعي هذا الملف مباشرةً من Blade لازم يكون ضمن input
                 'resources/assets/vendor/libs/@form-validation/form-validation.scss',
+                // CMS Module Assets
+                ...cmsJsFiles,
+                // Blog Module Assets
+                ...blogJsFiles,
             ],
             refresh: true,
             publicDirectory: resolve(__dirname, '../../public'),

@@ -8,5 +8,6 @@
     "Seo": true,
     "CMS": true,
     "Website": true,
-    "Auth": true
+    "Auth": true,
+    "MCP": true
 }

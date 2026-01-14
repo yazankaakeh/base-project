@@ -12,7 +12,7 @@ class Select extends Component
      */
     public function __construct(
         public string $name,
-        public string $required,
+        public ?string $required,
         public mixed $options,
         public string $id,
         public string $placeholder,
@@ -22,9 +22,11 @@ class Select extends Component
         public ?string $onChangeEvent = null,
         public ?string $onChange = null,
         public ?string $property = null,
-        public ?string $value = null,
+        public mixed $value = null,
         public ?array $values = [],
-    ) {}
+    ) {
+        $asd = 'asd';
+    }
 
     /**
      * Get the view/contents that represent the component.

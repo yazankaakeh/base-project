@@ -95,15 +95,13 @@ $page = 'sales-dashboard'; ?>
                                                                        id="title[{{$lang}}]">
                                                         </x-core::input>
                                                         <div class="my-3">
-                                                            <!-- Full Editor -->
-                                                            <textarea id="editor-{{ $lang }}"
-                                                                      class="tinymce-editor"
-                                                                      data-lang="{{ $lang }}"
-                                                                      data-input="postContent-{{ $lang }}"
-                                                                      data-upload="{{ route('tinymce.upload') }}"
-                                                                      dir="{{ in_array($lang, ['ar','fa','he','ur']) ? 'rtl' : 'ltr' }}"></textarea>
-                                                            <input type="hidden" name="description[{{$lang}}]"
-                                                                   id="postContent-{{$lang}}">
+                                                            <x-core::tinymce
+                                                                label="blog::blog.category.description"
+                                                                name="description[{{$lang}}]"
+                                                                id="postContent-{{$lang}}"
+                                                                :lang="$lang"
+                                                                :uploadRoute="route('tinymce.upload')"
+                                                                :value="old('description.'.$lang)" />
                                                         </div>
                                                         @includeIf('blog::partials.seo_form', ['seoTitle' => null, 'seoDescription' => null, 'lang' => $lang])
                                                     </div>
