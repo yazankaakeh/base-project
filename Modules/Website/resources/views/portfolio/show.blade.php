@@ -2,6 +2,14 @@
 
 @section('title', $portfolio->getTranslation('title', $locale))
 
+@section('vendor-style')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/css/glightbox.min.css">
+@endsection
+
+@section('vendor-script')
+    <script src="https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/js/glightbox.min.js"></script>
+@endsection
+
 @section('content')
     {{-- Hero Section --}}
     <section class="section-py bg-body first-section-pt">
@@ -74,13 +82,70 @@
                         </div>
                     </div>
 
-                    {{-- Featured Image --}}
-                    @if($portfolio->getFirstMediaUrl('featured_image'))
-                        <div class="card mb-4 overflow-hidden">
-                            <img src="{{ $portfolio->getFirstMediaUrl('featured_image') }}"
-                                 class="img-fluid w-100"
-                                 style="max-height: 450px; object-fit: cover;"
-                                 alt="{{ $portfolio->getTranslation('title', $locale) }}">
+                    {{-- Featured Image & Gallery Combined --}}
+                    @php
+                        $featuredImage = $portfolio->getFirstMediaUrl('featured_image');
+                        $galleryImages = $portfolio->getMedia('gallery');
+                        $hasGallery = $galleryImages->count() > 0;
+                        $totalImages = ($featuredImage ? 1 : 0) + $galleryImages->count();
+                    @endphp
+
+                    @if($featuredImage || $hasGallery)
+                        <div class="card mb-4">
+                            <div class="card-body p-3">
+                                {{-- Main Image --}}
+                                <div class="position-relative mb-3">
+                                    <a href="{{ $featuredImage ?: $galleryImages->first()->getUrl() }}"
+                                       class="glightbox d-block rounded overflow-hidden"
+                                       data-gallery="portfolio-gallery"
+                                       data-title="{{ $portfolio->getTranslation('title', $locale) }}">
+                                        <img src="{{ $featuredImage ?: $galleryImages->first()->getUrl() }}"
+                                             class="img-fluid w-100 rounded"
+                                             style="max-height: 400px; object-fit: cover;"
+                                             alt="{{ $portfolio->getTranslation('title', $locale) }}">
+                                        @if($totalImages > 1)
+                                            <div class="position-absolute bottom-0 end-0 m-3">
+                                                <span class="badge bg-dark bg-opacity-75 px-3 py-2">
+                                                    <i class="ti tabler-photo me-1"></i>{{ $totalImages }} {{ __('images') }}
+                                                </span>
+                                            </div>
+                                        @endif
+                                    </a>
+                                </div>
+
+                                {{-- Gallery Thumbnails --}}
+                                @if($totalImages > 1)
+                                    <div class="d-flex gap-2 overflow-auto pb-2">
+                                        {{-- Featured as first thumb if exists --}}
+                                        @if($featuredImage && $hasGallery)
+                                            <a href="{{ $featuredImage }}"
+                                               class="glightbox flex-shrink-0 rounded overflow-hidden border border-2 border-primary"
+                                               data-gallery="portfolio-gallery">
+                                                <img src="{{ $featuredImage }}"
+                                                     style="width: 80px; height: 60px; object-fit: cover;"
+                                                     alt="Thumbnail">
+                                            </a>
+                                        @endif
+
+                                        {{-- Gallery thumbs --}}
+                                        @foreach($galleryImages as $index => $image)
+                                            @if(!$featuredImage && $index === 0)
+                                                @continue
+                                            @endif
+                                            <a href="{{ $image->getUrl() }}"
+                                               class="glightbox flex-shrink-0 rounded overflow-hidden"
+                                               data-gallery="portfolio-gallery">
+                                                <img src="{{ $image->getUrl() }}"
+                                                     style="width: 80px; height: 60px; object-fit: cover;"
+                                                     alt="Thumbnail">
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                    <small class="text-muted d-block mt-2">
+                                        <i class="ti tabler-click me-1"></i>{{ __('Click image to view gallery') }}
+                                    </small>
+                                @endif
+                            </div>
                         </div>
                     @endif
 
@@ -121,32 +186,6 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                            </div>
-                        </div>
-                    @endif
-
-                    {{-- Gallery --}}
-                    @if($portfolio->getMedia('gallery')->count() > 0)
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <span class="badge badge-center rounded-pill bg-label-info p-2 me-2">
-                                        <i class="ti tabler-photo ti-sm"></i>
-                                    </span>
-                                    <h5 class="mb-0">{{ __('Gallery') }}</h5>
-                                </div>
-                                <div class="row g-3">
-                                    @foreach($portfolio->getMedia('gallery') as $image)
-                                        <div class="col-6 col-md-4">
-                                            <a href="{{ $image->getUrl() }}" target="_blank">
-                                                <img src="{{ $image->getUrl() }}"
-                                                     class="img-fluid rounded"
-                                                     style="height: 120px; width: 100%; object-fit: cover;"
-                                                     alt="Gallery">
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
                             </div>
                         </div>
                     @endif
@@ -301,3 +340,18 @@
         </section>
     @endif
 @endsection
+
+@push('page-script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightbox = GLightbox({
+                selector: '.glightbox',
+                touchNavigation: true,
+                loop: true,
+                closeButton: true,
+                nextBtnAriaLabel: 'Next',
+                prevBtnAriaLabel: 'Previous'
+            });
+        });
+    </script>
+@endpush
