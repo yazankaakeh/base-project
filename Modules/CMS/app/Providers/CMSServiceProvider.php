@@ -63,6 +63,11 @@ class CMSServiceProvider extends ServiceProvider
             \Modules\CMS\Repository\PanelItem\PanelItemInterface::class,
             \Modules\CMS\Repository\PanelItem\PanelItemRepository::class
         );
+
+        $this->app->bind(
+            \Modules\CMS\Repository\Portfolio\PortfolioInterface::class,
+            \Modules\CMS\Repository\Portfolio\PortfolioRepository::class
+        );
     }
 
     /**

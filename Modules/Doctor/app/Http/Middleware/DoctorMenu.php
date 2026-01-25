@@ -99,6 +99,12 @@ class DoctorMenu
                         "name" => trans("cms::cms.menus.title"),
                         "icon" => "menu-icon tf-icons ti tabler-menu-2",
                     ],
+                    [
+                        "url" => route('admin.portfolios.index'),
+                        "slug" => route('admin.portfolios.index'),
+                        "name" => trans("cms::cms.portfolio.title"),
+                        "icon" => "menu-icon tf-icons ti tabler-briefcase",
+                    ],
                 ],
             ],
             [

@@ -42,4 +42,7 @@ return [
         'success' => 'نجح',
         'confirm_delete' => 'هل أنت متأكد؟',
     ],
+    'portfolio' => [
+        'title' => 'معرض الأعمال',
+    ],
 ];

@@ -15,7 +15,7 @@ class Select extends Component
         public ?string $required,
         public mixed $options,
         public string $id,
-        public string $placeholder,
+        public ?string $placeholder = null,
         public ?string $model = null,
         public ?string $modelBootstrap = null,
         public ?string $multiple = null,

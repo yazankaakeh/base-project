@@ -1,10 +1,19 @@
 @php
-    $contact = $sections['contact'] ?? [];
-    $contactBadge = $contact['badge'][$locale] ?? trans('newLandingPage.contactSection.titleSm');
-    $contactTitle = $contact['title'][$locale] ?? trans('newLandingPage.contactSection.title1');
-    $contactDescription = $contact['description'][$locale] ?? trans('newLandingPage.contactSection.desc');
-    $contactEmail = $contact['email'] ?? 'support@tagiy.com';
-    $contactPhone = $contact['phone'] ?? '';
+    // Support both dynamic panel data and fallback to sections
+    if (isset($panel)) {
+        $contactBadge = $panel['settings']['badge'][$locale] ?? trans('newLandingPage.contactSection.titleSm');
+        $contactTitle = $panel['title'][$locale] ?? trans('newLandingPage.contactSection.title1');
+        $contactDescription = $panel['settings']['description'][$locale] ?? trans('newLandingPage.contactSection.desc');
+        $contactEmail = $panel['settings']['email'] ?? 'support@tagiy.com';
+        $contactPhone = $panel['settings']['phone'] ?? '';
+    } else {
+        $contact = $sections['contact'] ?? [];
+        $contactBadge = $contact['badge'][$locale] ?? trans('newLandingPage.contactSection.titleSm');
+        $contactTitle = $contact['title'][$locale] ?? trans('newLandingPage.contactSection.title1');
+        $contactDescription = $contact['description'][$locale] ?? trans('newLandingPage.contactSection.desc');
+        $contactEmail = $contact['email'] ?? 'support@tagiy.com';
+        $contactPhone = $contact['phone'] ?? '';
+    }
 @endphp
 
 <section id="contactUs" class="section-py bg-body landing-contact">

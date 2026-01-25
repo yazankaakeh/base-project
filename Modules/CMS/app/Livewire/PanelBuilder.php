@@ -39,19 +39,31 @@ class PanelBuilder extends Component
     public array $newItemData = [];
     public array $newItemImage = [];
     public array $editPanelItem = [
+        'id' => null,
         'title' => [],
-        'description' => [],
-        'image' => '',
-        'socialMedia' => [
-            'facebook' => '',
-            'instagram' => '',
-            'x' => '',
-            'linkedin' => '',
+        'content' => [],
+        'data' => [],
+        'is_active' => true,
+    ];
+
+    // State for editing a panel
+    public array $editingPanel = [
+        'id' => null,
+        'type' => null,
+        'title' => [],
+        'is_active' => true,
+        'settings' => [
+            'badge' => [],
+            'description' => [],
         ],
     ];
 
+    public bool $showEditPanelModal = false;
+    public bool $showEditItemModal = false;
+
     protected $listeners = [
         'refreshPanels' => '$refresh',
+        'closeModals' => 'closeAllModals',
     ];
 
     public function mount(int $pageId): void
@@ -172,7 +184,152 @@ class PanelBuilder extends Component
         $this->loadPanels();
     }
 
-    public function editPanel($panelId) {}
+    public function editPanel(int $panelId): void
+    {
+        $panel = Panel::find($panelId);
+        if (!$panel) {
+            return;
+        }
+
+        $this->editingPanel = [
+            'id' => $panel->id,
+            'type' => $panel->type->value,
+            'title' => $panel->title ?? [],
+            'is_active' => $panel->is_active,
+            'settings' => $panel->settings ?? [
+                'badge' => [],
+                'description' => [],
+            ],
+        ];
+
+        // Ensure all languages have keys
+        foreach (LanguageEnum::values() as $lang) {
+            if (!isset($this->editingPanel['title'][$lang])) {
+                $this->editingPanel['title'][$lang] = '';
+            }
+            if (!isset($this->editingPanel['settings']['badge'][$lang])) {
+                $this->editingPanel['settings']['badge'][$lang] = '';
+            }
+            if (!isset($this->editingPanel['settings']['description'][$lang])) {
+                $this->editingPanel['settings']['description'][$lang] = '';
+            }
+        }
+
+        $this->showEditPanelModal = true;
+    }
+
+    public function saveEditedPanel(): void
+    {
+        if (!$this->editingPanel['id']) {
+            return;
+        }
+
+        $this->validate([
+            'editingPanel.title.*' => 'nullable|string|max:255',
+            'editingPanel.settings.badge.*' => 'nullable|string|max:100',
+            'editingPanel.settings.description.*' => 'nullable|string|max:1000',
+        ]);
+
+        /** @var PanelInterface $repo */
+        $repo = app(PanelInterface::class);
+
+        $request = new class($this->editingPanel) extends Request {
+            public function __construct(public array $data)
+            {
+                parent::__construct();
+            }
+
+            public function validated(): array
+            {
+                return [
+                    'title' => $this->data['title'],
+                    'is_active' => $this->data['is_active'],
+                    'settings' => $this->data['settings'],
+                ];
+            }
+        };
+
+        $repo->update($this->editingPanel['id'], $request);
+        $this->showEditPanelModal = false;
+        $this->loadPanels();
+        $this->dispatch('toast', detail: ['type' => 'success', 'message' => 'Panel updated successfully']);
+    }
+
+    public function editItem(int $itemId): void
+    {
+        $item = PanelItem::find($itemId);
+        if (!$item) {
+            return;
+        }
+
+        $this->editPanelItem = [
+            'id' => $item->id,
+            'title' => $item->title ?? [],
+            'content' => $item->content ?? [],
+            'data' => $item->data ?? [],
+            'is_active' => $item->is_active,
+        ];
+
+        // Ensure all languages have keys
+        foreach (LanguageEnum::values() as $lang) {
+            if (!isset($this->editPanelItem['title'][$lang])) {
+                $this->editPanelItem['title'][$lang] = '';
+            }
+            if (!isset($this->editPanelItem['content'][$lang])) {
+                $this->editPanelItem['content'][$lang] = '';
+            }
+        }
+
+        $this->showEditItemModal = true;
+    }
+
+    public function saveEditedItem(): void
+    {
+        if (!$this->editPanelItem['id']) {
+            return;
+        }
+
+        /** @var PanelItemInterface $repo */
+        $repo = app(PanelItemInterface::class);
+
+        $request = new class($this->editPanelItem) extends Request {
+            public function __construct(public array $data)
+            {
+                parent::__construct();
+            }
+
+            public function validated(): array
+            {
+                return [
+                    'title' => $this->data['title'],
+                    'content' => $this->data['content'],
+                    'data' => $this->data['data'],
+                    'is_active' => $this->data['is_active'],
+                ];
+            }
+        };
+
+        $repo->update($this->editPanelItem['id'], $request);
+        $this->showEditItemModal = false;
+        $this->loadPanels();
+        $this->dispatch('toast', detail: ['type' => 'success', 'message' => 'Item updated successfully']);
+    }
+
+    public function toggleItemStatus(int $itemId): void
+    {
+        $item = PanelItem::find($itemId);
+        if ($item) {
+            $item->is_active = !$item->is_active;
+            $item->save();
+            $this->loadPanels();
+        }
+    }
+
+    public function closeAllModals(): void
+    {
+        $this->showEditPanelModal = false;
+        $this->showEditItemModal = false;
+    }
 
     public function reorderPanels(array $orderedIds): void
     {

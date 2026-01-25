@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Website\Http\Controllers\WebsiteController;
 use Modules\Website\Http\Controllers\LandingPageController;
 use Modules\Website\Http\Controllers\BlogFrontController;
+use Modules\Website\Http\Controllers\PortfolioController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('websites', WebsiteController::class)->names('website');
@@ -32,6 +33,12 @@ Route::middleware('setLocale')->group(function () {
             Route::get('/category/{id}', [BlogFrontController::class, 'category'])->name('category');
             Route::get('/tag/{id}', [BlogFrontController::class, 'tag'])->name('tag');
             Route::post('/post/{id}/clap', [BlogFrontController::class, 'clap'])->name('clap');
+        });
+
+        // Portfolio Routes
+        Route::prefix('portfolio')->name('portfolio.')->group(function () {
+            Route::get('/', [PortfolioController::class, 'index'])->name('index');
+            Route::get('/{slug}', [PortfolioController::class, 'show'])->name('show');
         });
     });
 });

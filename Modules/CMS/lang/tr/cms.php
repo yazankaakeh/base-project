@@ -42,4 +42,7 @@ return [
         'success' => 'Başarılı',
         'confirm_delete' => 'Emin misiniz?',
     ],
+    'portfolio' => [
+        'title' => 'Portfolyo',
+    ],
 ];

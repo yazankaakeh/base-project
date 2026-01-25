@@ -346,31 +346,56 @@
 
 @section('content')
     <div data-bs-spy="scroll" class="scrollspy-example">
+        {{-- Always include Hero section from meta_data (backward compatibility) --}}
         @includeIf('website::newLanding.panels.hero')
-        <!-- Useful features: Start -->
-        @includeIf('website::newLanding.panels.features')
-        <!-- Useful features: End -->
 
-        <!-- whyTagiy: Start -->
-        @includeIf('website::newLanding.panels.whyTagiy')
-        <!-- whyTagiy: End -->
+        {{-- Dynamic panels from CMS --}}
+        @if(isset($panelsData) && $panelsData->count() > 0)
+            @foreach($panelsData as $panel)
+                @php
+                    $items = collect($panel['items'] ?? []);
+                    $panelType = $panel['type'];
+                @endphp
 
-
-        <!-- Get your NFC Business card: Start -->
-        @includeIf('website::newLanding.panels.getNfc')
-        <!-- Get your NFC Business card: End -->
-
-        <!-- Our great team: Start -->
-        @includeIf('website::newLanding.panels.landingTeam')
-        <!-- Our great team: End -->
-
-        <!-- Get your NFC Business card: Start -->
-        @includeIf('website::newLanding.panels.getStarted')
-        <!-- Get your NFC Business card: End -->
-
-        <!-- Contact Us: Start -->
-        @includeIf('website::newLanding.panels.landingContact')
-        <!-- Contact Us: End -->
+                @switch($panelType)
+                    @case('features')
+                        @include('website::newLanding.panels.features', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('team')
+                        @include('website::newLanding.panels.landingTeam', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('reviews')
+                        @include('website::newLanding.panels.landingReviews', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('faq')
+                        @include('website::newLanding.panels.landingFAQ', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('cta')
+                        @include('website::newLanding.panels.landingCTA', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('contact')
+                        @include('website::newLanding.panels.landingContact', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('stats')
+                        @include('website::newLanding.panels.landingFunFacts', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('gallery')
+                        @include('website::newLanding.panels.gallery', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('custom')
+                        @include('website::newLanding.panels.custom', ['panel' => $panel, 'items' => $items])
+                        @break
+                @endswitch
+            @endforeach
+        @else
+            {{-- Fallback to static includes if no panels in database --}}
+            @includeIf('website::newLanding.panels.features')
+            @includeIf('website::newLanding.panels.whyTagiy')
+            @includeIf('website::newLanding.panels.getNfc')
+            @includeIf('website::newLanding.panels.landingTeam')
+            @includeIf('website::newLanding.panels.getStarted')
+            @includeIf('website::newLanding.panels.landingContact')
+        @endif
         {{--<section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
           <!-- What people say slider: Start -->
           <div class="container">

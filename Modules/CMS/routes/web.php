@@ -5,6 +5,7 @@ use Modules\CMS\Http\Controllers\CMSController;
 use Modules\CMS\Http\Controllers\MenuController;
 use Modules\CMS\Http\Controllers\PanelController;
 use Modules\CMS\Http\Controllers\PanelItemController;
+use Modules\CMS\Http\Controllers\PortfolioController;
 
 Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->group(
     function () {
@@ -36,5 +37,21 @@ Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLoc
         });
 
         Route::resource('menus', MenuController::class)->names('menus');
+
+        // Portfolio management routes
+        Route::prefix('admin/portfolios')->name('admin.portfolios.')->group(function () {
+            Route::get('/', [PortfolioController::class, 'index'])->name('index');
+            Route::get('/create', [PortfolioController::class, 'create'])->name('create');
+            Route::post('/', [PortfolioController::class, 'store'])->name('store');
+            Route::get('/{portfolio}', [PortfolioController::class, 'show'])->name('show');
+            Route::get('/{portfolio}/edit', [PortfolioController::class, 'edit'])->name('edit');
+            Route::put('/{portfolio}', [PortfolioController::class, 'update'])->name('update');
+            Route::delete('/{portfolio}', [PortfolioController::class, 'destroy'])->name('destroy');
+            Route::post('/{portfolio}/toggle-status', [PortfolioController::class, 'toggleStatus'])->name('toggle-status');
+            Route::post('/{portfolio}/toggle-featured', [PortfolioController::class, 'toggleFeatured'])->name('toggle-featured');
+            Route::post('/{portfolio}/duplicate', [PortfolioController::class, 'duplicate'])->name('duplicate');
+            Route::post('/reorder', [PortfolioController::class, 'reorder'])->name('reorder');
+            Route::delete('/{portfolio}/gallery/{media}', [PortfolioController::class, 'deleteGalleryImage'])->name('delete-gallery');
+        });
     },
 );

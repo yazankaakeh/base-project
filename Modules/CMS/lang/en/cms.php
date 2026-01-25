@@ -71,4 +71,7 @@ return [
         'toggle_visibility' => 'Toggle Visibility',
         'reorder_help' => 'Drag panels to reorder them',
     ],
+    'portfolio' => [
+        'title' => 'Portfolio',
+    ],
 ];
