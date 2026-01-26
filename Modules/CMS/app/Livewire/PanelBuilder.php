@@ -44,7 +44,10 @@ class PanelBuilder extends Component
         'content' => [],
         'data' => [],
         'is_active' => true,
+        'media_url' => null,
     ];
+
+    public $editItemImage = null;
 
     // State for editing a panel
     public array $editingPanel = [
@@ -266,15 +269,19 @@ class PanelBuilder extends Component
             return;
         }
 
+        $data = $item->data ?? [];
+
         $this->editPanelItem = [
             'id' => $item->id,
+            'type' => $item->type->value ?? null,
             'title' => $item->getTranslations('title') ?: [],
             'content' => $item->getTranslations('content') ?: [],
-            'data' => $item->data ?? [],
+            'data' => $data,
             'is_active' => $item->is_active,
+            'media_url' => $item->getFirstMediaUrl('item_image') ?: null,
         ];
 
-        // Ensure all languages have keys
+        // Ensure all languages have keys for title and content
         foreach (LanguageEnum::values() as $lang) {
             if (!isset($this->editPanelItem['title'][$lang])) {
                 $this->editPanelItem['title'][$lang] = '';
@@ -282,7 +289,20 @@ class PanelBuilder extends Component
             if (!isset($this->editPanelItem['content'][$lang])) {
                 $this->editPanelItem['content'][$lang] = '';
             }
+            // Ensure translatable data fields have language keys
+            if (!isset($this->editPanelItem['data']['subtitle'][$lang])) {
+                $this->editPanelItem['data']['subtitle'][$lang] = is_string($data['subtitle'] ?? null) ? ($lang === 'en' ? $data['subtitle'] : '') : ($data['subtitle'][$lang] ?? '');
+            }
+            if (!isset($this->editPanelItem['data']['button_text'][$lang])) {
+                $this->editPanelItem['data']['button_text'][$lang] = is_string($data['button_text'] ?? null) ? ($lang === 'en' ? $data['button_text'] : '') : ($data['button_text'][$lang] ?? '');
+            }
+            if (!isset($this->editPanelItem['data']['role'][$lang])) {
+                $this->editPanelItem['data']['role'][$lang] = $data['role'][$lang] ?? '';
+            }
         }
+
+        // Reset the edit image
+        $this->editItemImage = null;
 
         $this->showEditItemModal = true;
     }
@@ -314,6 +334,24 @@ class PanelBuilder extends Component
         };
 
         $repo->update($this->editPanelItem['id'], $request);
+
+        // Handle image upload if provided
+        if ($this->editItemImage) {
+            $item = PanelItem::find($this->editPanelItem['id']);
+            if ($item) {
+                try {
+                    $item->clearMediaCollection('item_image');
+                    $item
+                        ->addMedia($this->editItemImage->getRealPath())
+                        ->usingFileName($this->editItemImage->getClientOriginalName())
+                        ->toMediaCollection('item_image');
+                } catch (Throwable $e) {
+                    // non-fatal
+                }
+            }
+        }
+
+        $this->editItemImage = null;
         $this->showEditItemModal = false;
         $this->loadPanels();
         $this->dispatch('toast', detail: ['type' => 'success', 'message' => 'Item updated successfully']);
@@ -326,6 +364,16 @@ class PanelBuilder extends Component
             $item->is_active = !$item->is_active;
             $item->save();
             $this->loadPanels();
+        }
+    }
+
+    public function removeItemImage(int $itemId): void
+    {
+        $item = PanelItem::find($itemId);
+        if ($item) {
+            $item->clearMediaCollection('item_image');
+            $this->editPanelItem['media_url'] = null;
+            $this->dispatch('toast', detail: ['type' => 'success', 'message' => 'Image removed']);
         }
     }
 

@@ -286,18 +286,22 @@
                                                                wire:model="newItemData.{{ $panel['id'] }}.icon">
                                                     </div>
                                                 @elseif($itemType === 'carousel_slide')
-                                                    <div class="col-md-3">
-                                                        <label class="form-label small mb-1">Subtitle</label>
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               placeholder="Optional subtitle"
-                                                               wire:model="newItemData.{{ $panel['id'] }}.subtitle">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label small mb-1">Button Text</label>
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               placeholder="Learn More"
-                                                               wire:model="newItemData.{{ $panel['id'] }}.button_text">
-                                                    </div>
+                                                    @foreach(LanguageEnum::values() as $lang)
+                                                        <div class="col-md-2">
+                                                            <label class="form-label small mb-1">Subtitle ({{ strtoupper($lang) }})</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   placeholder="Subtitle"
+                                                                   wire:model="newItemData.{{ $panel['id'] }}.subtitle.{{ $lang }}">
+                                                        </div>
+                                                    @endforeach
+                                                    @foreach(LanguageEnum::values() as $lang)
+                                                        <div class="col-md-2">
+                                                            <label class="form-label small mb-1">Button ({{ strtoupper($lang) }})</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   placeholder="Learn More"
+                                                                   wire:model="newItemData.{{ $panel['id'] }}.button_text.{{ $lang }}">
+                                                        </div>
+                                                    @endforeach
                                                     <div class="col-md-3">
                                                         <label class="form-label small mb-1">Button URL</label>
                                                         <input type="text" class="form-control form-control-sm"
@@ -606,8 +610,8 @@
     {{-- Edit Item Modal --}}
     @if($showEditItemModal)
         <div class="modal-backdrop fade show"></div>
-        <div class="modal fade show d-block" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal fade show d-block" tabindex="-1" style="overflow-y: auto;">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title">
@@ -617,6 +621,55 @@
                                 wire:click="$set('showEditItemModal', false)"></button>
                     </div>
                     <div class="modal-body">
+                        {{-- Image Upload Section --}}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="ti tabler-photo me-1"></i>Item Image
+                            </label>
+                            <div class="row g-3 align-items-center">
+                                {{-- Current Image Preview --}}
+                                <div class="col-md-4">
+                                    @if($editPanelItem['media_url'])
+                                        <div class="position-relative">
+                                            <img src="{{ $editPanelItem['media_url'] }}"
+                                                 class="img-fluid rounded border"
+                                                 style="max-height: 150px; object-fit: cover;">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                                    wire:click="removeItemImage({{ $editPanelItem['id'] }})"
+                                                    title="Remove image">
+                                                <i class="ti tabler-x"></i>
+                                            </button>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">Current image</small>
+                                    @else
+                                        <div class="rounded bg-label-secondary d-flex align-items-center justify-content-center"
+                                             style="width: 150px; height: 100px;">
+                                            <i class="ti tabler-photo-off fs-1 text-muted"></i>
+                                        </div>
+                                        <small class="text-muted d-block mt-1">No image</small>
+                                    @endif
+                                </div>
+                                {{-- Upload New Image --}}
+                                <div class="col-md-8">
+                                    <label class="form-label small">Upload New Image</label>
+                                    <input type="file" class="form-control"
+                                           wire:model="editItemImage"
+                                           accept="image/jpeg,image/png,image/webp">
+                                    <small class="text-muted">Leave empty to keep current image. Accepted: JPG, PNG, WebP</small>
+                                    @if($editItemImage)
+                                        <div class="mt-2">
+                                            <span class="badge bg-success">
+                                                <i class="ti tabler-check me-1"></i>New image selected
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
                         {{-- Title --}}
                         <div class="mb-4">
                             <label class="form-label fw-bold">
@@ -651,9 +704,9 @@
                             @endforeach
                         </div>
 
-                        {{-- Additional Data --}}
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">
+                        {{-- Feature Card / General Settings --}}
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <label class="form-label fw-bold mb-3">
                                 <i class="ti tabler-settings me-1"></i>Additional Settings
                             </label>
                             <div class="row g-3">
@@ -662,6 +715,7 @@
                                     <input type="text" class="form-control"
                                            wire:model="editPanelItem.data.icon"
                                            placeholder="ti tabler-star">
+                                    <small class="text-muted">e.g., ti tabler-heart, ti tabler-user</small>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small">Name</label>
@@ -673,7 +727,7 @@
                                     <label class="form-label small">Value</label>
                                     <input type="text" class="form-control"
                                            wire:model="editPanelItem.data.value"
-                                           placeholder="Value">
+                                           placeholder="Value (e.g., 100+)">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small">Rating</label>
@@ -684,25 +738,72 @@
                                         @endfor
                                     </select>
                                 </div>
+                            </div>
+
+                            {{-- Role (Translatable) --}}
+                            <div class="row g-2 mt-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-medium">Role (for Team Members)</label>
+                                </div>
                                 @foreach(LanguageEnum::values() as $lang)
                                     <div class="col-md-4">
-                                        <label class="form-label small">Role ({{ strtoupper($lang) }})</label>
-                                        <input type="text" class="form-control"
-                                               wire:model="editPanelItem.data.role_{{ $lang }}"
-                                               placeholder="Role">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">{{ strtoupper($lang) }}</span>
+                                            <input type="text" class="form-control"
+                                                   wire:model="editPanelItem.data.role.{{ $lang }}"
+                                                   placeholder="Role in {{ strtoupper($lang) }}">
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
-                            {{-- Carousel Slide Specific Fields --}}
-                            <div class="row g-3 mt-2 pt-2 border-top">
+                        </div>
+
+                        {{-- Carousel Slide Specific Fields --}}
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <label class="form-label fw-bold mb-3">
+                                <i class="ti tabler-slideshow me-1"></i>Carousel / Slide Settings
+                            </label>
+
+                            {{-- Subtitle (Translatable) --}}
+                            <div class="row g-2 mb-3">
                                 <div class="col-12">
-                                    <small class="text-muted fw-medium">Carousel Slide Settings</small>
+                                    <label class="form-label small fw-medium">Subtitle</label>
                                 </div>
+                                @foreach(LanguageEnum::values() as $lang)
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">{{ strtoupper($lang) }}</span>
+                                            <input type="text" class="form-control"
+                                                   wire:model="editPanelItem.data.subtitle.{{ $lang }}"
+                                                   placeholder="Subtitle in {{ strtoupper($lang) }}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            {{-- Button Text (Translatable) --}}
+                            <div class="row g-2 mb-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-medium">Button Text</label>
+                                </div>
+                                @foreach(LanguageEnum::values() as $lang)
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">{{ strtoupper($lang) }}</span>
+                                            <input type="text" class="form-control"
+                                                   wire:model="editPanelItem.data.button_text.{{ $lang }}"
+                                                   placeholder="e.g., Learn More">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label small">Subtitle</label>
+                                    <label class="form-label small">Button URL</label>
                                     <input type="text" class="form-control"
-                                           wire:model="editPanelItem.data.subtitle"
-                                           placeholder="Optional subtitle text">
+                                           wire:model="editPanelItem.data.button_url"
+                                           placeholder="https://...">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small">Overlay Color</label>
@@ -713,18 +814,6 @@
                                         <option value="primary">Primary</option>
                                         <option value="gradient">Gradient</option>
                                     </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small">Button Text</label>
-                                    <input type="text" class="form-control"
-                                           wire:model="editPanelItem.data.button_text"
-                                           placeholder="Learn More">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small">Button URL</label>
-                                    <input type="text" class="form-control"
-                                           wire:model="editPanelItem.data.button_url"
-                                           placeholder="https://...">
                                 </div>
                             </div>
                         </div>
@@ -744,8 +833,14 @@
                                 wire:click.prevent="$set('showEditItemModal', false)">
                             Cancel
                         </button>
-                        <button type="button" class="btn btn-primary" wire:click.prevent="saveEditedItem">
-                            <i class="ti tabler-check me-1"></i>Save Changes
+                        <button type="button" class="btn btn-primary" wire:click.prevent="saveEditedItem"
+                                wire:loading.attr="disabled">
+                            <span wire:loading.remove wire:target="saveEditedItem">
+                                <i class="ti tabler-check me-1"></i>Save Changes
+                            </span>
+                            <span wire:loading wire:target="saveEditedItem">
+                                <span class="spinner-border spinner-border-sm me-1"></span>Saving...
+                            </span>
                         </button>
                     </div>
                 </div>
