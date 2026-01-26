@@ -382,6 +382,9 @@
                     @case('gallery')
                         @include('website::newLanding.panels.gallery', ['panel' => $panel, 'items' => $items])
                         @break
+                    @case('carousel')
+                        @include('website::newLanding.panels.carousel', ['panel' => $panel, 'items' => $items])
+                        @break
                     @case('custom')
                         @include('website::newLanding.panels.custom', ['panel' => $panel, 'items' => $items])
                         @break

@@ -17,6 +17,7 @@ enum PanelTypeEnum: string
     case CONTACT = 'contact';
     case STATS = 'stats';
     case GALLERY = 'gallery';
+    case CAROUSEL = 'carousel';
     case CUSTOM = 'custom';
 
     public function label(): string
@@ -31,6 +32,7 @@ enum PanelTypeEnum: string
             self::CONTACT => 'Contact Form',
             self::STATS => 'Statistics / Numbers',
             self::GALLERY => 'Image Gallery',
+            self::CAROUSEL => 'Carousel / Slider',
             self::CUSTOM => 'Custom HTML',
         };
     }
@@ -47,6 +49,7 @@ enum PanelTypeEnum: string
             self::CONTACT => 'Contact form with customizable fields',
             self::STATS => 'Statistics or number counters',
             self::GALLERY => 'Image gallery with lightbox',
+            self::CAROUSEL => 'Modern image/content slider with autoplay and navigation',
             self::CUSTOM => 'Custom HTML content',
         };
     }
@@ -63,6 +66,7 @@ enum PanelTypeEnum: string
             self::CONTACT => 'tabler-mail',
             self::STATS => 'tabler-chart-bar',
             self::GALLERY => 'tabler-photo',
+            self::CAROUSEL => 'tabler-carousel-horizontal',
             self::CUSTOM => 'tabler-code',
         };
     }
@@ -76,6 +80,7 @@ enum PanelTypeEnum: string
             self::FAQ,
             self::STATS,
             self::GALLERY,
+            self::CAROUSEL,
         ], true);
     }
 

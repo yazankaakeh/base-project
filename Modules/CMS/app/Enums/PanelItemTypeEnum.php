@@ -14,6 +14,7 @@ enum PanelItemTypeEnum: string
     case FAQ_ITEM = 'faq_item';
     case STAT = 'stat';
     case GALLERY_IMAGE = 'gallery_image';
+    case CAROUSEL_SLIDE = 'carousel_slide';
     case CUSTOM = 'custom';
 
     public function label(): string
@@ -25,6 +26,7 @@ enum PanelItemTypeEnum: string
             self::FAQ_ITEM => 'FAQ Item',
             self::STAT => 'Statistic',
             self::GALLERY_IMAGE => 'Gallery Image',
+            self::CAROUSEL_SLIDE => 'Carousel Slide',
             self::CUSTOM => 'Custom Item',
         };
     }
@@ -38,6 +40,7 @@ enum PanelItemTypeEnum: string
             self::FAQ_ITEM => ['question', 'answer'],
             self::STAT => ['icon', 'number', 'label', 'suffix'],
             self::GALLERY_IMAGE => ['image', 'caption'],
+            self::CAROUSEL_SLIDE => ['image', 'title', 'subtitle', 'description', 'button_text', 'button_url', 'overlay_color'],
             self::CUSTOM => ['html_content'],
         };
     }

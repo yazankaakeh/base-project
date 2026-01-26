@@ -30,30 +30,58 @@
 
 @section('content')
     <div data-bs-spy="scroll" class="scrollspy-example">
+        {{-- Always include Hero section --}}
         @includeIf('theme::newLanding.panels.hero')
-        <!-- Useful features: Start -->
-        @includeIf('theme::newLanding.panels.features')
-        <!-- Useful features: End -->
 
-        <!-- whyTagiy: Start -->
-        @includeIf('theme::newLanding.panels.whyTagiy')
-        <!-- whyTagiy: End -->
+        {{-- Dynamic panels from CMS --}}
+        @if(isset($panelsData) && $panelsData->count() > 0)
+            @foreach($panelsData as $panel)
+                @php
+                    $items = collect($panel['items'] ?? []);
+                    $panelType = $panel['type'];
+                @endphp
 
-
-        <!-- Get your NFC Business card: Start -->
-        @includeIf('theme::newLanding.panels.getNfc')
-        <!-- Get your NFC Business card: End -->
-
-        <!-- Our great team: Start -->
-        @includeIf('theme::newLanding.panels.landingTeam')
-        <!-- Our great team: End -->
-
-        <!-- Get your NFC Business card: Start -->
-        @includeIf('theme::newLanding.panels.getStarted')
-        <!-- Get your NFC Business card: End -->
-
-        <!-- Contact Us: Start -->
-        @includeIf('theme::newLanding.panels.landingContact')
-        <!-- Contact Us: End -->
+                @switch($panelType)
+                    @case('features')
+                        @include('theme::newLanding.panels.features', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('team')
+                        @include('theme::newLanding.panels.landingTeam', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('reviews')
+                        @include('theme::newLanding.panels.landingReviews', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('faq')
+                        @include('theme::newLanding.panels.landingFAQ', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('cta')
+                        @include('theme::newLanding.panels.landingCTA', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('contact')
+                        @include('theme::newLanding.panels.landingContact', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('stats')
+                        @include('theme::newLanding.panels.landingFunFacts', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('gallery')
+                        @includeIf('theme::newLanding.panels.gallery', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('carousel')
+                        @include('theme::newLanding.panels.carousel', ['panel' => $panel, 'items' => $items])
+                        @break
+                    @case('custom')
+                        @includeIf('theme::newLanding.panels.custom', ['panel' => $panel, 'items' => $items])
+                        @break
+                @endswitch
+            @endforeach
+        @else
+            {{-- Fallback to static includes if no panels in database --}}
+            @includeIf('theme::newLanding.panels.features')
+            @includeIf('theme::newLanding.panels.whyTagiy')
+            @includeIf('theme::newLanding.panels.getNfc')
+            @includeIf('theme::newLanding.panels.landingTeam')
+            @includeIf('theme::newLanding.panels.getStarted')
+            @includeIf('theme::newLanding.panels.landingContact')
+        @endif
     </div>
 @endsection

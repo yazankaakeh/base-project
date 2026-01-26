@@ -285,6 +285,36 @@
                                                                placeholder="ti tabler-users"
                                                                wire:model="newItemData.{{ $panel['id'] }}.icon">
                                                     </div>
+                                                @elseif($itemType === 'carousel_slide')
+                                                    <div class="col-md-3">
+                                                        <label class="form-label small mb-1">Subtitle</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               placeholder="Optional subtitle"
+                                                               wire:model="newItemData.{{ $panel['id'] }}.subtitle">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label small mb-1">Button Text</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               placeholder="Learn More"
+                                                               wire:model="newItemData.{{ $panel['id'] }}.button_text">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label small mb-1">Button URL</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                               placeholder="https://..."
+                                                               wire:model="newItemData.{{ $panel['id'] }}.button_url">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label small mb-1">Overlay Color</label>
+                                                        <select class="form-select form-select-sm"
+                                                                wire:model="newItemData.{{ $panel['id'] }}.overlay_color">
+                                                            <option value="">None</option>
+                                                            <option value="dark">Dark</option>
+                                                            <option value="light">Light</option>
+                                                            <option value="primary">Primary</option>
+                                                            <option value="gradient">Gradient</option>
+                                                        </select>
+                                                    </div>
                                                 @endif
 
                                                 @foreach(LanguageEnum::values() as $lang)
@@ -448,6 +478,107 @@
                             @endforeach
                         </div>
 
+                        {{-- Carousel Settings (only show for carousel type) --}}
+                        @if(($editingPanel['type'] ?? '') === 'carousel')
+                            <div class="mb-4 p-3 bg-light rounded">
+                                <label class="form-label fw-bold mb-3">
+                                    <i class="ti tabler-settings me-1"></i>Carousel Settings
+                                </label>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label small">Slides Per View</label>
+                                        <select class="form-select form-select-sm"
+                                                wire:model="editingPanel.settings.slides_per_view">
+                                            <option value="1">1 Slide</option>
+                                            <option value="2">2 Slides</option>
+                                            <option value="3">3 Slides</option>
+                                            <option value="4">4 Slides</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">Autoplay Delay (ms)</label>
+                                        <input type="number" class="form-control form-control-sm"
+                                               wire:model="editingPanel.settings.autoplay_delay"
+                                               placeholder="5000" min="1000" step="500">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">Transition Effect</label>
+                                        <select class="form-select form-select-sm"
+                                                wire:model="editingPanel.settings.effect">
+                                            <option value="slide">Slide</option>
+                                            <option value="fade">Fade</option>
+                                            <option value="cube">Cube</option>
+                                            <option value="coverflow">Coverflow</option>
+                                            <option value="flip">Flip</option>
+                                            <option value="cards">Cards</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">Carousel Style</label>
+                                        <select class="form-select form-select-sm"
+                                                wire:model="editingPanel.settings.carousel_style">
+                                            <option value="default">Default</option>
+                                            <option value="fullwidth">Full Width Hero</option>
+                                            <option value="cards">Card Style</option>
+                                            <option value="minimal">Minimal</option>
+                                            <option value="modern">Modern Gradient</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">Height</label>
+                                        <select class="form-select form-select-sm"
+                                                wire:model="editingPanel.settings.height">
+                                            <option value="auto">Auto</option>
+                                            <option value="small">Small (300px)</option>
+                                            <option value="medium">Medium (450px)</option>
+                                            <option value="large">Large (600px)</option>
+                                            <option value="fullscreen">Full Screen</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small">Space Between (px)</label>
+                                        <input type="number" class="form-control form-control-sm"
+                                               wire:model="editingPanel.settings.space_between"
+                                               placeholder="30" min="0" step="5">
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   wire:model="editingPanel.settings.autoplay"
+                                                   id="carouselAutoplay">
+                                            <label class="form-check-label small" for="carouselAutoplay">Autoplay</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   wire:model="editingPanel.settings.loop"
+                                                   id="carouselLoop">
+                                            <label class="form-check-label small" for="carouselLoop">Loop</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   wire:model="editingPanel.settings.show_navigation"
+                                                   id="carouselNav">
+                                            <label class="form-check-label small" for="carouselNav">Navigation</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   wire:model="editingPanel.settings.show_pagination"
+                                                   id="carouselPagination">
+                                            <label class="form-check-label small" for="carouselPagination">Pagination</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         {{-- Status --}}
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch"
@@ -561,6 +692,40 @@
                                                placeholder="Role">
                                     </div>
                                 @endforeach
+                            </div>
+                            {{-- Carousel Slide Specific Fields --}}
+                            <div class="row g-3 mt-2 pt-2 border-top">
+                                <div class="col-12">
+                                    <small class="text-muted fw-medium">Carousel Slide Settings</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small">Subtitle</label>
+                                    <input type="text" class="form-control"
+                                           wire:model="editPanelItem.data.subtitle"
+                                           placeholder="Optional subtitle text">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small">Overlay Color</label>
+                                    <select class="form-select" wire:model="editPanelItem.data.overlay_color">
+                                        <option value="">None</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="light">Light</option>
+                                        <option value="primary">Primary</option>
+                                        <option value="gradient">Gradient</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small">Button Text</label>
+                                    <input type="text" class="form-control"
+                                           wire:model="editPanelItem.data.button_text"
+                                           placeholder="Learn More">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small">Button URL</label>
+                                    <input type="text" class="form-control"
+                                           wire:model="editPanelItem.data.button_url"
+                                           placeholder="https://...">
+                                </div>
                             </div>
                         </div>
 

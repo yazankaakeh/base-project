@@ -141,49 +141,53 @@
 
 @section('content')
     @php
+        use Modules\CMS\Enums\PageTemplateEnum;
         $featuredImage = $page->getFirstMediaUrl('featured_image');
+        $isLandingTemplate = $page->template === PageTemplateEnum::LANDING;
     @endphp
 
-    {{-- Hero Section --}}
-    <section class="page-hero first-section-pt">
-        @if($featuredImage)
-            <div class="page-hero-bg" style="background-image: url('{{ $featuredImage }}');"></div>
-        @endif
-        <div class="container page-hero-content py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 text-center text-white">
-                    {{-- Breadcrumb --}}
-                    <nav aria-label="breadcrumb" class="mb-4">
-                        <ol class="breadcrumb breadcrumb-style1 justify-content-center mb-0">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('landing.home') }}" class="text-white-50">
-                                    {{ __('customer.breadcrumbs.home') }}
-                                </a>
-                            </li>
-                            @if($page->parent)
+    {{-- Hero Section - Skip for Landing template --}}
+    @if(!$isLandingTemplate)
+        <section class="page-hero first-section-pt">
+            @if($featuredImage)
+                <div class="page-hero-bg" style="background-image: url('{{ $featuredImage }}');"></div>
+            @endif
+            <div class="container page-hero-content py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 text-center text-white">
+                        {{-- Breadcrumb --}}
+                        <nav aria-label="breadcrumb" class="mb-4">
+                            <ol class="breadcrumb breadcrumb-style1 justify-content-center mb-0">
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('page.show', $page->parent->slug) }}" class="text-white-50">
-                                        {{ $page->parent->getTranslation('title', $locale) }}
+                                    <a href="{{ route('landing.home') }}" class="text-white-50">
+                                        {{ __('customer.breadcrumbs.home') }}
                                     </a>
                                 </li>
-                            @endif
-                            <li class="breadcrumb-item text-white">
-                                {{ Str::limit($page->getTranslation('title', $locale), 40) }}
-                            </li>
-                        </ol>
-                    </nav>
+                                @if($page->parent)
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('page.show', $page->parent->slug) }}" class="text-white-50">
+                                            {{ $page->parent->getTranslation('title', $locale) }}
+                                        </a>
+                                    </li>
+                                @endif
+                                <li class="breadcrumb-item text-white">
+                                    {{ Str::limit($page->getTranslation('title', $locale), 40) }}
+                                </li>
+                            </ol>
+                        </nav>
 
-                    <h1 class="display-5 fw-bold mb-3">{{ $page->getTranslation('title', $locale) }}</h1>
+                        <h1 class="display-5 fw-bold mb-3">{{ $page->getTranslation('title', $locale) }}</h1>
 
-                    @if($page->getTranslation('excerpt', $locale))
-                        <p class="lead opacity-75 mb-0 mx-auto" style="max-width: 700px;">
-                            {{ $page->getTranslation('excerpt', $locale) }}
-                        </p>
-                    @endif
+                        @if($page->getTranslation('excerpt', $locale))
+                            <p class="lead opacity-75 mb-0 mx-auto" style="max-width: 700px;">
+                                {{ $page->getTranslation('excerpt', $locale) }}
+                            </p>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     {{-- Panel Builder Content (Full Width Sections) --}}
     @if($page->use_panel_builder && $page->activePanels->count() > 0)

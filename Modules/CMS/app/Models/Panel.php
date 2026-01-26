@@ -96,4 +96,32 @@ class Panel extends Model implements HasMedia
     {
         return $query->where('page_id', $pageId);
     }
+
+    /**
+     * Get a specific setting value, optionally for a specific locale if it's translatable.
+     */
+    public function getSetting(string $key, ?string $locale = null): mixed
+    {
+        $settings = $this->settings ?? [];
+        $value = $settings[$key] ?? null;
+
+        // If locale is provided and value is an array (translatable), get the localized value
+        if ($locale !== null && is_array($value)) {
+            return $value[$locale] ?? $value[config('app.fallback_locale')] ?? null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Set a specific setting value.
+     */
+    public function setSetting(string $key, mixed $value): self
+    {
+        $settings = $this->settings ?? [];
+        $settings[$key] = $value;
+        $this->settings = $settings;
+
+        return $this;
+    }
 }
