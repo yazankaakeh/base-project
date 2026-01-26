@@ -65,11 +65,9 @@
             <ul class="navbar-nav flex-row align-items-center ms-auto">
                 @includeIf('theme::user.layouts.sections.navbar.navbar-languages')
 
-                @if ($configData['hasCustomizer'] == true)
-                    <!-- Style Switcher -->
-                    @includeIf('theme::user.layouts.sections.navbar.navbar-theme-switcher')
-                    <!-- / Style Switcher-->
-                @endif
+                <!-- Style Switcher (Theme Mode) -->
+                @includeIf('theme::user.layouts.sections.navbar.navbar-theme-switcher')
+                <!-- / Style Switcher-->
 
                 <!-- navbar button: Start -->
                 <li>

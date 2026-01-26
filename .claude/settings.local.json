@@ -9,7 +9,10 @@
       "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\public\" /b)",
       "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\storage\\\\app\\\\public\" /b)",
       "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\public\\\\storage\" /b)",
-      "Bash(composer dump-autoload:*)"
+      "Bash(composer dump-autoload:*)",
+      "Bash(npm run build:*)",
+      "Bash(yarn build)",
+      "Bash(dir:*)"
     ]
   }
 }
