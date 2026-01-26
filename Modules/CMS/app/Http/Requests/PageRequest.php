@@ -24,7 +24,20 @@ class PageRequest extends FormRequest
 
     public function rules(): array
     {
+        // Get page ID from route parameter for the resource route
+        // For PUT /cms/{cms}, the parameter is named 'cms'
         $pageId = $this->route('cms');
+
+        // If it's an object (route model binding), get the ID
+        if (is_object($pageId) && method_exists($pageId, 'getKey')) {
+            $pageId = $pageId->getKey();
+        }
+
+        // Fallback: try to get ID from URL segments (e.g., /cms/2)
+        if (empty($pageId) && $this->isMethod('PUT')) {
+            $segments = $this->segments();
+            $pageId = end($segments);
+        }
 
         return [
             'title' => ['required', 'array'],
@@ -34,7 +47,9 @@ class PageRequest extends FormRequest
                 'string',
                 'max:255',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('cms_pages', 'slug')->ignore($pageId),
+                Rule::unique('cms_pages', 'slug')
+                    ->ignore($pageId)
+                    ->whereNull('deleted_at'),
             ],
             'content' => ['nullable', 'array'],
             'content.*' => ['nullable', 'string'],

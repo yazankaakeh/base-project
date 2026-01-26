@@ -20,9 +20,9 @@ return [
         // options[Boolean]: true(default), false // To provide RTLSupport or not
         'myRTLMode' => false,
         // options[Boolean]: false(default), true // To set layout to RTL layout  (myRTLSupport must be true for rtl mode)
-        'hasCustomizer' => true,
+        'hasCustomizer' => false,
         // options[Boolean]: true(default), false // Display customizer or not THIS WILL REMOVE INCLUDED JS FILE. SO LOCAL STORAGE WON'T WORK
-        'displayCustomizer' => true,
+        'displayCustomizer' => false,
         // options[Boolean]: true(default), false // Display customizer UI or not, THIS WON'T REMOVE INCLUDED JS FILE. SO LOCAL STORAGE WILL WORK
         'contentLayout' => 'compact',
         // options[String]: 'compact', 'wide' (compact=container-xxl, wide=container-fluid)
