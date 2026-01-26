@@ -14,6 +14,14 @@ class PageRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        // Convert "None" or empty string to null for parent_id
+        if ($this->parent_id === 'None' || $this->parent_id === '' || $this->parent_id === '0') {
+            $this->merge(['parent_id' => null]);
+        }
+    }
+
     public function rules(): array
     {
         $pageId = $this->route('cms');
