@@ -19,6 +19,10 @@
 
 @once
     @include('website::panels._panels-styles')
+    {{-- Swiper CSS --}}
+    @push('styles')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    @endpush
 @endonce
 
 {{-- HERO STYLE --}}
@@ -335,6 +339,26 @@
 @endif
 <style>
     /* ================================================
+       SWIPER ESSENTIAL STYLES (ensures proper display before JS loads)
+       ================================================ */
+    .swiper {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .swiper-wrapper {
+        display: flex;
+        transition-property: transform;
+        box-sizing: content-box;
+    }
+
+    .swiper-slide {
+        flex-shrink: 0;
+        width: 100%;
+        position: relative;
+    }
+
+    /* ================================================
        HERO CAROUSEL STYLES
        ================================================ */
     .carousel-hero-section {
@@ -348,11 +372,19 @@
         height: 100vh;
         min-height: 600px;
         max-height: 900px;
+        overflow: hidden;
+    }
+
+    .carousel-hero-swiper .swiper-wrapper {
+        display: flex;
+        height: 100%;
     }
 
     .carousel-hero-swiper .swiper-slide {
         height: 100%;
         overflow: hidden;
+        flex-shrink: 0;
+        width: 100%;
     }
 
     .carousel-hero-slide {
@@ -1052,8 +1084,13 @@
     }
 </style>
 
-@push('scripts')
+@once
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    @endpush
+@endonce
 
+@push('scripts')
     <script>
         (function () {
             'use strict';

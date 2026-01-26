@@ -21,3 +21,6 @@
 
 <!-- Page Styles -->
 @yield('page-style')
+
+<!-- Stacked Styles (panels, carousels, etc.) -->
+@stack('styles')

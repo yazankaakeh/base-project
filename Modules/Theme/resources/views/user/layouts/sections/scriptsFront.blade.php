@@ -20,6 +20,10 @@
 @stack('pricing-script')
 <!-- END: Pricing Modal JS-->
 
+<!-- Stacked scripts (panels, carousels, etc.) -->
+@stack('scripts')
+<!-- END: Stacked scripts -->
+
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->
