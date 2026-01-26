@@ -441,6 +441,31 @@
             color: white !important;
         }
 
+        /* Hero Stat Pills - Better contrast */
+        .hero-stat-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.625rem 1.25rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .hero-stat-pill:hover {
+            background: rgba(30, 170, 231, 0.4);
+            border-color: rgba(30, 170, 231, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .hero-stat-pill i {
+            color: var(--theme-accent);
+        }
+
         @media (max-width: 768px) {
             .portfolio-hero {
                 min-height: 50vh;
@@ -455,6 +480,118 @@
                 height: 45px;
                 font-size: 20px;
             }
+
+            .hero-stat-pill {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Toast Notification */
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(9, 44, 76, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .copy-toast .toast-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: toastIconPop 0.5s ease 0.2s both;
+        }
+
+        .copy-toast .toast-icon i {
+            font-size: 16px;
+        }
+
+        .copy-toast .toast-message {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .copy-toast .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--theme-accent);
+            border-radius: 0 0 50px 50px;
+            animation: toastProgress 2.5s linear forwards;
+        }
+
+        @keyframes toastIconPop {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes toastProgress {
+            0% {
+                width: 100%;
+            }
+            100% {
+                width: 0%;
+            }
+        }
+
+        /* Copy button animation */
+        .btn-copy-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-copy-link::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-accent) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .btn-copy-link.copied::after {
+            transform: translateX(0);
+        }
+
+        .btn-copy-link .btn-text {
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-copy-link.copied .btn-text {
+            color: white;
+        }
+
+        .btn-copy-link.copied {
+            border-color: var(--theme-primary) !important;
         }
     </style>
 @endsection
@@ -509,26 +646,20 @@
                     @endif
 
                     {{-- Quick Stats --}}
-                    <div class="d-flex flex-wrap justify-content-center gap-4 mt-4">
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
                         @if($portfolio->client_name)
-                            <div class="text-center">
-                                <div class="bg-white bg-opacity-10 rounded-pill px-4 py-2">
-                                    <i class="ti tabler-user me-2"></i>{{ $portfolio->client_name }}
-                                </div>
+                            <div class="hero-stat-pill">
+                                <i class="ti tabler-user me-2"></i>{{ $portfolio->client_name }}
                             </div>
                         @endif
                         @if($portfolio->completion_date)
-                            <div class="text-center">
-                                <div class="bg-white bg-opacity-10 rounded-pill px-4 py-2">
-                                    <i class="ti tabler-calendar me-2"></i>{{ $portfolio->completion_date->format('M Y') }}
-                                </div>
+                            <div class="hero-stat-pill">
+                                <i class="ti tabler-calendar me-2"></i>{{ $portfolio->completion_date->format('M Y') }}
                             </div>
                         @endif
                         @if($portfolio->project_duration)
-                            <div class="text-center">
-                                <div class="bg-white bg-opacity-10 rounded-pill px-4 py-2">
-                                    <i class="ti tabler-clock me-2"></i>{{ $portfolio->project_duration }}
-                                </div>
+                            <div class="hero-stat-pill">
+                                <i class="ti tabler-clock me-2"></i>{{ $portfolio->project_duration }}
                             </div>
                         @endif
                     </div>
@@ -695,7 +826,7 @@
                         {{-- Project Details Card --}}
                         <div class="card border-0 shadow-sm mb-4">
                             <div class="card-header bg-primary text-white py-3">
-                                <h5 class="card-title mb-0">
+                                <h5 class="card-title mb-0 text-white">
                                     <i class="ti tabler-info-circle me-2"></i>{{ __('Project Details') }}
                                 </h5>
                             </div>
@@ -773,7 +904,7 @@
                                     <div class="d-flex flex-wrap gap-2">
                                         @foreach($portfolio->technologies as $tech)
                                             <span class="tech-pill">
-                                                <i class="ti tabler-brand-{{ strtolower(str_replace([' ', '.', '#'], ['-', '', 'sharp'], $tech)) }}"
+                                                <i class="ti tabler-code me-2 text-primary"
                                                    onerror="this.className='ti tabler-code'"></i>
                                                 {{ $tech }}
                                             </span>
@@ -814,9 +945,12 @@
                                     </a>
                                 </div>
                                 <button type="button"
-                                        class="btn btn-outline-secondary w-100 mt-2"
-                                        onclick="copyToClipboard('{{ url()->current() }}')">
-                                    <i class="ti tabler-link me-2"></i>{{ __('Copy Link') }}
+                                        class="btn btn-outline-secondary w-100 mt-2 btn-copy-link"
+                                        id="copyLinkBtn"
+                                        onclick="copyToClipboard('{{ url()->current() }}', this)">
+                                    <span class="btn-text">
+                                        <i class="ti tabler-link me-2"></i>{{ __('Copy Link') }}
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -875,6 +1009,15 @@
         </section>
     @endif
 
+    {{-- Toast Notification --}}
+    <div class="copy-toast" id="copyToast">
+        <div class="toast-icon">
+            <i class="ti tabler-check"></i>
+        </div>
+        <span class="toast-message">{{ __('Link copied to clipboard!') }}</span>
+        <div class="toast-progress"></div>
+    </div>
+
     {{-- Lightbox --}}
     <div class="lightbox-overlay" id="lightboxOverlay">
         <button class="lightbox-close" onclick="closeLightbox()">
@@ -909,38 +1052,73 @@
         // Gallery Images Data
         const galleryImages = @json($allImages);
         let currentImageIndex = 0;
+        let mainSwiper = null;
+        let thumbsSwiper = null;
 
         // Initialize Swipers
         document.addEventListener('DOMContentLoaded', function () {
-            const thumbsSwiper = new Swiper('#galleryThumbs', {
-                spaceBetween: 10,
-                slidesPerView: 5,
-                freeMode: true,
-                watchSlidesProgress: true,
-                breakpoints: {
-                    0: {slidesPerView: 4},
-                    768: {slidesPerView: 5},
-                    1024: {slidesPerView: 6}
-                }
-            });
+            const thumbsEl = document.getElementById('galleryThumbs');
+            const mainEl = document.getElementById('galleryMain');
 
-            const mainSwiper = new Swiper('#galleryMain', {
-                spaceBetween: 10,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                thumbs: {
-                    swiper: thumbsSwiper,
-                },
-                on: {
-                    slideChange: function () {
-                        currentImageIndex = this.activeIndex;
+            // Initialize thumbs swiper first (if exists)
+            if (thumbsEl) {
+                thumbsSwiper = new Swiper(thumbsEl, {
+                    spaceBetween: 10,
+                    slidesPerView: 5,
+                    freeMode: true,
+                    watchSlidesProgress: true,
+                    slideToClickedSlide: true,
+                    breakpoints: {
+                        0: {slidesPerView: 4},
+                        768: {slidesPerView: 5},
+                        1024: {slidesPerView: 6}
                     }
-                }
-            });
+                });
+            }
 
-            // Click on image to open lightbox
+            // Initialize main swiper
+            if (mainEl) {
+                const mainSwiperConfig = {
+                    spaceBetween: 10,
+                    loop: false,
+                    navigation: {
+                        nextEl: '#galleryMain .swiper-button-next',
+                        prevEl: '#galleryMain .swiper-button-prev',
+                    },
+                    on: {
+                        slideChange: function () {
+                            currentImageIndex = this.activeIndex;
+                            // Sync thumbs when main slide changes
+                            if (thumbsSwiper && thumbsSwiper.slides) {
+                                thumbsSwiper.slideTo(currentImageIndex);
+                            }
+                        }
+                    }
+                };
+
+                // Add thumbs connection if thumbs swiper exists
+                if (thumbsSwiper) {
+                    mainSwiperConfig.thumbs = {
+                        swiper: thumbsSwiper,
+                    };
+                }
+
+                mainSwiper = new Swiper(mainEl, mainSwiperConfig);
+
+                // Handle thumbnail clicks manually for better control
+                if (thumbsEl) {
+                    const thumbSlides = thumbsEl.querySelectorAll('.swiper-slide');
+                    thumbSlides.forEach((slide, index) => {
+                        slide.addEventListener('click', function () {
+                            if (mainSwiper) {
+                                mainSwiper.slideTo(index);
+                            }
+                        });
+                    });
+                }
+            }
+
+            // Click on main image to open lightbox
             document.querySelectorAll('.gallery-image').forEach((img, index) => {
                 img.addEventListener('click', () => openLightbox(index));
             });
