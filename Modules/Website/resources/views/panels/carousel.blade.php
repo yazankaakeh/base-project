@@ -1086,7 +1086,7 @@
             config.rtl = true;
         }
 
-        @if($autoplay)
+        @if($autoplay && $items->count() > 1)
         config.autoplay = {
             delay: {{ $autoplayDelay }},
             disableOnInteraction: false,
@@ -1099,7 +1099,7 @@
             config.spaceBetween = 0;
             config.speed = 1000;
 
-            @if($autoplay)
+            @if($autoplay && $items->count() > 1)
             config.on = {
                 init: function() {
                     updateProgress();

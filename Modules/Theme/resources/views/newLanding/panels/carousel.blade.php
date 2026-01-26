@@ -61,13 +61,14 @@
 
         {{-- Modern Carousel --}}
         <div class="carousel-wrapper position-relative">
-            <div class="swiper modern-carousel {{ $heightClass }}" id="{{ $carouselId }}"
+            <div class="swiper modern-carousel {{ $heightClass }}" id="{{ $carouselId }}-swiper"
                  data-slides-per-view="{{ $slidesPerView }}"
                  data-autoplay="{{ $autoplay ? 'true' : 'false' }}"
                  data-autoplay-delay="{{ $autoplayDelay }}"
-                 data-loop="{{ $loop ? 'true' : 'false' }}"
+                 data-loop="{{ ($loop && $items->count() > 1) ? 'true' : 'false' }}"
                  data-effect="{{ $effect }}"
-                 data-space-between="{{ $spaceBetween }}">
+                 data-space-between="{{ $spaceBetween }}"
+                 data-total-slides="{{ $items->count() }}">
                 <div class="swiper-wrapper">
                     @forelse($items as $item)
                         @php
@@ -241,100 +242,132 @@
 
 @push('page-script')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const carouselEl = document.getElementById('{{ $carouselId }}');
-    if (!carouselEl || typeof Swiper === 'undefined') return;
+(function() {
+    'use strict';
 
-    const slidesPerView = parseInt(carouselEl.dataset.slidesPerView) || 1;
-    const autoplay = carouselEl.dataset.autoplay === 'true';
-    const autoplayDelay = parseInt(carouselEl.dataset.autoplayDelay) || 5000;
-    const loop = carouselEl.dataset.loop === 'true';
-    const effect = carouselEl.dataset.effect || 'slide';
-    const spaceBetween = parseInt(carouselEl.dataset.spaceBetween) || 30;
+    function initCarousel_{{ str_replace('-', '_', $carouselId) }}() {
+        if (typeof Swiper === 'undefined') {
+            setTimeout(initCarousel_{{ str_replace('-', '_', $carouselId) }}, 100);
+            return;
+        }
 
-    const swiperConfig = {
-        effect: effect,
-        loop: loop,
-        speed: 800,
-        spaceBetween: spaceBetween,
-        grabCursor: true,
-        watchSlidesProgress: true,
+        const carouselEl = document.getElementById('{{ $carouselId }}-swiper');
+        if (!carouselEl) return;
 
-        // Responsive breakpoints
-        slidesPerView: 1,
-        breakpoints: {
-            576: { slidesPerView: Math.min(slidesPerView, 1) },
-            768: { slidesPerView: Math.min(slidesPerView, 2) },
-            992: { slidesPerView: Math.min(slidesPerView, 3) },
-            1200: { slidesPerView: slidesPerView }
-        },
+        // Destroy existing instance if any
+        if (carouselEl.swiper) {
+            carouselEl.swiper.destroy(true, true);
+        }
 
-        // Navigation
-        navigation: {
-            nextEl: '#{{ $carouselId }}-next',
-            prevEl: '#{{ $carouselId }}-prev',
-        },
+        const slidesPerView = parseInt(carouselEl.dataset.slidesPerView) || 1;
+        const autoplay = carouselEl.dataset.autoplay === 'true';
+        const autoplayDelay = parseInt(carouselEl.dataset.autoplayDelay) || 5000;
+        const loop = carouselEl.dataset.loop === 'true';
+        const effect = carouselEl.dataset.effect || 'slide';
+        const spaceBetween = parseInt(carouselEl.dataset.spaceBetween) || 30;
+        const totalSlides = parseInt(carouselEl.dataset.totalSlides) || 0;
 
-        // Pagination
-        pagination: {
-            el: '#{{ $carouselId }} .swiper-pagination',
-            clickable: true,
-            dynamicBullets: slidesPerView === 1,
-        },
-    };
+        // Only enable loop if there are enough slides (more than slidesPerView)
+        const canLoop = loop && totalSlides > slidesPerView;
 
-    // Add autoplay if enabled
-    if (autoplay) {
-        swiperConfig.autoplay = {
-            delay: autoplayDelay,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
+        const swiperConfig = {
+            effect: effect,
+            loop: canLoop,
+            speed: 800,
+            spaceBetween: spaceBetween,
+            grabCursor: totalSlides > 1,
+            watchSlidesProgress: true,
+            observer: true,
+            observeParents: true,
+
+            // Responsive breakpoints
+            slidesPerView: 1,
+            breakpoints: {
+                576: { slidesPerView: Math.min(slidesPerView, 1) },
+                768: { slidesPerView: Math.min(slidesPerView, 2) },
+                992: { slidesPerView: Math.min(slidesPerView, 3) },
+                1200: { slidesPerView: slidesPerView }
+            },
+
+            // Navigation
+            navigation: {
+                nextEl: '#{{ $carouselId }}-next',
+                prevEl: '#{{ $carouselId }}-prev',
+            },
+
+            // Pagination
+            pagination: {
+                el: '#{{ $carouselId }}-swiper .swiper-pagination',
+                clickable: true,
+                dynamicBullets: slidesPerView === 1,
+            },
         };
+
+        // Add autoplay if enabled and more than one slide
+        if (autoplay && totalSlides > 1) {
+            swiperConfig.autoplay = {
+                delay: autoplayDelay,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            };
+        }
+
+        // Effect-specific settings
+        if (effect === 'fade') {
+            swiperConfig.fadeEffect = { crossFade: true };
+            swiperConfig.slidesPerView = 1;
+            delete swiperConfig.breakpoints;
+            // Fade effect requires loop to be false if only 1 slide
+            swiperConfig.loop = canLoop && totalSlides > 1;
+        } else if (effect === 'cube') {
+            swiperConfig.cubeEffect = {
+                shadow: true,
+                slideShadows: true,
+                shadowOffset: 20,
+                shadowScale: 0.94,
+            };
+            swiperConfig.slidesPerView = 1;
+            delete swiperConfig.breakpoints;
+            swiperConfig.loop = canLoop && totalSlides > 1;
+        } else if (effect === 'coverflow') {
+            swiperConfig.coverflowEffect = {
+                rotate: 30,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            };
+            swiperConfig.centeredSlides = true;
+        } else if (effect === 'flip') {
+            swiperConfig.flipEffect = {
+                slideShadows: true,
+                limitRotation: true,
+            };
+            swiperConfig.slidesPerView = 1;
+            delete swiperConfig.breakpoints;
+            swiperConfig.loop = canLoop && totalSlides > 1;
+        } else if (effect === 'cards') {
+            swiperConfig.cardsEffect = {
+                perSlideOffset: 8,
+                perSlideRotate: 2,
+                rotate: true,
+                slideShadows: true,
+            };
+            swiperConfig.slidesPerView = 1;
+            delete swiperConfig.breakpoints;
+            swiperConfig.loop = canLoop && totalSlides > 1;
+        }
+
+        new Swiper(carouselEl, swiperConfig);
     }
 
-    // Effect-specific settings
-    if (effect === 'fade') {
-        swiperConfig.fadeEffect = { crossFade: true };
-        swiperConfig.slidesPerView = 1;
-        delete swiperConfig.breakpoints;
-    } else if (effect === 'cube') {
-        swiperConfig.cubeEffect = {
-            shadow: true,
-            slideShadows: true,
-            shadowOffset: 20,
-            shadowScale: 0.94,
-        };
-        swiperConfig.slidesPerView = 1;
-        delete swiperConfig.breakpoints;
-    } else if (effect === 'coverflow') {
-        swiperConfig.coverflowEffect = {
-            rotate: 30,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-        };
-        swiperConfig.centeredSlides = true;
-    } else if (effect === 'flip') {
-        swiperConfig.flipEffect = {
-            slideShadows: true,
-            limitRotation: true,
-        };
-        swiperConfig.slidesPerView = 1;
-        delete swiperConfig.breakpoints;
-    } else if (effect === 'cards') {
-        swiperConfig.cardsEffect = {
-            perSlideOffset: 8,
-            perSlideRotate: 2,
-            rotate: true,
-            slideShadows: true,
-        };
-        swiperConfig.slidesPerView = 1;
-        delete swiperConfig.breakpoints;
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCarousel_{{ str_replace('-', '_', $carouselId) }});
+    } else {
+        setTimeout(initCarousel_{{ str_replace('-', '_', $carouselId) }}, 50);
     }
-
-    new Swiper(carouselEl, swiperConfig);
-});
+})();
 </script>
 @endpush
 
