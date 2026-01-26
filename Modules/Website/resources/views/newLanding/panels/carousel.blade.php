@@ -1,13 +1,12 @@
-{{--
 @php
     /**
      * Modern Carousel Panel Component (Array-based data)
      *
      * @var array $panel - Panel data array from controller
-     * @var \Illuminate\Support\Collection $items - Collection of item arrays
+     * @var Collection $items - Collection of item arrays
      */
 
-    $settings = $panel['settings'] ?? [];
+    use Illuminate\Support\Collection;$settings = $panel['settings'] ?? [];
     $carouselStyle = $settings['carousel_style'] ?? 'default';
     $slidesPerView = $settings['slides_per_view'] ?? 1;
     $autoplay = $settings['autoplay'] ?? true;
@@ -39,8 +38,7 @@
 <section id="{{ $carouselId }}"
          class="section-py carousel-panel carousel-style-{{ $carouselStyle }} {{ $heightClass }}">
     <div class="{{ $carouselStyle === 'fullwidth' ? 'container-fluid px-0' : 'container' }}">
-        --}}
-{{-- Section Header --}}{{--
+        Section Header
 
         @if($panelTitle || $badge || $description)
             <div class="text-center mb-4 pb-2">
@@ -63,8 +61,7 @@
             </div>
         @endif
 
-        --}}
-{{-- Modern Carousel --}}{{--
+        Modern Carousel
 
         <div class="carousel-wrapper position-relative">
             <div class="swiper modern-carousel {{ $heightClass }}" id="{{ $carouselId }}-swiper"
@@ -101,8 +98,7 @@
                                      style="background-image: url('{{ $imageUrl }}');"
                                 @endif
                             >
-                                --}}
-{{-- For card style --}}{{--
+                                For card style
 
                                 @if($carouselStyle === 'cards')
                                     <div class="card carousel-card h-100 border-0 shadow-lg overflow-hidden">
@@ -133,8 +129,7 @@
                                         </div>
                                     </div>
 
-                                    --}}
-{{-- For minimal style --}}{{--
+                                    For minimal style
 
                                 @elseif($carouselStyle === 'minimal')
                                     <div class="carousel-minimal-slide">
@@ -153,8 +148,7 @@
                                         </div>
                                     </div>
 
-                                    --}}
-{{-- For fullwidth/modern hero style --}}{{--
+                                    For fullwidth/modern hero style
 
                                 @elseif($carouselStyle === 'fullwidth' || $carouselStyle === 'modern')
                                     <div
@@ -189,8 +183,7 @@
                                         </div>
                                     </div>
 
-                                    --}}
-{{-- Default style --}}{{--
+                                    Default style
 
                                 @else
                                     <div class="carousel-default-slide position-relative rounded-4 overflow-hidden">
@@ -234,16 +227,14 @@
                     @endforelse
                 </div>
 
-                --}}
-{{-- Pagination --}}{{--
+                Pagination
 
                 @if($showPagination)
                     <div class="swiper-pagination carousel-pagination"></div>
                 @endif
             </div>
 
-            --}}
-{{-- Navigation Buttons --}}{{--
+            Navigation Buttons
 
             @if($showNavigation && $items->count() > 1)
                 <div class="carousel-navigation">
@@ -730,8 +721,7 @@
         }
     </style>
 @endpush
---}}
-@php
+{{--@php
     /**
      * Modern Carousel Panel Component (Array-based data)
      *
@@ -773,7 +763,7 @@
 <section id="{{ $carouselId }}"
          class="section-py carousel-panel carousel-style-{{ $carouselStyle }} {{ $heightClass }}">
     <div class="{{ $carouselStyle === 'fullwidth' ? 'container-fluid px-0' : 'container' }}">
-        {{-- Section Header --}}
+        --}}{{-- Section Header --}}{{--
         @if($panelTitle || $badge || $description)
             <div class="text-center mb-4 pb-2">
                 @if($badge)
@@ -795,7 +785,7 @@
             </div>
         @endif
 
-        {{-- Modern Carousel --}}
+        --}}{{-- Modern Carousel --}}{{--
         <div class="carousel-wrapper position-relative">
             <div class="swiper modern-carousel {{ $heightClass }}"
                  id="{{ $carouselId }}-swiper"
@@ -837,7 +827,7 @@
                                      style="background-image: url('{{ $imageUrl }}');"
                                 @endif
                             >
-                                {{-- Cards --}}
+                                --}}{{-- Cards --}}{{--
                                 @if($carouselStyle === 'cards')
                                     <div class="card carousel-card h-100 border-0 shadow-lg overflow-hidden">
                                         <div class="carousel-card-img-wrapper">
@@ -865,7 +855,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- Minimal --}}
+                                    --}}{{-- Minimal --}}{{--
                                 @elseif($carouselStyle === 'minimal')
                                     <div class="carousel-minimal-slide">
                                         <div class="carousel-minimal-img-wrapper rounded-4 overflow-hidden">
@@ -881,7 +871,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- Fullwidth/Modern --}}
+                                    --}}{{-- Fullwidth/Modern --}}{{--
                                 @elseif($carouselStyle === 'fullwidth' || $carouselStyle === 'modern')
                                     <div
                                         class="carousel-hero-content d-flex align-items-center justify-content-center text-center text-white h-100">
@@ -915,7 +905,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- Default --}}
+                                    --}}{{-- Default --}}{{--
                                 @else
                                     <div class="carousel-default-slide position-relative rounded-4 overflow-hidden">
                                         <img src="{{ $imageUrl }}" alt="{{ $title }}"
@@ -957,13 +947,13 @@
                     @endforelse
                 </div>
 
-                {{-- Pagination --}}
+                --}}{{-- Pagination --}}{{--
                 @if($showPagination)
                     <div class="swiper-pagination carousel-pagination"></div>
                 @endif
             </div>
 
-            {{-- Navigation --}}
+            --}}{{-- Navigation --}}{{--
             @if($showNavigation && $items->count() > 1)
                 <div class="carousel-navigation">
                     <button type="button"
@@ -1507,4 +1497,4 @@
             }
         }
     </style>
-@endpush
+@endpush--}}
