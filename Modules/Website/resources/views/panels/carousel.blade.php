@@ -336,16 +336,24 @@
 .carousel-hero-section {
     position: relative;
     background: var(--panel-secondary);
+    overflow: hidden;
 }
 
 .carousel-hero-swiper {
+    width: 100%;
     height: 100vh;
     min-height: 600px;
     max-height: 900px;
 }
 
+.carousel-hero-swiper .swiper-slide {
+    height: 100%;
+    overflow: hidden;
+}
+
 .carousel-hero-slide {
     position: relative;
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -617,6 +625,11 @@
 
 .carousel-cards-swiper {
     overflow: visible;
+    width: 100%;
+}
+
+.carousel-cards-swiper .swiper-slide {
+    height: auto;
 }
 
 .carousel-card {
@@ -745,8 +758,13 @@
 }
 
 .carousel-showcase-swiper {
+    width: 100%;
     border-radius: var(--panel-radius-xl);
     overflow: hidden;
+}
+
+.carousel-showcase-swiper .swiper-slide {
+    height: auto;
 }
 
 .carousel-showcase-slide {
@@ -1035,16 +1053,25 @@
         }
 
         var el = document.getElementById('{{ $carouselId }}');
-        if (!el || el.swiper) return;
+        if (!el) return;
+
+        // Destroy existing instance if any
+        if (el.swiper) {
+            el.swiper.destroy(true, true);
+        }
 
         var style = '{{ $carouselStyle }}';
         var isRtl = {{ $isRtl ? 'true' : 'false' }};
 
         var config = {
-            loop: {{ $loop ? 'true' : 'false' }},
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: {{ $loop && $items->count() > 1 ? 'true' : 'false' }},
             speed: 800,
             grabCursor: true,
             watchSlidesProgress: true,
+            observer: true,
+            observeParents: true,
             navigation: {
                 nextEl: '#{{ $carouselId }}-next',
                 prevEl: '#{{ $carouselId }}-prev'
@@ -1068,19 +1095,17 @@
         @endif
 
         if (style === 'hero') {
-            config.effect = 'fade';
-            config.fadeEffect = { crossFade: true };
-            config.parallax = true;
+            config.slidesPerView = 1;
+            config.spaceBetween = 0;
             config.speed = 1000;
 
             @if($autoplay)
-            // Progress bar animation
             config.on = {
                 init: function() {
-                    updateProgress(this);
+                    updateProgress();
                 },
                 slideChange: function() {
-                    updateProgress(this);
+                    updateProgress();
                 },
                 autoplayTimeLeft: function(swiper, time, progress) {
                     var progressBar = document.querySelector('#panel-{{ $panel->id }} .carousel-hero-progress-bar');
@@ -1100,24 +1125,27 @@
                 1200: { slidesPerView: 3, spaceBetween: 32 }
             };
         } else {
-            config.effect = 'fade';
-            config.fadeEffect = { crossFade: true };
+            // Showcase/default style
+            config.slidesPerView = 1;
+            config.spaceBetween = 0;
         }
 
         new Swiper(el, config);
     }
 
-    function updateProgress(swiper) {
+    function updateProgress() {
         var progressBar = document.querySelector('#panel-{{ $panel->id }} .carousel-hero-progress-bar');
         if (progressBar) {
             progressBar.style.width = '0%';
         }
     }
 
+    // Initialize on DOM ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initCarousel);
     } else {
-        initCarousel();
+        // Small delay to ensure Swiper is loaded
+        setTimeout(initCarousel, 50);
     }
 })();
 </script>
