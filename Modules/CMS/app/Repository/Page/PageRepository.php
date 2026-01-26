@@ -37,6 +37,7 @@ class PageRepository implements PageInterface
             $page->order = $validated['order'] ?? 0;
             $page->meta_data = $validated['meta_data'] ?? [];
             $page->published_at = $validated['published_at'] ?? null;
+            $page->use_panel_builder = $request->boolean('use_panel_builder');
             $page->save();
 
             if ($request->hasFile('featured_image')) {
@@ -82,9 +83,14 @@ class PageRepository implements PageInterface
             $page->order = $validated['order'] ?? 0;
             $page->meta_data = $validated['meta_data'] ?? [];
             $page->published_at = $validated['published_at'] ?? null;
+            $page->use_panel_builder = $request->boolean('use_panel_builder');
             $page->save();
 
-            if ($request->hasFile('featured_image')) {
+            // Handle featured image
+            if ($request->boolean('remove_featured_image')) {
+                $page->clearMediaCollection('featured_image');
+            } elseif ($request->hasFile('featured_image')) {
+                $page->clearMediaCollection('featured_image');
                 $page->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
             }
 

@@ -151,11 +151,21 @@
                                                 value="{{ old('order', 0) }}" />
                                         </div>
                                         <div class="mb-3">
-                                            <x-core::input
-                                                label="cms::cms.pages.featured_image"
-                                                type="file"
-                                                name="featured_image"
-                                                id="featured_image" />
+                                            <label class="form-label">{{ trans('cms::cms.pages.featured_image') }}</label>
+                                            <input type="file" class="form-control" name="featured_image" id="featured_image"
+                                                   accept="image/jpeg,image/png,image/webp">
+                                            <small class="text-muted">{{ __('Optional. Max 2MB. Formats: JPG, PNG, WebP') }}</small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       name="use_panel_builder" id="use_panel_builder" value="1"
+                                                       {{ old('use_panel_builder') ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="use_panel_builder">
+                                                    <strong>{{ __('Use Panel Builder') }}</strong>
+                                                </label>
+                                            </div>
+                                            <small class="text-muted">{{ __('Enable to use visual panel builder instead of content editor') }}</small>
                                         </div>
                                         <div class="mb-3">
                                             <x-core::input

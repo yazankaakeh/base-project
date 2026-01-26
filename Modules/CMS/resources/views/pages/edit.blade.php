@@ -154,18 +154,35 @@
                                                     value="{{ old('order', $page->order) }}"/>
                                         </div>
                                         <div class="mb-3">
+                                            <label class="form-label">{{ trans('cms::cms.pages.featured_image') }}</label>
                                             @if($page->getFirstMediaUrl('featured_image'))
-                                                <div class="mb-2">
+                                                <div class="mb-2 position-relative">
                                                     <img src="{{ $page->getFirstMediaUrl('featured_image') }}"
                                                          alt="Featured Image"
                                                          class="img-fluid rounded" style="max-height: 200px;">
                                                 </div>
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           name="remove_featured_image" id="remove_featured_image" value="1">
+                                                    <label class="form-check-label text-danger" for="remove_featured_image">
+                                                        <i class="ti tabler-trash me-1"></i>{{ __('Remove image') }}
+                                                    </label>
+                                                </div>
                                             @endif
-                                            <x-core::input
-                                                    label="cms::cms.pages.featured_image"
-                                                    type="file"
-                                                    name="featured_image"
-                                                    id="featured_image"/>
+                                            <input type="file" class="form-control" name="featured_image" id="featured_image"
+                                                   accept="image/jpeg,image/png,image/webp">
+                                            <small class="text-muted">{{ __('Optional. Max 2MB. Formats: JPG, PNG, WebP') }}</small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       name="use_panel_builder" id="use_panel_builder" value="1"
+                                                       {{ old('use_panel_builder', $page->use_panel_builder) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="use_panel_builder">
+                                                    <strong>{{ __('Use Panel Builder') }}</strong>
+                                                </label>
+                                            </div>
+                                            <small class="text-muted">{{ __('Enable to use visual panel builder instead of content editor') }}</small>
                                         </div>
                                         <div class="mb-3">
                                             <x-core::input

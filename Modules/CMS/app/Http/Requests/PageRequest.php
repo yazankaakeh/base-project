@@ -39,6 +39,8 @@ class PageRequest extends FormRequest
             'meta_data' => ['nullable', 'array'],
             'published_at' => ['nullable', 'date'],
             'featured_image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
+            'remove_featured_image' => ['nullable', 'boolean'],
+            'use_panel_builder' => ['nullable', 'boolean'],
             'meta_title' => ['nullable', 'string', 'max:60'],
             'meta_description' => ['nullable', 'string', 'max:160'],
         ];
