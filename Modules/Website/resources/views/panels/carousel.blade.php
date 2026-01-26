@@ -514,14 +514,19 @@
         transform: translateX({{ $isRtl ? '-4px' : '4px' }});
     }
 
-    /* Hero Navigation */
+    /* Hero Navigation - Centered on sides */
     .carousel-hero-nav {
         position: absolute;
-        bottom: 80px;
-    {{ $isRtl ? 'left' : 'right' }}: 5 %;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 10;
+        pointer-events: none;
         display: flex;
-        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
     }
 
     .carousel-hero-nav-btn {
@@ -530,20 +535,48 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
         border-radius: 50%;
         color: #fff;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: auto;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     }
 
     .carousel-hero-nav-btn:hover {
         background: #fff;
         color: var(--panel-secondary);
-        transform: scale(1.1);
+        transform: scale(1.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .carousel-hero-nav-btn:active {
+        transform: scale(1.05);
+    }
+
+    .carousel-hero-nav-btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .carousel-hero-nav-btn.prev:hover i {
+        transform: translateX(-3px);
+    }
+
+    .carousel-hero-nav-btn.next:hover i {
+        transform: translateX(3px);
+    }
+
+    [dir="rtl"] .carousel-hero-nav-btn.prev:hover i {
+        transform: translateX(3px);
+    }
+
+    [dir="rtl"] .carousel-hero-nav-btn.next:hover i {
+        transform: translateX(-3px);
     }
 
     /* Hero Pagination */
@@ -971,13 +1004,13 @@
         }
 
         .carousel-hero-nav {
-            bottom: 40px;
-        {{ $isRtl ? 'left' : 'right' }}: 20 px;
+            padding: 0 15px;
         }
 
         .carousel-hero-nav-btn {
             width: 48px;
             height: 48px;
+            font-size: 1.25rem;
         }
 
         .carousel-hero-number {
@@ -994,6 +1027,16 @@
             height: 100vh;
             min-height: 550px;
             max-height: none;
+        }
+
+        .carousel-hero-nav {
+            padding: 0 10px;
+        }
+
+        .carousel-hero-nav-btn {
+            width: 42px;
+            height: 42px;
+            font-size: 1.125rem;
         }
 
         .carousel-hero-content {
@@ -1056,10 +1099,7 @@
     /* ================================================
        RTL SUPPORT
        ================================================ */
-    [dir="rtl"] .carousel-hero-nav {
-        left: 5%;
-        right: auto;
-    }
+    /* Hero nav uses flexbox space-between, so RTL is automatic */
 
     [dir="rtl"] .carousel-hero-number {
         right: 5%;
@@ -1076,12 +1116,6 @@
         right: auto;
     }
 
-    @media (max-width: 991px) {
-        [dir="rtl"] .carousel-hero-nav {
-            left: 20px;
-            right: auto;
-        }
-    }
 </style>
 
 @once
