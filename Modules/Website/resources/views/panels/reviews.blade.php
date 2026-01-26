@@ -1,29 +1,40 @@
 @php
     $locale = app()->getLocale();
+    $isRtl = in_array($locale, ['ar', 'he', 'fa']);
     $title = $panel->getTranslation('title', $locale);
     $badge = $panel->settings['badge'][$locale] ?? null;
     $description = $panel->settings['description'][$locale] ?? null;
 @endphp
 
-<section class="section-py bg-body" id="panel-{{ $panel->id }}">
-    <div class="container">
+@once
+    @include('website::panels._panels-styles')
+@endonce
+
+<section class="panel-section position-relative" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}"
+         style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
+
+    {{-- Decorative Elements --}}
+    <div class="panel-shape" style="width: 200px; height: 200px; top: 20%; {{ $isRtl ? 'right' : 'left' }}: -80px; background: rgba(var(--panel-primary-rgb), 0.04);"></div>
+    <div class="panel-shape" style="width: 150px; height: 150px; bottom: 10%; {{ $isRtl ? 'left' : 'right' }}: 5%; background: rgba(var(--panel-primary-rgb), 0.06);"></div>
+
+    <div class="container position-relative">
         {{-- Section Header --}}
-        <div class="text-center mb-5">
+        <div class="panel-header">
             @if($badge)
-                <span class="badge bg-label-primary rounded-pill px-3 py-2 mb-3">{{ $badge }}</span>
+                <span class="panel-badge">{{ $badge }}</span>
             @endif
             @if($title)
-                <h2 class="display-6 fw-bold mb-3">{{ $title }}</h2>
+                <h2 class="panel-title">{{ $title }}</h2>
             @endif
             @if($description)
-                <p class="text-muted mx-auto" style="max-width: 600px;">{{ $description }}</p>
+                <p class="panel-description">{{ $description }}</p>
             @endif
         </div>
 
-        {{-- Reviews Carousel/Grid --}}
+        {{-- Reviews Grid --}}
         @if($panel->activeItems->count() > 0)
             <div class="row g-4">
-                @foreach($panel->activeItems as $item)
+                @foreach($panel->activeItems as $index => $item)
                     @php
                         $name = $item->getTranslation('title', $locale);
                         $content = $item->getTranslation('content', $locale);
@@ -31,43 +42,39 @@
                         $rating = $item->data['rating'] ?? 5;
                         $itemImage = $item->getFirstMediaUrl('item_image');
                     @endphp
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body p-4">
-                                {{-- Rating Stars --}}
-                                <div class="mb-3">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <i class="ti tabler-star{{ $i <= $rating ? '-filled' : '' }} text-warning"></i>
-                                    @endfor
-                                </div>
+                    <div class="col-md-6 col-lg-4 panel-animate" style="animation-delay: {{ $index * 0.1 }}s;">
+                        <div class="panel-review-card">
+                            {{-- Quote Icon --}}
+                            <span class="panel-review-quote">"</span>
 
-                                {{-- Quote --}}
-                                <div class="position-relative mb-4">
-                                    <i class="ti tabler-quote position-absolute text-primary opacity-25"
-                                       style="font-size: 3rem; top: -10px; left: -10px;"></i>
-                                    <p class="text-muted mb-0 ps-4">{{ $content }}</p>
-                                </div>
-
-                                {{-- Author --}}
-                                <div class="d-flex align-items-center mt-auto">
-                                    @if($itemImage)
-                                        <img src="{{ $itemImage }}" alt="{{ $name }}"
-                                             class="rounded-circle me-3"
-                                             style="width: 50px; height: 50px; object-fit: cover;">
+                            {{-- Rating Stars --}}
+                            <div class="panel-stars mb-3">
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $rating)
+                                        <i class="ti tabler-star-filled"></i>
                                     @else
-                                        <div class="bg-label-primary rounded-circle me-3 d-flex align-items-center justify-content-center"
-                                             style="width: 50px; height: 50px;">
-                                            <span class="fw-bold text-primary">
-                                                {{ strtoupper(substr($name, 0, 1)) }}
-                                            </span>
-                                        </div>
+                                        <i class="ti tabler-star" style="opacity: 0.3;"></i>
                                     @endif
-                                    <div>
-                                        <h6 class="mb-0">{{ $name }}</h6>
-                                        @if($role)
-                                            <small class="text-muted">{{ $role }}</small>
-                                        @endif
+                                @endfor
+                            </div>
+
+                            {{-- Review Content --}}
+                            <p class="panel-review-content">{{ $content }}</p>
+
+                            {{-- Author --}}
+                            <div class="panel-review-author">
+                                @if($itemImage)
+                                    <img src="{{ $itemImage }}" alt="{{ $name }}" class="panel-avatar">
+                                @else
+                                    <div class="panel-avatar panel-avatar-placeholder" style="width: 55px; height: 55px; font-size: 1.25rem;">
+                                        {{ mb_strtoupper(mb_substr($name, 0, 1)) }}
                                     </div>
+                                @endif
+                                <div>
+                                    <h6 class="mb-1" style="color: var(--panel-secondary); font-weight: 600;">{{ $name }}</h6>
+                                    @if($role)
+                                        <small style="color: var(--panel-gray);">{{ $role }}</small>
+                                    @endif
                                 </div>
                             </div>
                         </div>

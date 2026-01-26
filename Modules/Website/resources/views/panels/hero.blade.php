@@ -1,5 +1,6 @@
 @php
     $locale = app()->getLocale();
+    $isRtl = in_array($locale, ['ar', 'he', 'fa']);
     $title = $panel->getTranslation('title', $locale);
     $badge = $panel->settings['badge'][$locale] ?? null;
     $description = $panel->settings['description'][$locale] ?? null;
@@ -10,52 +11,68 @@
     $backgroundImage = $panel->getFirstMediaUrl('panel_image');
 @endphp
 
-<section class="hero-section position-relative overflow-hidden" id="panel-{{ $panel->id }}"
-         style="min-height: 70vh; display: flex; align-items: center;
-                background: linear-gradient(135deg, #092C4C 0%, #0d3a5c 50%, #1EAAE7 100%);">
-    {{-- Background Pattern --}}
-    <div class="position-absolute w-100 h-100" style="background: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%231EAAE7\' fill-opacity=\'0.08\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+@once
+    @include('website::panels._panels-styles')
+@endonce
+
+<section class="panel-section panel-gradient-primary position-relative" id="panel-{{ $panel->id }}"
+         style="min-height: 85vh; display: flex; align-items: center;" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
+
+    {{-- Animated Background Shapes --}}
+    <div class="panel-shape panel-shape-1"></div>
+    <div class="panel-shape panel-shape-2"></div>
+    <div class="panel-pattern"></div>
 
     @if($backgroundImage)
-        <div class="position-absolute w-100 h-100"
-             style="background-image: url('{{ $backgroundImage }}'); background-size: cover; background-position: center; opacity: 0.15;">
+        <div class="position-absolute w-100 h-100 top-0 start-0"
+             style="background-image: url('{{ $backgroundImage }}'); background-size: cover; background-position: center; opacity: 0.12;">
         </div>
     @endif
 
     <div class="container position-relative py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-10 text-center text-white">
+            <div class="col-lg-10 col-xl-8 text-center">
                 @if($badge)
-                    <span class="badge bg-white text-primary rounded-pill px-4 py-2 mb-4 fs-6">
+                    <span class="panel-badge bg-white text-primary mb-4" style="color: var(--panel-primary) !important;">
                         {{ $badge }}
                     </span>
                 @endif
 
                 @if($title)
-                    <h1 class="display-3 fw-bold mb-4">{{ $title }}</h1>
+                    <h1 class="panel-title text-white mb-4" style="font-size: clamp(2.5rem, 6vw, 4rem);">
+                        {{ $title }}
+                    </h1>
                 @endif
 
                 @if($description)
-                    <p class="lead opacity-75 mb-5 mx-auto" style="max-width: 700px; font-size: 1.25rem;">
+                    <p class="panel-description mb-5" style="color: rgba(255,255,255,0.85); max-width: 700px;">
                         {{ $description }}
                     </p>
                 @endif
 
                 @if($buttonText || $buttonSecondaryText)
-                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
                         @if($buttonText && $buttonUrl)
-                            <a href="{{ $buttonUrl }}" class="btn btn-primary btn-lg px-5 py-3">
+                            <a href="{{ $buttonUrl }}" class="panel-btn panel-btn-primary">
                                 {{ $buttonText }}
-                                <i class="ti tabler-arrow-right ms-2"></i>
+                                <i class="ti tabler-arrow-{{ $isRtl ? 'left' : 'right' }}"></i>
                             </a>
                         @endif
                         @if($buttonSecondaryText && $buttonSecondaryUrl)
-                            <a href="{{ $buttonSecondaryUrl }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                            <a href="{{ $buttonSecondaryUrl }}" class="panel-btn panel-btn-outline">
+                                <i class="ti tabler-player-play"></i>
                                 {{ $buttonSecondaryText }}
                             </a>
                         @endif
                     </div>
                 @endif
+
+                {{-- Scroll Indicator --}}
+                <div class="mt-5 pt-4">
+                    <a href="#" class="text-white opacity-50 d-inline-block" style="animation: float 2s ease-in-out infinite;">
+                        <i class="ti tabler-chevrons-down fs-2"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
