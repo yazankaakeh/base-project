@@ -413,6 +413,11 @@
         z-index: 3;
         width: 100%;
         padding: 120px 0 80px;
+        pointer-events: none; /* Allow clicks to pass through to header */
+    }
+
+    .carousel-hero-content .container {
+        pointer-events: auto; /* Re-enable clicks on actual content */
     }
 
     .carousel-hero-subtitle {
@@ -460,6 +465,7 @@
         text-decoration: none;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        pointer-events: auto;
     }
 
     .carousel-hero-btn:hover {
@@ -1078,20 +1084,21 @@
                 var config = {
                     slidesPerView: 1,
                     spaceBetween: 0,
-                    loop: shouldLoop,
+                    loop: shouldLoop && totalSlides > 1, // Double-check: never loop with single slide
                     speed: 800,
                     grabCursor: totalSlides > 1,
                     watchSlidesProgress: true,
                     observer: true,
                     observeParents: true,
-                    navigation: {
+                    allowTouchMove: totalSlides > 1, // Disable touch/drag for single slide
+                    navigation: totalSlides > 1 ? {
                         nextEl: '#' + carouselId + '-next',
                         prevEl: '#' + carouselId + '-prev'
-                    },
-                    pagination: {
+                    } : false,
+                    pagination: totalSlides > 1 ? {
                         el: '#' + carouselId + '-pagination',
                         clickable: true
-                    }
+                    } : false
                 };
 
                 if (isRtl) {
@@ -1110,8 +1117,12 @@
                     config.slidesPerView = 1;
                     config.spaceBetween = 0;
                     config.speed = 1000;
+                    // Use rewind instead of loop when we have few slides to avoid duplicates
+                    if (totalSlides > 1 && !shouldLoop) {
+                        config.rewind = true;
+                    }
 
-                    if (shouldAutoplay) {
+                    if (shouldAutoplay && totalSlides > 1) {
                         config.on = {
                             init: function () {
                                 updateProgress();
@@ -1140,11 +1151,20 @@
                         };
                     }
                     // Loop requires at least slidesPerView + 1 slides for cards style
-                    config.loop = shouldLoop && totalSlides > 3;
+                    var cardsLoop = shouldLoop && totalSlides > 3;
+                    config.loop = cardsLoop;
+                    // Use rewind instead of loop when we have few slides to avoid duplicates
+                    if (totalSlides > 1 && !cardsLoop) {
+                        config.rewind = true;
+                    }
                 } else {
                     // Showcase/default style
                     config.slidesPerView = 1;
                     config.spaceBetween = 0;
+                    // Use rewind instead of loop when we have few slides to avoid duplicates
+                    if (totalSlides > 1 && !shouldLoop) {
+                        config.rewind = true;
+                    }
                 }
 
                 new Swiper(el, config);
