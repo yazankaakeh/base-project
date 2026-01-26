@@ -1046,13 +1046,22 @@
 (function() {
     'use strict';
 
+    var carouselId = '{{ $carouselId }}';
+    var panelId = '{{ $panel->id }}';
+    var style = '{{ $carouselStyle }}';
+    var isRtl = {{ $isRtl ? 'true' : 'false' }};
+    var totalSlides = {{ $items->count() }};
+    var shouldLoop = {{ $loop && $items->count() > 1 ? 'true' : 'false' }};
+    var shouldAutoplay = {{ $autoplay && $items->count() > 1 ? 'true' : 'false' }};
+    var autoplayDelay = {{ $autoplayDelay }};
+
     function initCarousel() {
         if (typeof Swiper === 'undefined') {
             setTimeout(initCarousel, 100);
             return;
         }
 
-        var el = document.getElementById('{{ $carouselId }}');
+        var el = document.getElementById(carouselId);
         if (!el) return;
 
         // Destroy existing instance if any
@@ -1060,24 +1069,21 @@
             el.swiper.destroy(true, true);
         }
 
-        var style = '{{ $carouselStyle }}';
-        var isRtl = {{ $isRtl ? 'true' : 'false' }};
-
         var config = {
             slidesPerView: 1,
             spaceBetween: 0,
-            loop: {{ $loop && $items->count() > 1 ? 'true' : 'false' }},
+            loop: shouldLoop,
             speed: 800,
-            grabCursor: true,
+            grabCursor: totalSlides > 1,
             watchSlidesProgress: true,
             observer: true,
             observeParents: true,
             navigation: {
-                nextEl: '#{{ $carouselId }}-next',
-                prevEl: '#{{ $carouselId }}-prev'
+                nextEl: '#' + carouselId + '-next',
+                prevEl: '#' + carouselId + '-prev'
             },
             pagination: {
-                el: '#{{ $carouselId }}-pagination',
+                el: '#' + carouselId + '-pagination',
                 clickable: true
             }
         };
@@ -1086,44 +1092,49 @@
             config.rtl = true;
         }
 
-        @if($autoplay && $items->count() > 1)
-        config.autoplay = {
-            delay: {{ $autoplayDelay }},
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true
-        };
-        @endif
+        if (shouldAutoplay) {
+            config.autoplay = {
+                delay: autoplayDelay,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            };
+        }
 
         if (style === 'hero') {
             config.slidesPerView = 1;
             config.spaceBetween = 0;
             config.speed = 1000;
 
-            @if($autoplay && $items->count() > 1)
-            config.on = {
-                init: function() {
-                    updateProgress();
-                },
-                slideChange: function() {
-                    updateProgress();
-                },
-                autoplayTimeLeft: function(swiper, time, progress) {
-                    var progressBar = document.querySelector('#panel-{{ $panel->id }} .carousel-hero-progress-bar');
-                    if (progressBar) {
-                        progressBar.style.width = ((1 - progress) * 100) + '%';
+            if (shouldAutoplay) {
+                config.on = {
+                    init: function() {
+                        updateProgress();
+                    },
+                    slideChange: function() {
+                        updateProgress();
+                    },
+                    autoplayTimeLeft: function(swiper, time, progress) {
+                        var progressBar = document.querySelector('#panel-' + panelId + ' .carousel-hero-progress-bar');
+                        if (progressBar) {
+                            progressBar.style.width = ((1 - progress) * 100) + '%';
+                        }
                     }
-                }
-            };
-            @endif
+                };
+            }
         } else if (style === 'cards') {
             config.slidesPerView = 1;
             config.spaceBetween = 24;
-            config.breakpoints = {
-                576: { slidesPerView: 1.2, spaceBetween: 20 },
-                768: { slidesPerView: 2, spaceBetween: 24 },
-                992: { slidesPerView: 3, spaceBetween: 28 },
-                1200: { slidesPerView: 3, spaceBetween: 32 }
-            };
+            // Only use breakpoints if we have enough slides
+            if (totalSlides > 1) {
+                config.breakpoints = {
+                    576: { slidesPerView: Math.min(1.2, totalSlides), spaceBetween: 20 },
+                    768: { slidesPerView: Math.min(2, totalSlides), spaceBetween: 24 },
+                    992: { slidesPerView: Math.min(3, totalSlides), spaceBetween: 28 },
+                    1200: { slidesPerView: Math.min(3, totalSlides), spaceBetween: 32 }
+                };
+            }
+            // Loop requires at least slidesPerView + 1 slides for cards style
+            config.loop = shouldLoop && totalSlides > 3;
         } else {
             // Showcase/default style
             config.slidesPerView = 1;
@@ -1134,7 +1145,7 @@
     }
 
     function updateProgress() {
-        var progressBar = document.querySelector('#panel-{{ $panel->id }} .carousel-hero-progress-bar');
+        var progressBar = document.querySelector('#panel-' + panelId + ' .carousel-hero-progress-bar');
         if (progressBar) {
             progressBar.style.width = '0%';
         }

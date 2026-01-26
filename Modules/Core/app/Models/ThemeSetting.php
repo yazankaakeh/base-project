@@ -12,6 +12,11 @@ class ThemeSetting extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
+    /**
+     * Static request-level cache to prevent multiple DB queries per request
+     */
+    private static array $requestCache = [];
+
     protected $fillable = [
         'scope',
         'primary_color',
@@ -51,15 +56,45 @@ class ThemeSetting extends Model implements HasMedia
     ];
 
     /**
+     * Marker value to detect cached null (distinguishes from cache miss)
+     */
+    private const NULL_CACHE_MARKER = '__NULL_THEME_SETTING__';
+
+    /**
      * Get theme settings for a specific scope
+     * Uses request-level caching to avoid multiple DB queries per request
      */
     public static function getForScope(string $scope = 'admin'): ?self
     {
-        return Cache::remember("theme_settings_{$scope}", 3600, function () use ($scope) {
-            return self::where('scope', $scope)
+        // Check request-level cache first (avoids repeated cache/DB hits within same request)
+        if (array_key_exists($scope, self::$requestCache)) {
+            return self::$requestCache[$scope];
+        }
+
+        // Use Laravel cache for persistence across requests
+        $cacheKey = "theme_settings_{$scope}";
+        $cached = Cache::get($cacheKey);
+
+        if ($cached === self::NULL_CACHE_MARKER) {
+            // Null was intentionally cached
+            $result = null;
+        } elseif ($cached instanceof self) {
+            // Valid cached model
+            $result = $cached;
+        } else {
+            // Cache miss - query the database
+            $result = self::where('scope', $scope)
                 ->where('is_active', true)
                 ->first();
-        });
+
+            // Cache the result (use marker for null to distinguish from cache miss)
+            Cache::put($cacheKey, $result ?? self::NULL_CACHE_MARKER, 3600);
+        }
+
+        // Store in request cache
+        self::$requestCache[$scope] = $result;
+
+        return $result;
     }
 
     /**
@@ -79,13 +114,16 @@ class ThemeSetting extends Model implements HasMedia
     }
 
     /**
-     * Clear theme settings cache
+     * Clear theme settings cache (both Laravel cache and request cache)
      */
     public static function clearCache(?string $scope = null): void
     {
+        // Clear request cache
         if ($scope) {
+            unset(self::$requestCache[$scope]);
             Cache::forget("theme_settings_{$scope}");
         } else {
+            self::$requestCache = [];
             Cache::forget('theme_settings_admin');
             Cache::forget('theme_settings_website');
         }
