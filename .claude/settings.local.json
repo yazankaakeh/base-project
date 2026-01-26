@@ -8,7 +8,8 @@
       "Bash(php -l:*)",
       "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\public\" /b)",
       "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\storage\\\\app\\\\public\" /b)",
-      "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\public\\\\storage\" /b)"
+      "Bash(dir \"C:\\\\laragon\\\\www\\\\laravel\\\\doctor-system\\\\public\\\\storage\" /b)",
+      "Bash(composer dump-autoload:*)"
     ]
   }
 }

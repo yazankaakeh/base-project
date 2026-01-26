@@ -88,7 +88,7 @@ class PanelBuilder extends Component
                     'id' => $panel->id,
                     'type' => $panel->type->value,
                     'type_label' => $panel->type->label(),
-                    'title' => $panel->title,
+                    'title' => $panel->getTranslations('title') ?: [],
                     'is_active' => $panel->is_active,
                     'order' => $panel->order,
                     'can_have_items' => $panel->type->hasItems(),
@@ -97,8 +97,8 @@ class PanelBuilder extends Component
                             'id' => $item->id,
                             'type' => $item->type->value,
                             'type_label' => $item->type->label(),
-                            'title' => $item->title,
-                            'content' => $item->content,
+                            'title' => $item->getTranslations('title') ?: [],
+                            'content' => $item->getTranslations('content') ?: [],
                             'is_active' => $item->is_active,
                             'order' => $item->order,
                             'media_url' => $item->getFirstMediaUrl('item_image') ?: null,
@@ -106,6 +106,8 @@ class PanelBuilder extends Component
                     })->toArray(),
                 ];
             })->toArray();
+
+        $this->dispatch('panelsUpdated');
     }
 
     public function createPanel(): void
@@ -191,14 +193,16 @@ class PanelBuilder extends Component
             return;
         }
 
+        $settings = $panel->settings ?? [];
+
         $this->editingPanel = [
             'id' => $panel->id,
             'type' => $panel->type->value,
-            'title' => $panel->title ?? [],
+            'title' => $panel->getTranslations('title') ?: [],
             'is_active' => $panel->is_active,
-            'settings' => $panel->settings ?? [
-                'badge' => [],
-                'description' => [],
+            'settings' => [
+                'badge' => $settings['badge'] ?? [],
+                'description' => $settings['description'] ?? [],
             ],
         ];
 
@@ -264,8 +268,8 @@ class PanelBuilder extends Component
 
         $this->editPanelItem = [
             'id' => $item->id,
-            'title' => $item->title ?? [],
-            'content' => $item->content ?? [],
+            'title' => $item->getTranslations('title') ?: [],
+            'content' => $item->getTranslations('content') ?: [],
             'data' => $item->data ?? [],
             'is_active' => $item->is_active,
         ];

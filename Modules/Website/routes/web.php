@@ -5,6 +5,7 @@ use Modules\Website\Http\Controllers\WebsiteController;
 use Modules\Website\Http\Controllers\LandingPageController;
 use Modules\Website\Http\Controllers\BlogFrontController;
 use Modules\Website\Http\Controllers\PortfolioController;
+use Modules\Website\Http\Controllers\PageController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('websites', WebsiteController::class)->names('website');
@@ -40,5 +41,8 @@ Route::middleware('setLocale')->group(function () {
             Route::get('/', [PortfolioController::class, 'index'])->name('index');
             Route::get('/{slug}', [PortfolioController::class, 'show'])->name('show');
         });
+
+        // CMS Page Routes
+        Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
     });
 });

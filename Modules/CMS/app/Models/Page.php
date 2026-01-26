@@ -18,14 +18,12 @@ class Page extends Model implements HasMedia
 {
     use InteractsWithMedia, HasSeo, HasTranslations, SoftDeletes;
 
-    protected $table = 'cms_pages';
-
     public array $translatable = [
         'title',
         'content',
         'excerpt',
     ];
-
+    protected $table = 'cms_pages';
     protected $fillable = [
         'title',
         'slug',
@@ -110,6 +108,6 @@ class Page extends Model implements HasMedia
 
     public function scopeBySlug($query, string $slug)
     {
-        return $query->where('slug', $slug);
+        return $query->whereLike('slug', $slug);
     }
 }
