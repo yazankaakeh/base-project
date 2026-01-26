@@ -167,7 +167,7 @@
                                         <i class="ti tabler-{{ $panel['is_active'] ? 'eye-off' : 'eye' }}"></i>
                                     </button>
                                     <button class="btn btn-icon btn-sm btn-label-primary"
-                                            wire:click="editPanel({{ $panel['id'] }})"
+                                            wire:click.prevent="editPanel({{ $panel['id'] }})"
                                             title="Edit Panel">
                                         <i class="ti tabler-edit"></i>
                                     </button>
@@ -351,7 +351,7 @@
                                                                 <i class="ti tabler-{{ $item['is_active'] ? 'eye-off' : 'eye' }}"></i>
                                                             </button>
                                                             <button class="btn btn-label-primary"
-                                                                    wire:click="editItem({{ $item['id'] }})"
+                                                                    wire:click.prevent="editItem({{ $item['id'] }})"
                                                                     title="Edit">
                                                                 <i class="ti tabler-edit"></i>
                                                             </button>
@@ -460,10 +460,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-label-secondary"
-                                wire:click="$set('showEditPanelModal', false)">
+                                wire:click.prevent="$set('showEditPanelModal', false)">
                             Cancel
                         </button>
-                        <button type="button" class="btn btn-primary" wire:click="saveEditedPanel">
+                        <button type="button" class="btn btn-primary" wire:click.prevent="saveEditedPanel">
                             <i class="ti tabler-check me-1"></i>Save Changes
                         </button>
                     </div>
@@ -576,10 +576,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-label-secondary"
-                                wire:click="$set('showEditItemModal', false)">
+                                wire:click.prevent="$set('showEditItemModal', false)">
                             Cancel
                         </button>
-                        <button type="button" class="btn btn-primary" wire:click="saveEditedItem">
+                        <button type="button" class="btn btn-primary" wire:click.prevent="saveEditedItem">
                             <i class="ti tabler-check me-1"></i>Save Changes
                         </button>
                     </div>

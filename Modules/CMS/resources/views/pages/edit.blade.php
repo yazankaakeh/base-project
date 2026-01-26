@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <form action="{{ route('cms.update', $page->id) }}" method="post" enctype="multipart/form-data"
-                          data-page-id="{{ $page->id }}">
+                          data-page-id="{{ $page->id }}" id="page-edit-form">
                         @csrf
                         @method('PUT')
                         <div class="row mt-3">
@@ -95,9 +95,6 @@
                                         </div>
                                     @endforeach
                                 </div>
-
-                                <!-- Panel Builder (Livewire) -->
-                                <livewire:cms::panel-builder :pageId="$page->id"/>
                             </div>
                             <div class="col-3">
                                 <div class="card my-3">
@@ -201,6 +198,13 @@
                             </div>
                         </div>
                     </form>
+
+                    {{-- Panel Builder (Livewire) - Outside form to prevent form submission issues --}}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <livewire:cms::panel-builder :pageId="$page->id"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
