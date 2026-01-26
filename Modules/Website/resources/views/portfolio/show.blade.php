@@ -1047,229 +1047,277 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 @endsection
 
-@push('page-script')
+@section('page-script')
     <script>
-        // Gallery Images Data
-        const galleryImages = @json($allImages);
-        let currentImageIndex = 0;
-        let mainSwiper = null;
-        let thumbsSwiper = null;
+        (function() {
+            'use strict';
 
-        // Initialize Swipers
-        document.addEventListener('DOMContentLoaded', function () {
-            const thumbsEl = document.getElementById('galleryThumbs');
-            const mainEl = document.getElementById('galleryMain');
+            // Gallery Images Data
+            var galleryImages = @json($allImages);
+            var currentImageIndex = 0;
+            var mainSwiper = null;
+            var thumbsSwiper = null;
 
-            // Initialize thumbs swiper first (if exists)
-            if (thumbsEl) {
-                thumbsSwiper = new Swiper(thumbsEl, {
-                    spaceBetween: 10,
-                    slidesPerView: 5,
-                    freeMode: true,
-                    watchSlidesProgress: true,
-                    slideToClickedSlide: true,
-                    breakpoints: {
-                        0: {slidesPerView: 4},
-                        768: {slidesPerView: 5},
-                        1024: {slidesPerView: 6}
-                    }
-                });
-            }
+            // Wait for Swiper to be available
+            function initGallery() {
+                if (typeof Swiper === 'undefined') {
+                    console.warn('Swiper not loaded yet, retrying...');
+                    setTimeout(initGallery, 100);
+                    return;
+                }
 
-            // Initialize main swiper
-            if (mainEl) {
-                const mainSwiperConfig = {
+                var thumbsEl = document.getElementById('galleryThumbs');
+                var mainEl = document.getElementById('galleryMain');
+
+                if (!mainEl) {
+                    console.log('No gallery found on this page');
+                    return;
+                }
+
+                // Initialize thumbs swiper first (if exists)
+                if (thumbsEl) {
+                    thumbsSwiper = new Swiper(thumbsEl, {
+                        spaceBetween: 10,
+                        slidesPerView: 5,
+                        freeMode: true,
+                        watchSlidesProgress: true,
+                        breakpoints: {
+                            0: { slidesPerView: 4 },
+                            768: { slidesPerView: 5 },
+                            1024: { slidesPerView: 6 }
+                        }
+                    });
+                }
+
+                // Initialize main swiper
+                var mainSwiperConfig = {
                     spaceBetween: 10,
                     loop: false,
                     navigation: {
                         nextEl: '#galleryMain .swiper-button-next',
-                        prevEl: '#galleryMain .swiper-button-prev',
-                    },
-                    on: {
-                        slideChange: function () {
-                            currentImageIndex = this.activeIndex;
-                            // Sync thumbs when main slide changes
-                            if (thumbsSwiper && thumbsSwiper.slides) {
-                                thumbsSwiper.slideTo(currentImageIndex);
-                            }
-                        }
+                        prevEl: '#galleryMain .swiper-button-prev'
                     }
                 };
 
                 // Add thumbs connection if thumbs swiper exists
                 if (thumbsSwiper) {
                     mainSwiperConfig.thumbs = {
-                        swiper: thumbsSwiper,
+                        swiper: thumbsSwiper
                     };
                 }
 
                 mainSwiper = new Swiper(mainEl, mainSwiperConfig);
 
-                // Handle thumbnail clicks manually for better control
+                // Sync on slide change
+                mainSwiper.on('slideChange', function() {
+                    currentImageIndex = mainSwiper.activeIndex;
+                    if (thumbsSwiper) {
+                        thumbsSwiper.slideTo(currentImageIndex);
+                        // Update active thumb styling
+                        var thumbSlides = thumbsEl.querySelectorAll('.swiper-slide');
+                        thumbSlides.forEach(function(slide, idx) {
+                            slide.classList.toggle('swiper-slide-thumb-active', idx === currentImageIndex);
+                        });
+                    }
+                });
+
+                // Handle thumbnail clicks
                 if (thumbsEl) {
-                    const thumbSlides = thumbsEl.querySelectorAll('.swiper-slide');
-                    thumbSlides.forEach((slide, index) => {
-                        slide.addEventListener('click', function () {
+                    var thumbSlides = thumbsEl.querySelectorAll('.swiper-slide');
+                    thumbSlides.forEach(function(slide, index) {
+                        slide.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
                             if (mainSwiper) {
                                 mainSwiper.slideTo(index);
+                                currentImageIndex = index;
                             }
                         });
                     });
                 }
+
+                // Click on main image to open lightbox
+                var galleryImagesEls = document.querySelectorAll('.gallery-image');
+                galleryImagesEls.forEach(function(img, index) {
+                    img.addEventListener('click', function() {
+                        openLightbox(index);
+                    });
+                });
+
+                console.log('Gallery initialized successfully with', galleryImages.length, 'images');
             }
 
-            // Click on main image to open lightbox
-            document.querySelectorAll('.gallery-image').forEach((img, index) => {
-                img.addEventListener('click', () => openLightbox(index));
-            });
-        });
+            // Lightbox Functions
+            window.openLightbox = function(index) {
+                currentImageIndex = index;
+                updateLightboxImage();
+                var overlay = document.getElementById('lightboxOverlay');
+                if (overlay) {
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            };
 
-        // Lightbox Functions
-        function openLightbox(index) {
-            currentImageIndex = index;
-            updateLightboxImage();
-            document.getElementById('lightboxOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+            window.closeLightbox = function() {
+                var overlay = document.getElementById('lightboxOverlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            };
 
-        function closeLightbox() {
-            document.getElementById('lightboxOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
+            function updateLightboxImage() {
+                if (!galleryImages || !galleryImages[currentImageIndex]) return;
+                var img = galleryImages[currentImageIndex];
+                var lightboxImg = document.getElementById('lightboxImage');
+                var lightboxCaption = document.getElementById('lightboxCaption');
+                var lightboxCurrent = document.getElementById('lightboxCurrent');
 
-        function updateLightboxImage() {
-            const img = galleryImages[currentImageIndex];
-            document.getElementById('lightboxImage').src = img.url;
-            document.getElementById('lightboxCaption').textContent = img.caption || '';
-            const counter = document.getElementById('lightboxCurrent');
-            if (counter) counter.textContent = currentImageIndex + 1;
-        }
-
-        function nextImage() {
-            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-            updateLightboxImage();
-        }
-
-        function prevImage() {
-            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-            updateLightboxImage();
-        }
-
-        // Keyboard Navigation
-        document.addEventListener('keydown', function (e) {
-            if (!document.getElementById('lightboxOverlay').classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight') nextImage();
-            if (e.key === 'ArrowLeft') prevImage();
-        });
-
-        // Close lightbox on overlay click
-        document.getElementById('lightboxOverlay').addEventListener('click', function (e) {
-            if (e.target === this) closeLightbox();
-        });
-
-        // Copy Link Function with fallback and animation
-        function copyToClipboard(text, button) {
-            // Try modern clipboard API first
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text)
-                    .then(() => showCopySuccess(button))
-                    .catch(() => fallbackCopyToClipboard(text, button));
-            } else {
-                // Fallback for older browsers or non-HTTPS
-                fallbackCopyToClipboard(text, button);
+                if (lightboxImg) lightboxImg.src = img.url;
+                if (lightboxCaption) lightboxCaption.textContent = img.caption || '';
+                if (lightboxCurrent) lightboxCurrent.textContent = currentImageIndex + 1;
             }
-        }
 
-        // Fallback copy method using textarea
-        function fallbackCopyToClipboard(text, button) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+            window.nextImage = function() {
+                currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+                updateLightboxImage();
+            };
 
-            try {
-                const successful = document.execCommand('copy');
+            window.prevImage = function() {
+                currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+                updateLightboxImage();
+            };
+
+            // Copy Link Function - Global
+            window.copyToClipboard = function(text, button) {
+                // Try modern clipboard API first
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text)
+                        .then(function() {
+                            showCopySuccess(button);
+                        })
+                        .catch(function(err) {
+                            console.log('Clipboard API failed, using fallback:', err);
+                            fallbackCopyToClipboard(text, button);
+                        });
+                } else {
+                    // Fallback for older browsers or non-HTTPS
+                    fallbackCopyToClipboard(text, button);
+                }
+            };
+
+            // Fallback copy method using textarea
+            function fallbackCopyToClipboard(text, button) {
+                var textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0;';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                var successful = false;
+                try {
+                    successful = document.execCommand('copy');
+                } catch (err) {
+                    console.error('execCommand copy failed:', err);
+                }
+
+                document.body.removeChild(textArea);
+
                 if (successful) {
                     showCopySuccess(button);
                 } else {
                     showCopyError();
                 }
-            } catch (err) {
-                showCopyError();
             }
 
-            document.body.removeChild(textArea);
-        }
+            // Show success animation
+            function showCopySuccess(button) {
+                // Button animation
+                if (button) {
+                    button.classList.add('copied');
+                    var btnText = button.querySelector('.btn-text');
+                    if (btnText) {
+                        var originalHTML = btnText.innerHTML;
+                        btnText.innerHTML = '<i class="ti tabler-check me-2"></i>{{ __("Copied!") }}';
 
-        // Show success animation
-        function showCopySuccess(button) {
-            // Button animation
-            if (button) {
-                button.classList.add('copied');
-                const btnText = button.querySelector('.btn-text');
-                if (btnText) {
-                    const originalHTML = btnText.innerHTML;
-                    btnText.innerHTML = '<i class="ti tabler-check me-2"></i>{{ __("Copied!") }}';
-
-                    setTimeout(() => {
-                        button.classList.remove('copied');
-                        btnText.innerHTML = originalHTML;
-                    }, 2500);
-                }
-            }
-
-            // Show toast
-            const toast = document.getElementById('copyToast');
-            if (toast) {
-                // Reset animation
-                toast.classList.remove('show');
-                const progress = toast.querySelector('.toast-progress');
-                if (progress) {
-                    progress.style.animation = 'none';
-                    progress.offsetHeight; // Trigger reflow
-                    progress.style.animation = 'toastProgress 2.5s linear forwards';
+                        setTimeout(function() {
+                            button.classList.remove('copied');
+                            btnText.innerHTML = originalHTML;
+                        }, 2500);
+                    }
                 }
 
                 // Show toast
-                setTimeout(() => {
+                var toast = document.getElementById('copyToast');
+                if (toast) {
+                    // Reset and show toast
+                    toast.classList.remove('show');
+                    var progress = toast.querySelector('.toast-progress');
+                    if (progress) {
+                        progress.style.animation = 'none';
+                        void progress.offsetHeight; // Trigger reflow
+                        progress.style.animation = 'toastProgress 2.5s linear forwards';
+                    }
+
+                    setTimeout(function() {
+                        toast.classList.add('show');
+                    }, 10);
+
+                    setTimeout(function() {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }
+            }
+
+            // Show error notification
+            function showCopyError() {
+                var toast = document.getElementById('copyToast');
+                if (toast) {
+                    var icon = toast.querySelector('.toast-icon i');
+                    var message = toast.querySelector('.toast-message');
+
+                    if (icon) icon.className = 'ti tabler-x';
+                    if (message) message.textContent = '{{ __("Failed to copy. Please try again.") }}';
+
+                    toast.style.background = 'linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%)';
                     toast.classList.add('show');
-                }, 10);
 
-                // Hide toast after delay
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
+                    setTimeout(function() {
+                        toast.classList.remove('show');
+                        setTimeout(function() {
+                            if (icon) icon.className = 'ti tabler-check';
+                            if (message) message.textContent = '{{ __("Link copied to clipboard!") }}';
+                            toast.style.background = '';
+                        }, 400);
+                    }, 3000);
+                }
             }
-        }
 
-        // Show error notification
-        function showCopyError() {
-            const toast = document.getElementById('copyToast');
-            if (toast) {
-                const icon = toast.querySelector('.toast-icon i');
-                const message = toast.querySelector('.toast-message');
-
-                if (icon) icon.className = 'ti tabler-x';
-                if (message) message.textContent = '{{ __("Failed to copy. Please try again.") }}';
-
-                toast.style.background = 'linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%)';
-                toast.classList.add('show');
-
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    // Reset toast
-                    setTimeout(() => {
-                        if (icon) icon.className = 'ti tabler-check';
-                        if (message) message.textContent = '{{ __("Link copied to clipboard!") }}';
-                        toast.style.background = '';
-                    }, 400);
-                }, 3000);
+            // Initialize on DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initGallery);
+            } else {
+                // DOM already loaded
+                initGallery();
             }
-        }
+
+            // Keyboard Navigation
+            document.addEventListener('keydown', function(e) {
+                var overlay = document.getElementById('lightboxOverlay');
+                if (!overlay || !overlay.classList.contains('active')) return;
+                if (e.key === 'Escape') window.closeLightbox();
+                if (e.key === 'ArrowRight') window.nextImage();
+                if (e.key === 'ArrowLeft') window.prevImage();
+            });
+
+            // Close lightbox on overlay click
+            document.addEventListener('click', function(e) {
+                var overlay = document.getElementById('lightboxOverlay');
+                if (e.target === overlay) {
+                    window.closeLightbox();
+                }
+            });
+        })();
     </script>
-@endpush
+@endsection
