@@ -1168,12 +1168,108 @@
             if (e.target === this) closeLightbox();
         });
 
-        // Copy Link Function
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Show toast or alert
-                alert('Link copied to clipboard!');
-            });
+        // Copy Link Function with fallback and animation
+        function copyToClipboard(text, button) {
+            // Try modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showCopySuccess(button))
+                    .catch(() => fallbackCopyToClipboard(text, button));
+            } else {
+                // Fallback for older browsers or non-HTTPS
+                fallbackCopyToClipboard(text, button);
+            }
+        }
+
+        // Fallback copy method using textarea
+        function fallbackCopyToClipboard(text, button) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopySuccess(button);
+                } else {
+                    showCopyError();
+                }
+            } catch (err) {
+                showCopyError();
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        // Show success animation
+        function showCopySuccess(button) {
+            // Button animation
+            if (button) {
+                button.classList.add('copied');
+                const btnText = button.querySelector('.btn-text');
+                if (btnText) {
+                    const originalHTML = btnText.innerHTML;
+                    btnText.innerHTML = '<i class="ti tabler-check me-2"></i>{{ __("Copied!") }}';
+
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        btnText.innerHTML = originalHTML;
+                    }, 2500);
+                }
+            }
+
+            // Show toast
+            const toast = document.getElementById('copyToast');
+            if (toast) {
+                // Reset animation
+                toast.classList.remove('show');
+                const progress = toast.querySelector('.toast-progress');
+                if (progress) {
+                    progress.style.animation = 'none';
+                    progress.offsetHeight; // Trigger reflow
+                    progress.style.animation = 'toastProgress 2.5s linear forwards';
+                }
+
+                // Show toast
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 10);
+
+                // Hide toast after delay
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Show error notification
+        function showCopyError() {
+            const toast = document.getElementById('copyToast');
+            if (toast) {
+                const icon = toast.querySelector('.toast-icon i');
+                const message = toast.querySelector('.toast-message');
+
+                if (icon) icon.className = 'ti tabler-x';
+                if (message) message.textContent = '{{ __("Failed to copy. Please try again.") }}';
+
+                toast.style.background = 'linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%)';
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    // Reset toast
+                    setTimeout(() => {
+                        if (icon) icon.className = 'ti tabler-check';
+                        if (message) message.textContent = '{{ __("Link copied to clipboard!") }}';
+                        toast.style.background = '';
+                    }, 400);
+                }, 3000);
+            }
         }
     </script>
 @endpush
