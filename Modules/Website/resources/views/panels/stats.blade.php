@@ -10,24 +10,19 @@
     @include('website::panels._panels-styles')
 @endonce
 
-<section class="panel-section panel-gradient-primary position-relative" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
-    {{-- Background Pattern --}}
-    <div class="panel-pattern"></div>
-    <div class="panel-shape panel-shape-1" style="background: rgba(255,255,255,0.05);"></div>
-    <div class="panel-shape panel-shape-2" style="background: rgba(255,255,255,0.08);"></div>
-
-    <div class="container position-relative">
+<section class="panel-section panel-bg-gradient" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
+    <div class="container">
         {{-- Section Header --}}
         @if($title || $badge || $description)
-            <div class="panel-header text-white">
+            <div class="panel-header">
                 @if($badge)
-                    <span class="panel-badge bg-white" style="color: var(--panel-primary) !important;">{{ $badge }}</span>
+                    <span class="panel-badge" style="background: rgba(255,255,255,0.15); color: #fff;">{{ $badge }}</span>
                 @endif
                 @if($title)
-                    <h2 class="panel-title text-white">{{ $title }}</h2>
+                    <h2 class="panel-title panel-title-white">{{ $title }}</h2>
                 @endif
                 @if($description)
-                    <p class="panel-description" style="color: rgba(255,255,255,0.8);">{{ $description }}</p>
+                    <p class="panel-description panel-description-white">{{ $description }}</p>
                 @endif
             </div>
         @endif
@@ -43,13 +38,13 @@
                         $prefix = $item->data['prefix'] ?? '';
                         $icon = $item->data['icon'] ?? 'tabler-chart-bar';
                     @endphp
-                    <div class="col-6 col-md-4 col-lg-3 panel-animate" style="animation-delay: {{ $index * 0.15 }}s;">
+                    <div class="col-6 col-md-4 col-lg-3 panel-animate">
                         <div class="panel-stat">
                             <div class="panel-stat-icon">
                                 <i class="ti {{ $icon }}"></i>
                             </div>
                             <div class="panel-stat-number">
-                                {{ $prefix }}<span class="counter" data-target="{{ $number }}">{{ $number }}</span>{{ $suffix }}
+                                {{ $prefix }}<span class="counter" data-target="{{ $number }}">0</span>{{ $suffix }}
                             </div>
                             <p class="panel-stat-label mb-0">{{ $label }}</p>
                         </div>
@@ -61,38 +56,49 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const counters = document.querySelectorAll('#panel-{{ $panel->id }} .counter');
-    const speed = 200;
+(function() {
+    'use strict';
 
-    const animateCounter = (counter) => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        let current = 0;
-        const increment = target / speed;
+    function initCounters() {
+        var counters = document.querySelectorAll('#panel-{{ $panel->id }} .counter');
+        var speed = 150;
 
-        const updateCount = () => {
-            if (current < target) {
-                current += increment;
-                counter.innerText = Math.ceil(current);
-                requestAnimationFrame(updateCount);
-            } else {
-                counter.innerText = target;
-            }
+        var animateCounter = function(counter) {
+            var target = parseInt(counter.getAttribute('data-target'));
+            var current = 0;
+            var increment = target / speed;
+
+            var updateCount = function() {
+                if (current < target) {
+                    current += increment;
+                    counter.innerText = Math.ceil(current);
+                    requestAnimationFrame(updateCount);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
         };
-        updateCount();
-    };
 
-    // Intersection Observer for animation on scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                counters.forEach(counter => animateCounter(counter));
-                observer.disconnect();
-            }
-        });
-    }, { threshold: 0.3 });
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    counters.forEach(function(counter) {
+                        animateCounter(counter);
+                    });
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
 
-    const section = document.querySelector('#panel-{{ $panel->id }}');
-    if (section) observer.observe(section);
-});
+        var section = document.querySelector('#panel-{{ $panel->id }}');
+        if (section) observer.observe(section);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCounters);
+    } else {
+        initCounters();
+    }
+})();
 </script>

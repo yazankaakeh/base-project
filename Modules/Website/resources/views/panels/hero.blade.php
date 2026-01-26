@@ -15,65 +15,86 @@
     @include('website::panels._panels-styles')
 @endonce
 
-<section class="panel-section panel-gradient-primary position-relative" id="panel-{{ $panel->id }}"
-         style="min-height: 85vh; display: flex; align-items: center;" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
+<section class="panel-section panel-section-lg panel-bg-gradient position-relative" id="panel-{{ $panel->id }}"
+         style="min-height: 90vh; display: flex; align-items: center;" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
 
-    {{-- Animated Background Shapes --}}
-    <div class="panel-shape panel-shape-1"></div>
-    <div class="panel-shape panel-shape-2"></div>
-    <div class="panel-pattern"></div>
-
+    {{-- Background Image --}}
     @if($backgroundImage)
-        <div class="position-absolute w-100 h-100 top-0 start-0"
-             style="background-image: url('{{ $backgroundImage }}'); background-size: cover; background-position: center; opacity: 0.12;">
+        <div class="position-absolute w-100 h-100 top-0 start-0" style="opacity: 0.08;">
+            <img src="{{ $backgroundImage }}" alt="" class="w-100 h-100" style="object-fit: cover;">
         </div>
     @endif
 
-    <div class="container position-relative py-5">
+    {{-- Subtle Pattern --}}
+    <div class="panel-decoration panel-dot-pattern" style="inset: 0; opacity: 0.3;"></div>
+
+    <div class="container position-relative">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8 text-center">
+                {{-- Badge --}}
                 @if($badge)
-                    <span class="panel-badge bg-white text-primary mb-4" style="color: var(--panel-primary) !important;">
+                    <span class="panel-badge" style="background: rgba(255,255,255,0.15); color: #fff; margin-bottom: 24px;">
                         {{ $badge }}
                     </span>
                 @endif
 
+                {{-- Title --}}
                 @if($title)
-                    <h1 class="panel-title text-white mb-4" style="font-size: clamp(2.5rem, 6vw, 4rem);">
+                    <h1 class="panel-title panel-title-white" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 24px;">
                         {{ $title }}
                     </h1>
                 @endif
 
+                {{-- Description --}}
                 @if($description)
-                    <p class="panel-description mb-5" style="color: rgba(255,255,255,0.85); max-width: 700px;">
+                    <p class="panel-description panel-description-white mx-auto" style="max-width: 640px; margin-bottom: 40px;">
                         {{ $description }}
                     </p>
                 @endif
 
+                {{-- Buttons --}}
                 @if($buttonText || $buttonSecondaryText)
-                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
                         @if($buttonText && $buttonUrl)
-                            <a href="{{ $buttonUrl }}" class="panel-btn panel-btn-primary">
+                            <a href="{{ $buttonUrl }}" class="panel-btn panel-btn-white panel-btn-lg">
                                 {{ $buttonText }}
                                 <i class="ti tabler-arrow-{{ $isRtl ? 'left' : 'right' }}"></i>
                             </a>
                         @endif
                         @if($buttonSecondaryText && $buttonSecondaryUrl)
-                            <a href="{{ $buttonSecondaryUrl }}" class="panel-btn panel-btn-outline">
-                                <i class="ti tabler-player-play"></i>
+                            <a href="{{ $buttonSecondaryUrl }}" class="panel-btn panel-btn-ghost panel-btn-lg">
+                                <i class="ti tabler-player-play-filled"></i>
                                 {{ $buttonSecondaryText }}
                             </a>
                         @endif
                     </div>
                 @endif
-
-                {{-- Scroll Indicator --}}
-                <div class="mt-5 pt-4">
-                    <a href="#" class="text-white opacity-50 d-inline-block" style="animation: float 2s ease-in-out infinite;">
-                        <i class="ti tabler-chevrons-down fs-2"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
+
+    {{-- Scroll Indicator --}}
+    <div class="position-absolute start-50 translate-middle-x" style="bottom: 40px;">
+        <a href="#" class="d-flex flex-column align-items-center text-white text-decoration-none" style="opacity: 0.6;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">{{ __('Scroll') }}</span>
+            <i class="ti tabler-chevron-down" style="animation: bounce 2s infinite;"></i>
+        </a>
+    </div>
 </section>
+
+<style>
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(6px); }
+    }
+
+    /* Ensure decorative elements don't block interactions */
+    #panel-{{ $panel->id }} .panel-decoration {
+        pointer-events: none;
+    }
+
+    /* Ensure hero section has proper z-index below navbar */
+    #panel-{{ $panel->id }} {
+        z-index: 1;
+    }
+</style>

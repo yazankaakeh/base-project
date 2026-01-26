@@ -10,14 +10,8 @@
     @include('website::panels._panels-styles')
 @endonce
 
-<section class="panel-section position-relative" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}"
-         style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
-
-    {{-- Decorative Elements --}}
-    <div class="panel-shape" style="width: 300px; height: 300px; top: 10%; {{ $isRtl ? 'right' : 'left' }}: -100px; background: rgba(var(--panel-primary-rgb), 0.04);"></div>
-    <div class="panel-shape" style="width: 200px; height: 200px; bottom: 15%; {{ $isRtl ? 'left' : 'right' }}: -50px; background: rgba(var(--panel-primary-rgb), 0.06);"></div>
-
-    <div class="container position-relative">
+<section class="panel-section panel-bg-subtle" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
+    <div class="container">
         {{-- Section Header --}}
         <div class="panel-header">
             @if($badge)
@@ -40,9 +34,8 @@
                             @php
                                 $question = $item->getTranslation('title', $locale);
                                 $answer = $item->getTranslation('content', $locale);
-                                $icon = $item->data['icon'] ?? 'tabler-help-circle';
                             @endphp
-                            <div class="accordion-item panel-animate" style="animation-delay: {{ $index * 0.1 }}s;">
+                            <div class="accordion-item panel-animate">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button {{ $index > 0 ? 'collapsed' : '' }}"
                                             type="button"
@@ -50,10 +43,7 @@
                                             data-bs-target="#faqCollapse{{ $item->id }}"
                                             aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
                                             aria-controls="faqCollapse{{ $item->id }}">
-                                        <span class="d-inline-flex align-items-center gap-3">
-                                            <i class="ti {{ $icon }}" style="color: var(--panel-primary); font-size: 1.25rem;"></i>
-                                            {{ $question }}
-                                        </span>
+                                        {{ $question }}
                                     </button>
                                 </h2>
                                 <div id="faqCollapse{{ $item->id }}"
@@ -68,11 +58,11 @@
                     </div>
 
                     {{-- Contact CTA --}}
-                    <div class="text-center mt-5 pt-3 panel-animate" style="animation-delay: 0.5s;">
-                        <p class="mb-3" style="color: var(--panel-gray);">
+                    <div class="text-center mt-5 pt-3 panel-animate">
+                        <p style="color: var(--panel-text-muted); margin-bottom: 16px;">
                             {{ __('Still have questions?') }}
                         </p>
-                        <a href="#contact" class="panel-btn panel-btn-primary">
+                        <a href="#contact" class="panel-btn panel-btn-outline-primary">
                             <i class="ti tabler-message-circle"></i>
                             {{ __('Contact Us') }}
                         </a>

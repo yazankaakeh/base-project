@@ -10,14 +10,8 @@
     @include('website::panels._panels-styles')
 @endonce
 
-<section class="panel-section position-relative" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}"
-         style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
-
-    {{-- Decorative Elements --}}
-    <div class="panel-shape" style="width: 200px; height: 200px; top: 20%; {{ $isRtl ? 'right' : 'left' }}: -80px; background: rgba(var(--panel-primary-rgb), 0.04);"></div>
-    <div class="panel-shape" style="width: 150px; height: 150px; bottom: 10%; {{ $isRtl ? 'left' : 'right' }}: 5%; background: rgba(var(--panel-primary-rgb), 0.06);"></div>
-
-    <div class="container position-relative">
+<section class="panel-section panel-bg-subtle" id="panel-{{ $panel->id }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
+    <div class="container">
         {{-- Section Header --}}
         <div class="panel-header">
             @if($badge)
@@ -38,42 +32,37 @@
                     @php
                         $name = $item->getTranslation('title', $locale);
                         $content = $item->getTranslation('content', $locale);
-                        $role = $item->data['role_' . $locale] ?? $item->data['role'] ?? '';
+                        // Handle role as array or string
+                        $roleData = $item->data['role'] ?? $item->data['role_' . $locale] ?? '';
+                        $role = is_array($roleData) ? ($roleData[$locale] ?? $roleData[config('app.fallback_locale')] ?? '') : $roleData;
                         $rating = $item->data['rating'] ?? 5;
                         $itemImage = $item->getFirstMediaUrl('item_image');
                     @endphp
-                    <div class="col-md-6 col-lg-4 panel-animate" style="animation-delay: {{ $index * 0.1 }}s;">
+                    <div class="col-md-6 col-lg-4 panel-animate">
                         <div class="panel-review-card">
-                            {{-- Quote Icon --}}
-                            <span class="panel-review-quote">"</span>
-
                             {{-- Rating Stars --}}
                             <div class="panel-stars mb-3">
                                 @for($i = 1; $i <= 5; $i++)
-                                    @if($i <= $rating)
-                                        <i class="ti tabler-star-filled"></i>
-                                    @else
-                                        <i class="ti tabler-star" style="opacity: 0.3;"></i>
-                                    @endif
+                                    <i class="ti tabler-star{{ $i <= $rating ? '-filled' : '' }}" @if($i > $rating) style="opacity: 0.3;" @endif></i>
                                 @endfor
                             </div>
 
                             {{-- Review Content --}}
-                            <p class="panel-review-content">{{ $content }}</p>
+                            <p class="panel-review-content">"{{ $content }}"</p>
 
                             {{-- Author --}}
                             <div class="panel-review-author">
                                 @if($itemImage)
                                     <img src="{{ $itemImage }}" alt="{{ $name }}" class="panel-avatar">
                                 @else
-                                    <div class="panel-avatar panel-avatar-placeholder" style="width: 55px; height: 55px; font-size: 1.25rem;">
+                                    <div class="panel-avatar panel-avatar-placeholder">
                                         {{ mb_strtoupper(mb_substr($name, 0, 1)) }}
                                     </div>
                                 @endif
-                                <div>
-                                    <h6 class="mb-1" style="color: var(--panel-secondary); font-weight: 600;">{{ $name }}</h6>
+                                <div class="panel-review-author-info">
+                                    <h6>{{ $name }}</h6>
                                     @if($role)
-                                        <small style="color: var(--panel-gray);">{{ $role }}</small>
+                                        <span>{{ $role }}</span>
                                     @endif
                                 </div>
                             </div>
