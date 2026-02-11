@@ -622,30 +622,48 @@
         transition: width 0.1s linear;
     }
 
-    /* Hero Slide Number */
+    /* Hero Slide Number - Modern Style */
     .carousel-hero-number {
         position: absolute;
-        bottom: 80px;
-    {{ $isRtl ? 'right' : 'left' }}: 5 %;
+        bottom: 40px;
+        {{ $isRtl ? 'right' : 'left' }}: 5%;
         z-index: 10;
         display: flex;
         align-items: center;
-        gap: 12px;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.875rem;
-        font-weight: 500;
+        gap: 8px;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50px;
+        font-family: 'SF Mono', 'Fira Code', 'Monaco', monospace;
     }
 
     .carousel-hero-number .current {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: #fff;
+        line-height: 1;
+        min-width: 32px;
+        text-align: center;
     }
 
     .carousel-hero-number .separator {
-        width: 40px;
-        height: 1px;
-        background: rgba(255, 255, 255, 0.3);
+        width: 24px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--panel-primary), rgba(255, 255, 255, 0.5));
+        border-radius: 2px;
+        position: relative;
+    }
+
+    .carousel-hero-number .total {
+        font-size: 1rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1;
+        min-width: 24px;
+        text-align: center;
     }
 
     /* ================================================
@@ -1100,11 +1118,7 @@
        RTL SUPPORT
        ================================================ */
     /* Hero nav uses flexbox space-between, so RTL is automatic */
-
-    [dir="rtl"] .carousel-hero-number {
-        right: 5%;
-        left: auto;
-    }
+    /* Hero number position is handled via Blade {{ $isRtl ? 'right' : 'left' }} */
 
     [dir="rtl"] .carousel-showcase-nav.prev {
         right: -26px;
