@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\AdminManagement\database\seeders\AdminManagementDatabaseSeeder;
-use Modules\Core\Database\Seeders\CoreDatabaseSeeder;
+use Modules\CMS\database\seeders\CMSDatabaseSeeder;
+use Modules\Core\database\Seeders\CoreDatabaseSeeder;
 use Modules\Doctor\Database\Seeders\DoctorDatabaseSeeder;
 use Modules\Seo\Database\Seeders\SeoDatabaseSeeder;
 
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminManagementDatabaseSeeder::class,
             CoreDatabaseSeeder::class,
+            CMSDatabaseSeeder::class,
             DoctorDatabaseSeeder::class,
             SeoDatabaseSeeder::class,
         ]);

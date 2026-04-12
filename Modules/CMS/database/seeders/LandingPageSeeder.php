@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\CMS\Database\Seeders;
+namespace Modules\CMS\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\CMS\Enums\PageStatusEnum;
@@ -15,20 +15,20 @@ class LandingPageSeeder extends Seeder
             ['slug' => 'home'],
             [
             'title' => [
-                'en' => 'Home',
-                'ar' => 'الرئيسية',
-                'tr' => 'Ana Sayfa',
+                'en' => 'Home - Codliy Software Solutions',
+                'ar' => 'الرئيسية - كودلي حلول البرمجيات',
+                'tr' => 'Ana Sayfa - Codliy Yazılım Çözümleri',
             ],
             'slug' => 'home',
             'excerpt' => [
-                'en' => 'Welcome to our website',
-                'ar' => 'مرحبا بكم في موقعنا',
-                'tr' => 'Web sitemize hoş geldiniz',
+                'en' => 'Welcome to Codliy - Your trusted partner for custom software development',
+                'ar' => 'مرحبا بكم في كودلي - شريكك الموثوق لتطوير البرمجيات المخصصة',
+                'tr' => 'Codliy\'ye hoş geldiniz - Özel yazılım geliştirme için güvenilir ortağınız',
             ],
             'content' => [
-                'en' => 'Landing page content',
-                'ar' => 'محتوى الصفحة الرئيسية',
-                'tr' => 'Açılış sayfası içeriği',
+                'en' => 'Codliy is a leading software development company specializing in custom solutions for businesses of all sizes.',
+                'ar' => 'كودلي هي شركة رائدة في تطوير البرمجيات متخصصة في الحلول المخصصة للشركات من جميع الأحجام.',
+                'tr' => 'Codliy, her büyüklükteki işletmeler için özel çözümlerde uzmanlaşmış önde gelen bir yazılım geliştirme şirketidir.',
             ],
             'status' => PageStatusEnum::PUBLISHED,
             'template' => PageTemplateEnum::LANDING,
@@ -37,175 +37,175 @@ class LandingPageSeeder extends Seeder
             'meta_data' => [
                 'hero' => [
                     'title' => [
-                        'en' => 'All in one SaaS application for your business',
-                        'ar' => 'تطبيق SaaS الكل في واحد لعملك',
-                        'tr' => 'İşletmeniz için hepsi bir arada SaaS uygulaması',
+                        'en' => 'Transform Your Business with Custom Software Solutions',
+                        'ar' => 'حول عملك مع حلول البرمجيات المخصصة',
+                        'tr' => 'İşletmenizi Özel Yazılım Çözümleri ile Dönüştürün',
                     ],
                     'subtitle' => [
-                        'en' => 'No coding required to make customizations',
-                        'ar' => 'لا حاجة للبرمجة لإجراء التخصيصات',
-                        'tr' => 'Özelleştirmeler için kodlama gerekmez',
+                        'en' => 'Expert Development Team at Your Service',
+                        'ar' => 'فريق تطوير خبير في خدمتك',
+                        'tr' => 'Uzman Geliştirme Ekibi Hizmetinizde',
                     ],
                     'description' => [
-                        'en' => 'The time is now for it to be okay to be great. People in this world shun people for being great.',
-                        'ar' => 'الوقت الآن مناسب لأن يكون رائعًا. الناس في هذا العالم يتجنبون الناس لكونهم عظماء.',
-                        'tr' => 'Harika olmak için şimdi tam zamanı. Bu dünyadaki insanlar harika olmak için insanları kaçırıyor.',
+                        'en' => 'We build scalable, secure, and innovative software solutions tailored to your business needs. From web applications to mobile apps and enterprise systems.',
+                        'ar' => 'نقوم ببناء حلول برمجية قابلة للتطوير وآمنة ومبتكرة مصممة خصيصًا لاحتياجات عملك. من تطبيقات الويب إلى تطبيقات الهاتف المحمول وأنظمة المؤسسات.',
+                        'tr' => 'İşletme ihtiyaçlarınıza göre ölçeklenebilir, güvenli ve yenilikçi yazılım çözümleri geliştiriyoruz. Web uygulamalarından mobil uygulamalara ve kurumsal sistemlere.',
                     ],
                     'cta_text' => [
-                        'en' => 'Get Started',
-                        'ar' => 'ابدأ الآن',
-                        'tr' => 'Başlayın',
+                        'en' => 'Start Your Project',
+                        'ar' => 'ابدأ مشروعك',
+                        'tr' => 'Projenizi Başlatın',
                     ],
-                    'cta_url' => '/register',
+                    'cta_url' => '/contact',
                     'image' => 'assets/img/front-pages/landing-page/hero-dashboard.png',
                 ],
                 'features' => [
                     'badge' => [
-                        'en' => 'Useful Features',
-                        'ar' => 'ميزات مفيدة',
-                        'tr' => 'Yararlı Özellikler',
+                        'en' => 'Our Services',
+                        'ar' => 'خدماتنا',
+                        'tr' => 'Hizmetlerimiz',
                     ],
                     'title' => [
-                        'en' => 'Everything you need to start your next project',
-                        'ar' => 'كل ما تحتاجه لبدء مشروعك القادم',
-                        'tr' => 'Bir sonraki projenizi başlatmak için ihtiyacınız olan her şey',
+                        'en' => 'Comprehensive Software Development Services',
+                        'ar' => 'خدمات تطوير برمجيات شاملة',
+                        'tr' => 'Kapsamlı Yazılım Geliştirme Hizmetleri',
                     ],
                     'description' => [
-                        'en' => 'Not just a set of tools, the package includes ready-to-deploy conceptual application.',
-                        'ar' => 'ليست مجرد مجموعة من الأدوات، تتضمن الحزمة تطبيقًا مفاهيميًا جاهزًا للنشر.',
-                        'tr' => 'Sadece bir araç seti değil, paket dağıtıma hazır kavramsal uygulama içerir.',
+                        'en' => 'We offer end-to-end software development services, from concept to deployment and ongoing support.',
+                        'ar' => 'نقدم خدمات تطوير برمجيات شاملة من البداية إلى النهاية، من المفهوم إلى النشر والدعم المستمر.',
+                        'tr' => 'Kavramdan dağıtıma ve sürekli desteğe kadar uçtan uca yazılım geliştirme hizmetleri sunuyoruz.',
                     ],
                     'items' => [
                         [
-                            'icon' => 'ti tabler-crown',
+                            'icon' => 'ti tabler-code',
                             'title' => [
-                                'en' => 'Quality Code',
-                                'ar' => 'كود عالي الجودة',
-                                'tr' => 'Kaliteli Kod',
+                                'en' => 'Custom Web Development',
+                                'ar' => 'تطوير ويب مخصص',
+                                'tr' => 'Özel Web Geliştirme',
                             ],
                             'description' => [
-                                'en' => 'Code structure that all developers will easily understand and fall in love with.',
-                                'ar' => 'بنية كود سيفهمها جميع المطورين بسهولة ويعجبون بها.',
-                                'tr' => 'Tüm geliştiricilerin kolayca anlayacağı ve bayılacağı kod yapısı.',
+                                'en' => 'Build powerful, scalable web applications using modern technologies like Laravel, React, and Vue.js.',
+                                'ar' => 'بناء تطبيقات ويب قوية وقابلة للتطوير باستخدام تقنيات حديثة مثل Laravel و React و Vue.js.',
+                                'tr' => 'Laravel, React ve Vue.js gibi modern teknolojileri kullanarak güçlü, ölçeklenebilir web uygulamaları oluşturun.',
+                            ],
+                        ],
+                        [
+                            'icon' => 'ti tabler-device-mobile',
+                            'title' => [
+                                'en' => 'Mobile App Development',
+                                'ar' => 'تطوير تطبيقات الهاتف المحمول',
+                                'tr' => 'Mobil Uygulama Geliştirme',
+                            ],
+                            'description' => [
+                                'en' => 'Native and cross-platform mobile apps for iOS and Android that deliver exceptional user experiences.',
+                                'ar' => 'تطبيقات جوال أصلية ومتعددة المنصات لنظامي iOS و Android توفر تجارب مستخدم استثنائية.',
+                                'tr' => 'Olağanüstü kullanıcı deneyimleri sunan iOS ve Android için yerel ve çapraz platform mobil uygulamalar.',
+                            ],
+                        ],
+                        [
+                            'icon' => 'ti tabler-api',
+                            'title' => [
+                                'en' => 'API Development',
+                                'ar' => 'تطوير واجهة برمجة التطبيقات',
+                                'tr' => 'API Geliştirme',
+                            ],
+                            'description' => [
+                                'en' => 'RESTful and GraphQL APIs designed for performance, security, and seamless integration.',
+                                'ar' => 'واجهات برمجة تطبيقات RESTful و GraphQL مصممة للأداء والأمان والتكامل السلس.',
+                                'tr' => 'Performans, güvenlik ve sorunsuz entegrasyon için tasarlanmış RESTful ve GraphQL API\'leri.',
+                            ],
+                        ],
+                        [
+                            'icon' => 'ti tabler-cloud',
+                            'title' => [
+                                'en' => 'Cloud Solutions',
+                                'ar' => 'حلول سحابية',
+                                'tr' => 'Bulut Çözümleri',
+                            ],
+                            'description' => [
+                                'en' => 'Deploy and manage your applications on AWS, Azure, or Google Cloud with our expertise.',
+                                'ar' => 'نشر وإدارة تطبيقاتك على AWS أو Azure أو Google Cloud مع خبرتنا.',
+                                'tr' => 'Uzmanlığımızla uygulamalarınızı AWS, Azure veya Google Cloud\'da dağıtın ve yönetin.',
                             ],
                         ],
                         [
                             'icon' => 'ti tabler-users',
                             'title' => [
-                                'en' => 'Continuous Updates',
-                                'ar' => 'تحديثات مستمرة',
-                                'tr' => 'Sürekli Güncellemeler',
+                                'en' => 'UI/UX Design',
+                                'ar' => 'تصميم واجهة وتجربة المستخدم',
+                                'tr' => 'UI/UX Tasarımı',
                             ],
                             'description' => [
-                                'en' => 'Free updates for the next 12 months, including new demos and features.',
-                                'ar' => 'تحديثات مجانية للأشهر الـ 12 القادمة، بما في ذلك عروض توضيحية وميزات جديدة.',
-                                'tr' => 'Yeni demolar ve özellikler dahil olmak üzere önümüzdeki 12 ay için ücretsiz güncellemeler.',
+                                'en' => 'Beautiful, intuitive interfaces that engage users and drive conversions.',
+                                'ar' => 'واجهات جميلة وبديهية تجذب المستخدمين وتعزز التحويلات.',
+                                'tr' => 'Kullanıcıları meşgul eden ve dönüşümleri artıran güzel, sezgisel arayüzler.',
                             ],
                         ],
                         [
-                            'icon' => 'ti tabler-atom',
+                            'icon' => 'ti tabler-shield-check',
                             'title' => [
-                                'en' => 'Stater-Kit',
-                                'ar' => 'مجموعة البداية',
-                                'tr' => 'Başlangıç Kiti',
+                                'en' => 'Maintenance & Support',
+                                'ar' => 'الصيانة والدعم',
+                                'tr' => 'Bakım ve Destek',
                             ],
                             'description' => [
-                                'en' => 'Start your project quickly without having to remove unnecessary features.',
-                                'ar' => 'ابدأ مشروعك بسرعة دون الحاجة لإزالة الميزات غير الضرورية.',
-                                'tr' => 'Gereksiz özellikleri kaldırmak zorunda kalmadan projenize hızlı bir şekilde başlayın.',
-                            ],
-                        ],
-                        [
-                            'icon' => 'ti tabler-brand-bootstrap',
-                            'title' => [
-                                'en' => 'API Ready',
-                                'ar' => 'جاهز لواجهة برمجة التطبيقات',
-                                'tr' => 'API Hazır',
-                            ],
-                            'description' => [
-                                'en' => 'Just change the endpoint and see your own data loaded within seconds.',
-                                'ar' => 'فقط قم بتغيير نقطة النهاية وشاهد بياناتك الخاصة محملة في ثوانٍ.',
-                                'tr' => 'Sadece uç noktayı değiştirin ve kendi verilerinizin saniyeler içinde yüklendiğini görün.',
-                            ],
-                        ],
-                        [
-                            'icon' => 'ti tabler-accessible',
-                            'title' => [
-                                'en' => 'Excellent Support',
-                                'ar' => 'دعم ممتاز',
-                                'tr' => 'Mükemmel Destek',
-                            ],
-                            'description' => [
-                                'en' => 'An easy-to-follow doc with lots of references and code examples.',
-                                'ar' => 'وثائق سهلة المتابعة مع الكثير من المراجع وأمثلة التعليمات البرمجية.',
-                                'tr' => 'Birçok referans ve kod örneği içeren takip edilmesi kolay bir belge.',
-                            ],
-                        ],
-                        [
-                            'icon' => 'ti tabler-device-laptop',
-                            'title' => [
-                                'en' => 'Well Documented',
-                                'ar' => 'موثق بشكل جيد',
-                                'tr' => 'İyi Belgelenmiş',
-                            ],
-                            'description' => [
-                                'en' => 'An easy-to-follow doc with lots of references and code examples.',
-                                'ar' => 'وثائق سهلة المتابعة مع الكثير من المراجع وأمثلة التعليمات البرمجية.',
-                                'tr' => 'Birçok referans ve kod örneği içeren takip edilmesi kolay bir belge.',
+                                'en' => 'Ongoing maintenance, updates, and 24/7 technical support to keep your software running smoothly.',
+                                'ar' => 'صيانة مستمرة وتحديثات ودعم فني على مدار الساعة للحفاظ على تشغيل برنامجك بسلاسة.',
+                                'tr' => 'Yazılımınızın sorunsuz çalışmasını sağlamak için sürekli bakım, güncellemeler ve 7/24 teknik destek.',
                             ],
                         ],
                     ],
                 ],
                 'team' => [
                     'badge' => [
-                        'en' => 'Our Great Team',
-                        'ar' => 'فريقنا الرائع',
-                        'tr' => 'Harika Ekibimiz',
+                        'en' => 'Our Expert Team',
+                        'ar' => 'فريقنا الخبير',
+                        'tr' => 'Uzman Ekibimiz',
                     ],
                     'title' => [
-                        'en' => 'Supported by real people',
-                        'ar' => 'بدعم من أشخاص حقيقيين',
-                        'tr' => 'Gerçek insanlar tarafından desteklenir',
+                        'en' => 'Meet the Talent Behind Codliy',
+                        'ar' => 'تعرف على المواهب وراء كودلي',
+                        'tr' => 'Codliy\'nin Arkasındaki Yetenekle Tanışın',
                     ],
                     'description' => [
-                        'en' => 'Who is behind these great-looking interfaces?',
-                        'ar' => 'من وراء هذه الواجهات الرائعة المظهر؟',
-                        'tr' => 'Bu harika görünen arayüzlerin arkasında kim var?',
+                        'en' => 'Our experienced team of developers, designers, and project managers work together to deliver exceptional software solutions.',
+                        'ar' => 'يعمل فريقنا المتمرس من المطورين والمصممين ومديري المشاريع معًا لتقديم حلول برمجية استثنائية.',
+                        'tr' => 'Deneyimli geliştiriciler, tasarımcılar ve proje yöneticilerinden oluşan ekibimiz olağanüstü yazılım çözümleri sunmak için birlikte çalışıyor.',
                     ],
                     'members' => [
                         [
-                            'name' => 'Sophie Gilbert',
+                            'name' => 'Sarah Johnson',
                             'position' => [
-                                'en' => 'Project Manager',
-                                'ar' => 'مدير المشروع',
-                                'tr' => 'Proje Yöneticisi',
+                                'en' => 'CEO & Founder',
+                                'ar' => 'الرئيس التنفيذي والمؤسس',
+                                'tr' => 'CEO ve Kurucu',
                             ],
                             'avatar' => 'assets/img/avatars/1.png',
                         ],
                         [
-                            'name' => 'Paul Miles',
+                            'name' => 'Michael Chen',
                             'position' => [
-                                'en' => 'UI Designer',
-                                'ar' => 'مصمم واجهة المستخدم',
-                                'tr' => 'UI Tasarımcı',
+                                'en' => 'Lead Developer',
+                                'ar' => 'المطور الرئيسي',
+                                'tr' => 'Baş Geliştirici',
                             ],
                             'avatar' => 'assets/img/avatars/2.png',
                         ],
                         [
-                            'name' => 'Nannie Ford',
+                            'name' => 'Emma Davis',
                             'position' => [
-                                'en' => 'Development Lead',
-                                'ar' => 'قائد التطوير',
-                                'tr' => 'Geliştirme Lideri',
+                                'en' => 'Senior UI/UX Designer',
+                                'ar' => 'مصمم واجهة وتجربة مستخدم أول',
+                                'tr' => 'Kıdemli UI/UX Tasarımcı',
                             ],
                             'avatar' => 'assets/img/avatars/3.png',
                         ],
                         [
-                            'name' => 'Chris Watkins',
+                            'name' => 'David Martinez',
                             'position' => [
-                                'en' => 'Marketing Manager',
-                                'ar' => 'مدير التسويق',
-                                'tr' => 'Pazarlama Müdürü',
+                                'en' => 'DevOps Engineer',
+                                'ar' => 'مهندس DevOps',
+                                'tr' => 'DevOps Mühendisi',
                             ],
                             'avatar' => 'assets/img/avatars/4.png',
                         ],
@@ -213,40 +213,40 @@ class LandingPageSeeder extends Seeder
                 ],
                 'contact' => [
                     'badge' => [
-                        'en' => 'Contact US',
+                        'en' => 'Contact Us',
                         'ar' => 'اتصل بنا',
                         'tr' => 'Bize Ulaşın',
                     ],
                     'title' => [
-                        'en' => "Let's work together",
-                        'ar' => 'لنعمل معًا',
-                        'tr' => 'Birlikte çalışalım',
+                        'en' => "Let's Build Something Amazing Together",
+                        'ar' => 'لنبني شيئًا مذهلاً معًا',
+                        'tr' => 'Birlikte Harika Bir Şey İnşa Edelim',
                     ],
                     'description' => [
-                        'en' => 'Any question or remark? just write us a message',
-                        'ar' => 'أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة',
-                        'tr' => 'Herhangi bir soru veya not? sadece bize bir mesaj yazın',
+                        'en' => 'Have a project in mind? Get in touch with us to discuss how we can help bring your ideas to life.',
+                        'ar' => 'هل لديك مشروع في ذهنك؟ تواصل معنا لمناقشة كيف يمكننا مساعدتك في تحقيق أفكارك.',
+                        'tr' => 'Aklınızda bir proje mi var? Fikirlerinizi hayata geçirmenize nasıl yardımcı olabileceğimizi tartışmak için bizimle iletişime geçin.',
                     ],
-                    'email' => 'example@gmail.com',
-                    'phone' => '+1234-568-963',
+                    'email' => 'info@codliy.com',
+                    'phone' => '+1 (555) 123-4567',
                 ],
                 'cta' => [
                     'title' => [
-                        'en' => 'Ready to Get Started?',
-                        'ar' => 'هل أنت مستعد للبدء؟',
-                        'tr' => 'Başlamaya Hazır mısınız?',
+                        'en' => 'Ready to Transform Your Business?',
+                        'ar' => 'هل أنت مستعد لتحويل عملك؟',
+                        'tr' => 'İşletmenizi Dönüştürmeye Hazır mısınız?',
                     ],
                     'subtitle' => [
-                        'en' => 'Start your project with a 14-day free trial',
-                        'ar' => 'ابدأ مشروعك بتجربة مجانية لمدة 14 يومًا',
-                        'tr' => '14 günlük ücretsiz deneme ile projenize başlayın',
+                        'en' => 'Get a free consultation and project estimate from our experts',
+                        'ar' => 'احصل على استشارة مجانية وتقدير للمشروع من خبرائنا',
+                        'tr' => 'Uzmanlarımızdan ücretsiz danışmanlık ve proje tahmini alın',
                     ],
                     'button_text' => [
-                        'en' => 'Get Started',
-                        'ar' => 'ابدأ الآن',
-                        'tr' => 'Başlayın',
+                        'en' => 'Schedule a Consultation',
+                        'ar' => 'حدد موعد استشارة',
+                        'tr' => 'Bir Danışma Planlayın',
                     ],
-                    'button_url' => '/register',
+                    'button_url' => '/contact',
                 ],
                 'faq' => [
                     'badge' => [
@@ -267,38 +267,38 @@ class LandingPageSeeder extends Seeder
                     'items' => [
                         [
                             'question' => [
-                                'en' => 'Do you charge for each upgrade?',
-                                'ar' => 'هل تفرض رسومًا على كل ترقية؟',
-                                'tr' => 'Her yükseltme için ücret alıyor musunuz?',
+                                'en' => 'What technologies does Codliy specialize in?',
+                                'ar' => 'ما هي التقنيات التي تتخصص فيها كودلي؟',
+                                'tr' => 'Codliy hangi teknolojilerde uzmanlaşmıştır?',
                             ],
                             'answer' => [
-                                'en' => 'Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame snaps icing marzipan gummi bears macaroon dragée danish caramels powder.',
-                                'ar' => 'قطرات الليمون كعكة الشوكولاتة الحلوى كعكة الجزر تشوبا تشوبس الكعك الطبقة. السمسم سناب الثلج المرزبانية الدببة الصمغية ماكارون دراغي الدنماركي الكراميل مسحوق.',
-                                'tr' => 'Limon damlaları çikolatalı kek şekerleme havuç kek chupa chups kek üstü. Susam atıştırmalıkları buzlanma badem ezmesi sakızlı ayılar makaron drajelik danimarka karamel tozu.',
+                                'en' => 'We specialize in modern web technologies including Laravel, PHP, JavaScript (React, Vue.js, Node.js), Python, and mobile development with React Native and Flutter. We also have expertise in cloud platforms like AWS, Azure, and Google Cloud.',
+                                'ar' => 'نحن متخصصون في تقنيات الويب الحديثة بما في ذلك Laravel و PHP و JavaScript (React و Vue.js و Node.js) و Python وتطوير الجوال باستخدام React Native و Flutter. لدينا أيضًا خبرة في منصات السحابة مثل AWS و Azure و Google Cloud.',
+                                'tr' => 'Laravel, PHP, JavaScript (React, Vue.js, Node.js), Python ve React Native ve Flutter ile mobil geliştirme dahil olmak üzere modern web teknolojilerinde uzmanız. Ayrıca AWS, Azure ve Google Cloud gibi bulut platformlarında uzmanlığımız var.',
                             ],
                         ],
                         [
                             'question' => [
-                                'en' => 'Do I need to purchase a license for each website?',
-                                'ar' => 'هل أحتاج إلى شراء ترخيص لكل موقع ويب؟',
-                                'tr' => 'Her web sitesi için bir lisans satın almam gerekiyor mu?',
+                                'en' => 'How long does a typical project take?',
+                                'ar' => 'كم من الوقت يستغرق المشروع النموذجي؟',
+                                'tr' => 'Tipik bir proje ne kadar sürer?',
                             ],
                             'answer' => [
-                                'en' => 'Dessert ice cream donut oat cake jelly-o pie sugar plum cheesecake. Bear claw dragée oat cake dragée ice cream halvah tootsie roll.',
-                                'ar' => 'حلوى الآيس كريم دونات كعكة الشوفان هلام فطيرة البرقوق السكر كعكة الجبن. مخلب الدب دراغيه كعكة الشوفان دراغي الآيس كريم حلاوة طحينية توتسي رول.',
-                                'tr' => 'Tatlı dondurma donut yulaf kek jöle-o turta şeker erikli cheesecake. Ayı pençesi draje yulaf kek draje dondurma helva tootsie roll.',
+                                'en' => 'Project timelines vary based on complexity and requirements. A simple website might take 4-6 weeks, while a complex enterprise application could take 3-6 months. We provide detailed timelines during the consultation phase.',
+                                'ar' => 'تختلف جداول المشروع بناءً على التعقيد والمتطلبات. قد يستغرق موقع ويب بسيط 4-6 أسابيع، بينما قد يستغرق تطبيق مؤسسي معقد 3-6 أشهر. نقدم جداول زمنية تفصيلية خلال مرحلة الاستشارة.',
+                                'tr' => 'Proje süreleri karmaşıklığa ve gereksinimlere göre değişir. Basit bir web sitesi 4-6 hafta sürebilirken, karmaşık bir kurumsal uygulama 3-6 ay sürebilir. Danışma aşamasında ayrıntılı zaman çizelgeleri sağlıyoruz.',
                             ],
                         ],
                         [
                             'question' => [
-                                'en' => 'What is regular license?',
-                                'ar' => 'ما هي الرخصة العادية؟',
-                                'tr' => 'Normal lisans nedir?',
+                                'en' => 'Do you provide ongoing support after project completion?',
+                                'ar' => 'هل تقدمون دعمًا مستمرًا بعد انتهاء المشروع؟',
+                                'tr' => 'Proje tamamlandıktan sonra sürekli destek sağlıyor musunuz?',
                             ],
                             'answer' => [
-                                'en' => 'Regular license can be used for end products that do not charge users for access or service. Single regular license can be used for single end product and end product can be used by you or your client.',
-                                'ar' => 'يمكن استخدام الترخيص العادي للمنتجات النهائية التي لا تفرض رسومًا على المستخدمين للوصول أو الخدمة. يمكن استخدام ترخيص عادي واحد لمنتج نهائي واحد ويمكن استخدام المنتج النهائي من قبلك أو عميلك.',
-                                'tr' => 'Normal lisans, kullanıcılardan erişim veya hizmet için ücret almayan son ürünler için kullanılabilir. Tek normal lisans tek son ürün için kullanılabilir ve son ürün sizin veya müşteriniz tarafından kullanılabilir.',
+                                'en' => 'Yes, we offer comprehensive maintenance and support packages. This includes bug fixes, security updates, performance optimization, and feature enhancements. We provide both monthly retainer and hourly support options.',
+                                'ar' => 'نعم، نقدم باقات صيانة ودعم شاملة. يشمل ذلك إصلاحات الأخطاء وتحديثات الأمان وتحسين الأداء وتحسينات الميزات. نقدم خيارات دعم شهرية وساعية.',
+                                'tr' => 'Evet, kapsamlı bakım ve destek paketleri sunuyoruz. Bu, hata düzeltmeleri, güvenlik güncellemeleri, performans optimizasyonu ve özellik geliştirmelerini içerir. Hem aylık ön ödeme hem de saatlik destek seçenekleri sunuyoruz.',
                             ],
                         ],
                     ],
@@ -311,14 +311,14 @@ class LandingPageSeeder extends Seeder
             ['seoable_id' => $landingPage->id, 'seoable_type' => get_class($landingPage)],
             [
                 'title' => [
-                    'en' => 'Home - Welcome to Our Platform',
-                    'ar' => 'الرئيسية - مرحبًا بك في منصتنا',
-                    'tr' => 'Ana Sayfa - Platformumuza Hoş Geldiniz',
+                    'en' => 'Codliy - Custom Software Development Company',
+                    'ar' => 'كودلي - شركة تطوير برمجيات مخصصة',
+                    'tr' => 'Codliy - Özel Yazılım Geliştirme Şirketi',
                 ],
                 'meta_description' => [
-                    'en' => 'All in one SaaS application for your business. No coding required.',
-                    'ar' => 'تطبيق SaaS الكل في واحد لعملك. لا حاجة للبرمجة.',
-                    'tr' => 'İşletmeniz için hepsi bir arada SaaS uygulaması. Kodlama gerekmez.',
+                    'en' => 'Codliy delivers custom web and mobile software solutions. Expert team specializing in Laravel, React, Vue.js, and cloud development. Transform your business with our innovative software services.',
+                    'ar' => 'تقدم كودلي حلول برمجيات ويب وجوال مخصصة. فريق خبير متخصص في Laravel و React و Vue.js وتطوير السحابة. حول عملك بخدماتنا البرمجية المبتكرة.',
+                    'tr' => 'Codliy özel web ve mobil yazılım çözümleri sunar. Laravel, React, Vue.js ve bulut geliştirmede uzmanlaşmış uzman ekip. Yenilikçi yazılım hizmetlerimizle işletmenizi dönüştürün.',
                 ],
                 'robots_index' => true,
                 'robots_follow' => true,
