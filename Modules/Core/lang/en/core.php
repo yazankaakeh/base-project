@@ -57,7 +57,7 @@ return [
             'notificationTitle' => 'Notification Title',
             'notificationBody' => 'Notification Body',
             'testNotificationTitle' => 'Test Notification',
-            'testNotificationBody' => 'This is a test notification from the doctor system.',
+            'testNotificationBody' => 'This is a test notification from the Base Project.',
             'sendTestNotification' => 'Send Test Notification',
         ],
 

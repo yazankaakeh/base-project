@@ -63,7 +63,7 @@ class ThemeSettingsController extends Controller
                 'dark_body_bg' => '#232333',
                 'dark_card_bg' => '#2b2c40',
                 'border_radius' => '0.375rem',
-                'site_title' => 'Doctor System Admin',
+                'site_title' => 'Base Project Admin',
                 'custom_css' => null,
                 'dark_custom_css' => null,
             ] : [
@@ -89,7 +89,7 @@ class ThemeSettingsController extends Controller
                 'dark_body_bg' => '#1a1a2e',
                 'dark_card_bg' => '#16213e',
                 'border_radius' => '0.5rem',
-                'site_title' => 'Doctor System',
+                'site_title' => 'Base Project',
                 'custom_css' => null,
                 'dark_custom_css' => null,
             ];
@@ -111,9 +111,10 @@ class ThemeSettingsController extends Controller
      * Update theme settings
      */
     public function update(
-        ThemeSettingsRequest $request,
+        ThemeSettingsRequest      $request,
         UpdateThemeSettingsAction $action,
-    ): RedirectResponse {
+    ): RedirectResponse
+    {
         try {
             $action->handle($request);
 
@@ -123,7 +124,7 @@ class ThemeSettingsController extends Controller
         } catch (Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', trans('core::core.theme_settings.update_failed').': '.$e->getMessage())
+                ->with('error', trans('core::core.theme_settings.update_failed') . ': ' . $e->getMessage())
                 ->withInput();
         }
     }

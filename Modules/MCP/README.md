@@ -1,6 +1,7 @@
 # MCP - AI Chat Bot Module
 
-A comprehensive AI-powered chat bot module for Laravel that integrates with Anthropic Claude and OpenAI APIs to provide intelligent customer support for your medical/doctor system.
+A comprehensive AI-powered chat bot module for Laravel that integrates with Anthropic Claude and OpenAI APIs to provide
+intelligent customer support for your medical/Base Project.
 
 ## Features
 
@@ -54,6 +55,7 @@ MCP_KNOWLEDGE_CACHE_TTL=3600
 ### 3. Get API Keys
 
 #### For Anthropic (Recommended):
+
 1. Go to https://console.anthropic.com/
 2. Sign up or log in
 3. Navigate to API Keys
@@ -61,6 +63,7 @@ MCP_KNOWLEDGE_CACHE_TTL=3600
 5. Copy and add to `.env` as `ANTHROPIC_API_KEY`
 
 #### For OpenAI (Alternative):
+
 1. Go to https://platform.openai.com/
 2. Sign up or log in
 3. Navigate to API Keys
@@ -74,6 +77,7 @@ php artisan migrate
 ```
 
 This will create the following tables:
+
 - `chat_conversations` - Stores conversation sessions
 - `chat_messages` - Stores all chat messages
 - `business_knowledge_base` - Stores Q&A knowledge base
@@ -111,6 +115,7 @@ Or in your main layout (recommended for global access):
 ### API Endpoints
 
 #### Start a New Conversation
+
 ```http
 POST /api/v1/chat/conversations/start
 Content-Type: application/json
@@ -123,6 +128,7 @@ Content-Type: application/json
 ```
 
 #### Send a Message
+
 ```http
 POST /api/v1/chat/messages/send
 Content-Type: application/json
@@ -134,6 +140,7 @@ Content-Type: application/json
 ```
 
 #### Get Conversation by Session
+
 ```http
 GET /api/v1/chat/conversations/session?session_id={session_id}
 ```
@@ -147,6 +154,7 @@ Access the knowledge base management:
 ```
 
 Features:
+
 - Create, edit, delete knowledge entries
 - Multi-language support (EN, AR, TR)
 - Category management
@@ -160,12 +168,12 @@ Features:
 1. Navigate to `/mcp/knowledge`
 2. Click "Add New Knowledge"
 3. Fill in the form:
-   - **Category**: Main category (e.g., general, appointments, doctors)
-   - **Subcategory**: Optional subcategory
-   - **Question**: The question in multiple languages
-   - **Answer**: The answer in multiple languages
-   - **Priority**: 0-100 (higher = more important)
-   - **Status**: Active/Inactive
+    - **Category**: Main category (e.g., general, appointments, doctors)
+    - **Subcategory**: Optional subcategory
+    - **Question**: The question in multiple languages
+    - **Answer**: The answer in multiple languages
+    - **Priority**: 0-100 (higher = more important)
+    - **Status**: Active/Inactive
 
 ### Categories Examples
 
@@ -194,6 +202,7 @@ Edit `Modules/MCP/config/config.php`:
 ### Chat Widget Styling
 
 The chat widget uses Tailwind CSS. Customize styles in:
+
 ```
 Modules/MCP/resources/views/livewire/chat-widget.blade.php
 ```
@@ -250,17 +259,20 @@ class User extends Authenticatable
 ## Troubleshooting
 
 ### Chat Widget Not Showing
+
 - Ensure Livewire is properly installed
 - Check if Alpine.js is loaded
 - Verify Tailwind CSS is compiled
 
 ### AI Not Responding
+
 - Check API key in `.env`
 - Verify internet connection
 - Check Laravel logs: `storage/logs/laravel.log`
 - Ensure HTTP client is working
 
 ### Knowledge Base Not Searching
+
 - Run migrations
 - Seed knowledge base
 - Clear cache: `php artisan cache:clear`
@@ -270,18 +282,21 @@ class User extends Authenticatable
 ### Token Usage
 
 Track AI costs in the `chat_messages` table:
+
 - `tokens_used` column shows tokens per response
 - `model_used` shows which AI model was used
 
 ### Popular Questions
 
 Check `business_knowledge_base`:
+
 - `usage_count` shows how many times used
 - `last_used_at` shows last usage timestamp
 
 ## Support
 
 For issues or questions:
+
 1. Check the logs: `storage/logs/laravel.log`
 2. Review API documentation
 3. Contact system administrator

@@ -19,8 +19,8 @@ $page = 'sales-dashboard'; ?>
 
 @section('content')
     <div class="page-wrapper">
-        <div class="content">
-            {{--<div class="row mb-5">
+        {{--<div class="content">
+            --}}{{--<div class="row mb-5">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
@@ -29,7 +29,7 @@ $page = 'sales-dashboard'; ?>
 
                     </div>
                 </div>
-            </div>--}}
+            </div>--}}{{--
             <div class="row mb-5">
                 <div class="col-lg-3 col-md-3 col-6">
                     <div class="card h-100">
@@ -104,7 +104,7 @@ $page = 'sales-dashboard'; ?>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
     </div>
 @endsection
 @push('scripts')
