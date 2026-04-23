@@ -94,6 +94,15 @@
     <link rel="shortcut icon" href="{{ $faviconUrl }}">
     <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
 
+    {{--
+        Per-page SEO injection point. Pages that set @section('meta') (blog
+        posts, CMS pages, portfolio entries) emit their own title/description/
+        og:*/twitter:*/canonical/JSON-LD here. This sits AFTER the default
+        meta tags so later tags override earlier ones in crawler parsers.
+    --}}
+    @yield('meta')
+    @stack('meta')
+
     {{-- @if(app()->getLocale() == 'ar')
        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
              rel="stylesheet">

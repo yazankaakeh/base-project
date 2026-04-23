@@ -69,7 +69,7 @@
                         $currentExtraFontUrls = isset($ccv['google_font_urls']) && is_array($ccv['google_font_urls'])
                             ? implode("\n", $ccv['google_font_urls'])
                             : '';
-                        $knownFonts = ['Public Sans', 'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Cairo', 'Tajawal', 'Montserrat', 'Lato', 'Nunito', 'Work Sans', 'IBM Plex Sans', 'IBM Plex Sans Arabic', 'Almarai', 'Noto Kufi Arabic'];
+                        $knownFonts = ['Google Sans Flex', 'Public Sans', 'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Cairo', 'Tajawal', 'Montserrat', 'Lato', 'Nunito', 'Work Sans', 'IBM Plex Sans', 'IBM Plex Sans Arabic', 'Almarai', 'Noto Kufi Arabic'];
                         $currentFamily = old('font_family', $settings->font_family);
                         $isCustomFamily = $currentFamily && !in_array($currentFamily, $knownFonts, true);
                     @endphp

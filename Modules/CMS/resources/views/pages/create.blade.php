@@ -87,6 +87,37 @@
                                                                 :lang="$lang"
                                                                 :value="old('content.'.$lang)" />
                                                         </div>
+
+                                                        {{-- SEO meta for this locale. Stored on the
+                                                             SeoMeta morphOne record via PageRepository@saveSeo. --}}
+                                                        <div class="col-12 mt-4">
+                                                            <div class="border-top pt-3">
+                                                                <h6 class="text-uppercase text-muted small mb-3 d-flex align-items-center gap-2">
+                                                                    <i class="ti tabler-search"></i>
+                                                                    {{ __('SEO (:lang)', ['lang' => strtoupper($lang)]) }}
+                                                                </h6>
+                                                                <div class="mb-3">
+                                                                    <x-core::input
+                                                                        label="cms::cms.pages.meta_title"
+                                                                        type="text"
+                                                                        name="meta_title[{{$lang}}]"
+                                                                        id="meta-title-{{$lang}}"
+                                                                        value="{{ old('meta_title.'.$lang) }}"
+                                                                        maxlength="70" />
+                                                                    <small class="text-muted">{{ __('Recommended: 50–60 characters.') }}</small>
+                                                                </div>
+                                                                <div>
+                                                                    <x-core::textarea
+                                                                        label="cms::cms.pages.meta_description"
+                                                                        name="meta_description[{{$lang}}]"
+                                                                        id="meta-description-{{$lang}}"
+                                                                        value="{{ old('meta_description.'.$lang) }}"
+                                                                        rows="3"
+                                                                        maxlength="160" />
+                                                                    <small class="text-muted">{{ __('Recommended: 120–160 characters.') }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

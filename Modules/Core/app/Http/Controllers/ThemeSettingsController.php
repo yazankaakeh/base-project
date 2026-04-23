@@ -36,63 +36,47 @@ class ThemeSettingsController extends Controller
         $themeSetting = ThemeSetting::query()->where('scope', $scope)->first();
 
         if ($themeSetting) {
-            // Determine defaults based on scope
-            $defaults = $scope === 'admin' ? [
-                // Light mode colors
-                'primary_color' => '#696cff',
-                'secondary_color' => '#8592a3',
-                'success_color' => '#71dd37',
-                'info_color' => '#03c3ec',
-                'warning_color' => '#ffab00',
-                'danger_color' => '#ff3e1d',
-                // Dark mode colors
-                'dark_primary_color' => '#696cff',
-                'dark_secondary_color' => '#8592a3',
-                'dark_success_color' => '#71dd37',
-                'dark_info_color' => '#03c3ec',
-                'dark_warning_color' => '#ffab00',
-                'dark_danger_color' => '#ff3e1d',
-                // Typography
-                'font_family' => 'Public Sans',
-                'font_size_base' => '0.9375rem',
-                'headings_font_family' => 'Public Sans',
-                'headings_font_weight' => '500',
-                // Layout
-                'body_bg' => '#f5f5f9',
-                'card_bg' => '#ffffff',
-                'dark_body_bg' => '#232333',
-                'dark_card_bg' => '#2b2c40',
-                'border_radius' => '0.375rem',
-                'site_title' => 'Base Project Admin',
-                'custom_css' => null,
-                'dark_custom_css' => null,
-            ] : [
-                // Website defaults
-                'primary_color' => '#0F0F2D',
-                'secondary_color' => '#6c757d',
-                'success_color' => '#28a745',
-                'info_color' => '#17a2b8',
-                'warning_color' => '#ffc107',
-                'danger_color' => '#dc3545',
-                'dark_primary_color' => '#696cff',
-                'dark_secondary_color' => '#8592a3',
-                'dark_success_color' => '#71dd37',
-                'dark_info_color' => '#03c3ec',
-                'dark_warning_color' => '#ffab00',
-                'dark_danger_color' => '#ff3e1d',
-                'font_family' => 'Poppins',
-                'font_size_base' => '1rem',
-                'headings_font_family' => 'Poppins',
-                'headings_font_weight' => '600',
-                'body_bg' => '#ffffff',
-                'card_bg' => '#f8f9fa',
-                'dark_body_bg' => '#1a1a2e',
-                'dark_card_bg' => '#16213e',
-                'border_radius' => '0.5rem',
-                'site_title' => 'Base Project',
-                'custom_css' => null,
-                'dark_custom_css' => null,
+            // Shared Codliy defaults — same primary / radius / brand across
+            // both scopes so a "Reset" always returns to the canonical look.
+            $shared = [
+                'primary_color'            => '#0059ff',
+                'dark_primary_color'       => '#3B82F6',
+                'success_color'            => '#71dd37',
+                'info_color'               => '#03c3ec',
+                'warning_color'            => '#ffab00',
+                'danger_color'             => '#ff3e1d',
+                'dark_success_color'       => '#71dd37',
+                'dark_info_color'          => '#03c3ec',
+                'dark_warning_color'       => '#ffab00',
+                'dark_danger_color'        => '#ff3e1d',
+                'font_family'              => 'Google Sans Flex',
+                'headings_font_family'     => 'Google Sans Flex',
+                'headings_font_weight'     => '600',
+                'rtl_font_family'          => 'Noto Kufi Arabic',
+                'rtl_headings_font_family' => 'Noto Kufi Arabic',
+                'border_radius'            => '18px',
+                'site_title'               => 'Codliy',
+                'custom_css'               => null,
+                'dark_custom_css'          => null,
             ];
+
+            $defaults = $scope === 'admin' ? array_merge($shared, [
+                'secondary_color'      => '#8592a3',
+                'dark_secondary_color' => '#8592a3',
+                'font_size_base'       => '0.9375rem',
+                'body_bg'              => '#f5f5f9',
+                'card_bg'              => '#ffffff',
+                'dark_body_bg'         => '#232333',
+                'dark_card_bg'         => '#2b2c40',
+            ]) : array_merge($shared, [
+                'secondary_color'      => '#6c757d',
+                'dark_secondary_color' => '#8592a3',
+                'font_size_base'       => '1rem',
+                'body_bg'              => '#ffffff',
+                'card_bg'              => '#f8f9fa',
+                'dark_body_bg'         => '#020611',
+                'dark_card_bg'         => '#0A1F4D',
+            ]);
 
             // Reset to defaults
             $themeSetting->update($defaults);

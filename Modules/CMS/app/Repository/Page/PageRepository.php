@@ -78,21 +78,54 @@ class PageRepository implements PageInterface
         return null;
     }
 
+    /**
+     * Persist the SEO record for a page.
+     *
+     * `meta_title` and `meta_description` arrive as arrays keyed by locale
+     * (e.g. ['en' => 'My Title', 'ar' => 'عنواني']) because SeoMeta's
+     * `title` / `meta_description` columns are Spatie-Translatable JSON
+     * fields. Previously we assigned scalar strings here, which Spatie
+     * interpreted as "save under current locale only" — so switching
+     * the app locale would return to a blank meta_title.
+     */
     private function saveSeo(Page $page, array $validated): void
     {
-        $metaTitle = $validated['meta_title'] ?? null;
-        $metaDescription = $validated['meta_description'] ?? null;
+        $metaTitle       = $this->normalizeTranslatable($validated['meta_title']       ?? null);
+        $metaDescription = $this->normalizeTranslatable($validated['meta_description'] ?? null);
 
-        if ($metaTitle || $metaDescription) {
-            $seo = $page->seo ?: new SeoMeta();
-            if ($metaTitle) {
-                $seo->title = $metaTitle;
-            }
-            if ($metaDescription) {
-                $seo->meta_description = $metaDescription;
-            }
-            $page->seo()->save($seo);
+        // Nothing to save → also nothing to create an empty row for.
+        if (empty($metaTitle) && empty($metaDescription)) {
+            return;
         }
+
+        $seo = $page->seo ?: new SeoMeta();
+        if (!empty($metaTitle)) {
+            $seo->title = $metaTitle;
+        }
+        if (!empty($metaDescription)) {
+            $seo->meta_description = $metaDescription;
+        }
+        $page->seo()->save($seo);
+    }
+
+    /**
+     * Turn a form-submitted value into a [locale => string] array that
+     * Spatie Translatable can store directly. Drops empty translations so
+     * a fresh admin who only fills English doesn't persist blank JSON keys
+     * for Arabic / Turkish.
+     */
+    private function normalizeTranslatable(mixed $value): array
+    {
+        if (is_array($value)) {
+            return array_filter(
+                array_map(fn ($v) => is_string($v) ? trim($v) : $v, $value),
+                fn ($v) => filled($v),
+            );
+        }
+        if (is_string($value) && trim($value) !== '') {
+            return [app()->getLocale() => trim($value)];
+        }
+        return [];
     }
 
     public function update(int $id, Request $request): Page

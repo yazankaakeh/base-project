@@ -21,6 +21,8 @@ return [
         'slug_help' => 'رابط صديق لمحركات البحث (مثال: my-page-name)',
         'excerpt' => 'المقتطف',
         'content' => 'المحتوى',
+        'meta_title' => 'عنوان SEO',
+        'meta_description' => 'وصف SEO',
         'cannot_delete_home' => 'لا يمكن حذف الصفحة الرئيسية',
         'created' => 'تم إنشاء الصفحة بنجاح',
         'updated' => 'تم تحديث الصفحة بنجاح',

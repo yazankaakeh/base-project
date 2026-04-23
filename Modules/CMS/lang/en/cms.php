@@ -21,6 +21,8 @@ return [
         'slug_help' => 'URL-friendly slug (e.g., my-page-name)',
         'excerpt' => 'Excerpt',
         'content' => 'Content',
+        'meta_title' => 'SEO Title',
+        'meta_description' => 'Meta Description',
         'cannot_delete_home' => 'Home page cannot be deleted',
         'created' => 'Page created successfully',
         'updated' => 'Page updated successfully',

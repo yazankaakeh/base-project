@@ -1,23 +1,65 @@
 @extends('theme::user.layouts.layoutFront')
 
 @php
-    // Title with locale fallback (same logic the hero uses).
-    $metaTitle = $page->getTranslation('title', $locale)
-        ?: $page->getTranslation('title', config('app.fallback_locale', 'en'))
+    $fallback = config('app.fallback_locale', 'en');
+
+    // Page-level fallback chain for meta + on-page title.
+    $pageTitle = $page->getTranslation('title', $locale)
+        ?: $page->getTranslation('title', $fallback)
         ?: ucwords(str_replace(['-', '_'], ' ', $page->slug));
-    $metaExcerpt = $page->getTranslation('excerpt', $locale)
-        ?: $page->getTranslation('excerpt', config('app.fallback_locale', 'en'));
+    $pageExcerpt = $page->getTranslation('excerpt', $locale)
+        ?: $page->getTranslation('excerpt', $fallback);
+
+    // SEO record (via Modules\Seo\Traits\HasSeo morphOne relation) wins
+    // when the admin explicitly typed a meta title / description. Fall
+    // back to the page title/excerpt so pages without a custom SEO row
+    // still ship something meaningful to crawlers.
+    $seo = $page->seo ?? null;
+    $metaTitle = ($seo?->getTranslation('title', $locale) ?? '')
+        ?: ($seo?->getTranslation('title', $fallback) ?? '')
+        ?: $pageTitle;
+    $metaDescription = ($seo?->getTranslation('meta_description', $locale) ?? '')
+        ?: ($seo?->getTranslation('meta_description', $fallback) ?? '')
+        ?: $pageExcerpt;
+    $metaImage = $page->getFirstMediaUrl('featured_image') ?: null;
+    $canonical = url()->current();
 @endphp
 
 @section('title', $metaTitle)
 
 @section('meta')
-    @if($metaExcerpt)
-        <meta name="description" content="{{ Str::limit(strip_tags($metaExcerpt), 160) }}">
+    {{-- Per-page SEO block. Injected into <head> via commonMaster's @yield('meta'). --}}
+    @if($metaDescription)
+        <meta name="description" content="{{ Str::limit(strip_tags($metaDescription), 160) }}">
     @endif
-    @if($page->getFirstMediaUrl('featured_image'))
-        <meta property="og:image" content="{{ $page->getFirstMediaUrl('featured_image') }}">
+    <link rel="canonical" href="{{ $canonical }}">
+
+    <meta property="og:type"        content="article"/>
+    <meta property="og:title"       content="{{ $metaTitle }}"/>
+    <meta property="og:url"         content="{{ $canonical }}"/>
+    <meta property="og:locale"      content="{{ app()->getLocale() }}"/>
+    @if($metaDescription)
+        <meta property="og:description" content="{{ Str::limit(strip_tags($metaDescription), 200) }}"/>
     @endif
+    @if($metaImage)
+        <meta property="og:image"   content="{{ $metaImage }}"/>
+    @endif
+
+    <meta name="twitter:card"       content="summary_large_image"/>
+    <meta name="twitter:title"      content="{{ $metaTitle }}"/>
+    @if($metaDescription)
+        <meta name="twitter:description" content="{{ Str::limit(strip_tags($metaDescription), 200) }}"/>
+    @endif
+    @if($metaImage)
+        <meta name="twitter:image"  content="{{ $metaImage }}"/>
+    @endif
+
+    {{-- Robots — respect what the SEO row says, default to index,follow. --}}
+    @php
+        $robotsIndex  = $seo->robots_index  ?? true;
+        $robotsFollow = $seo->robots_follow ?? true;
+    @endphp
+    <meta name="robots" content="{{ $robotsIndex ? 'index' : 'noindex' }}, {{ $robotsFollow ? 'follow' : 'nofollow' }}"/>
 @endsection
 
 @section('page-style')

@@ -18,6 +18,9 @@ class PageController extends Controller
         $page = Page::published()
             ->bySlug($slug)
             ->with([
+                // SEO row so `@section('meta')` renders per-page title,
+                // description, og:* without a second query.
+                'seo',
                 'activePanels.activeItems.media',
                 'activePanels.media',
                 'media',

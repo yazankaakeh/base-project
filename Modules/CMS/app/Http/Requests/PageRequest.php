@@ -64,8 +64,13 @@ class PageRequest extends FormRequest
             'featured_image' => ['nullable', 'image', 'mimes:jpeg,png,webp', 'max:2048'],
             'remove_featured_image' => ['nullable', 'boolean'],
             'use_panel_builder' => ['nullable', 'boolean'],
-            'meta_title' => ['nullable', 'string', 'max:60'],
-            'meta_description' => ['nullable', 'string', 'max:160'],
+            // SEO meta — array-shaped so each locale can be set independently,
+            // but we also accept a scalar string for backward compatibility
+            // with older integrations / API callers.
+            'meta_title' => ['nullable'],
+            'meta_title.*' => ['nullable', 'string', 'max:70'],
+            'meta_description' => ['nullable'],
+            'meta_description.*' => ['nullable', 'string', 'max:160'],
         ];
     }
 

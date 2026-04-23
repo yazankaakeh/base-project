@@ -191,13 +191,19 @@ class ThemeSetting extends Model implements HasMedia
      * - `http://...` / `https://...` / `//...` → used as-is.
      * - Leading `/` → treated as absolute URL (e.g. `/storage/foo.png`).
      * - Otherwise → run through `asset()` so relative paths work.
+     *
+     * Spaces in filenames (the seeded brand asset ships as
+     * `assets/brand/Ligh Logo.png`) get rawurlencoded per-segment so the
+     * resulting URL is valid for every browser.
      */
     private function normalizeAssetPath(string $path): string
     {
         if (preg_match('#^(https?:)?//#', $path) || str_starts_with($path, '/')) {
             return $path;
         }
-        return asset($path);
+        // Encode each path segment individually so the `/` separators stay intact.
+        $encoded = implode('/', array_map('rawurlencode', explode('/', $path)));
+        return asset($encoded);
     }
 
     public function registerMediaCollections(): void

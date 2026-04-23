@@ -21,6 +21,8 @@ return [
         'slug_help' => 'URL dostu slug (örn: my-page-name)',
         'excerpt' => 'Özet',
         'content' => 'İçerik',
+        'meta_title' => 'SEO Başlığı',
+        'meta_description' => 'SEO Açıklaması',
     ],
     'menus' => [
         'title' => 'Menüler',
