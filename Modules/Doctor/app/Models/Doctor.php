@@ -1,0 +1,110 @@
+<?php
+
+namespace Modules\Doctor\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Modules\AdminManagement\Traits\AuditLogTrait;
+use Modules\Auth\app\Models\SocialAccount;
+use Modules\Blog\Traits\HasAuthor;
+use Modules\Core\App\Enums\ActiveEnum;
+use Modules\Core\App\Enums\Gender;
+use Modules\Core\app\Models\Address;
+use Modules\Doctor\Database\Factories\DoctorFactory;
+use Modules\Notification\Models\Notification;
+use Modules\Notification\Models\NotificationPushToken;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Permission\Traits\HasRoles;
+
+/**
+ * @property mixed $name
+ * @property mixed $phone
+ * @property mixed $email
+ * @property mixed|string $password
+ * @property int|mixed $is_active
+ * @property mixed $gender
+ * @property mixed $age
+ * @property mixed $medical_specialty_id
+ */
+class Doctor extends Authenticatable implements HasMedia
+{
+    use HasFactory;
+    use InteractsWithMedia;
+    use Notifiable;
+    use HasAuthor;
+    use HasRoles;
+    use AuditLogTrait;
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'password',
+        'gender',
+        'id',
+        'is_active',
+        'age',
+        'medical_specialty_id',
+    ];
+    protected $casts = [
+        'gender' => Gender::class,
+        'is_active' => ActiveEnum::class,
+    ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected static function newFactory(): DoctorFactory
+    {
+        return DoctorFactory::new();
+    }
+
+    public function address(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function medicalSpecialty(): BelongsTo
+    {
+        return $this->belongsTo(MedicalSpecialty::class, 'medical_specialty_id', 'id');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
+
+    public function notifications(): MorphTo
+    {
+        return $this->morphTo(Notification::class, 'notifiable');
+    }
+
+    public function pushTokens(): MorphTo
+    {
+        return $this->morphTo(NotificationPushToken::class, 'tokenable');
+    }
+
+    /**
+     * Get the social accounts for the doctor.
+     */
+    public function socialAccounts()
+    {
+        return $this->morphMany(SocialAccount::class, 'user');
+    }
+
+}

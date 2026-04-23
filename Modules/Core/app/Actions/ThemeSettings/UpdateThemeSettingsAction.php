@@ -1,0 +1,163 @@
+<?php
+
+namespace Modules\Core\App\Actions\ThemeSettings;
+
+use Modules\Core\App\Http\Requests\ThemeSettingsRequest;
+use Modules\Core\App\Models\ThemeSetting;
+
+class UpdateThemeSettingsAction
+{
+    public function handle(ThemeSettingsRequest $request): ThemeSetting
+    {
+        $scope = $request->input('scope', 'admin');
+
+        $themeSetting = ThemeSetting::where('scope', $scope)->first();
+
+        if (! $themeSetting) {
+            $themeSetting = new ThemeSetting(['scope' => $scope]);
+        }
+
+        // Update light mode colors
+        $themeSetting->primary_color = $request->input('primary_color');
+        $themeSetting->secondary_color = $request->input('secondary_color');
+        $themeSetting->success_color = $request->input('success_color');
+        $themeSetting->info_color = $request->input('info_color');
+        $themeSetting->warning_color = $request->input('warning_color');
+        $themeSetting->danger_color = $request->input('danger_color');
+
+        // Update dark mode colors
+        $themeSetting->dark_primary_color = $request->input('dark_primary_color');
+        $themeSetting->dark_secondary_color = $request->input('dark_secondary_color');
+        $themeSetting->dark_success_color = $request->input('dark_success_color');
+        $themeSetting->dark_info_color = $request->input('dark_info_color');
+        $themeSetting->dark_warning_color = $request->input('dark_warning_color');
+        $themeSetting->dark_danger_color = $request->input('dark_danger_color');
+
+        // Update typography
+        // If user typed a custom family (or picked "__custom__"), prefer the custom field.
+        $fontFamilyPick = trim((string) $request->input('font_family', ''));
+        $fontFamilyCustom = trim((string) $request->input('font_family_custom', ''));
+        if ($fontFamilyCustom !== '' || $fontFamilyPick === '__custom__') {
+            $themeSetting->font_family = $fontFamilyCustom !== '' ? $fontFamilyCustom : $themeSetting->font_family;
+        } else {
+            $themeSetting->font_family = $fontFamilyPick;
+        }
+
+        $headingsFamilyPick = trim((string) $request->input('headings_font_family', ''));
+        $headingsFamilyCustom = trim((string) $request->input('headings_font_family_custom', ''));
+        if ($headingsFamilyCustom !== '' || $headingsFamilyPick === '__custom__') {
+            $themeSetting->headings_font_family = $headingsFamilyCustom !== '' ? $headingsFamilyCustom : $themeSetting->headings_font_family;
+        } else {
+            $themeSetting->headings_font_family = $headingsFamilyPick !== '' ? $headingsFamilyPick : null;
+        }
+
+        // RTL-specific fonts — Arabic/Hebrew/Persian pages get their own font
+        // stack so admins can pair (e.g.) "Inter" LTR with "IBM Plex Sans Arabic" RTL.
+        // Empty or "__none__" clears the field — falls back to LTR font.
+        $rtlFamilyPick = trim((string) $request->input('rtl_font_family', ''));
+        $rtlFamilyCustom = trim((string) $request->input('rtl_font_family_custom', ''));
+        if ($rtlFamilyCustom !== '' || $rtlFamilyPick === '__custom__') {
+            $themeSetting->rtl_font_family = $rtlFamilyCustom !== '' ? $rtlFamilyCustom : $themeSetting->rtl_font_family;
+        } elseif ($rtlFamilyPick === '__none__') {
+            $themeSetting->rtl_font_family = null;
+        } else {
+            $themeSetting->rtl_font_family = $rtlFamilyPick !== '' ? $rtlFamilyPick : null;
+        }
+
+        $rtlHeadingsPick = trim((string) $request->input('rtl_headings_font_family', ''));
+        $rtlHeadingsCustom = trim((string) $request->input('rtl_headings_font_family_custom', ''));
+        if ($rtlHeadingsCustom !== '' || $rtlHeadingsPick === '__custom__') {
+            $themeSetting->rtl_headings_font_family = $rtlHeadingsCustom !== '' ? $rtlHeadingsCustom : $themeSetting->rtl_headings_font_family;
+        } elseif ($rtlHeadingsPick === '__none__') {
+            $themeSetting->rtl_headings_font_family = null;
+        } else {
+            $themeSetting->rtl_headings_font_family = $rtlHeadingsPick !== '' ? $rtlHeadingsPick : null;
+        }
+
+        $themeSetting->font_size_base = $request->input('font_size_base');
+        $themeSetting->headings_font_weight = $request->input('headings_font_weight');
+
+        // Merge Google Fonts URLs into custom_css_variables JSON so the runtime
+        // layout (styles.blade.php / stylesFront.blade.php) can load them.
+        $ccv = is_array($themeSetting->custom_css_variables) ? $themeSetting->custom_css_variables : [];
+
+        $primaryFontUrl = trim((string) $request->input('google_font_url', ''));
+        if ($primaryFontUrl !== '') {
+            $ccv['google_font_url'] = $primaryFontUrl;
+        } else {
+            unset($ccv['google_font_url']);
+        }
+
+        $extraUrlsRaw = (string) $request->input('google_font_urls', '');
+        if ($extraUrlsRaw !== '') {
+            $extraUrls = array_values(array_filter(array_map(
+                fn ($line) => trim($line),
+                preg_split('/\r\n|\r|\n/', $extraUrlsRaw) ?: []
+            ), fn ($line) => $line !== '' && filter_var($line, FILTER_VALIDATE_URL)));
+            if (! empty($extraUrls)) {
+                $ccv['google_font_urls'] = $extraUrls;
+            } else {
+                unset($ccv['google_font_urls']);
+            }
+        } else {
+            unset($ccv['google_font_urls']);
+        }
+
+        $themeSetting->custom_css_variables = $ccv;
+
+        // Update light mode layout
+        $themeSetting->body_bg = $request->input('body_bg');
+        $themeSetting->card_bg = $request->input('card_bg');
+        $themeSetting->border_radius = $request->input('border_radius');
+
+        // Update dark mode layout
+        $themeSetting->dark_body_bg = $request->input('dark_body_bg');
+        $themeSetting->dark_card_bg = $request->input('dark_card_bg');
+
+        // Update branding
+        $themeSetting->site_title = $request->input('site_title');
+
+        // Update advanced settings
+        if ($request->filled('custom_css')) {
+            $themeSetting->custom_css = $request->input('custom_css');
+        }
+
+        if ($request->filled('dark_custom_css')) {
+            $themeSetting->dark_custom_css = $request->input('dark_custom_css');
+        }
+
+        // AI Assistant configuration (only persisted for the website scope;
+        // admin scope rows stay untouched so they don't fight website settings).
+        if ($scope === 'website') {
+            $themeSetting->ai_enabled = (bool) $request->input('ai_enabled', false);
+            $themeSetting->ai_provider = $request->input('ai_provider') ?: null;
+            $themeSetting->ai_model = $request->input('ai_model') ?: null;
+            $themeSetting->ai_system_prompt = $request->input('ai_system_prompt') ?: null;
+        }
+
+        $themeSetting->save();
+
+        // Handle logo / favicon uploads. Each slot supports:
+        //   - `remove_<field>` checkbox → clear the collection so the brand
+        //     falls back to the default SVG/wordmark.
+        //   - File upload → replace the existing media (`->clearMediaCollection`
+        //     first so Spatie doesn't pile up orphaned files).
+        foreach (['logo', 'logo_dark', 'favicon'] as $slot) {
+            if ($request->boolean('remove_' . $slot)) {
+                $themeSetting->clearMediaCollection($slot);
+
+                continue;
+            }
+            if ($request->hasFile($slot)) {
+                $themeSetting->clearMediaCollection($slot);
+                $themeSetting->addMediaFromRequest($slot)->toMediaCollection($slot);
+            }
+        }
+
+        // Bust the theme settings cache so the next request sees the new
+        // media immediately instead of the stale cached model.
+        ThemeSetting::clearCache($themeSetting->scope);
+
+        return $themeSetting;
+    }
+}

@@ -1,0 +1,49 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    # Baseline is generated on first clean run:
+    #   vendor/bin/phpstan analyse --generate-baseline
+    # so existing violations don't block CI, but every NEW error fails.
+    - phpstan-baseline.neon
+
+parameters:
+    # Raise to 6 once the baseline is cleared. Level 5 catches most
+    # real bugs without fighting Laravel/Livewire dynamic property magic.
+    level: 5
+
+    paths:
+        - app
+        - bootstrap/app.php
+        - Modules
+        - config
+        - database/seeders
+        - routes
+
+    excludePaths:
+        analyseAndScan:
+            - Modules/*/database/migrations/*
+            - Modules/*/resources/views/*
+            - Modules/*/node_modules/*
+            - Modules/Doctor/*            # disabled module; artifacts remain
+            - Modules/MCP/vendor/*
+            - storage/*
+            - bootstrap/cache/*
+            - public/*
+
+    ignoreErrors:
+        # Spatie Translatable setters proxy through __set — legitimate dynamic access.
+        - '#Access to an undefined property Modules\\.+\\Models\\.+::\$[a-z_]+#'
+        # Eloquent dynamic relations via @property phpdoc aren't always typed.
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\(Model|Builder)#'
+        # Livewire components use magic listeners/dispatches.
+        - '#Call to an undefined static method Livewire\\Component#'
+        # Module service providers register via dynamic strings.
+        - '#Parameter \#1 \$abstract of method Illuminate\\Contracts\\Container\\Container::make\(\)#'
+        # PHPStan 2.x raises these for Laravel's loosely-typed Collections.
+        # Suppressed via ignoreErrors rather than a config flag since the
+        # old `checkMissingIterableValueType` / `checkGenericClassInNonGenericObjectType`
+        # switches were removed in PHPStan 2.0.
+        - '#no value type specified in iterable type#'
+        - '#with generic class .+ does not specify its types#'
+
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false

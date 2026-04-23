@@ -1,0 +1,11 @@
+{
+    "name": "AiChat",
+    "alias": "aichat",
+    "description": "Live AI chat widget with multi-provider support (OpenAI, Anthropic, Gemini, xAI Grok).",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AiChat\\Providers\\AiChatServiceProvider"
+    ],
+    "files": []
+}

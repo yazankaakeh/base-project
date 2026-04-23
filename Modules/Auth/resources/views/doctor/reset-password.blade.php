@@ -1,0 +1,75 @@
+@extends('theme::user.layouts.layoutFront')
+
+@section('title', trans('auth::auth.reset_password'))
+
+@section('content')
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner py-4">
+                <!-- Reset Password Card -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center mb-4">
+                            <span class="app-brand-text demo text-body fw-bold">{{ config('app.name') }}</span>
+                        </div>
+                        <!-- /Logo -->
+                        <h4 class="mb-2">{{ trans('auth::auth.reset_password') }}</h4>
+                        <p class="mb-4">{{ trans('auth::auth.reset_password_subtitle') }}</p>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <form id="formAuthentication" class="mb-3" action="{{ route('admin.password.update') }}"
+                              method="POST">
+                            @csrf
+                            <input type="hidden" name="token" value="{{ $token }}">
+                            <input type="hidden" name="email" value="{{ $email }}">
+
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="password">{{ trans('auth::auth.new_password') }}</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password"
+                                           class="form-control @error('password') is-invalid @enderror" name="password"
+                                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                           aria-describedby="password" required/>
+                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                </div>
+                                @error('password')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="password-confirm">{{ trans('auth::auth.confirm_password') }}</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password-confirm" class="form-control"
+                                           name="password_confirmation"
+                                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                           aria-describedby="password" required/>
+                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary d-grid w-100 mb-3">{{ trans('auth::auth.reset_password') }}</button>
+
+                            <div class="text-center">
+                                <a href="{{ route('admin.login') }}"
+                                   class="d-flex align-items-center justify-content-center">
+                                    <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+                                    {{ trans('auth::auth.back_to_login') }}
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Reset Password Card -->
+            </div>
+        </div>
+    </div>
+@endsection

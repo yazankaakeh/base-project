@@ -1,0 +1,61 @@
+# Dependabot config for Codliy.
+#
+# Auto-open weekly PRs for composer + npm updates. Security advisories
+# flip to immediate, so critical patches never wait for the weekly cycle.
+#
+# Labels + commit-message hints make it trivial to triage PRs in the
+# GitHub UI.
+
+version: 2
+
+updates:
+    - package-ecosystem: composer
+      directory: /
+      schedule:
+          interval: weekly
+          day: monday
+          time: '07:00'
+          timezone: Europe/Istanbul
+      open-pull-requests-limit: 5
+      labels:
+          - dependencies
+          - php
+      commit-message:
+          prefix: 'chore(deps)'
+          include: scope
+      groups:
+          # Batch patch-level Laravel ecosystem bumps into one PR.
+          laravel-ecosystem:
+              patterns:
+                  - 'laravel/*'
+                  - 'spatie/*'
+                  - 'livewire/*'
+              update-types:
+                  - patch
+                  - minor
+
+    - package-ecosystem: npm
+      directory: /
+      schedule:
+          interval: weekly
+          day: monday
+          time: '07:00'
+          timezone: Europe/Istanbul
+      open-pull-requests-limit: 5
+      labels:
+          - dependencies
+          - javascript
+      commit-message:
+          prefix: 'chore(deps-js)'
+          include: scope
+
+    # Keep our own GitHub Actions pinned to latest majors.
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+          interval: weekly
+      labels:
+          - dependencies
+          - ci
+      commit-message:
+          prefix: 'chore(ci)'

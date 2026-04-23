@@ -1,0 +1,29 @@
+---
+alwaysApply: true
+---
+---
+name: Laravel Full-Stack House Rules
+description: Keep controllers thin, use Form Requests, Actions/Services, Repositories, Blade components/partials, DRY/KISS/SoC.
+alwaysApply: true
+---
+
+# Cursor Project Rules (Laravel — Full-Stack)
+
+## Principles
+- KISS, DRY, Separation of Concerns, SOLID.
+- **No business logic in controllers.**
+- **Validate with Form Requests** only.
+- **Use Actions/Services + Repositories** for domain + data access.
+- **Use Blade components/partials** to remove repetition.
+- Follow Laravel/PSR-12 naming & structure. English comments only.
+- Follow the standard of Modules, and make all routes and repositories and blades inside the Modules that it's related to.
+
+## Controllers (thin)
+- Accept FormRequest, delegate to an **Action/Service**, return view/resource.
+```php
+public function store(\App\Http\Requests\Tag\StoreTagRequest $request,
+                      \App\Actions\Tag\CreateTagAction $action)
+{
+    $tag = $action->handle($request->validated());
+    return redirect()->route('tags.show', $tag)->with('status','Created');
+}
