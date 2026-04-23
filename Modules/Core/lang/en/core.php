@@ -3,6 +3,28 @@
 use Modules\Core\App\Enums\ActiveEnum;
 
 return [
+    // ── Generic UI actions ─────────────────────────────────────────────
+    // Reusable action labels used across admin CRUDs — import them with
+    // `trans('core::core.add')` etc. Kept flat so call-sites stay short.
+    'add'      => 'Add',
+    'edit'     => 'Edit',
+    'delete'   => 'Delete',
+    'save'     => 'Save',
+    'cancel'   => 'Cancel',
+    'close'    => 'Close',
+    'update'   => 'Update',
+    'create'   => 'Create',
+    'view'     => 'View',
+    'search'   => 'Search',
+    'reset'    => 'Reset',
+    'back'     => 'Back',
+    'actions'  => 'Actions',
+    'yes'      => 'Yes',
+    'no'       => 'No',
+    'confirm'  => 'Confirm',
+    'loading'  => 'Loading…',
+    'optional' => 'Optional',
+
     'enum' => [
         'ActiveClinic' => [
             ActiveEnum::ACTIVE->value => 'Active',
