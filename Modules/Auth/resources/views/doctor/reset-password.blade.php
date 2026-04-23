@@ -25,7 +25,7 @@
                             </div>
                         @endif
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('doctor.password.update') }}"
+                        <form id="formAuthentication" class="mb-3" action="{{ route('admin.password.update') }}"
                               method="POST">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
@@ -59,7 +59,7 @@
                             <button class="btn btn-primary d-grid w-100 mb-3">{{ trans('auth::auth.reset_password') }}</button>
 
                             <div class="text-center">
-                                <a href="{{ route('doctor.login') }}"
+                                <a href="{{ route('admin.login') }}"
                                    class="d-flex align-items-center justify-content-center">
                                     <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
                                     {{ trans('auth::auth.back_to_login') }}

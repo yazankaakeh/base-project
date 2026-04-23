@@ -1,4 +1,3 @@
-@php use Modules\Core\App\Enums\Gender; @endphp
 <div class="modal fade" id="storeModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog" role="document">
@@ -41,30 +40,6 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="adminmanagement::admin_management.user.create.phone"
-                                           placeholder="adminmanagement::admin_management.user.create.phone"
-                                           id="create_phone"
-                                           name="phone"
-                                           type="text"
-                                           required="required"
-                                           model="create_phone"
-                                           value="{{old('phone')}}">
-
-                            </x-core::input>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <x-core::input label="doctor::doctor.patients.age"
-                                           placeholder="doctor::doctor.patients.age"
-                                           id="create_age"
-                                           name="age"
-                                           type="number"
-                                           required="required"
-                                           model="create_age"
-                                           value="{{old('age')}}">
-
-                            </x-core::input>
-                        </div>
-                        <div class="col-6 mb-3">
                             <x-core::select :label="trans('adminmanagement::admin_management.user.create.role')"
                                             :placeholder="trans('adminmanagement::admin_management.user.create.role')"
                                             id="create_role"
@@ -77,34 +52,10 @@
                             </x-core::select>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::select :label="trans('doctor::doctor.patients.gender')"
-                                            :placeholder="trans('doctor::doctor.patients.gender')"
-                                            id="create_gender"
-                                            name="gender"
-                                            required="required"
-                                            model="create_gender"
-                                            :options="Gender::getAllEnumValuesKeysLabel()"
-                                            value="{{old('gender')}}">
-
-                            </x-core::select>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <x-core::select :label="trans('doctor::doctor.doctor.medicalSpecialtyId')"
-                                            :placeholder="trans('doctor::doctor.doctor.medicalSpecialtyId')"
-                                            id="create_medicalSpecialtyId"
-                                            name="medicalSpecialtyId"
-                                            required="required"
-                                            model="create_medicalSpecialtyId"
-                                            :options="$medicalSpecialty"
-                                            value="{{old('medicalSpecialtyId')}}">
-
-                            </x-core::select>
-                        </div>
-                        <div class="col-6 mb-3">
                             <x-core::input label="adminmanagement::admin_management.user.create.img" id="create_img"
                                            name="img"
                                            type="file"
-                                           required="required"
+                                           required=""
                                            model="create_img"
                                            value="">
                             </x-core::input>

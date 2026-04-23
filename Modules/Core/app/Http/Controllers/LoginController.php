@@ -73,8 +73,8 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request): bool
     {
-        // Make sure we're using the DOCTOR guard explicitly
-        $ok = Auth::guard('doctor')->attempt(
+        // Admin back-office login uses the "admin" guard.
+        $ok = Auth::guard('admin')->attempt(
             ['email' => $request->email, 'password' => $request->password],
             $request->boolean('remember'),
         );

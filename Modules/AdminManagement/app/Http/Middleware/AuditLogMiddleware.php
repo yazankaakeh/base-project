@@ -2,10 +2,10 @@
 
 namespace Modules\AdminManagement\Http\Middleware;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Closure;
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -39,9 +39,9 @@ class AuditLogMiddleware
             return $next($request);
         }
 
-        /* @var User $user */
+        /** @var Authenticatable&\Illuminate\Database\Eloquent\Model $user */
         $user = Auth::user();
-        if ($user->email) {
+        if ($user && !empty($user->email)) {
             try {
                 // Create audit log using morph relationship
                 $auditLogData = [

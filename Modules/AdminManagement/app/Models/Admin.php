@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AdminManagement\app\Models;
+namespace Modules\AdminManagement\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\AdminManagement\Enums\ActiveAdminEnum;
@@ -47,6 +47,7 @@ class Admin extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'img',
         'is_active',

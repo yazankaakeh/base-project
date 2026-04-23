@@ -2,12 +2,13 @@
     "Core": true,
     "Theme": true,
     "Blog": true,
-    "Doctor": true,
+    "Doctor": false,
     "Notification": true,
     "AdminManagement": true,
     "Seo": true,
     "CMS": true,
     "Website": true,
     "Auth": true,
-    "MCP": true
+    "MCP": true,
+    "AiChat": true
 }

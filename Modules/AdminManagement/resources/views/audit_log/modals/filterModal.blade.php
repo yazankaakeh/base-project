@@ -1,8 +1,9 @@
 @php
 
-    /* @var Admin $doctors */
-    use Modules\AdminManagement\Action\Auditing\RouteName;use Modules\AdminManagement\app\Models\Admin;use Modules\AdminManagement\Models\AuditLog;
-    $doctors = AuditLog::GetDoctors();
+    use Modules\AdminManagement\Action\Auditing\RouteName;
+    use Modules\AdminManagement\Models\AuditLog;
+
+    $admins = AuditLog::GetAuditableModels();
 
     $startDate = app('request')->input('start_date');
     $endDate = app('request')->input('end_date');
@@ -27,10 +28,10 @@
                         <x-core::select
                             :label="trans('adminmanagement::admin_management.audits.filterModal.adminId')"
                             :placeholder="trans('adminmanagement::admin_management.pleaseSelectOne')"
-                            id="doctorId"
-                            name="doctorId"
-                            :options="$doctors->pluck('name', 'id')->prepend(trans('adminmanagement::admin_management.pleaseSelectOne'), 'all')"
-                            :value="app('request')->input('doctorId')">
+                            id="adminId"
+                            name="adminId"
+                            :options="$admins->pluck('name', 'id')->prepend(trans('adminmanagement::admin_management.pleaseSelectOne'), 'all')"
+                            :value="app('request')->input('adminId')">
                         </x-core::select>
                     </div>
                 </div>

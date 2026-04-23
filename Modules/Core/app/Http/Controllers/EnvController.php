@@ -183,7 +183,7 @@ class EnvController extends Controller
                 $notificationData,
                 true, // vibrate
                 'default', // sound
-                ['url' => route('doctor.dashboard')] // click action
+                ['url' => route('admin.dashboard')] // click action
             );
 
             return response()->json([

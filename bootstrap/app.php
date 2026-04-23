@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Modules\AdminManagement\Http\Middleware\AdminEnabled;
+use Modules\AdminManagement\Http\Middleware\AdminMenu;
 use Modules\AdminManagement\Http\Middleware\AuditLogMiddleware;
 use Modules\AdminManagement\Http\Middleware\Authenticate;
 use Modules\AdminManagement\Http\Middleware\RedirectIfAuthenticated;
@@ -11,7 +12,6 @@ use Modules\Core\App\Http\Middleware\AdminPermissionsMiddleware;
 use Modules\Core\app\Http\Middleware\ComingSoon;
 use Modules\Core\App\Http\Middleware\SetApiLocale;
 use Modules\Core\App\Http\Middleware\SetLocale;
-use Modules\Doctor\Http\Middleware\DoctorMenu;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'doctor' => Authenticate::class,
+            'admin-auth' => Authenticate::class,
             'guest' => RedirectIfAuthenticated::class,
             'admin-enabled' => AdminEnabled::class,
             'audit' => AuditLogMiddleware::class,
@@ -29,7 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'setLocale' => SetLocale::class,
             'setApiLocale' => SetApiLocale::class,
             'coming_soon' => ComingSoon::class,
-            'doctorMenu' => DoctorMenu::class,
+            'adminMenu' => AdminMenu::class,
         ]);
         $middleware->append([
 

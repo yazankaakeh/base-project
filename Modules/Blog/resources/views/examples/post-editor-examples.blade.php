@@ -51,7 +51,7 @@
                             <h5>1. Full Featured Post Editor</h5>
                             <p class="text-muted">Complete post editor with all features including SEO, tags, related posts, etc.</p>
 
-                            <form action="{{ route('doctor.posts.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 @include('blog::components.tinymce-post-editor', [
@@ -85,7 +85,7 @@
                             <h5>2. Quick Post Editor</h5>
                             <p class="text-muted">Simplified editor for quick post creation with minimal features.</p>
 
-                            <form action="{{ route('doctor.posts.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 @include('blog::components.quick-post-editor', [
@@ -111,7 +111,7 @@
                             <h5>3. Minimal Editor</h5>
                             <p class="text-muted">Basic editor with just title and content fields.</p>
 
-                            <form action="{{ route('doctor.posts.store') }}" method="POST">
+                            <form action="{{ route('admin.posts.store') }}" method="POST">
                                 @csrf
 
                                 @include('blog::components.quick-post-editor', [
@@ -148,7 +148,7 @@
                                 ];
                             @endphp
 
-                            <form action="{{ route('doctor.posts.update', 1) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin.posts.update', 1) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 

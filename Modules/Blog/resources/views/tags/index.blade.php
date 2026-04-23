@@ -103,7 +103,7 @@ $page = 'sales-dashboard'; ?>
                                                                     data-tag-name="{{ json_encode($tag->getTranslations('name')) }}">
                                                                 <i class="ti tabler-edit"></i>
                                                             </button>
-                                                            <form action="{{ route('doctor.tags.destroy', $tag->id) }}" method="POST"
+                                                            <form action="{{ route('admin.tags.destroy', $tag->id) }}" method="POST"
                                                                   style="display: inline;" onsubmit="return confirm('Are you sure?')">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -139,7 +139,7 @@ $page = 'sales-dashboard'; ?>
     <div class="modal fade" id="createTagModal" tabindex="-1" aria-labelledby="createTagModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('doctor.tags.store') }}" method="POST">
+                <form action="{{ route('admin.tags.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="createTagModalLabel">{{ trans('blog::blog.tag.create') }}</h5>
@@ -208,7 +208,7 @@ $page = 'sales-dashboard'; ?>
             const tagNames = button.data('tag-name');
 
             const modal = $(this);
-            modal.find('#editTagForm').attr('action', '{{ route("doctor.tags.update", ":id") }}'.replace(':id', tagId));
+            modal.find('#editTagForm').attr('action', '{{ route("admin.tags.update", ":id") }}'.replace(':id', tagId));
 
             // Populate form fields
             @foreach(LanguageEnum::values() as $lang)

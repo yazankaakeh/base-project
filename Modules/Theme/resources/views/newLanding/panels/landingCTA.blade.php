@@ -1,33 +1,32 @@
 @php
     $cta = $sections['cta'] ?? [];
-    $ctaTitle = $cta['title'][$locale] ?? 'Ready to Get Started?';
-    $ctaSubtitle = $cta['subtitle'][$locale] ?? 'Start your project with a 14-day free trial';
-    $ctaButtonText = $cta['button_text'][$locale] ?? 'Get Started';
-    $ctaButtonUrl = $cta['button_url'] ?? '/register';
+    $ctaTitle    = $cta['title'][$locale]       ?? __('Ready to build something great?');
+    $ctaSubtitle = $cta['subtitle'][$locale]    ?? __('Share a few lines about your product and we will come back with a realistic plan — no heavy sales process.');
+    $ctaButtonText = $cta['button_text'][$locale] ?? __('Start a Project');
+    $ctaButtonUrl  = $cta['button_url']           ?? '#contactUs';
 @endphp
 
-<!-- CTA: Start -->
-<section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
-    <img
-        src="{{ asset('assets/img/front-pages/backgrounds/cta-bg-' . $configData['theme'] . '.png') }}"
-        class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1"
-        alt="cta image"
-        data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
-        data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
-    <div class="container">
-        <div class="row align-items-center gy-5 gy-lg-0">
-            <div class="col-lg-6 text-center text-lg-start">
-                <h6 class="h2 text-primary fw-bold mb-1">{{ $ctaTitle }}</h6>
-                <p class="fw-medium mb-4">{{ $ctaSubtitle }}</p>
-                <a href="{{ $ctaButtonUrl }}" class="btn btn-lg btn-primary">{{ $ctaButtonText }}</a>
-            </div>
-            <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
-                <img
-                    src="{{ asset('assets/img/front-pages/landing-page/cta-dashboard.png') }}"
-                    alt="cta dashboard"
-                    class="img-fluid" />
+<section id="landingCTA" class="codliy-section position-relative">
+    <div class="container position-relative">
+        <div class="codliy-card p-4 p-lg-5 overflow-hidden position-relative"
+             style="background:linear-gradient(135deg, rgba(0,86,248,0.22) 0%, rgba(10,31,77,0.4) 100%)">
+            {{-- decorative grid --}}
+            <div class="position-absolute"
+                 style="inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);background-size:24px 24px;opacity:.6"></div>
+
+            <div class="row align-items-center gy-4 position-relative" style="z-index:2">
+                <div class="col-lg-8 text-center text-lg-start">
+                    <div class="codliy-card__eyebrow mb-2">CALL TO ACTION</div>
+                    <h3 class="codliy-section__title mb-2" style="font-size:2rem">{{ $ctaTitle }}</h3>
+                    <p class="codliy-card__body mb-4 mb-lg-0" style="max-width:620px">{{ $ctaSubtitle }}</p>
+                </div>
+                <div class="col-lg-4 text-center text-lg-end">
+                    <a href="{{ $ctaButtonUrl }}" class="btn-codliy px-4 py-2">
+                        {{ $ctaButtonText }}
+                        <i class="ti tabler-arrow-right ms-2"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
-<!-- CTA: End -->

@@ -36,7 +36,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $this->posts->store($request);
-        return redirect()->route('doctor.posts.index')->with('success', trans('core::core.env.save'));
+        return redirect()->route('admin.posts.index')->with('success', trans('core::core.env.save'));
     }
 
     /**
@@ -64,7 +64,7 @@ class PostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $this->posts->update($id, $request);
-        return redirect()->route('doctor.posts.index')->with('success', trans('core::core.env.save'));
+        return redirect()->route('admin.posts.index')->with('success', trans('core::core.env.save'));
     }
 
     /**
@@ -73,7 +73,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $this->posts->destroy($id);
-        return redirect()->route('doctor.posts.index')->with('success', trans('core::core.env.save'));
+        return redirect()->route('admin.posts.index')->with('success', trans('core::core.env.save'));
     }
 
     /**

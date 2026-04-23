@@ -2,15 +2,15 @@
 
 return [
   'blog' => [
-    'title' => 'Kullanım Talimatları',
-    'text' => '"Deneyiminizi zenginleştirecek bazı makaleler burada; Tagiy akıllı kartınızı profesyonel şekilde kurup kullanmanıza yardımcı olacak talimatları keşfedeceksiniz."',
+    'title' => 'Codliy blogundan',
+    'text' => '"Web, mobil, bulut ve yapay zekâ alanlarında gerçek yazılım geliştirirken edindiğimiz mühendislik notları, vaka analizleri ve pratik çıkarımlar."',
     'first' => [
-      'text1' => 'NFC Kart Nasıl Oluşturulur',
-      'text2' => 'HiHello ile NFC dijital kartvizit nasıl oluşturulur',
+      'text1' => 'Ölçekte Laravel ile yayına almak',
+      'text2' => 'Ekip ve kod tabanı büyüdükçe sürdürülebilir kalan Laravel uygulamalarını nasıl yapılandırıyoruz.',
     ],
     'second' => [
-      'text1' => 'Dijital kart nasıl oluşturulur',
-      'text2' => 'Modern ve benzersiz bir dijital kart nasıl oluşturulur',
+      'text1' => 'Reklamsız RAG',
+      'text2' => 'LLM\'leri üretim özelliklerine gömerken gerçekte neyin işe yaradığına pragmatik bir bakış.',
     ],
     'readMore' => 'Devamını Oku',
   ],

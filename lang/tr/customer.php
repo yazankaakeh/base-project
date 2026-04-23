@@ -5,10 +5,10 @@ use App\Enum\UserStatusEnum;
 
 return [
     'underMaintenance' => [
-        'title' => 'Kart aktif değil 🚧',
-        'desc' => 'Görünüşe göre bu kart şu anda kullanım dışı! <br>
-Erişmeye çalıştığınız Tagiy kartı ya devre dışı bırakılmış ya da sahibi tarafından henüz etkinleştirilmemiş.<br> Yine de Tagiy\'e katılabilir ve kendi akıllı kartınızı oluşturmaya bugün başlayabilirsiniz.',
-        'btn' => 'Tagiy\'e Katıl',
+        'title' => 'Sayfa kullanılamıyor 🚧',
+        'desc' => 'Bu sayfa sahibi tarafından geçici olarak devre dışı bırakıldı. <br>
+Lütfen daha sonra tekrar deneyin veya yardıma ihtiyacınız varsa Codliy ekibiyle iletişime geçin.',
+        'btn' => 'Codliy ile İletişim',
     ],
     'enum' => [
         /*'ActiveCardEnum' => [
@@ -86,7 +86,7 @@ Erişmeye çalıştığınız Tagiy kartı ya devre dışı bırakılmış ya da
     ],
     'card' => [
         'doneText' => '🎉 Tamamlandı!',
-        'doneDescription' => 'Bilgileriniz başarıyla kaydedildi. 🎉 Tagiy\'e hoş geldiniz!',
+        'doneDescription' => 'Bilgileriniz başarıyla kaydedildi. 🎉 Codliy\'e hoş geldiniz!',
         'addProfile' => 'Profil Ekle',
         'addMore' => 'Daha Fazla Ekle',
         'saveContact' => 'Kişiyi Kaydet',
@@ -118,10 +118,10 @@ Erişmeye çalıştığınız Tagiy kartı ya devre dışı bırakılmış ya da
         'share_my_contact' => 'Kişimi Paylaş',
         'contactSavedSuccessfully' => 'Başarıyla Kaydedildi 🎉',
         'link' => '<a href=":link">link</a>',
-        'shareDataFooter' => 'Tagiy verilerinizi satmaz veya paylaşmaz',
-        'joinTagiyTitle' => 'Henüz Tagiy kullanmıyor musunuz?',
-        'joinTagiyDesc' => 'Sınırsız teknolojiyle desteklenen akıllı bağlantılarla akıllı iletişim ağını keşfedin.',
-        'joinTagiyBtn' => 'Tagiy\'e Katıl',
+        'shareDataFooter' => 'Codliy verilerinizi satmaz veya paylaşmaz',
+        'joinCodliyTitle' => 'Bunun gibi bir yazılım yaptırmak ister misiniz?',
+        'joinCodliyDesc' => 'Codliy; zanaate değer veren ekipler için özel web, mobil ve yapay zekâ ürünleri geliştirir.',
+        'joinCodliyBtn' => 'Codliy ile Konuş',
     ],
     'account' => [
         'customerID' => 'Müşteri ID',

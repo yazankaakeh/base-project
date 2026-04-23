@@ -88,6 +88,7 @@ return [
         'logo_dark' => 'شعار الوضع الداكن',
         'favicon' => 'الأيقونة المفضلة',
         'advanced' => 'متقدم',
+        'ai_assistant' => 'المساعد الذكي',
         'custom_css' => 'CSS مخصص',
         'preview' => 'معاينة',
         'save_changes' => 'حفظ التغييرات',

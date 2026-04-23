@@ -1,7 +1,7 @@
 <?php
 
-use Modules\Doctor\Models\Doctor;
-use Modules\Doctor\Models\Patient;
+use App\Models\User;
+use Modules\AdminManagement\Models\Admin;
 
 return [
 
@@ -9,11 +9,6 @@ return [
     |--------------------------------------------------------------------------
     | Authentication Defaults
     |--------------------------------------------------------------------------
-    |
-    | This option defines the default authentication "guard" and password
-    | reset "broker" for your application. You may change these values
-    | as required, but they're a perfect start for most applications.
-    |
     */
 
     'defaults' => [
@@ -26,26 +21,23 @@ return [
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | Next, you may define every authentication guard for your application.
-    | Of course, a great default configuration has been defined for you
-    | which utilizes session storage plus the Eloquent user provider.
+    | Codliy uses two first-party guards:
+    |  - web:   session-based guard for public/front-end users (App\Models\User).
+    |  - admin: session-based guard for back-office administrators
+    |           (Modules\AdminManagement\Models\Admin).
     |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
-    |
-    | Supported: "session"
-    |
+    | The legacy "doctor" guard has been removed together with the Doctor
+    | module. Any residual references should be migrated to "admin".
     */
 
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'patients',
+            'provider' => 'users',
         ],
-        'doctor' => [
+        'admin' => [
             'driver' => 'session',
-            'provider' => 'doctors',
+            'provider' => 'admins',
         ],
         'api' => [
             'driver' => 'passport',
@@ -57,62 +49,34 @@ return [
     |--------------------------------------------------------------------------
     | User Providers
     |--------------------------------------------------------------------------
-    |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
-    |
-    | If you have multiple user tables or models you may configure multiple
-    | providers to represent the model / table. These providers may then
-    | be assigned to any extra authentication guards you have defined.
-    |
-    | Supported: "database", "eloquent"
-    |
     */
 
     'providers' => [
-        'patients' => [
+        'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Patient::class),
+            'model' => env('AUTH_MODEL', User::class),
         ],
-        'doctors' => [
+        'admins' => [
             'driver' => 'eloquent',
-            'model' => Doctor::class,
+            'model' => Admin::class,
         ],
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
     |--------------------------------------------------------------------------
-    |
-    | These configuration options specify the behavior of Laravel's password
-    | reset functionality, including the table utilized for token storage
-    | and the user provider that is invoked to actually retrieve users.
-    |
-    | The expiry time is the number of minutes that each reset token will be
-    | considered valid. This security feature keeps tokens short-lived so
-    | they have less time to be guessed. You may change this as needed.
-    |
-    | The throttle setting is the number of seconds a user must wait before
-    | generating more password reset tokens. This prevents the user from
-    | quickly generating a very large amount of password reset tokens.
-    |
     */
 
     'passwords' => [
-        'patients' => [
-            'provider' => 'patients',
+        'users' => [
+            'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
         ],
-        'doctors' => [
-            'provider' => 'doctors',
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
@@ -123,11 +87,6 @@ return [
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
-    |
-    | Here you may define the amount of seconds before a password confirmation
-    | window expires and users are asked to re-enter their password via the
-    | confirmation screen. By default, the timeout lasts for three hours.
-    |
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),

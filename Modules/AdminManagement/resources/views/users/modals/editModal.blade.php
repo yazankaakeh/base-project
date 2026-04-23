@@ -1,4 +1,3 @@
-@php use Modules\Core\App\Enums\Gender; @endphp
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-toggle="modal" data-backdrop="static"
      data-keyboard="false">
     <div class="modal-dialog" role="document">
@@ -42,30 +41,6 @@
                             </x-core::input>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::input label="adminmanagement::admin_management.user.create.email"
-                                           placeholder="adminmanagement::admin_management.user.create.email"
-                                           id="email"
-                                           name="email"
-                                           type="email"
-                                           required="required"
-                                           model="email"
-                                           value="{{old('email')}}">
-
-                            </x-core::input>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <x-core::input label="doctor::doctor.patients.age"
-                                           placeholder="doctor::doctor.patients.age"
-                                           id="age"
-                                           name="age"
-                                           type="number"
-                                           required="required"
-                                           model="age"
-                                           value="{{old('age')}}">
-
-                            </x-core::input>
-                        </div>
-                        <div class="col-6 mb-3">
                             <x-core::select :label="trans('adminmanagement::admin_management.user.create.role')"
                                             :placeholder="trans('adminmanagement::admin_management.user.create.role')"
                                             id="role"
@@ -78,30 +53,6 @@
                             </x-core::select>
                         </div>
                         <div class="col-6 mb-3">
-                            <x-core::select :label="trans('doctor::doctor.doctor.medicalSpecialtyId')"
-                                            :placeholder="trans('doctor::doctor.doctor.medicalSpecialtyId')"
-                                            id="medicalSpecialtyId"
-                                            name="medicalSpecialtyId"
-                                            required="required"
-                                            model="medicalSpecialtyId"
-                                            :options="$medicalSpecialty"
-                                            value="{{old('medicalSpecialtyId')}}">
-
-                            </x-core::select>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <x-core::select :label="trans('doctor::doctor.patients.gender')"
-                                            :placeholder="trans('doctor::doctor.patients.gender')"
-                                            id="gender"
-                                            name="gender"
-                                            required="required"
-                                            model="gender"
-                                            :options="Gender::getAllEnumValuesKeysLabel()"
-                                            value="{{old('gender')}}">
-
-                            </x-core::select>
-                        </div>
-                        <div class="col-6 mb-3">
                             <x-core::input label="adminmanagement::admin_management.user.create.password"
                                            placeholder="adminmanagement::admin_management.user.create.password"
                                            id="password"
@@ -109,19 +60,19 @@
                                            type="password"
                                            required=""
                                            model="password"
-                                           value="{{old('password')}}">
+                                           value="">
 
                             </x-core::input>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 mb-3">
                             <x-core::input label="adminmanagement::admin_management.user.create.password_confirmation"
                                            placeholder="adminmanagement::admin_management.user.create.password_confirmation"
                                            id="password_confirmation"
                                            name="password_confirmation"
-                                           type="password_confirmation"
+                                           type="password"
                                            required=""
                                            model="password_confirmation"
-                                           value="{{old('password_confirmation')}}">
+                                           value="">
 
                             </x-core::input>
                         </div>
@@ -171,9 +122,6 @@
 </div>
 <script>
     $(document).ready(function () {
-        // Your modal HTML structure here
-
-        // Your button click event
         $('.EditModalBTN').on('click', function () {
             let dataId = $(this).data('id');
             let name = $(this).data('name');
@@ -181,13 +129,12 @@
             let img = $(this).data('img');
             let active = $(this).data('active');
             let role = $(this).data('role');
-            // If you want to get the input value as well
             $('#editModal #editeId').val(dataId);
             $('#editModal #name').val(name);
             $('#editModal #email').val(email);
-            $('#editModal #img_src').attr('src', img);
-            $('#editModal #active').prop('checked', active);
-            $('#editModal #role').val(role);
+            $('#editModal #img_src').attr('src', img ? '/storage/' + img : '/codliy/images/avatar-fallback.png');
+            $('#editModal #editIsActive').prop('checked', active == 1);
+            $('#editModal #role').val(role).trigger('change');
         });
     });
 </script>

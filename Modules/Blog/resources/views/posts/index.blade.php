@@ -57,9 +57,9 @@ $page = 'sales-dashboard'; ?>
                         <div class="card-header d-flex justify-content-between pb-2 mb-1">
                             <h5 class="">{{ trans('blog::blog.post.main_title') }}</h5>
                             <h5 class="">
-                                <a href="{{ route('doctor.posts.create') }}" class="btn btn-primary">
+                                <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">
                                     <i class="ti tabler-plus icon-base me-1"></i>
-                                    {{ trans('doctor::doctor.create') }}
+                                    {{ trans('core::core.add') }}
                                 </a>
                             </h5>
                         </div>
@@ -69,7 +69,7 @@ $page = 'sales-dashboard'; ?>
                                     <table class="table datanew">
                                         <thead>
                                         <tr>
-                                            <th>{{ trans('doctor::doctor.id') }}</th>
+                                            <th>{{ 'ID' }}</th>
                                             <th>{{ trans('blog::blog.post.title') }}</th>
                                             <th>{{ trans('blog::blog.post.image') }}</th>
                                             <th>{{ trans('admin.audits.action') }}</th>
@@ -89,10 +89,10 @@ $page = 'sales-dashboard'; ?>
                                                 </td>
                                                 <td class="action-table-data">
                                                     <div class="edit-delete-action d-flex">
-                                                        <a href="{{ route('doctor.posts.edit', $post->id) }}" class="me-2 btn btn-outline-primary text-primary p-2 btn-sm">
+                                                        <a href="{{ route('admin.posts.edit', $post->id) }}" class="me-2 btn btn-outline-primary text-primary p-2 btn-sm">
                                                             <i data-feather="edit" class="ti tabler-edit icon-base"></i>
                                                         </a>
-                                                        <form action="{{ route('doctor.posts.destroy', $post->id) }}" method="post" onsubmit="return confirm('Are you sure?')">
+                                                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="post" onsubmit="return confirm('Are you sure?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-outline-danger text-danger p-2 btn-sm">

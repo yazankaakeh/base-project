@@ -46,7 +46,7 @@ use Modules\Blog\Enums\PostTypeEnum;
                     <div class="card-header d-flex justify-content-between pb-2 mb-1">
                         <h5 class="">{{ trans('blog::blog.post.create') }}</h5>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('doctor.posts.index') }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('admin.posts.index') }}" class="btn btn-outline-secondary">
                                 <i class="ti tabler-arrow-left me-1"></i>
                                 {{ trans('core::core.env.back') }}
                             </a>
@@ -54,7 +54,7 @@ use Modules\Blog\Enums\PostTypeEnum;
                     </div>
                     <div class="card-body">
                         <div class="card-content">
-                            <form action="{{ route('doctor.posts.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 @include('blog::components.tinymce-post-editor', [

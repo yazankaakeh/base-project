@@ -128,6 +128,7 @@ return [
         'logo_dark' => 'Karanlık Mod Logosu',
         'favicon' => 'Favicon',
         'advanced' => 'Gelişmiş',
+        'ai_assistant' => 'AI Asistanı',
         'custom_css' => 'Özel CSS',
         'preview' => 'Önizleme',
         'save_changes' => 'Değişiklikleri Kaydet',

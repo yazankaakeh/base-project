@@ -59,7 +59,7 @@ $page = 'sales-dashboard';
                                     </div>
                                 @endif
 
-                                <form action="{{ route('doctor.env.update') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.env.update') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('POST')
 
@@ -259,7 +259,7 @@ $page = 'sales-dashboard';
 
                                 <!-- Test Email Section -->
                                 <hr class="my-4">
-                                <form action="{{ route('doctor.env.sendTestEmail') }}" method="POST">
+                                <form action="{{ route('admin.env.sendTestEmail') }}" method="POST">
                                     @csrf
                                     @method('POST')
                                     <div class="row">
@@ -382,7 +382,7 @@ $page = 'sales-dashboard';
         const form = document.getElementById('pushTokenForm');
         const formData = new FormData(form);
 
-        fetch('{{ route("doctor.firebase.saveToken") }}', {
+        fetch('{{ route("admin.firebase.saveToken") }}', {
             method: 'POST',
             body: formData,
             headers: {
@@ -409,7 +409,7 @@ $page = 'sales-dashboard';
         const form = document.getElementById('testNotificationForm');
         const formData = new FormData(form);
 
-        fetch('{{ route("doctor.firebase.sendTestNotification") }}', {
+        fetch('{{ route("admin.firebase.sendTestNotification") }}', {
             method: 'POST',
             body: formData,
             headers: {

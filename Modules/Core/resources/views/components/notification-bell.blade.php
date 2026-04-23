@@ -54,7 +54,7 @@
             </div>
 
             <div class="dropdown-footer">
-                <a href="{{ route('doctor.notifications.index') }}" class="btn btn-primary text-nowrap w-100">
+                <a href="{{ route('admin.notifications.index') }}" class="btn btn-primary text-nowrap w-100">
                     {{ trans('core::core.notifications.viewAll') }}
                 </a>
             </div>

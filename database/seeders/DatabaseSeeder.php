@@ -4,12 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\AdminManagement\database\seeders\AdminManagementDatabaseSeeder;
+use Modules\Blog\Database\Seeders\BlogDatabaseSeeder;
 use Modules\CMS\Database\Seeders\CMSDatabaseSeeder;
 use Modules\Core\Database\Seeders\CoreDatabaseSeeder;
-use Modules\Doctor\Database\Seeders\DoctorDatabaseSeeder;
 use Modules\Seo\Database\Seeders\SeoDatabaseSeeder;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +20,7 @@ class DatabaseSeeder extends Seeder
             AdminManagementDatabaseSeeder::class,
             CoreDatabaseSeeder::class,
             CMSDatabaseSeeder::class,
-            DoctorDatabaseSeeder::class,
+            BlogDatabaseSeeder::class,
             SeoDatabaseSeeder::class,
         ]);
     }

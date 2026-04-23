@@ -12,12 +12,17 @@
 @section('vendor-style')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
+        /*
+         * Alias the legacy --theme-* tokens used throughout this file to the
+         * admin-driven Codliy / Bootstrap palette. Admin changes to the
+         * primary color from Theme Settings now flow through here too.
+         */
         :root {
-            --theme-primary: #1EAAE7;
-            --theme-primary-dark: #1890c7;
-            --theme-secondary: #092C4C;
-            --theme-accent: #ff8510;
-            --theme-accent-light: #ff9f43;
+            --theme-primary: var(--codliy-primary, var(--bs-primary, #0056F8));
+            --theme-primary-dark: var(--codliy-primary, var(--bs-primary, #0056F8));
+            --theme-secondary: var(--codliy-bg-deep, #0A1F4D);
+            --theme-accent: var(--codliy-accent, var(--bs-info, #3B82F6));
+            --theme-accent-light: var(--codliy-accent, var(--bs-info, #3B82F6));
         }
 
         .portfolio-hero {
@@ -54,7 +59,7 @@
             border-radius: 1rem;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(9, 44, 76, 0.15);
-            border: 3px solid rgba(30, 170, 231, 0.1);
+            border: 3px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.1);
         }
 
         .gallery-main-swiper .swiper-slide img {
@@ -113,8 +118,8 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(255, 133, 16, 0.2);
-            border: 2px solid rgba(255, 133, 16, 0.3);
+            background: rgba(var(--codliy-accent-rgb, 59, 130, 246), 0.2);
+            border: 2px solid rgba(var(--codliy-accent-rgb, 59, 130, 246), 0.3);
             color: white;
             font-size: 24px;
             cursor: pointer;
@@ -135,8 +140,8 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: rgba(30, 170, 231, 0.2);
-            border: 2px solid rgba(30, 170, 231, 0.3);
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.2);
+            border: 2px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.3);
             color: white;
             font-size: 28px;
             cursor: pointer;
@@ -180,7 +185,7 @@
             background: var(--theme-secondary);
             padding: 8px 20px;
             border-radius: 20px;
-            border: 1px solid rgba(30, 170, 231, 0.3);
+            border: 1px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.3);
         }
 
         .lightbox-caption {
@@ -234,7 +239,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0.75rem 1rem;
-            background: rgba(30, 170, 231, 0.08);
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.08);
             border-radius: 0.5rem;
             margin-bottom: 0.5rem;
             transition: all 0.3s ease;
@@ -246,7 +251,7 @@
             color: white;
             transform: translateX(5px);
             border-color: var(--theme-accent);
-            box-shadow: 0 4px 15px rgba(255, 133, 16, 0.3);
+            box-shadow: 0 4px 15px rgba(var(--codliy-accent-rgb, 59, 130, 246), 0.3);
         }
 
         .feature-item:hover .feature-icon {
@@ -299,7 +304,7 @@
 
         .related-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(30, 170, 231, 0.2);
+            box-shadow: 0 20px 40px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.2);
         }
 
         .related-card img {
@@ -334,8 +339,8 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: rgba(30, 170, 231, 0.1);
-            border: 1px solid rgba(30, 170, 231, 0.2);
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.1);
+            border: 1px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.2);
             border-radius: 2rem;
             font-size: 0.875rem;
             font-weight: 500;
@@ -348,7 +353,7 @@
             border-color: var(--theme-primary);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(30, 170, 231, 0.3);
+            box-shadow: 0 4px 12px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.3);
         }
 
         /* Card Enhancements */
@@ -374,7 +379,7 @@
             background: var(--theme-primary-dark) !important;
             border-color: var(--theme-primary-dark) !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 170, 231, 0.4);
+            box-shadow: 0 4px 15px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.4);
         }
 
         /* Badge Styles */
@@ -383,7 +388,7 @@
         }
 
         .bg-label-primary {
-            background: rgba(30, 170, 231, 0.12) !important;
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.12) !important;
             color: var(--theme-primary) !important;
         }
 
@@ -457,8 +462,8 @@
         }
 
         .hero-stat-pill:hover {
-            background: rgba(30, 170, 231, 0.4);
-            border-color: rgba(30, 170, 231, 0.5);
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.4);
+            border-color: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.5);
             transform: translateY(-2px);
         }
 

@@ -34,10 +34,53 @@ class UpdateThemeSettingsAction
         $themeSetting->dark_danger_color = $request->input('dark_danger_color');
 
         // Update typography
-        $themeSetting->font_family = $request->input('font_family');
+        // If user typed a custom family (or picked "__custom__"), prefer the custom field.
+        $fontFamilyPick = trim((string) $request->input('font_family', ''));
+        $fontFamilyCustom = trim((string) $request->input('font_family_custom', ''));
+        if ($fontFamilyCustom !== '' || $fontFamilyPick === '__custom__') {
+            $themeSetting->font_family = $fontFamilyCustom !== '' ? $fontFamilyCustom : $themeSetting->font_family;
+        } else {
+            $themeSetting->font_family = $fontFamilyPick;
+        }
+
+        $headingsFamilyPick = trim((string) $request->input('headings_font_family', ''));
+        $headingsFamilyCustom = trim((string) $request->input('headings_font_family_custom', ''));
+        if ($headingsFamilyCustom !== '' || $headingsFamilyPick === '__custom__') {
+            $themeSetting->headings_font_family = $headingsFamilyCustom !== '' ? $headingsFamilyCustom : $themeSetting->headings_font_family;
+        } else {
+            $themeSetting->headings_font_family = $headingsFamilyPick !== '' ? $headingsFamilyPick : null;
+        }
+
         $themeSetting->font_size_base = $request->input('font_size_base');
-        $themeSetting->headings_font_family = $request->input('headings_font_family');
         $themeSetting->headings_font_weight = $request->input('headings_font_weight');
+
+        // Merge Google Fonts URLs into custom_css_variables JSON so the runtime
+        // layout (styles.blade.php / stylesFront.blade.php) can load them.
+        $ccv = is_array($themeSetting->custom_css_variables) ? $themeSetting->custom_css_variables : [];
+
+        $primaryFontUrl = trim((string) $request->input('google_font_url', ''));
+        if ($primaryFontUrl !== '') {
+            $ccv['google_font_url'] = $primaryFontUrl;
+        } else {
+            unset($ccv['google_font_url']);
+        }
+
+        $extraUrlsRaw = (string) $request->input('google_font_urls', '');
+        if ($extraUrlsRaw !== '') {
+            $extraUrls = array_values(array_filter(array_map(
+                fn ($line) => trim($line),
+                preg_split('/\r\n|\r|\n/', $extraUrlsRaw) ?: []
+            ), fn ($line) => $line !== '' && filter_var($line, FILTER_VALIDATE_URL)));
+            if (!empty($extraUrls)) {
+                $ccv['google_font_urls'] = $extraUrls;
+            } else {
+                unset($ccv['google_font_urls']);
+            }
+        } else {
+            unset($ccv['google_font_urls']);
+        }
+
+        $themeSetting->custom_css_variables = $ccv;
 
         // Update light mode layout
         $themeSetting->body_bg = $request->input('body_bg');
@@ -58,6 +101,15 @@ class UpdateThemeSettingsAction
 
         if ($request->filled('dark_custom_css')) {
             $themeSetting->dark_custom_css = $request->input('dark_custom_css');
+        }
+
+        // AI Assistant configuration (only persisted for the website scope;
+        // admin scope rows stay untouched so they don't fight website settings).
+        if ($scope === 'website') {
+            $themeSetting->ai_enabled = (bool) $request->input('ai_enabled', false);
+            $themeSetting->ai_provider = $request->input('ai_provider') ?: null;
+            $themeSetting->ai_model = $request->input('ai_model') ?: null;
+            $themeSetting->ai_system_prompt = $request->input('ai_system_prompt') ?: null;
         }
 
         $themeSetting->save();

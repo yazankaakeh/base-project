@@ -81,7 +81,7 @@
                                             <tr class="intro-x ">
                                                 <td>
                                                     <a href="#" class="font-medium whitespace-nowrap">
-                                                        {{ $audit->doctor?->name }}
+                                                        {{ $audit->admin?->name }}
                                                     </a>
                                                 </td>
                                                 <td>

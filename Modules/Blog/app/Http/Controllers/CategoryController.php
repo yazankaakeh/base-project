@@ -52,7 +52,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         $this->categories->update($id, $request);
-        return redirect()->route('doctor.categories.index')->with('success', trans('core::core.env.save'));
+        return redirect()->route('admin.categories.index')->with('success', trans('core::core.env.save'));
     }
 
     /**
@@ -61,7 +61,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $this->categories->destroy($id);
-        return redirect()->route('doctor.categories.index')->with('success', trans('core::core.env.save'));
+        return redirect()->route('admin.categories.index')->with('success', trans('core::core.env.save'));
     }
 
 
@@ -71,6 +71,6 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $this->categories->store($request);
-        return redirect()->route('doctor.categories.index')->with('success', trans('core::core.env.save'));
+        return redirect()->route('admin.categories.index')->with('success', trans('core::core.env.save'));
     }
 }

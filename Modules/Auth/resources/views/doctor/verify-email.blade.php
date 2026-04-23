@@ -26,7 +26,7 @@
                             </div>
                         @endif
 
-                        <form class="d-inline" method="POST" action="{{ route('doctor.verification.resend') }}">
+                        <form class="d-inline" method="POST" action="{{ route('admin.verification.resend') }}">
                             @csrf
                             <button type="submit" class="btn btn-primary d-grid w-100 mb-3">
                                 {{ trans('auth::auth.request_another') }}
@@ -34,7 +34,7 @@
                         </form>
 
                         <div class="text-center">
-                            <form method="POST" action="{{ route('doctor.logout') }}">
+                            <form method="POST" action="{{ route('admin.logout') }}">
                                 @csrf
                                 <button type="submit" class="btn btn-link">
                                     {{ trans('auth::auth.logout') }}

@@ -2,11 +2,10 @@
 
 return [
     'underMaintenance' => [
-        'title' => 'البطاقة غير مفعّلة 🚧',
-        'desc' => 'يبدو أن هذه البطاقة تأخذ استراحة! <br>
-بطاقة Tagiy التي تحاول الوصول إليها معطّلة أو لم يتم تفعيلها بعد من قِبل المالك.<br>
-لا يزال بإمكانك الانضمام إلى Tagiy والبدء في إنشاء بطاقتك الذكية اليوم.',
-        'btn' => 'انضم إلى Tagiy',
+        'title' => 'الصفحة غير متاحة 🚧',
+        'desc' => 'هذه الصفحة معطّلة مؤقتًا من قِبل مالكها. <br>
+يرجى المحاولة لاحقًا أو التواصل مع فريق Codliy إذا كنت بحاجة للمساعدة.',
+        'btn' => 'تواصل مع Codliy',
     ],
     'enum' => [
         /*'ActiveCardEnum' => [
@@ -58,16 +57,6 @@ return [
     ],
 
     'sidebar' => [
-        'medicalExaminations' => 'الفحوصات الطبية',
-        'medicalPreviewSettings' => 'إعدادات المعاينة الطبية',
-        'clinic' => 'العيادات',
-        'patients' => 'المرضى',
-        'medicalTest' => 'الفحوصات الطبية',
-        'vitalSign' => 'العلامات الحيوية',
-        'finalDiagnosis' => 'التشخيص النهائي',
-        'dosageForm' => 'شكل الجرعة',
-        'medicine' => 'الأدوية',
-        'medicalSpecialty' => 'التخصصات الطبية',
         'dashboard' => 'لوحة التحكم',
         'contacts' => 'جهات الاتصال',
         'account' => 'الحساب',
@@ -91,7 +80,7 @@ return [
 
     'card' => [
         'doneText' => '🎉 تم!',
-        'doneDescription' => 'تم حفظ معلوماتك بنجاح. أهلاً بك في Tagiy!',
+        'doneDescription' => 'تم حفظ معلوماتك بنجاح. أهلاً بك في Codliy!',
         'addProfile' => 'إضافة ملف شخصي',
         'full_name' => 'الاسم الكامل:',
         'addMore' => 'إضافة المزيد',
@@ -123,10 +112,10 @@ return [
         'share_my_contact' => 'مشاركة بياناتي',
         'contactSavedSuccessfully' => 'تم الحفظ بنجاح 🎉',
         'link' => '<a href=":link">الرابط</a>',
-        'shareDataFooter' => 'Tagiy لا تبيع أو تشارك بياناتك',
-        'joinTagiyTitle' => 'مو مستخدم Tagiy بعد؟',
-        'joinTagiyDesc' => 'اكتشف أسلوب الشبكات الذكية مع اتصالات أذكى مدعومة بتقنيات غير محدودة.',
-        'joinTagiyBtn' => 'انضم إلى Tagiy',
+        'shareDataFooter' => 'Codliy لا تبيع أو تشارك بياناتك',
+        'joinCodliyTitle' => 'تريد أن نبني لك شيئًا مشابهًا؟',
+        'joinCodliyDesc' => 'تبني Codliy منتجات ويب وموبايل وذكاء اصطناعي مخصّصة للفرق التي تهتم بالإتقان.',
+        'joinCodliyBtn' => 'تحدث مع Codliy',
     ],
     'account' => [
         'customerID' => 'معرّف العميل',

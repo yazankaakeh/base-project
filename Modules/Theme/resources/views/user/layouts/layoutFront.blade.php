@@ -14,4 +14,7 @@
     <!-- / Sections:End -->
 
     @includeIf('theme::user/layouts/sections/footer/footer-front')
+
+    {{-- Floating AI chat assistant (self-guards when disabled / misconfigured) --}}
+    @includeIf('aichat::widget')
 @endsection

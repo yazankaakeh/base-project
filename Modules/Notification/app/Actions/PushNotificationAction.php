@@ -6,14 +6,12 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\AdminManagement\app\Models\Admin;
-use Modules\Doctor\Models\Doctor;
-use Modules\Doctor\Models\Patient;
+use Modules\AdminManagement\Models\Admin;
 use Modules\Notification\Models\NotificationPushToken;
 
 class PushNotificationAction
 {
-    public static function action(User|Doctor|Patient|Admin $user, array $data): Model|bool|Builder
+    public static function action(User|Admin|Model $user, array $data): Model|bool|Builder|string
     {
         try {
             return NotificationPushToken::query()->updateOrCreate([

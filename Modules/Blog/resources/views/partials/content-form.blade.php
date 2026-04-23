@@ -29,7 +29,7 @@
                                     :name="($descriptionField ?? 'description') . '[' . $lang . ']'"
                                     :id="($descriptionField ?? 'postContent') . '-' . $lang"
                                     :lang="$lang"
-                                    :uploadRoute="route('doctor.quillUpload.store')"
+                                    :uploadRoute="route('admin.quillUpload.store')"
                                     :value="$isEdit && $model ? $model->getTranslation(str_replace('[{{$lang}}]', '', $descriptionField ?? 'description'), $lang) ?? '' : ''" />
                             </div>
                         </div>

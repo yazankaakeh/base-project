@@ -1,82 +1,36 @@
 @php
-    // Support both dynamic panel data and fallback to static
-    if (isset($panel)) {
-        $statItems = $items ?? collect();
-    } else {
-        $statItems = collect();
-    }
+    $stats = $sections['stats'] ?? [];
+    $statsItems = $stats['items'] ?? [];
 
-    // Color classes for stat cards
-    $colorClasses = ['primary', 'success', 'info', 'warning', 'danger', 'secondary'];
+    if (empty($statsItems)) {
+        $statsItems = [
+            ['value' => '12+', 'icon' => 'ti tabler-code',           'label' => __('Production releases / week')],
+            ['value' => '40+', 'icon' => 'ti tabler-rocket',         'label' => __('Products shipped end-to-end')],
+            ['value' => '99.95%','icon' => 'ti tabler-heartbeat',    'label' => __('Average uptime we operate')],
+            ['value' => '0',   'icon' => 'ti tabler-shield-lock',    'label' => __('Reportable security incidents')],
+        ];
+    }
 @endphp
 
-<!-- Fun facts / Stats: Start -->
-<section id="landingFunFacts" class="section-py landing-fun-facts">
-    <div class="container">
-        <div class="row gy-3">
-            @if($statItems->count() > 0)
-                @foreach($statItems as $index => $stat)
-                    @php
-                        $color = $colorClasses[$index % count($colorClasses)];
-                    @endphp
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card border border-label-{{ $color }} shadow-none">
-                            <div class="card-body text-center">
-                                <div class="mb-2 text-{{ $color }}">
-                                    @if(isset($stat['data']['icon']))
-                                        <i class="{{ $stat['data']['icon'] }}" style="font-size: 48px;"></i>
-                                    @else
-                                        <i class="ti tabler-chart-bar" style="font-size: 48px;"></i>
-                                    @endif
-                                </div>
-                                <h5 class="h2 mb-1">{{ $stat['data']['value'] ?? $stat['title'][$locale] ?? '' }}</h5>
-                                <p class="fw-medium mb-0">
-                                    {!! nl2br(e($stat['content'][$locale] ?? '')) !!}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                {{-- Fallback static stats --}}
+<section id="landingFunFacts" class="codliy-section position-relative">
+    <div class="container position-relative">
+        <div class="row g-4">
+            @foreach($statsItems as $item)
                 <div class="col-sm-6 col-lg-3">
-                    <div class="card border border-label-primary shadow-none">
-                        <div class="card-body text-center">
-                            <img src="{{ asset('assets/img/front-pages/icons/laptop.png') }}" alt="laptop" class="mb-2"/>
-                            <h5 class="h2 mb-1">7.1k+</h5>
-                            <p class="fw-medium mb-0">Support Tickets<br/>Resolved</p>
+                    <div class="codliy-card h-100">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3"
+                             style="width:48px;height:48px;background:rgba(0,86,248,.12);color:#3B82F6">
+                            <i class="{{ $item['icon'] ?? 'ti tabler-star' }}" style="font-size:24px"></i>
                         </div>
+                        <div class="codliy-section__title mb-1" style="font-size:2rem;line-height:1">
+                            {{ is_array($item['value'] ?? null) ? ($item['value'][$locale] ?? '') : ($item['value'] ?? '') }}
+                        </div>
+                        <p class="codliy-card__body mb-0 small">
+                            {{ is_array($item['label'] ?? null) ? ($item['label'][$locale] ?? '') : ($item['label'] ?? '') }}
+                        </p>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border border-label-success shadow-none">
-                        <div class="card-body text-center">
-                            <img src="{{ asset('assets/img/front-pages/icons/user-success.png') }}" alt="users" class="mb-2"/>
-                            <h5 class="h2 mb-1">50k+</h5>
-                            <p class="fw-medium mb-0">Join creatives<br/>community</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border border-label-info shadow-none">
-                        <div class="card-body text-center">
-                            <img src="{{ asset('assets/img/front-pages/icons/diamond-info.png') }}" alt="diamond" class="mb-2"/>
-                            <h5 class="h2 mb-1">4.8/5</h5>
-                            <p class="fw-medium mb-0">Highly Rated<br/>Products</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card border border-label-warning shadow-none">
-                        <div class="card-body text-center">
-                            <img src="{{ asset('assets/img/front-pages/icons/check-warning.png') }}" alt="check" class="mb-2"/>
-                            <h5 class="h2 mb-1">100%</h5>
-                            <p class="fw-medium mb-0">Money Back<br/>Guarantee</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
+            @endforeach
         </div>
     </div>
 </section>
-<!-- Fun facts / Stats: End -->

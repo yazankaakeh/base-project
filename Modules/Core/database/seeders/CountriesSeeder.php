@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\\Core\\Database\\Seeders;
+namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;

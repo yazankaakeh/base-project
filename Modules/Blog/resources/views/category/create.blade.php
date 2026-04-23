@@ -76,7 +76,7 @@ $page = 'sales-dashboard'; ?>
                             </div>
                         </div>
 
-                        <form action="{{ route('doctor.categories.store') }}" method="post"
+                        <form action="{{ route('admin.categories.store') }}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="row mt-3">

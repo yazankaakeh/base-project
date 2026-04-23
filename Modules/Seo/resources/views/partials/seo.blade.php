@@ -25,7 +25,7 @@
 
 <!-- 🔹 Twitter -->
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:site" content="@TagiyApp"/>
+<meta name="twitter:site" content="@codliy"/>
 <meta name="twitter:title" content="{{ $title }}"/>
 <meta name="twitter:description" content="{{ $description }}"/>
 <meta name="twitter:image" content="{{ $image }}"/>
@@ -39,9 +39,9 @@
         "url": "{{ config('app.url') }}",
         "logo": "{{ asset('images/logo.png') }}",
         "sameAs": [
-            "https://twitter.com/TagiyApp",
-            "https://www.facebook.com/TagiyApp",
-            "https://www.linkedin.com/company/tagiy"
+            "https://twitter.com/codliy",
+            "https://www.facebook.com/codliy",
+            "https://www.linkedin.com/company/codliy"
         ]
     }
 </script>

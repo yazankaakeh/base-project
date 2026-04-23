@@ -55,7 +55,7 @@
                                                         required="required"
                                                         disabled="disabled"
                                                         model="guard"
-                                                        value="doctor">
+                                                        value="admin">
 
                                                 </x-core::input>
                                             </div>

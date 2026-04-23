@@ -1,4 +1,4 @@
-@props(['userType' => 'patient'])
+@props(['userType' => 'user'])
 
 <div class="social-login-buttons">
     <div class="divider my-4">

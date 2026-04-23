@@ -94,7 +94,7 @@ $page = 'sales-dashboard'; ?>
                                 </ul>
                             </div>
                         </div>
-                        <form action="{{ route('doctor.posts.update', $post->id) }}" method="post"
+                        <form action="{{ route('admin.posts.update', $post->id) }}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

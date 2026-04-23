@@ -1,0 +1,370 @@
+/* =========================================================================
+ * Codliy brand layer — plain CSS so it ships through `resources/css/app.css`
+ * which is already a Vite entry in Modules/Theme/vite.config.js.
+ *
+ * Palette:
+ *   --codliy-bg-dark   : #020611
+ *   --codliy-bg-deep   : #0A1F4D
+ *   --codliy-primary   : #0056F8
+ *   --codliy-accent    : #3B82F6
+ *   --codliy-text-soft : #D9D9D9
+ *   --codliy-text-mute : #8A94B0
+ * =======================================================================*/
+
+:root {
+    /* Defaults only — ThemeSetting::getCssVariables() overrides these per
+       scope at runtime via the injected <style id="custom-theme-style"> tag
+       in commonMaster.blade.php. */
+    --codliy-bg-dark: #020611;
+    --codliy-bg-deep: #0A1F4D;
+    --codliy-primary: #0056F8;
+    --codliy-primary-rgb: 0, 86, 248;
+    --codliy-accent: #3B82F6;
+    --codliy-accent-rgb: 59, 130, 246;
+    --codliy-text-soft: #D9D9D9;
+    --codliy-text-mute: #8A94B0;
+    --codliy-gradient: linear-gradient(135deg, #020611 0%, #0A1F4D 100%);
+    --codliy-primary-gradient: linear-gradient(135deg, #0056F8 0%, #3B82F6 100%);
+
+    /* Radius ramp — all derived from --bs-border-radius (theme_settings.border_radius)
+       so the admin's single "corner" setting flows through buttons, cards,
+       chips and the article typography with a consistent ratio. */
+    --codliy-radius-sm: calc(var(--bs-border-radius, 10px) * 0.6);
+    --codliy-radius:    var(--bs-border-radius, 10px);
+    --codliy-radius-lg: calc(var(--bs-border-radius, 10px) * 1.8);
+}
+
+/* ---------- Utilities -------------------------------------------------- */
+
+.bg-codliy           { background: var(--codliy-gradient) !important; }
+.bg-codliy-solid     { background: var(--codliy-bg-dark) !important; }
+.bg-codliy-primary   { background: var(--codliy-primary-gradient) !important; color: #fff !important; }
+.text-codliy-primary { color: var(--codliy-primary) !important; }
+.text-codliy-soft    { color: var(--codliy-text-soft) !important; }
+.text-codliy-mute    { color: var(--codliy-text-mute) !important; }
+.border-codliy       { border: 1px solid rgba(255, 255, 255, 0.08) !important; }
+
+/* ---------- Brand buttons --------------------------------------------- */
+
+.btn-codliy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: var(--codliy-primary);
+    color: #fff;
+    border: 1px solid var(--codliy-primary);
+    padding: 0.7rem 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    border-radius: var(--codliy-radius, 10px);
+    text-decoration: none;
+    transition: all 0.18s ease-in-out;
+}
+.btn-codliy:hover,
+.btn-codliy:focus {
+    background: var(--codliy-accent);
+    border-color: var(--codliy-accent);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(var(--codliy-primary-rgb), 0.35);
+}
+
+.btn-codliy-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: transparent;
+    color: var(--codliy-text-soft);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.7rem 1.4rem;
+    font-weight: 500;
+    border-radius: var(--codliy-radius, 10px);
+    text-decoration: none;
+    transition: all 0.18s ease-in-out;
+}
+.btn-codliy-outline:hover,
+.btn-codliy-outline:focus {
+    border-color: var(--codliy-primary);
+    color: #fff;
+    background: rgba(var(--codliy-primary-rgb), 0.08);
+}
+
+/* ---------- Cards ----------------------------------------------------- */
+
+.codliy-card {
+    background: rgba(13, 23, 55, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--codliy-radius-lg, 18px);
+    padding: 1.6rem;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+    color: var(--codliy-text-soft);
+}
+.codliy-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--codliy-primary-rgb), 0.45);
+}
+.codliy-card .codliy-card__eyebrow {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--codliy-text-mute);
+    margin-bottom: 0.75rem;
+}
+.codliy-card .codliy-card__title {
+    color: var(--codliy-text-soft);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 0.5rem;
+}
+.codliy-card .codliy-card__body {
+    color: var(--codliy-text-mute);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+/* ---------- Hero ------------------------------------------------------ */
+
+.codliy-hero {
+    position: relative;
+    background: var(--codliy-gradient);
+    color: var(--codliy-text-soft);
+    padding: clamp(4rem, 10vw, 7rem) 0 clamp(3rem, 8vw, 5rem);
+    overflow: hidden;
+}
+.codliy-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 75% 40%, rgba(var(--codliy-primary-rgb), 0.25), transparent 60%);
+    pointer-events: none;
+}
+.codliy-hero h1,
+.codliy-hero .codliy-hero__title {
+    /* Routed through theme_settings: admin's primary_color in light mode,
+       dark_primary_color in dark mode. Falls back to text-soft if the
+       runtime CSS isn't loaded (e.g. installer screens). */
+    color: var(--codliy-heading, var(--codliy-text-soft));
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+}
+.codliy-hero .codliy-hero__kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--codliy-text-mute);
+    margin-bottom: 1rem;
+}
+.codliy-hero .codliy-hero__sub {
+    color: var(--codliy-text-mute);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 620px;
+}
+
+/* ---------- Section headers ------------------------------------------ */
+
+.codliy-section {
+    padding: clamp(3rem, 8vw, 5rem) 0;
+    position: relative;
+    color: var(--codliy-text-soft);
+    background: var(--codliy-bg-dark);
+}
+.codliy-section .codliy-section__kicker {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--codliy-primary);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+.codliy-section .codliy-section__title {
+    /* Same theme-settings token as .codliy-hero h1 — admin's primary_color
+       drives every section heading on the site. */
+    color: var(--codliy-heading, var(--codliy-text-soft));
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+}
+.codliy-section .codliy-section__sub {
+    color: var(--codliy-text-mute);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    max-width: 680px;
+}
+
+/* ---------- Article typography for blog --------------------------- */
+
+.codliy-article {
+    color: var(--codliy-text-soft);
+    font-size: 1.05rem;
+    line-height: 1.85;
+}
+.codliy-article h1,
+.codliy-article h2,
+.codliy-article h3,
+.codliy-article h4 {
+    color: var(--codliy-text-soft);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 2rem 0 1rem;
+    line-height: 1.2;
+}
+.codliy-article h2 { font-size: 1.7rem; }
+.codliy-article h3 { font-size: 1.35rem; }
+.codliy-article h4 { font-size: 1.15rem; }
+.codliy-article p  { color: var(--codliy-text-mute); margin-bottom: 1.1rem; }
+.codliy-article a  { color: var(--codliy-primary); text-decoration: underline; text-underline-offset: 3px; }
+.codliy-article a:hover { color: var(--codliy-accent); }
+.codliy-article blockquote {
+    border-left: 3px solid var(--codliy-primary);
+    padding: 0.6rem 1.2rem;
+    margin: 1.6rem 0;
+    color: var(--codliy-text-soft);
+    background: rgba(var(--codliy-primary-rgb), 0.06);
+    border-radius: 0 var(--codliy-radius, 10px) var(--codliy-radius, 10px) 0;
+    font-style: italic;
+}
+.codliy-article code {
+    background: rgba(var(--codliy-primary-rgb), 0.14);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: var(--codliy-radius-sm, 6px);
+    font-size: 0.92em;
+}
+.codliy-article pre {
+    background: rgba(2, 6, 17, 0.75);
+    color: var(--codliy-text-soft);
+    padding: 1rem 1.2rem;
+    border-radius: var(--codliy-radius, 12px);
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.codliy-article pre code { background: transparent; color: inherit; padding: 0; }
+.codliy-article ul, .codliy-article ol { padding-left: 1.3rem; color: var(--codliy-text-mute); }
+.codliy-article img { max-width: 100%; height: auto; border-radius: var(--codliy-radius, 12px); margin: 1.2rem 0; }
+
+/* ---------- Light mode overrides (articles + cards) -------------- */
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]),
+[data-layout-mode="light_mode"] {
+    --codliy-card-bg: #ffffff;
+}
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-card,
+[data-layout-mode="light_mode"] .codliy-card {
+    background: #ffffff;
+    border-color: rgba(10, 31, 77, 0.08);
+    color: #0a1220;
+}
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-card .codliy-card__title,
+[data-layout-mode="light_mode"] .codliy-card .codliy-card__title { color: #0a1220; }
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-card .codliy-card__body,
+[data-layout-mode="light_mode"] .codliy-card .codliy-card__body { color: #5B6670; }
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-section,
+[data-layout-mode="light_mode"] .codliy-section {
+    /* --codliy-bg-dark / --codliy-gradient are already tinted light in
+       light mode by ThemeSetting::getCssVariables(), so .bg-codliy and
+       .codliy-section sit on a soft primary-tinted surface. Paragraph /
+       body color flips via --codliy-body (also theme-settings-driven). */
+    color: var(--codliy-body, #0a1220);
+}
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-section .codliy-section__sub,
+[data-layout-mode="light_mode"] .codliy-section .codliy-section__sub { color: #5B6670; }
+
+/* .bg-codliy-primary is always the solid brand gradient (primary → accent),
+   so its foreground should always stay white regardless of theme. */
+.bg-codliy-primary,
+.bg-codliy-primary .codliy-section__title,
+.bg-codliy-primary .codliy-section__sub { color: #fff; }
+
+/* Hero section body text — title color is handled by --codliy-heading (see
+   .codliy-hero h1 base rule), only kicker + sub need a light-mode flip. */
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-hero,
+[data-layout-mode="light_mode"] .codliy-hero { color: var(--codliy-body, #0a1220); }
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-hero .codliy-hero__kicker,
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-hero .codliy-hero__sub,
+[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__kicker,
+[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__sub { color: #5B6670; }
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article,
+[data-layout-mode="light_mode"] .codliy-article { color: #1a2332; }
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article h1,
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article h2,
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article h3,
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article h4,
+[data-layout-mode="light_mode"] .codliy-article h1,
+[data-layout-mode="light_mode"] .codliy-article h2,
+[data-layout-mode="light_mode"] .codliy-article h3,
+[data-layout-mode="light_mode"] .codliy-article h4 { color: #0a1220; }
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article p,
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article ul,
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article ol,
+[data-layout-mode="light_mode"] .codliy-article p,
+[data-layout-mode="light_mode"] .codliy-article ul,
+[data-layout-mode="light_mode"] .codliy-article ol { color: #2c3542; }
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-article blockquote,
+[data-layout-mode="light_mode"] .codliy-article blockquote {
+    background: rgba(var(--codliy-primary-rgb), 0.06);
+    color: #1a2332;
+}
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]) .codliy-hero,
+[data-layout-mode="light_mode"] .codliy-hero {
+    background: linear-gradient(135deg, var(--codliy-bg-deep) 0%, var(--codliy-primary) 100%);
+}
+
+/* ---------- RTL ------------------------------------------------------- */
+
+[dir="rtl"] .codliy-card,
+[dir="rtl"] .codliy-hero,
+[dir="rtl"] .codliy-section,
+[data-direction="rtl"] .codliy-card,
+[data-direction="rtl"] .codliy-hero,
+[data-direction="rtl"] .codliy-section {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .codliy-article,
+[data-direction="rtl"] .codliy-article {
+    direction: rtl;
+    text-align: right;
+}
+[dir="rtl"] .codliy-article blockquote,
+[data-direction="rtl"] .codliy-article blockquote {
+    border-left: none;
+    border-right: 3px solid var(--codliy-primary);
+    border-radius: var(--codliy-radius, 10px) 0 0 var(--codliy-radius, 10px);
+}
+[dir="rtl"] .codliy-article ul,
+[dir="rtl"] .codliy-article ol,
+[data-direction="rtl"] .codliy-article ul,
+[data-direction="rtl"] .codliy-article ol {
+    padding-left: 0;
+    padding-right: 1.3rem;
+}
+
+[dir="rtl"] .codliy-hero .codliy-hero__sub,
+[dir="rtl"] .codliy-section .codliy-section__sub,
+[data-direction="rtl"] .codliy-hero .codliy-hero__sub,
+[data-direction="rtl"] .codliy-section .codliy-section__sub {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* ---------- Utility: remove underline on brand links by default ------ */
+
+.btn-codliy, .btn-codliy-outline { text-decoration: none !important; }

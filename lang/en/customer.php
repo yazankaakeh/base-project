@@ -5,10 +5,10 @@ use App\Enum\UserStatusEnum;
 
 return [
     'underMaintenance' => [
-        'title' => 'Card not active 🚧',
-        'desc' => 'Looks like this card is taking a break! <br>
-The Tagiy card you\'re trying to access is either disabled or not yet activated by the owner.<br> You can still join Tagiy and start building your own smart card today.',
-        'btn' => 'Join Tagiy',
+        'title' => 'Page not available 🚧',
+        'desc' => 'This page is temporarily disabled by its owner. <br>
+Please check back later or get in touch with the Codliy team if you need help.',
+        'btn' => 'Contact Codliy',
     ],
     'enum' => [
         /* 'ActiveCardEnum' => [
@@ -64,16 +64,6 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
     ],
 
     'sidebar' => [
-        'medicalExaminations' => 'Medical Examinations',
-        'medicalPreviewSettings' => 'Medical Preview Settings',
-        'clinic' => 'Clinic',
-        'patients' => 'Patients',
-        'medicalTest' => 'Medical Test',
-        'vitalSign' => 'Vital Sign',
-        'finalDiagnosis' => 'Final Diagnosis',
-        'dosageForm' => 'Dosage Form',
-        'medicine' => 'Medicine',
-        'medicalSpecialty' => 'Medical Specialty',
         'dashboard' => 'Dashboard',
         'contacts' => 'Contacts',
         'account' => 'Account',
@@ -96,7 +86,7 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
     ],
     'card' => [
         'doneText' => '🎉 Done!',
-        'doneDescription' => 'Your information was saved successfully.🎉 Welcome to Tagiy!',
+        'doneDescription' => 'Your information was saved successfully. 🎉 Welcome to Codliy!',
         'addProfile' => 'Add Profile',
         'addMore' => 'Add More',
         'saveContact' => 'Save Contact',
@@ -128,10 +118,10 @@ The Tagiy card you\'re trying to access is either disabled or not yet activated 
         'share_my_contact' => 'Share My Contact',
         'contactSavedSuccessfully' => 'Saved Successfully 🎉',
         'link' => '<a href=":link">link</a>',
-        'shareDataFooter' => 'Tagiy dose not sell or share your data',
-        'joinTagiyTitle' => 'Not using Tagiy yet?',
-        'joinTagiyDesc' => 'Discover smart networking with smart connections powered by unlimited technology.',
-        'joinTagiyBtn' => 'Join Tagiy',
+        'shareDataFooter' => 'Codliy does not sell or share your data',
+        'joinCodliyTitle' => 'Want to build software like this?',
+        'joinCodliyDesc' => 'Codliy builds custom web, mobile and AI products for teams that care about craft.',
+        'joinCodliyBtn' => 'Talk to Codliy',
     ],
     'account' => [
         'customerID' => 'CustomerID',

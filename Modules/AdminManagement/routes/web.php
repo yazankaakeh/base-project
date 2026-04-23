@@ -2,14 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\AdminManagement\Http\Controllers\AuditLogController;
+use Modules\AdminManagement\Http\Controllers\DashboardController;
 use Modules\AdminManagement\Http\Controllers\RoleManagementController;
 use Modules\AdminManagement\Http\Controllers\UserManagementController;
 
-
-Route::middleware(['auth:doctor', 'admin-enabled', 'authorize', 'doctorMenu', 'setLocale', 'audit'])->prefix(
+Route::middleware(['auth:admin', 'admin-enabled', 'authorize', 'adminMenu', 'setLocale', 'audit'])->prefix(
     'admin',
 )->group(
     function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('user-management', [UserManagementController::class, 'index'])->name('admin.user_management.index');
         Route::post('user-management/store', [UserManagementController::class, 'store'])->name(
             'admin.user_management.store',
@@ -30,4 +31,3 @@ Route::middleware(['auth:doctor', 'admin-enabled', 'authorize', 'doctorMenu', 's
             ->names('admin.role_management');
     },
 );
-

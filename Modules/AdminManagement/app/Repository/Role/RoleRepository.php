@@ -23,7 +23,7 @@ class RoleRepository implements RoleInterface
         /* @var Role $role */
         $role = Role::query()->create([
             'name' => $request->name,
-            'guard_name' => 'doctor',
+            'guard_name' => 'admin',
         ]);
         $role->syncPermissions([$request->permissions]);
     }

@@ -3,181 +3,227 @@
 namespace Modules\Blog\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Modules\Blog\Enums\PostTypeEnum;
 use Modules\Blog\Models\BlogCategory;
 use Modules\Blog\Models\BlogPost;
 use Modules\Blog\Models\BlogPostTags;
-use Modules\Blog\Enums\PostTypeEnum;
 use Modules\Core\App\Enums\ActiveEnum;
 
 class BlogPostSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create categories
-        $categories = [
+        // -----------------------------------------------------------------
+        // Categories — aligned with Codliy's services.
+        // -----------------------------------------------------------------
+        $categoriesData = [
             [
-                'title' => ['en' => 'Technology', 'ar' => 'التكنولوجيا', 'tr' => 'Teknoloji'],
-                'description' => ['en' => 'Latest technology news and updates', 'ar' => 'آخر أخبار وتحديثات التكنولوجيا', 'tr' => 'En son teknoloji haberleri ve güncellemeleri'],
-                'is_active' => ActiveEnum::ACTIVE,
+                'title'       => ['en' => 'Engineering',   'ar' => 'الهندسة',      'tr' => 'Mühendislik'],
+                'description' => [
+                    'en' => 'Architecture, testing, observability and how we build software that stays maintainable.',
+                    'ar' => 'العمارة البرمجية والاختبارات والمراقبة وكيف نبني برمجيات تظل قابلة للصيانة.',
+                    'tr' => 'Mimari, testler, gözlemlenebilirlik ve sürdürülebilir yazılım üretme biçimimiz.',
+                ],
+                'is_active'   => ActiveEnum::ACTIVE,
             ],
             [
-                'title' => ['en' => 'Healthcare', 'ar' => 'الرعاية الصحية', 'tr' => 'Sağlık'],
-                'description' => ['en' => 'Health tips and medical insights', 'ar' => 'نصائح صحية ورؤى طبية', 'tr' => 'Sağlık ipuçları ve tıbbi görüşler'],
-                'is_active' => ActiveEnum::ACTIVE,
+                'title'       => ['en' => 'AI & ML',        'ar' => 'الذكاء الاصطناعي', 'tr' => 'Yapay Zekâ'],
+                'description' => [
+                    'en' => 'LLMs, RAG, agents and the boring engineering that makes them production-safe.',
+                    'ar' => 'نماذج اللغة الكبيرة والـ RAG والوكلاء الذكيون والهندسة التي تجعلهم آمنين في الإنتاج.',
+                    'tr' => 'LLM, RAG, ajanlar ve onları üretime hazır kılan mühendislik.',
+                ],
+                'is_active'   => ActiveEnum::ACTIVE,
             ],
             [
-                'title' => ['en' => 'Business', 'ar' => 'الأعمال', 'tr' => 'İş'],
-                'description' => ['en' => 'Business strategies and entrepreneurship', 'ar' => 'استراتيجيات الأعمال وريادة الأعمال', 'tr' => 'İş stratejileri ve girişimcilik'],
-                'is_active' => ActiveEnum::ACTIVE,
+                'title'       => ['en' => 'Cloud & DevOps', 'ar' => 'السحابة و DevOps', 'tr' => 'Bulut ve DevOps'],
+                'description' => [
+                    'en' => 'Infrastructure, CI/CD, incident response and keeping systems calm at 3am.',
+                    'ar' => 'البنية التحتية و CI/CD والاستجابة للحوادث والحفاظ على هدوء الأنظمة في الثالثة فجرًا.',
+                    'tr' => 'Altyapı, CI/CD, olay müdahalesi ve sistemlerin gecenin üçünde de sakin kalması.',
+                ],
+                'is_active'   => ActiveEnum::ACTIVE,
             ],
             [
-                'title' => ['en' => 'Lifestyle', 'ar' => 'نمط الحياة', 'tr' => 'Yaşam Tarzı'],
-                'description' => ['en' => 'Tips for better living', 'ar' => 'نصائح لحياة أفضل', 'tr' => 'Daha iyi yaşam için ipuçları'],
-                'is_active' => ActiveEnum::ACTIVE,
+                'title'       => ['en' => 'Product & Design', 'ar' => 'المنتج والتصميم', 'tr' => 'Ürün ve Tasarım'],
+                'description' => [
+                    'en' => 'Research-led UX, product strategy and the hand-off between design and code.',
+                    'ar' => 'تجربة مستخدم مبنية على البحث واستراتيجية المنتج والتسليم بين التصميم والكود.',
+                    'tr' => 'Araştırma odaklı UX, ürün stratejisi ve tasarım ile kod arasındaki devir teslim.',
+                ],
+                'is_active'   => ActiveEnum::ACTIVE,
             ],
         ];
 
-        $createdCategories = [];
-        foreach ($categories as $category) {
-            $createdCategories[] = BlogCategory::create($category);
+        $categories = [];
+        foreach ($categoriesData as $data) {
+            $categories[] = BlogCategory::create($data);
         }
 
-        // Create tags
-        $tags = [
-            ['name' => ['en' => 'Innovation', 'ar' => 'الابتكار', 'tr' => 'Yenilik']],
-            ['name' => ['en' => 'AI', 'ar' => 'الذكاء الاصطناعي', 'tr' => 'Yapay Zeka']],
-            ['name' => ['en' => 'Wellness', 'ar' => 'العافية', 'tr' => 'Sağlıklı Yaşam']],
-            ['name' => ['en' => 'Productivity', 'ar' => 'الإنتاجية', 'tr' => 'Verimlilik']],
-            ['name' => ['en' => 'Digital', 'ar' => 'رقمي', 'tr' => 'Dijital']],
-            ['name' => ['en' => 'Leadership', 'ar' => 'القيادة', 'tr' => 'Liderlik']],
-            ['name' => ['en' => 'Design', 'ar' => 'التصميم', 'tr' => 'Tasarım']],
-            ['name' => ['en' => 'Tips', 'ar' => 'نصائح', 'tr' => 'İpuçları']],
+        // -----------------------------------------------------------------
+        // Tags
+        // -----------------------------------------------------------------
+        $tagsData = [
+            ['name' => ['en' => 'Laravel',      'ar' => 'لارافل',        'tr' => 'Laravel']],
+            ['name' => ['en' => 'PHP',          'ar' => 'PHP',           'tr' => 'PHP']],
+            ['name' => ['en' => 'Vue',          'ar' => 'Vue',           'tr' => 'Vue']],
+            ['name' => ['en' => 'Next.js',      'ar' => 'Next.js',       'tr' => 'Next.js']],
+            ['name' => ['en' => 'RAG',          'ar' => 'RAG',           'tr' => 'RAG']],
+            ['name' => ['en' => 'LLM',          'ar' => 'LLM',           'tr' => 'LLM']],
+            ['name' => ['en' => 'AWS',          'ar' => 'AWS',           'tr' => 'AWS']],
+            ['name' => ['en' => 'CI/CD',        'ar' => 'CI/CD',         'tr' => 'CI/CD']],
+            ['name' => ['en' => 'Observability','ar' => 'المراقبة',      'tr' => 'Gözlemlenebilirlik']],
+            ['name' => ['en' => 'Security',     'ar' => 'الأمان',        'tr' => 'Güvenlik']],
+            ['name' => ['en' => 'Architecture', 'ar' => 'المعمارية',     'tr' => 'Mimari']],
+            ['name' => ['en' => 'Design',       'ar' => 'التصميم',       'tr' => 'Tasarım']],
         ];
 
-        $createdTags = [];
-        foreach ($tags as $tag) {
-            $createdTags[] = BlogPostTags::create($tag);
+        $tags = [];
+        foreach ($tagsData as $data) {
+            $tags[] = BlogPostTags::create($data);
         }
 
-        // Create blog posts
+        // Indices: 0 Laravel, 1 PHP, 2 Vue, 3 Next, 4 RAG, 5 LLM,
+        //         6 AWS, 7 CI/CD, 8 Observability, 9 Security, 10 Architecture, 11 Design.
+
+        // -----------------------------------------------------------------
+        // Posts
+        // -----------------------------------------------------------------
+        $blogCoverDir = public_path('codliy/images/blog');
+
         $posts = [
             [
-                'category_id' => $createdCategories[0]->id, // Technology
+                'category'  => 0, // Engineering
+                'cover'     => 'laravel-at-scale.png',
                 'title' => [
-                    'en' => 'The Future of Artificial Intelligence in Healthcare',
-                    'ar' => 'مستقبل الذكاء الاصطناعي في الرعاية الصحية',
-                    'tr' => 'Sağlık Hizmetlerinde Yapay Zekanın Geleceği'
+                    'en' => 'Laravel at scale: lessons from shipping a six-figure-user SaaS',
+                    'ar' => 'لارافل على نطاق واسع: دروس من إطلاق SaaS بمئات الآلاف من المستخدمين',
+                    'tr' => 'Ölçekte Laravel: altı haneli kullanıcılı bir SaaS üretirken öğrendiklerimiz',
                 ],
                 'description' => [
-                    'en' => '<h2>Introduction</h2><p>Artificial Intelligence is revolutionizing healthcare in unprecedented ways. From diagnostic tools to personalized treatment plans, AI is reshaping how we approach medical care.</p><h3>Key Benefits</h3><ul><li>Faster and more accurate diagnoses</li><li>Personalized treatment recommendations</li><li>Predictive analytics for disease prevention</li><li>Automated administrative tasks</li></ul><p>The integration of AI in healthcare promises a future where medical professionals can focus more on patient care while technology handles routine tasks.</p>',
-                    'ar' => '<h2>مقدمة</h2><p>يُحدث الذكاء الاصطناعي ثورة في الرعاية الصحية بطرق غير مسبوقة. من أدوات التشخيص إلى خطط العلاج الشخصية، يعيد الذكاء الاصطناعي تشكيل كيفية التعامل مع الرعاية الطبية.</p>',
-                    'tr' => '<h2>Giriş</h2><p>Yapay Zeka, sağlık hizmetlerinde benzeri görülmemiş şekillerde devrim yaratıyor. Teşhis araçlarından kişiselleştirilmiş tedavi planlarına kadar, YZ tıbbi bakıma yaklaşımımızı yeniden şekillendiriyor.</p>'
+                    'en' => '<p class="lead">Laravel can absolutely run at scale — but only if you treat the framework as a starting point, not a finish line. Here is what we changed when traffic crossed a million requests a day.</p><h2>Queue hygiene</h2><p>Every non-trivial interaction became a queued job. We split queues by latency budget: <code>realtime</code> (&lt; 1s), <code>batch</code> (retries, emails), and <code>heavy</code> (reports, exports). Horizon dashboards live next to the on-call runbook.</p><h2>Caching as a first-class concern</h2><ul><li>Read-through caches around every repository method with a consistent TTL policy.</li><li>Tag-based invalidation keyed on the aggregate root.</li><li>A small "cache budget" per request — exceeding it logs a warning that shows up in code review.</li></ul><h2>Database discipline</h2><p>No N+1 ships. Our code review checklist includes <code>with()</code> verification and an explicit note on each query that runs inside a loop. Telescope is useful in staging; in production we use Blackfire and slow-query logs.</p><blockquote>The framework does not make you fast. Predictability does.</blockquote><h2>Observability</h2><p>Structured logs, request IDs propagated through queues, p95 latency on every public endpoint, and a weekly review of the top-10 slowest routes. Nothing exotic — just applied rigorously.</p>',
+                    'ar' => '<p class="lead">يمكن لـ Laravel بالتأكيد أن يعمل على نطاق واسع — لكن فقط إذا عاملتَ الإطار كنقطة انطلاق لا كخط نهاية. إليك ما غيّرناه عندما تجاوزت حركة المرور مليون طلب يوميًا.</p><h2>نظافة الطوابير</h2><p>أصبحت كل عملية غير بسيطة مَهمّةً في طابور. قسّمنا الطوابير حسب ميزانية الزمن: <code>realtime</code> و<code>batch</code> و<code>heavy</code>.</p><h2>التخزين المؤقت كمواطن من الدرجة الأولى</h2><p>Read-through caches حول كل دالة مستودع، وإبطال قائم على الوسوم، وميزانية تخزين مؤقت لكل طلب.</p><h2>انضباط قاعدة البيانات</h2><p>لا يمرّ N+1 أبدًا. نتحقق من <code>with()</code> في كل مراجعة كود.</p><h2>المراقبة</h2><p>سجلات منظمة، ومعرفات طلبات تنتقل عبر الطوابير، ومراجعة أسبوعية لأبطأ 10 مسارات.</p>',
+                    'tr' => '<p class="lead">Laravel kesinlikle ölçekte çalışabilir — ama bunun için çerçeveyi bir başlangıç noktası olarak görmeniz gerekir. İşte günlük bir milyon isteği geçtiğimizde değiştirdiklerimiz.</p><h2>Kuyruk hijyeni</h2><p>Her önemsiz etkileşim kuyruğa alındı. Gecikme bütçesine göre ayrılmış kuyruklar: <code>realtime</code>, <code>batch</code>, <code>heavy</code>.</p><h2>Birinci sınıf bir önbellekleme</h2><p>Her depo metodu etrafında read-through cache, agregat köküne bağlı etiket tabanlı geçersizleştirme, istek başına cache bütçesi.</p><h2>Veritabanı disiplini</h2><p>N+1 yayına çıkmaz. <code>with()</code> her kod incelemesinde doğrulanır.</p><h2>Gözlemlenebilirlik</h2><p>Yapılandırılmış loglar, kuyruklar arasında taşınan istek kimlikleri ve en yavaş 10 rotanın haftalık incelemesi.</p>',
                 ],
-                'type' => PostTypeEnum::PUBLISHED,
-                'is_active' => ActiveEnum::ACTIVE,
-                'clapping' => 0,
-                'tags' => [1, 2, 3], // Innovation, AI, Wellness
+                'tags'      => [0, 1, 8, 10], // Laravel, PHP, Observability, Architecture
+                'clapping'  => 128,
             ],
             [
-                'category_id' => $createdCategories[1]->id, // Healthcare
+                'category'  => 1, // AI & ML
+                'cover'     => 'rag-without-hype.png',
                 'title' => [
-                    'en' => '10 Essential Tips for Mental Wellness',
-                    'ar' => '10 نصائح أساسية للصحة النفسية',
-                    'tr' => 'Zihinsel Sağlık İçin 10 Temel İpucu'
+                    'en' => 'RAG without hype: a production checklist we actually use',
+                    'ar' => 'RAG بدون ضجيج: قائمة فحص إنتاجية نستخدمها فعلًا',
+                    'tr' => 'Abartısız RAG: gerçekten kullandığımız üretim kontrol listesi',
                 ],
                 'description' => [
-                    'en' => '<h2>Mental Health Matters</h2><p>Taking care of your mental health is just as important as physical health. Here are 10 essential tips to maintain your mental wellness:</p><ol><li>Practice mindfulness and meditation daily</li><li>Maintain a consistent sleep schedule</li><li>Exercise regularly</li><li>Stay connected with loved ones</li><li>Set boundaries and learn to say no</li><li>Seek professional help when needed</li><li>Limit social media consumption</li><li>Practice gratitude</li><li>Engage in hobbies you enjoy</li><li>Take breaks and rest</li></ol><p>Remember, mental wellness is a journey, not a destination.</p>',
-                    'ar' => '<h2>الصحة النفسية مهمة</h2><p>إن الاهتمام بصحتك النفسية لا يقل أهمية عن الصحة البدنية. إليك 10 نصائح أساسية للحفاظ على صحتك النفسية.</p>',
-                    'tr' => '<h2>Zihinsel Sağlık Önemlidir</h2><p>Zihinsel sağlığınıza özen göstermek, fiziksel sağlık kadar önemlidir. Zihinsel sağlığınızı korumak için 10 temel ipucu.</p>'
+                    'en' => '<p class="lead">Most retrieval-augmented generation demos collapse the moment real users show up. These are the boring things we check before a RAG system is allowed anywhere near production.</p><h2>Evaluation first</h2><p>No eval set, no merge. We build a golden set of 200–500 Q&A pairs reviewed by a subject-matter expert before writing a single embedding. Every change is graded against it.</p><h2>Retrieval quality</h2><ul><li>Hybrid search — dense + BM25 — with a fallback to keyword-only for exact product codes.</li><li>Chunking informed by the document type (code, policy, transcript), not a fixed 512 tokens.</li><li>Re-ranking with a small cross-encoder when latency budget allows.</li></ul><h2>Guardrails that matter</h2><p>Input filtering, output filtering, and cost ceilings. Every call is observable: prompt, retrieved chunks, model response, cost, latency. We replay problem queries in CI.</p><h2>The quiet part</h2><blockquote>80% of RAG quality comes from the data pipeline, not the model.</blockquote><p>Get the ingestion, normalization and eval loop right first. The rest is tuning.</p>',
+                    'ar' => '<p class="lead">معظم عروض RAG تنهار فور ظهور مستخدمين حقيقيين. هذه هي الأمور المملة التي نفحصها قبل السماح لنظام RAG بالاقتراب من الإنتاج.</p><h2>التقييم أولًا</h2><p>لا eval set، لا merge. نبني مجموعة ذهبية من 200–500 زوج سؤال/جواب يراجعها خبير قبل كتابة أي تضمين.</p><h2>جودة الاسترجاع</h2><p>بحث هجين (dense + BM25)، وتقسيم موجّه بنوع المستند، وإعادة ترتيب بـ cross-encoder صغير عند السماح بميزانية الزمن.</p><h2>ضوابط تهمّ فعلًا</h2><p>تصفية المدخلات والمخرجات وحدّ أقصى للتكلفة. كل استدعاء يمكن مراقبته.</p><blockquote>80% من جودة RAG تأتي من خط أنابيب البيانات، لا من النموذج.</blockquote>',
+                    'tr' => '<p class="lead">RAG demolarının çoğu gerçek kullanıcı görünce çöker. Bir RAG sisteminin üretime yaklaşmasına izin vermeden önce kontrol ettiğimiz sıkıcı şeyler.</p><h2>Önce değerlendirme</h2><p>Eval seti yoksa merge yok. Tek bir embedding yazmadan önce alan uzmanı tarafından incelenmiş 200–500 soru-cevaptan oluşan altın küme oluştururuz.</p><h2>Geri çağırma kalitesi</h2><p>Hibrit arama (dense + BM25), belge türüne göre chunking, bütçe izin verirse cross-encoder ile yeniden sıralama.</p><h2>Önemli koruma bantları</h2><p>Giriş/çıkış filtreleme ve maliyet tavanı. Her çağrı izlenebilir.</p><blockquote>RAG kalitesinin %80\'i veri boru hattından gelir, modelden değil.</blockquote>',
                 ],
-                'type' => PostTypeEnum::PUBLISHED,
-                'is_active' => ActiveEnum::ACTIVE,
-                'clapping' => 0,
-                'tags' => [3, 8], // Wellness, Tips
+                'tags'      => [4, 5, 8, 9], // RAG, LLM, Observability, Security
+                'clapping'  => 214,
             ],
             [
-                'category_id' => $createdCategories[2]->id, // Business
+                'category'  => 2, // Cloud & DevOps
+                'cover'     => null,
                 'title' => [
-                    'en' => 'Building a Successful Startup: Lessons from Top Entrepreneurs',
-                    'ar' => 'بناء شركة ناشئة ناجحة: دروس من كبار رواد الأعمال',
-                    'tr' => 'Başarılı Bir Startup Kurmak: Önde Gelen Girişimcilerden Dersler'
+                    'en' => 'Zero-downtime deploys on a budget: Laravel + AWS in practice',
+                    'ar' => 'إطلاق بدون توقف بميزانية محدودة: Laravel + AWS في الممارسة',
+                    'tr' => 'Bütçeyle sıfır kesintili dağıtım: pratikte Laravel + AWS',
                 ],
                 'description' => [
-                    'en' => '<h2>The Startup Journey</h2><p>Starting a business is one of the most challenging yet rewarding experiences. Learn from the best entrepreneurs who have paved the way.</p><h3>Key Lessons</h3><ul><li><strong>Start with a problem worth solving</strong> - Focus on real pain points</li><li><strong>Build a strong team</strong> - Surround yourself with talented people</li><li><strong>Stay lean and iterate quickly</strong> - Fail fast, learn faster</li><li><strong>Focus on customer feedback</strong> - Your users are your best advisors</li><li><strong>Never stop learning</strong> - The market evolves, so should you</li></ul><p>Success in entrepreneurship comes from persistence, adaptability, and a willingness to learn from failures.</p>',
-                    'ar' => '<h2>رحلة الشركات الناشئة</h2><p>بدء عمل تجاري هو أحد أكثر التجارب تحديًا ومكافأة. تعلم من أفضل رواد الأعمال الذين مهدوا الطريق.</p>',
-                    'tr' => '<h2>Startup Yolculuğu</h2><p>İş kurmak, en zorlu ama aynı zamanda en ödüllendirici deneyimlerden biridir. Yolu açan en iyi girişimcilerden öğrenin.</p>'
+                    'en' => '<p class="lead">You do not need a platform team to deploy Laravel with zero downtime. You need a handful of primitives and the discipline to wire them up once.</p><h2>The shape of a deploy</h2><ol><li>Build an immutable artifact (Docker image or a zipped release).</li><li>Run migrations with <code>--isolated</code> during a small maintenance window — or use expand/contract for hot tables.</li><li>Shift traffic via weighted target groups or a blue/green ALB.</li><li>Warm the new stack before taking traffic — queue workers, cache primers, health checks.</li></ol><h2>Rollback is a feature</h2><p>Every deploy has a one-command rollback. Every migration has a reverse plan. If your only recovery strategy is "restore from backup", you do not have one.</p><h2>Keeping the bill sane</h2><ul><li>Reserved instances for baseline workloads.</li><li>Spot for queue workers with graceful shutdown.</li><li>S3 lifecycle rules for logs and backups.</li></ul>',
+                    'ar' => '<p class="lead">لستَ بحاجة إلى فريق منصات لإطلاق Laravel بدون توقف. تحتاج إلى عدد قليل من الأساسيات وانضباط لتوصيلها مرة واحدة.</p><h2>شكل الإطلاق</h2><p>أنشئ artifact غير قابل للتغيير، شغّل المهاجرات بـ <code>--isolated</code>، حوّل الحركة عبر target groups موزونة، وأحمِ المكدّس الجديد قبل استقبال الحركة.</p><h2>التراجع ميزة</h2><p>كل إطلاق لديه تراجع بأمر واحد. كل migration لديه خطة عكسية.</p><h2>إبقاء الفاتورة معقولة</h2><p>Reserved instances للأحمال الأساسية، Spot لعمال الطوابير، قواعد lifecycle لـ S3.</p>',
+                    'tr' => '<p class="lead">Laravel\'ı sıfır kesintiyle dağıtmak için platform ekibine ihtiyacınız yok. Birkaç temel yapı taşına ve bunları bir kez doğru bağlama disiplinine ihtiyacınız var.</p><h2>Bir dağıtımın şekli</h2><p>Değişmez bir artifact oluştur, <code>--isolated</code> ile migration çalıştır, ağırlıklı target group ile trafiği kaydır, yeni stack\'i önceden ısıt.</p><h2>Geri alma bir özelliktir</h2><p>Her dağıtımın tek komutla geri alma yolu var. Her migration\'ın ters planı var.</p><h2>Faturayı makul tutmak</h2><p>Temel yükler için reserved instance, kuyruk işçileri için spot, S3 için lifecycle kuralları.</p>',
                 ],
-                'type' => PostTypeEnum::PUBLISHED,
-                'is_active' => ActiveEnum::ACTIVE,
-                'clapping' => 0,
-                'tags' => [1, 4, 6], // Innovation, Productivity, Leadership
+                'tags'      => [6, 7, 0], // AWS, CI/CD, Laravel
+                'clapping'  => 97,
             ],
             [
-                'category_id' => $createdCategories[0]->id, // Technology
+                'category'  => 3, // Product & Design
+                'cover'     => null,
                 'title' => [
-                    'en' => 'Understanding Cloud Computing: A Beginner\'s Guide',
-                    'ar' => 'فهم الحوسبة السحابية: دليل المبتدئين',
-                    'tr' => 'Bulut Bilişimi Anlamak: Başlangıç Kılavuzu'
+                    'en' => 'The design-to-code handover that actually works',
+                    'ar' => 'التسليم من التصميم إلى الكود الذي يعمل حقًا',
+                    'tr' => 'Gerçekten işe yarayan tasarım-koda devir teslim',
                 ],
                 'description' => [
-                    'en' => '<h2>What is Cloud Computing?</h2><p>Cloud computing has transformed how businesses operate and store data. This comprehensive guide will help you understand the basics.</p><h3>Types of Cloud Services</h3><ul><li><strong>IaaS (Infrastructure as a Service)</strong> - Rent virtual hardware</li><li><strong>PaaS (Platform as a Service)</strong> - Development platforms</li><li><strong>SaaS (Software as a Service)</strong> - Ready-to-use applications</li></ul><h3>Benefits</h3><p>Cost efficiency, scalability, accessibility, and disaster recovery are just some of the advantages of cloud computing.</p>',
-                    'ar' => '<h2>ما هي الحوسبة السحابية؟</h2><p>لقد غيرت الحوسبة السحابية طريقة عمل الشركات وتخزين البيانات. سيساعدك هذا الدليل الشامل على فهم الأساسيات.</p>',
-                    'tr' => '<h2>Bulut Bilişim Nedir?</h2><p>Bulut bilişim, işletmelerin çalışma ve veri depolama şeklini değiştirdi. Bu kapsamlı kılavuz, temel bilgileri anlamanıza yardımcı olacaktır.</p>'
+                    'en' => '<p class="lead">Most "handovers" are just Figma links tossed over a wall. Here is what we do instead — every project, every time.</p><h2>Shared language</h2><p>Design tokens live in one place, exported to both Figma styles and Tailwind/SCSS variables. No component ships without the token it consumes being named in the design file.</p><h2>The interaction log</h2><p>For each screen, designers write a short list of interactions: empty state, loading, error, success, keyboard shortcut. Engineers refuse to implement screens without this list. It is five minutes of writing that saves five hours of back-and-forth.</p><h2>Accessibility from the start</h2><ul><li>Color contrast checked at the token level.</li><li>Keyboard flows drawn on the same canvas as the layouts.</li><li>Screen reader copy written by the designer, not retro-fitted.</li></ul><blockquote>If a screen cannot be used with a keyboard, it is not done.</blockquote>',
+                    'ar' => '<p class="lead">معظم "عمليات التسليم" هي مجرد روابط Figma تُرمى فوق الجدار. إليك ما نفعله بدلًا من ذلك — في كل مشروع، في كل مرة.</p><h2>لغة مشتركة</h2><p>Design tokens في مكان واحد، تُصدَّر إلى أنماط Figma ومتغيرات Tailwind/SCSS.</p><h2>سجل التفاعلات</h2><p>لكل شاشة، يكتب المصممون قائمة قصيرة بالتفاعلات: الحالة الفارغة، التحميل، الخطأ، النجاح، اختصارات لوحة المفاتيح.</p><h2>إمكانية الوصول من البداية</h2><p>تباين الألوان يُفحص على مستوى الـ token، وتدفقات لوحة المفاتيح تُرسم على نفس الكانفس.</p>',
+                    'tr' => '<p class="lead">"Devir teslim"lerin çoğu duvarın üstünden atılan Figma linkleridir. Bizim yerine yaptığımız — her projede, her seferinde.</p><h2>Ortak dil</h2><p>Design token\'lar tek bir yerde, hem Figma stillerine hem Tailwind/SCSS değişkenlerine dışa aktarılır.</p><h2>Etkileşim günlüğü</h2><p>Her ekran için tasarımcılar kısa bir etkileşim listesi yazar: boş durum, yükleme, hata, başarı, klavye kısayolu.</p><h2>Baştan erişilebilirlik</h2><p>Kontrast token seviyesinde kontrol edilir, klavye akışları layout ile aynı kanvasta çizilir.</p>',
                 ],
-                'type' => PostTypeEnum::PUBLISHED,
-                'is_active' => ActiveEnum::ACTIVE,
-                'clapping' => 0,
-                'tags' => [1, 5], // Innovation, Digital
+                'tags'      => [11, 2, 3], // Design, Vue, Next
+                'clapping'  => 76,
             ],
             [
-                'category_id' => $createdCategories[3]->id, // Lifestyle
+                'category'  => 0, // Engineering
+                'cover'     => null,
                 'title' => [
-                    'en' => 'Mastering Work-Life Balance in the Digital Age',
-                    'ar' => 'إتقان التوازن بين العمل والحياة في العصر الرقمي',
-                    'tr' => 'Dijital Çağda İş-Yaşam Dengesinde Ustalaşmak'
+                    'en' => 'Testing strategy for small teams: 80/20 pragmatism',
+                    'ar' => 'استراتيجية اختبار للفرق الصغيرة: براغماتية 80/20',
+                    'tr' => 'Küçük ekipler için test stratejisi: 80/20 pragmatizmi',
                 ],
                 'description' => [
-                    'en' => '<h2>Finding Balance</h2><p>In today\'s always-connected world, maintaining a healthy work-life balance has become more challenging than ever.</p><h3>Strategies for Balance</h3><ol><li>Set clear boundaries between work and personal time</li><li>Schedule regular breaks throughout the day</li><li>Prioritize tasks using time management techniques</li><li>Disconnect from devices before bedtime</li><li>Make time for hobbies and relationships</li></ol><p>Remember, balance looks different for everyone. Find what works for you and stick to it.</p>',
-                    'ar' => '<h2>إيجاد التوازن</h2><p>في عالم اليوم المتصل دائمًا، أصبح الحفاظ على توازن صحي بين العمل والحياة أكثر تحديًا من أي وقت مضى.</p>',
-                    'tr' => '<h2>Denge Bulmak</h2><p>Günümüzün sürekli bağlı dünyasında, sağlıklı bir iş-yaşam dengesini korumak her zamankinden daha zor hale geldi.</p>'
+                    'en' => '<p class="lead">You do not need 100% coverage. You need the tests that would have caught the last five bugs you shipped.</p><h2>The pyramid, honestly</h2><ul><li><strong>Unit:</strong> pure logic, domain rules, calculations. Cheap, fast, reliable.</li><li><strong>Feature:</strong> route → controller → database, asserting the observable behavior. This is where most of our value lives.</li><li><strong>Browser:</strong> only for flows that cannot be expressed at the HTTP layer — drag and drop, complex state machines, webhooks with signatures.</li></ul><h2>What we stopped doing</h2><p>We stopped writing tests for getters and setters. We stopped mocking every collaborator. We stopped aiming for an arbitrary coverage number and started aiming for a short, confident list of scenarios per feature.</p><h2>The CI loop</h2><p>Under 10 minutes or developers route around it. Parallel Pest, cached dependencies, a single source of truth for seeded data.</p>',
+                    'ar' => '<p class="lead">لستَ بحاجة إلى تغطية 100%. أنت بحاجة إلى الاختبارات التي كانت ستلتقط آخر خمس علل أطلقتَها.</p><h2>الهرم بصدق</h2><p>Unit: منطق صرف. Feature: route → controller → قاعدة البيانات مع التحقق من السلوك. Browser: فقط للتدفقات التي لا يمكن التعبير عنها عبر HTTP.</p><h2>ما توقفنا عن فعله</h2><p>توقفنا عن كتابة اختبارات للـ getters والـ setters، وعن محاكاة كل متعاون.</p><h2>دورة CI</h2><p>أقل من 10 دقائق أو سيتحايل عليها المطورون.</p>',
+                    'tr' => '<p class="lead">%100 kapsama ihtiyacınız yok. Yayınladığınız son beş hatayı yakalayacak testlere ihtiyacınız var.</p><h2>Piramit, dürüstçe</h2><p>Unit: saf mantık. Feature: route → controller → veritabanı, gözlemlenebilir davranışı doğrulama. Browser: sadece HTTP katmanında ifade edilemeyen akışlar.</p><h2>Bırakmış olduklarımız</h2><p>Getter ve setter için test yazmayı bıraktık. Her işbirlikçiyi mocklamayı bıraktık.</p><h2>CI döngüsü</h2><p>10 dakikanın altında değilse geliştiriciler onu atlatır.</p>',
                 ],
-                'type' => PostTypeEnum::PUBLISHED,
-                'is_active' => ActiveEnum::ACTIVE,
-                'clapping' => 0,
-                'tags' => [3, 4, 8], // Wellness, Productivity, Tips
+                'tags'      => [0, 1, 7], // Laravel, PHP, CI/CD
+                'clapping'  => 54,
             ],
             [
-                'category_id' => $createdCategories[2]->id, // Business
+                'category'  => 2, // Cloud & DevOps
+                'cover'     => null,
                 'title' => [
-                    'en' => 'The Power of Digital Marketing in 2025',
-                    'ar' => 'قوة التسويق الرقمي في 2025',
-                    'tr' => '2025\'te Dijital Pazarlamanın Gücü'
+                    'en' => 'Security by default: the OWASP items we refuse to skip',
+                    'ar' => 'الأمان افتراضيًا: بنود OWASP التي نرفض تجاوزها',
+                    'tr' => 'Varsayılan güvenlik: atlamayı reddettiğimiz OWASP maddeleri',
                 ],
                 'description' => [
-                    'en' => '<h2>Digital Marketing Evolution</h2><p>As we progress through 2025, digital marketing continues to evolve at a rapid pace. Businesses must adapt to stay competitive.</p><h3>Key Trends</h3><ul><li>AI-powered personalization</li><li>Voice search optimization</li><li>Video content dominance</li><li>Influencer partnerships</li><li>Interactive content experiences</li></ul><p>Success in digital marketing requires staying ahead of trends and understanding your audience deeply.</p>',
-                    'ar' => '<h2>تطور التسويق الرقمي</h2><p>مع تقدمنا ​​في عام 2025، يستمر التسويق الرقمي في التطور بوتيرة سريعة. يجب على الشركات التكيف للبقاء في المنافسة.</p>',
-                    'tr' => '<h2>Dijital Pazarlama Evrimi</h2><p>2025\'e ilerlerken, dijital pazarlama hızla gelişmeye devam ediyor. İşletmeler rekabetçi kalmak için uyum sağlamalı.</p>'
+                    'en' => '<p class="lead">Security is not a sprint at the end — it is a handful of defaults baked into every project on day one.</p><h2>The non-negotiables</h2><ul><li>Dependency review in CI, with weekly SCA reports reaching the engineering lead.</li><li>Explicit RBAC from the first migration. No "admin flag on the user model" shortcuts.</li><li>Signed URLs for every file the user should not enumerate.</li><li>Rate limiting on every write endpoint — measured, not guessed.</li><li>Audit log at the aggregate root, append-only, tamper-evident.</li></ul><h2>Secrets</h2><p>Secrets live in a real secrets manager (AWS SSM, HashiCorp Vault). Not in <code>.env</code> files committed to a private repo, not in CI variables that nobody reviews.</p><h2>The review that catches the most</h2><blockquote>Threat-model every user-supplied string. What if it is 10MB? What if it is binary? What if it is signed by a different key?</blockquote>',
+                    'ar' => '<p class="lead">الأمان ليس ركضة في النهاية — بل مجموعة من الإعدادات الافتراضية المخبوزة في كل مشروع منذ اليوم الأول.</p><h2>غير قابلة للتفاوض</h2><p>مراجعة الاعتمادات في CI، RBAC صريح من أول migration، روابط موقعة، rate limiting على كل endpoint كتابة، سجل تدقيق append-only.</p><h2>الأسرار</h2><p>الأسرار في مدير أسرار حقيقي، لا في ملفات <code>.env</code>.</p><blockquote>نمذِج التهديدات لكل سلسلة مزوّدة من المستخدم.</blockquote>',
+                    'tr' => '<p class="lead">Güvenlik sondaki bir sprint değildir — birinci gün her projeye yerleştirilen birkaç varsayılandır.</p><h2>Taviz verilmeyenler</h2><p>CI\'da bağımlılık incelemesi, ilk migration\'dan itibaren açık RBAC, imzalı URL\'ler, yazma uç noktalarında rate limiting, append-only denetim günlüğü.</p><h2>Sırlar</h2><p>Sırlar gerçek bir secrets manager\'da yaşar.</p><blockquote>Kullanıcı tarafından sağlanan her string için tehdit modellemesi yapın.</blockquote>',
                 ],
-                'type' => PostTypeEnum::PUBLISHED,
-                'is_active' => ActiveEnum::ACTIVE,
-                'clapping' => 0,
-                'tags' => [1, 5, 7], // Innovation, Digital, Design
+                'tags'      => [9, 6, 10], // Security, AWS, Architecture
+                'clapping'  => 112,
             ],
         ];
 
         foreach ($posts as $postData) {
-            $tags = $postData['tags'];
-            unset($postData['tags']);
+            $categoryIndex = $postData['category'];
+            $coverFile     = $postData['cover'];
+            $tagIndices    = $postData['tags'];
+
+            unset($postData['category'], $postData['cover'], $postData['tags']);
+
+            $postData['category_id'] = $categories[$categoryIndex]->id;
+            $postData['type']        = PostTypeEnum::PUBLISHED;
+            $postData['is_active']   = ActiveEnum::ACTIVE;
 
             $post = BlogPost::create($postData);
 
             // Attach tags
-            $post->tags()->attach($tags);
+            $mappedTagIds = array_map(fn ($i) => $tags[$i]->id, $tagIndices);
+            $post->tags()->attach($mappedTagIds);
 
-            // Add default image (you can customize this)
-            // $post->addMediaFromUrl('https://via.placeholder.com/800x450')->toMediaCollection('img');
+            // Attach cover image from public/codliy/images/blog/ if available.
+            if ($coverFile) {
+                $fullPath = $blogCoverDir.DIRECTORY_SEPARATOR.$coverFile;
+                if (File::exists($fullPath)) {
+                    try {
+                        $post->addMedia($fullPath)
+                             ->preservingOriginal()
+                             ->toMediaCollection('img');
+                    } catch (\Throwable $e) {
+                        // Media attachment is best-effort during seeding.
+                        $this->command->warn("Could not attach cover for {$postData['title']['en']}: {$e->getMessage()}");
+                    }
+                }
+            }
         }
 
-        $this->command->info('Blog posts seeded successfully with categories and tags!');
+        $this->command->info('Codliy blog seeded: '.count($categories).' categories, '.count($tags).' tags, '.count($posts).' posts.');
     }
 }

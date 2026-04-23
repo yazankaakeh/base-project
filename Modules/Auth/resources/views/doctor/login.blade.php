@@ -31,7 +31,7 @@
                             </div>
                         @endif
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('doctor.login.post') }}"
+                        <form id="formAuthentication" class="mb-3" action="{{ route('admin.login.post') }}"
                               method="POST">
                             @csrf
 
@@ -46,7 +46,7 @@
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">{{ trans('auth::auth.password') }}</label>
-                                    <a href="{{ route('doctor.password.request') }}">
+                                    <a href="{{ route('admin.password.request') }}">
                                         <small>{{ trans('auth::auth.forgot_password') }}</small>
                                     </a>
                                 </div>

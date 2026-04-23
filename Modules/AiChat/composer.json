@@ -1,0 +1,30 @@
+{
+    "name": "codliy/ai-chat",
+    "description": "Live AI chat widget with multi-provider support.",
+    "authors": [
+        {
+            "name": "Codliy",
+            "email": "hello@codliy.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\AiChat\\": "app/",
+            "Modules\\AiChat\\Database\\Factories\\": "database/factories/",
+            "Modules\\AiChat\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\AiChat\\Tests\\": "tests/"
+        }
+    }
+}

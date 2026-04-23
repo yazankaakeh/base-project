@@ -74,7 +74,7 @@ $page = 'sales-dashboard'; ?>
                             </div>
                         </div>
 
-                        <form action="{{ route('doctor.categories.update', $category->id) }}" method="post"
+                        <form action="{{ route('admin.categories.update', $category->id) }}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

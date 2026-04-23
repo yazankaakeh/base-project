@@ -75,7 +75,7 @@
 
                 // AJAX request to create tag
                 $.ajax({
-                    url: '{{ route("doctor.tags.storeAjax") }}',
+                    url: '{{ route("admin.tags.storeAjax") }}',
                     method: 'POST',
                     data: {
                         name: tagNames,

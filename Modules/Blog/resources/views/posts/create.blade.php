@@ -84,7 +84,7 @@ $page = 'sales-dashboard'; ?>
                                 </ul>
                             </div>
                         </div>
-                        <form action="{{ route('doctor.posts.store') }}" method="post" enctype="multipart/form-data" id="create-post-form">
+                        <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data" id="create-post-form">
                             @csrf
                             <div class="row mt-3">
                                 <div class="col-9">

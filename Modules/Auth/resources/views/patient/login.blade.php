@@ -85,7 +85,7 @@
 
                         <p class="text-center">
                             <span>{{ trans('auth::auth.are_you_doctor') }}</span>
-                            <a href="{{ route('doctor.login') }}">
+                            <a href="{{ route('admin.login') }}">
                                 <span>{{ trans('auth::auth.doctor_login_link') }}</span>
                             </a>
                         </p>

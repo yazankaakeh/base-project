@@ -4,7 +4,7 @@
 
 @extends('theme::user.layouts.layoutFront')
 
-@section('title', 'Tagiy')
+@section('title', 'Codliy')
 
 <!-- Vendor Styles -->
 @section('vendor-style')
@@ -75,12 +75,14 @@
                 @endswitch
             @endforeach
         @else
-            {{-- Fallback to static includes if no panels in database --}}
+            {{-- Fallback: render Codliy landing sections from meta_data --}}
             @includeIf('theme::newLanding.panels.features')
-            @includeIf('theme::newLanding.panels.whyTagiy')
-            @includeIf('theme::newLanding.panels.getNfc')
+            @includeIf('theme::newLanding.panels.landingFunFacts')
+            @includeIf('theme::newLanding.panels.whyCodliy')
             @includeIf('theme::newLanding.panels.landingTeam')
-            @includeIf('theme::newLanding.panels.getStarted')
+            @includeIf('theme::newLanding.panels.landingReviews')
+            @includeIf('theme::newLanding.panels.landingFAQ')
+            @includeIf('theme::newLanding.panels.landingCTA')
             @includeIf('theme::newLanding.panels.landingContact')
         @endif
     </div>

@@ -2,16 +2,16 @@
 
 return [
     'blog' => [
-        'title' => 'Usage Instructions',
-        'text' => '"Here are some articles to enrich your experience, where you\'ll discover instructions on using the Tagiy smart card to help you set up and use your card professionally."',
+        'title' => 'From the Codliy blog',
+        'text' => '"Engineering notes, case studies and practical takeaways from shipping real software — web, mobile, cloud and AI."',
         'first' => [
-            'text1' => 'How to create an NFC Card',
-            'text2' => 'How to create an NFC digital business card with HiHello',
+            'text1' => 'Shipping Laravel at scale',
+            'text2' => 'How we structure Laravel applications that stay maintainable as the team and the codebase grow.',
         ],
         'second' => [
-            'text1' => 'How to create digital card',
-            'text2' => 'How to create a modern and unique digital card',
+            'text1' => 'RAG without the hype',
+            'text2' => 'A pragmatic look at what actually works when embedding LLMs into production features.',
         ],
-        'readMore' => 'Read More',
+        'readMore' => 'Read more',
     ],
 ];

@@ -9,22 +9,36 @@ use Modules\AdminManagement\app\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
-
     public function login(LoginRequest $request)
     {
-        if (Auth::guard('doctor')->attempt(['email' => $request->email, 'password' => $request->password],
-            $request->get('remember'))) {
-            return auth()->guard('doctor')->attempt(['email' => $request->email, 'password' => $request->password],
-                $request->get('remember'))
-                ? redirect()->intended(route('doctor.dashboard.index'))
-                : back()->withInput($request->only('email', 'remember'));
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if (Auth::guard('admin')->attempt($credentials, (bool) $request->get('remember'))) {
+            $request->session()->regenerate();
+
+            $target = \Illuminate\Support\Facades\Route::has('admin.dashboard')
+                ? route('admin.dashboard')
+                : (\Illuminate\Support\Facades\Route::has('admin.user_management.index')
+                    ? route('admin.user_management.index')
+                    : '/');
+
+            return redirect()->intended($target);
         }
-        return back()->withInput($request->only('email', 'remember'));
+
+        return back()
+            ->withInput($request->only('email', 'remember'))
+            ->withErrors(['email' => trans('auth.failed')]);
     }
 
     public function logout(Request $request)
     {
-        Auth::guard('doctor')->logout();
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('admin.login');
     }
 }

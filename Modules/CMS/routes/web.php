@@ -7,7 +7,7 @@ use Modules\CMS\Http\Controllers\PanelController;
 use Modules\CMS\Http\Controllers\PanelItemController;
 use Modules\CMS\Http\Controllers\PortfolioController;
 
-Route::middleware(['auth:doctor', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'doctorMenu'])->group(
+Route::middleware(['auth:admin', 'audit', 'admin-enabled', 'authorize', 'setLocale', 'adminMenu'])->group(
     function () {
         // Home page specific routes
         Route::get('cms/home/edit', [CMSController::class, 'editHome'])->name('cms.home.edit');

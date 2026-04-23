@@ -40,9 +40,15 @@ class ThemeSettingsRequest extends FormRequest
 
             // Typography
             'font_family' => 'required|string|max:255',
+            'font_family_custom' => 'nullable|string|max:255',
             'font_size_base' => 'required|string|max:20',
             'headings_font_family' => 'nullable|string|max:255',
+            'headings_font_family_custom' => 'nullable|string|max:255',
             'headings_font_weight' => 'nullable|string|max:20',
+
+            // Google Fonts
+            'google_font_url' => 'nullable|url|max:2048',
+            'google_font_urls' => 'nullable|string|max:10000',
 
             // Layout
             'body_bg' => ['required', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
@@ -60,6 +66,12 @@ class ThemeSettingsRequest extends FormRequest
             // Advanced
             'custom_css' => 'nullable|string|max:65535',
             'dark_custom_css' => 'nullable|string|max:65535',
+
+            // AI Assistant
+            'ai_enabled' => 'nullable|boolean',
+            'ai_provider' => 'nullable|in:openai,anthropic,gemini,grok',
+            'ai_model' => 'nullable|string|max:255',
+            'ai_system_prompt' => 'nullable|string|max:5000',
         ];
     }
 

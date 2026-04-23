@@ -54,17 +54,16 @@ class CreateRoutePermissionsCommand extends Command
             if (!empty($route->getName())
                 && isset($route->getAction()['middleware'])
                 && in_array('admin-enabled', $route->getAction()['middleware'])
-                && (str_starts_with($route->uri, 'admin/')
-                    || str_starts_with($route->uri, 'doctor/'))
+                && str_starts_with($route->uri, 'admin/')
             ) {
-                $routeName = $route->getName(); // مثلا admin.user_management.index
+                $routeName = $route->getName(); // e.g. admin.user_management.index
                 $parts = explode('.', $routeName);
 
                 Permission::query()->updateOrCreate([
                     'name' => $routeName,
-                    'guard_name' => 'doctor',
+                    'guard_name' => 'admin',
                 ], [
-                    'section' => $parts[1] ?? 'etc', // هنا نأخذ الجزء الثاني (0 => admin, 1 => user_management)
+                    'section' => $parts[1] ?? 'etc',
                 ]);
 
                 // assign permission to super admin

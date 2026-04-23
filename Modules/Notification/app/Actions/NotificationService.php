@@ -4,14 +4,17 @@ namespace Modules\Notification\App\Actions;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
-use Modules\AdminManagement\app\Models\Admin;
-use Modules\Doctor\Models\Doctor;
-use Modules\Doctor\Models\Patient;
+use Modules\AdminManagement\Models\Admin;
 
 class NotificationService
 {
-    public static function index(User|Patient|Doctor|Admin $user)
+    /**
+     * List the most recent notifications for any notifiable user (admin or public).
+     */
+    public static function index(User|Admin|Model $user)
     {
         return $user
             ->notifications()
@@ -35,7 +38,7 @@ class NotificationService
             ->values();
     }
 
-    public static function update(Patient|User|Admin|Doctor $user, int $id): void
+    public static function update(User|Admin|Model $user, int $id): void
     {
         $notification = $user->notifications()->where('id', $id)->firstOrFail();
         $notification->update(['read' => true]);

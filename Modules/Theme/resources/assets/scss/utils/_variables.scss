@@ -15,11 +15,19 @@ $font-family-primary: 'Nunito', sans-serif;
 $font-family-secondary: "Poppins", sans-serif;
 $font-awesome: "Fontawesome";
 
-// Theme Colors Variables
-$primary: #1EAAE7;
-$primary-hover: darken($primary, 10%);
-$secondary: #092C4C;
-$secondary-hover: darken($secondary, 10%);
+// Theme Colors Variables — Codliy brand
+$primary: #0056F8;
+$primary-hover: darken($primary, 8%);
+$secondary: #0A1F4D;
+$secondary-hover: darken($secondary, 8%);
+
+// Codliy brand tokens
+$codliy-bg-dark:   #020611;
+$codliy-bg-deep:   #0A1F4D;
+$codliy-primary:   #0056F8;
+$codliy-accent:    #3B82F6;
+$codliy-text-soft: #D9D9D9;
+$codliy-text-mute: #8A94B0;
 $success: #28C76F;
 $success-hover: darken($success, 10%);
 $info: #17a2b8;
@@ -202,7 +210,10 @@ $gplus: #DD4B39;
 $appstore: #000;
 
 // Gradient Variables
-$primary-gradient: linear-gradient(to right, $primary 0%, #8e77fa 100%);
+$primary-gradient: linear-gradient(135deg, $codliy-bg-dark 0%, $codliy-bg-deep 100%);
+$codliy-hero-gradient: linear-gradient(135deg, $codliy-bg-dark 0%, $codliy-bg-deep 100%);
+$codliy-primary-gradient: linear-gradient(135deg, $codliy-primary 0%, $codliy-accent 100%);
+$legacy-primary-gradient: linear-gradient(to right, $primary 0%, #8e77fa 100%);
 $secondary-gradient: linear-gradient(to right, $secondary 0%, #28b7f9 100%);
 $success-gradient: linear-gradient(to right, $success 0%, #5cf9e2 100%);
 $warning-gradient: linear-gradient(to right, $warning 0%, #fbc434 100%);

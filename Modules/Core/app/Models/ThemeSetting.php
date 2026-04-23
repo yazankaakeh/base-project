@@ -47,12 +47,17 @@ class ThemeSetting extends Model implements HasMedia
         'custom_css_variables',
         'custom_css',
         'dark_custom_css',
+        'ai_enabled',
+        'ai_provider',
+        'ai_model',
+        'ai_system_prompt',
         'is_active',
     ];
 
     protected $casts = [
         'custom_css_variables' => 'array',
         'is_active' => 'boolean',
+        'ai_enabled' => 'boolean',
     ];
 
     /**
@@ -187,17 +192,47 @@ class ThemeSetting extends Model implements HasMedia
      */
     private function hexToRgb(string $hex): string
     {
+        [$r, $g, $b] = $this->hexToRgbTriplet($hex);
+
+        return "{$r}, {$g}, {$b}";
+    }
+
+    /**
+     * Parse a hex color into a numeric [r, g, b] triplet.
+     * Used internally for math (mixing, tinting).
+     */
+    private function hexToRgbTriplet(string $hex): array
+    {
         $hex = ltrim($hex, '#');
 
         if (strlen($hex) === 3) {
-            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
         }
 
-        $r = hexdec(substr($hex, 0, 2));
-        $g = hexdec(substr($hex, 2, 2));
-        $b = hexdec(substr($hex, 4, 2));
+        return [
+            hexdec(substr($hex, 0, 2)),
+            hexdec(substr($hex, 2, 2)),
+            hexdec(substr($hex, 4, 2)),
+        ];
+    }
 
-        return "{$r}, {$g}, {$b}";
+    /**
+     * Mix a hex color with pure white.
+     *
+     * $whitePct 0.0 = original color, 1.0 = pure white. Used to derive a
+     * soft, brand-tinted surface from the admin's primary color so light
+     * mode sections still feel "Codliy" rather than neutral gray.
+     */
+    private function mixWithWhite(string $hex, float $whitePct): string
+    {
+        $whitePct = max(0.0, min(1.0, $whitePct));
+        [$r, $g, $b] = $this->hexToRgbTriplet($hex);
+
+        $r = (int) round($r * (1 - $whitePct) + 255 * $whitePct);
+        $g = (int) round($g * (1 - $whitePct) + 255 * $whitePct);
+        $b = (int) round($b * (1 - $whitePct) + 255 * $whitePct);
+
+        return sprintf('#%02X%02X%02X', $r, $g, $b);
     }
 
     /**
@@ -241,7 +276,36 @@ class ThemeSetting extends Model implements HasMedia
             $lightVariables['--bs-heading-font-weight'] = $this->headings_font_weight;
         }
 
-        // Merge custom CSS variables for light mode
+        // --- Codliy brand tokens ------------------------------------------
+        // Map the admin colors onto the Codliy design-system variables so
+        // the landing page, portfolio, and any .codliy-* class live-follow
+        // whatever the admin picks. Defaults from app.css remain as fallback.
+        $accent = $this->info_color ?: $this->primary_color;
+
+        // In LIGHT mode the "brand surface" is the primary color tinted
+        // heavily toward white — so .bg-codliy / .codliy-section read as
+        // a soft, on-brand panel (never pure gray, never dark-on-light).
+        // In DARK mode we keep the cinematic deep-space gradient.
+        $lightBgDark = $this->mixWithWhite($this->primary_color, 0.96); // very faint
+        $lightBgDeep = $this->mixWithWhite($accent,              0.90); // slightly deeper
+
+        $lightVariables['--codliy-primary']          = $this->primary_color;
+        $lightVariables['--codliy-primary-rgb']      = $this->hexToRgb($this->primary_color);
+        $lightVariables['--codliy-accent']           = $accent;
+        $lightVariables['--codliy-accent-rgb']       = $this->hexToRgb($accent);
+        $lightVariables['--codliy-bg-dark']          = $lightBgDark;
+        $lightVariables['--codliy-bg-deep']          = $lightBgDeep;
+        $lightVariables['--codliy-gradient']         = 'linear-gradient(135deg, '.$lightBgDark.' 0%, '.$lightBgDeep.' 100%)';
+        $lightVariables['--codliy-primary-gradient'] = 'linear-gradient(135deg, '.$this->primary_color.' 0%, '.$accent.' 100%)';
+
+        // Hero / CMS headline color — driven by the admin's primary so every
+        // .codliy-hero h1 / .codliy-section__title reads in the brand color.
+        // Body/copy color stays muted-neutral for readability.
+        $lightVariables['--codliy-heading'] = $this->primary_color;
+        $lightVariables['--codliy-body']    = '#0a1220';
+
+        // Merge custom CSS variables for light mode (wins over derived values,
+        // so power users can still hand-tune individual tokens).
         if ($this->custom_css_variables) {
             $lightVariables = array_merge($lightVariables, $this->custom_css_variables);
         }
@@ -265,6 +329,22 @@ class ThemeSetting extends Model implements HasMedia
             '--bs-card-bg' => $this->dark_card_bg,
             '--bs-card-bg-rgb' => $this->hexToRgb($this->dark_card_bg),
         ];
+
+        // --- Codliy brand tokens (dark mode) ------------------------------
+        $darkAccent = $this->dark_info_color ?: $this->dark_primary_color;
+        $darkVariables['--codliy-primary']          = $this->dark_primary_color;
+        $darkVariables['--codliy-primary-rgb']      = $this->hexToRgb($this->dark_primary_color);
+        $darkVariables['--codliy-accent']           = $darkAccent;
+        $darkVariables['--codliy-accent-rgb']       = $this->hexToRgb($darkAccent);
+        $darkVariables['--codliy-bg-dark']          = $this->dark_body_bg ?: '#020611';
+        $darkVariables['--codliy-bg-deep']          = $this->dark_card_bg ?: '#0A1F4D';
+        $darkVariables['--codliy-gradient']         = 'linear-gradient(135deg, '.($this->dark_body_bg ?: '#020611').' 0%, '.($this->dark_card_bg ?: '#0A1F4D').' 100%)';
+        $darkVariables['--codliy-primary-gradient'] = 'linear-gradient(135deg, '.$this->dark_primary_color.' 0%, '.$darkAccent.' 100%)';
+
+        // Dark-mode headline uses the admin's dark primary so CMS hero titles
+        // remain brand-colored against the deep-space gradient.
+        $darkVariables['--codliy-heading'] = $this->dark_primary_color;
+        $darkVariables['--codliy-body']    = '#D9D9D9';
 
         // Generate CSS for light mode
         $css = ':root, [data-bs-theme="light"] {'.PHP_EOL;

@@ -3,7 +3,7 @@
     <div class="container-xxl">
         <!--  Brand demo (display only for navbar-full and hide on below xl) -->
         <div class="navbar-brand app-brand demo d-xl-flex py-0 me-4 ms-0">
-            <a href="https://tagiy.dev" class="app-brand-link">
+            <a href="{{ config('variables.creatorUrl', 'https://codliy.com') }}" class="app-brand-link">
                 <span class="app-brand-logo demo"></span>
                 <span class="app-brand-text demo menu-text fw-bold">{{ config('variables.templateName') }}</span>
             </a>

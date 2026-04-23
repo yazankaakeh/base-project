@@ -1,4 +1,4 @@
-<form action="{{ route('doctor.theme.settings.update') }}" method="POST" enctype="multipart/form-data" id="theme-form-{{ $scope }}">
+<form action="{{ route('admin.theme.settings.update') }}" method="POST" enctype="multipart/form-data" id="theme-form-{{ $scope }}">
     @csrf
     <input type="hidden" name="scope" value="{{ $scope }}">
 
@@ -63,15 +63,40 @@
                     <h5 class="mb-0"><i class="ti ti-typography me-2"></i>{{ trans('core::core.theme_settings.typography') }}</h5>
                 </div>
                 <div class="card-body">
+                    @php
+                        $ccv = is_array($settings->custom_css_variables ?? null) ? $settings->custom_css_variables : [];
+                        $currentGoogleFontUrl = $ccv['google_font_url'] ?? '';
+                        $currentExtraFontUrls = isset($ccv['google_font_urls']) && is_array($ccv['google_font_urls'])
+                            ? implode("\n", $ccv['google_font_urls'])
+                            : '';
+                        $knownFonts = ['Public Sans', 'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Cairo', 'Tajawal', 'Montserrat', 'Lato', 'Nunito', 'Work Sans', 'IBM Plex Sans', 'IBM Plex Sans Arabic', 'Almarai', 'Noto Kufi Arabic'];
+                        $currentFamily = old('font_family', $settings->font_family);
+                        $isCustomFamily = $currentFamily && !in_array($currentFamily, $knownFonts, true);
+                    @endphp
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <x-core::select
-                                :label="trans('core::core.theme_settings.font_family')"
+                            <label class="form-label" for="font_family_{{ $scope }}">{{ trans('core::core.theme_settings.font_family') }}</label>
+                            <select
+                                class="form-select"
                                 name="font_family"
-                                id="font_family_{{ $scope }}"
-                                :options="['Public Sans' => 'Public Sans', 'Inter' => 'Inter', 'Roboto' => 'Roboto', 'Open Sans' => 'Open Sans', 'Poppins' => 'Poppins', 'Cairo' => 'Cairo (Arabic)', 'Tajawal' => 'Tajawal (Arabic)']"
-                                value="{{ old('font_family', $settings->font_family) }}">
-                            </x-core::select>
+                                id="font_family_{{ $scope }}">
+                                @foreach($knownFonts as $fontOption)
+                                    <option value="{{ $fontOption }}" @selected(!$isCustomFamily && $currentFamily === $fontOption)>{{ $fontOption }}</option>
+                                @endforeach
+                                <option value="__custom__" @selected($isCustomFamily)>— Custom (type below) —</option>
+                            </select>
+                            <small class="text-muted">Choose a preset or pick "Custom" to type a font name.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="font_family_custom_{{ $scope }}">Custom font family</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="font_family_custom"
+                                id="font_family_custom_{{ $scope }}"
+                                placeholder="e.g. Manrope"
+                                value="{{ old('font_family_custom', $isCustomFamily ? $currentFamily : '') }}">
+                            <small class="text-muted">Overrides the dropdown when filled. Must match the family name used in the Google Fonts URL below.</small>
                         </div>
                         <div class="col-md-6">
                             <x-core::input
@@ -101,6 +126,33 @@
                                 :options="['300' => 'Light (300)', '400' => 'Normal (400)', '500' => 'Medium (500)', '600' => 'Semi Bold (600)', '700' => 'Bold (700)']"
                                 value="{{ old('headings_font_weight', $settings->headings_font_weight) }}">
                             </x-core::select>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h6 class="mb-3"><i class="ti ti-link me-2"></i>Google Fonts</h6>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label" for="google_font_url_{{ $scope }}">Primary Google Fonts URL</label>
+                            <input
+                                type="url"
+                                class="form-control"
+                                name="google_font_url"
+                                id="google_font_url_{{ $scope }}"
+                                placeholder="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                                value="{{ old('google_font_url', $currentGoogleFontUrl) }}">
+                            <small class="text-muted">Paste the full <code>https://fonts.googleapis.com/css2?...</code> URL from Google Fonts. Leave empty to auto-generate from the chosen font family.</small>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="google_font_urls_{{ $scope }}">Extra Google Fonts URLs</label>
+                            <textarea
+                                class="form-control font-monospace"
+                                name="google_font_urls"
+                                id="google_font_urls_{{ $scope }}"
+                                rows="3"
+                                placeholder="One URL per line">{{ old('google_font_urls', $currentExtraFontUrls) }}</textarea>
+                            <small class="text-muted">Additional Google Fonts URLs (e.g. a separate heading font). One URL per line.</small>
                         </div>
                     </div>
                 </div>
@@ -222,6 +274,132 @@
                 </div>
             </div>
 
+            @if($scope === 'website')
+                @php
+                    // Pull the provider catalog from the AiChat module so the admin
+                    // only sees providers whose API key is actually set in .env.
+                    $aiCatalog = [];
+                    try {
+                        if (app()->bound(\Modules\AiChat\Services\ProviderFactory::class)) {
+                            $aiCatalog = app(\Modules\AiChat\Services\ProviderFactory::class)->catalog();
+                        }
+                    } catch (\Throwable $e) {
+                        $aiCatalog = [];
+                    }
+                    $currentAiProvider = old('ai_provider', $settings->ai_provider);
+                    $currentAiModel    = old('ai_model', $settings->ai_model);
+                    $currentAiPrompt   = old('ai_system_prompt', $settings->ai_system_prompt);
+                    $currentAiEnabled  = (bool) old('ai_enabled', $settings->ai_enabled ?? false);
+                @endphp
+
+                <!-- AI Assistant Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="ti ti-robot me-2"></i>{{ trans('core::core.theme_settings.ai_assistant', [], null) ?: 'AI Assistant' }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info d-flex align-items-start mb-4">
+                            <i class="ti ti-info-circle me-2 mt-1"></i>
+                            <div class="small">
+                                Configure a floating live-chat assistant powered by an LLM provider.
+                                API keys are read from your <code>.env</code> file
+                                (<code>OPENAI_API_KEY</code>, <code>ANTHROPIC_API_KEY</code>,
+                                <code>GEMINI_API_KEY</code>, <code>GROK_API_KEY</code>).
+                                Only providers with a configured key will work.
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label d-block">Enable chat widget</label>
+                                <div class="form-check form-switch">
+                                    <input type="hidden" name="ai_enabled" value="0">
+                                    <input class="form-check-input" type="checkbox"
+                                           role="switch"
+                                           id="ai_enabled_{{ $scope }}"
+                                           name="ai_enabled"
+                                           value="1"
+                                           @checked($currentAiEnabled)>
+                                    <label class="form-check-label" for="ai_enabled_{{ $scope }}">
+                                        Show the AI chat bubble on the front-end
+                                    </label>
+                                </div>
+                                <small class="text-muted d-block mt-1">
+                                    When off, the widget is not rendered anywhere.
+                                </small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label" for="ai_provider_{{ $scope }}">Provider</label>
+                                <select class="form-select" name="ai_provider" id="ai_provider_{{ $scope }}">
+                                    <option value="">— Use default from config —</option>
+                                    @foreach($aiCatalog as $providerKey => $providerInfo)
+                                        <option value="{{ $providerKey }}"
+                                                @selected($currentAiProvider === $providerKey)
+                                                @disabled(! $providerInfo['configured'])>
+                                            {{ $providerInfo['label'] }}
+                                            @if(! $providerInfo['configured'])
+                                                (no API key)
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small class="text-muted">
+                                    ChatGPT (OpenAI), Claude (Anthropic), Gemini (Google), Grok (xAI).
+                                </small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label" for="ai_model_{{ $scope }}">Model (optional)</label>
+                                <input type="text" class="form-control"
+                                       list="ai_models_{{ $scope }}"
+                                       name="ai_model"
+                                       id="ai_model_{{ $scope }}"
+                                       placeholder="e.g. gpt-4o-mini"
+                                       value="{{ $currentAiModel }}">
+                                <datalist id="ai_models_{{ $scope }}">
+                                    @foreach($aiCatalog as $providerInfo)
+                                        @foreach(($providerInfo['available_models'] ?? []) as $m)
+                                            <option value="{{ $m }}">{{ $providerInfo['label'] }}</option>
+                                        @endforeach
+                                    @endforeach
+                                </datalist>
+                                <small class="text-muted">
+                                    Leave blank to use the provider's default model.
+                                </small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Configured providers</label>
+                                <div class="d-flex flex-wrap gap-2 py-1">
+                                    @forelse($aiCatalog as $providerKey => $providerInfo)
+                                        <span class="badge rounded-pill {{ $providerInfo['configured'] ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-muted' }}"
+                                              title="{{ $providerInfo['configured'] ? 'API key set' : 'Missing API key' }}">
+                                            <i class="ti ti-{{ $providerInfo['configured'] ? 'check' : 'x' }} me-1"></i>
+                                            {{ $providerInfo['label'] }}
+                                        </span>
+                                    @empty
+                                        <span class="text-muted small">AiChat module not loaded.</span>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label" for="ai_system_prompt_{{ $scope }}">System prompt</label>
+                                <textarea class="form-control"
+                                          name="ai_system_prompt"
+                                          id="ai_system_prompt_{{ $scope }}"
+                                          rows="5"
+                                          placeholder="You are a helpful assistant for {{ config('app.name') }}...">{{ $currentAiPrompt }}</textarea>
+                                <small class="text-muted">
+                                    Sets the assistant's persona and ground rules. Applied to every conversation.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Advanced Section -->
             <div class="card mb-4">
                 <div class="card-header">
@@ -290,7 +468,7 @@
 </form>
 
 <!-- Reset Form -->
-<form id="reset-form-{{ $scope }}" action="{{ route('doctor.theme.settings.reset') }}" method="POST" style="display: none;">
+<form id="reset-form-{{ $scope }}" action="{{ route('admin.theme.settings.reset') }}" method="POST" style="display: none;">
     @csrf
     <input type="hidden" name="scope" value="{{ $scope }}">
 </form>

@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form action="{{ route('doctor.posts.store') }}" method="POST" enctype="multipart/form-data" class="quick-post-form">
+        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data" class="quick-post-form">
             @csrf
 
             <!-- Title Field -->

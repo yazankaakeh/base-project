@@ -104,6 +104,7 @@ return [
         'logo_dark' => 'Dark Mode Logo',
         'favicon' => 'Favicon',
         'advanced' => 'Advanced',
+        'ai_assistant' => 'AI Assistant',
         'custom_css' => 'Custom CSS',
         'preview' => 'Preview',
         'save_changes' => 'Save Changes',

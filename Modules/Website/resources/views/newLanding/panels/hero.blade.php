@@ -1,101 +1,59 @@
 @php
     $hero = $sections['hero'] ?? [];
-    $heroTitle = $hero['title'][$locale] ?? trans('newLandingPage.heroSection.title');
-    $heroSubtitle = $hero['subtitle'][$locale] ?? '';
+    $heroTitle       = $hero['title'][$locale]       ?? trans('newLandingPage.heroSection.title');
+    $heroSubtitle    = $hero['subtitle'][$locale]    ?? '';
     $heroDescription = $hero['description'][$locale] ?? trans('newLandingPage.heroSection.description');
-    $heroCtaText = $hero['cta_text'][$locale] ?? trans('newLandingPage.heroSection.getStarted');
-    $heroCtaUrl = $hero['cta_url'] ?? '#landingPricing';
-    $heroImage = $hero['image'] ?? 'assets/img/front-pages/landing-page/hero-dashboard-' . $configData['theme'] . '.png';
+    $heroCtaText     = $hero['cta_text'][$locale]    ?? trans('newLandingPage.heroSection.getStarted');
+    $heroCtaUrl      = $hero['cta_url']              ?? '#landingFeatures';
+    $heroSecondaryText = $hero['secondary_cta_text'][$locale] ?? trans('newLandingPage.heroSection.seeWork');
+    $heroSecondaryUrl  = $hero['secondary_cta_url'] ?? '#landingContact';
+    $heroImage = $hero['image'] ?? 'codliy/images/hero.png';
 @endphp
 
 <!-- Hero: Start -->
 <section id="hero-animation">
-    <div id="landingHero" class="section-py landing-hero position-relative">
-        <img src="{{ asset('assets/img/front-pages/backgrounds/hero-bg.png') }}" alt="hero background"
-             class="position-absolute top-0 start-50 translate-middle-x object-fit-cover w-100 h-100" data-speed="1"/>
+    <div id="landingHero" class="codliy-hero position-relative">
         <div class="container">
-            <div class="hero-text-box text-center position-relative">
-                <h1 class="text-primary hero-title display-6 fw-extrabold">
-                    {{ $heroTitle }}
-                </h1>
-                @if($heroSubtitle)
-                    <h2 class="hero-sub-title h5 mb-2">
-                        {{ $heroSubtitle }}
-                    </h2>
-                @endif
-                <h2 class="hero-sub-title h6 mb-6">
-                    {!! $heroDescription !!}
-                </h2>
-                <div class="landing-hero-btn d-inline-block position-relative">
-                    <a href="{{ $heroCtaUrl }}" class="btn btn-primary btn-lg">
-                        {{ $heroCtaText }}
-                    </a>
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 text-center text-lg-start">
+                    <div class="codliy-hero__kicker">
+                        Codliy &middot; Software Studio
+                    </div>
+                    <h1 class="codliy-hero__title mb-3">
+                        {{ $heroTitle }}
+                    </h1>
+                    @if($heroSubtitle)
+                        <p class="codliy-hero__sub mb-2 mx-auto mx-lg-0" style="opacity:.9">
+                            {{ $heroSubtitle }}
+                        </p>
+                    @endif
+                    <p class="codliy-hero__sub mb-4 mx-auto mx-lg-0">
+                        {!! $heroDescription !!}
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                        <a href="{{ $heroCtaUrl }}" class="btn-codliy">
+                            {{ $heroCtaText }}
+                        </a>
+                        <a href="{{ $heroSecondaryUrl }}" class="btn-codliy-outline">
+                            {{ $heroSecondaryText }}
+                        </a>
+                    </div>
+                    <div class="codliy-hero__stack mt-5 d-flex flex-wrap gap-4 justify-content-center justify-content-lg-start text-codliy-mute small">
+                        <span>Laravel &middot; PHP 8.3+</span>
+                        <span>Vue 3 &middot; React &middot; Next.js</span>
+                        <span>AWS &middot; GCP &middot; Cloudflare</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="position-relative">
+                        <img src="{{ asset($heroImage) }}"
+                             alt="Codliy systems diagram"
+                             class="img-fluid rounded-4 shadow-lg"
+                             style="width:100%;height:auto;border:1px solid rgba(255,255,255,0.08)"/>
+                    </div>
                 </div>
             </div>
-            <div id="heroDashboardAnimation" class="hero-animation-img">
-                <a href="{{ $heroCtaUrl }}" target="_blank">
-                    <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
-                        <img
-                                src="{{ asset('assets/img/front-pages/landing-page/hero-dashboard-' . $configData['theme'] . '.png') }}"
-                                alt="hero dashboard" class="animation-img"
-                                data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
-                                data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png"/>
-                        <img
-                                src="{{ asset('assets/img/front-pages/landing-page/hero-elements-' . $configData['theme'] . '-new.png') }}"
-                                alt="hero elements"
-                                class="position-absolute hero-elements-img animation-img top-0 start-0"
-                                data-app-light-img="front-pages/landing-page/hero-elements-light.png"
-                                data-app-dark-img="front-pages/landing-page/hero-elements-dark.png"/>
-                    </div>
-                </a>
-            </div>
         </div>
     </div>
-    <div class="landing-hero-blank"></div>
 </section>
-<!-- Hero: End -->
-<!-- Hero: Start -->
-{{--<section id="heroSection">
-  <div id="landingHero" class="section-py landing-hero position-relative">
-    --}}{{--<img src="{{ asset('assets/img/front-pages/backgrounds/hero-bg.png') }}" alt="hero background"
-         class="position-absolute top-0 start-50 translate-middle-x object-fit-cover w-100 h-100" data-speed="1" />
-    --}}{{--
-    <div class="container">
-      <div class="hero-text-box text-center position-relative">
-        <h1 class="text-primary hero-title display-6 fw-extrabold">
-          {{trans('newLandingPage.heroSection.title')}}
-        </h1>
-        <h2 class="hero-sub-title h6 mb-6">
-          {!! trans('newLandingPage.heroSection.description') !!}
-        </h2>
-        <div class="landing-hero-btn d-inline-block position-relative">
-          --}}{{--<span class="hero-btn-item position-absolute d-none d-md-flex fw-medium">
-            {{trans('newLandingPage.heroSection.join')}}
-            <img src="{{ asset('assets/img/front-pages/icons/Join-community-arrow.png') }}" alt="Join community arrow"
-                 class="scaleX-n1-rtl" /></span>--}}{{--
-          <a href="#landingPricing" class="btn btn-primary btn-lg">
-            {{trans('newLandingPage.heroSection.getStarted')}}
-          </a>
-        </div>
-      </div>
-      <div id="heroDashboardAnimation" class="hero-animation-img">
-        <a href="{{ route('register') }}" target="_blank">
-          <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
-            <img
-              src="{{ asset('assets/img/front-pages/landing-page/hero-dashboard-' . $configData['theme'] . '.png') }}"
-              alt="hero dashboard" class="animation-img"
-              data-app-light-img="front-pages/landing-page/hero-dashboard-light1.png"
-              data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
-            <img
-              src="{{ asset('assets/img/front-pages/landing-page/hero-elements-' . $configData['theme'] . '.png') }}"
-              alt="hero elements" class="position-absolute hero-elements-img animation-img top-0 start-0"
-              data-app-light-img="front-pages/landing-page/hero-elements-light1.png"
-              data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" />
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="landing-hero-blank"></div>
-</section>--}}
 <!-- Hero: End -->

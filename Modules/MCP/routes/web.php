@@ -5,7 +5,7 @@ use Modules\MCP\Http\Controllers\ChatBotController;
 use Modules\MCP\Http\Controllers\KnowledgeBaseController;
 
 // Knowledge Base Management (Admin only)
-Route::middleware(['auth:doctor', 'admin-enabled', 'authorize', 'doctorMenu', 'setLocale', 'audit'])->prefix(
+Route::middleware(['auth:admin', 'admin-enabled', 'authorize', 'adminMenu', 'setLocale', 'audit'])->prefix(
     'mcp',
 )->name('mcp.')->group(function () {
     // Knowledge Base CRUD

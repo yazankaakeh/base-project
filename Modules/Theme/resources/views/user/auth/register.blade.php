@@ -35,7 +35,7 @@
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-4 mt-2">
                             <a href="{{url('/')}}" class="app-brand-link gap-2">
-                                <img src="{{asset('landing/assets/img/tagiy.svg')}}" alt="">
+                                <img src="{{asset('codliy/images/logo.png') }}" alt="{{ config('app.name', 'Codliy') }}" style="max-height:44px;">
                             </a>
                         </div>
                         <!-- /Logo -->

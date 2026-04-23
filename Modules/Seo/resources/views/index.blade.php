@@ -45,8 +45,6 @@ $page = 'sales-dashboard'; ?>
 
 <!-- Page Scripts -->
 @section('page-script')
-    @includeIf('doctor::doctor.clinics.modals.createModal')
-    @includeIf('doctor::doctor.clinics.modals.editModal')
     @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
 @endsection
 
@@ -87,7 +85,7 @@ $page = 'sales-dashboard'; ?>
                                 @endif--}}
 
                                 <form enctype="multipart/form-data" id="seoSettingsForm"
-                                      action="{{route('doctor.seoConfig.update')}}"
+                                      action="{{route('admin.seoConfig.update')}}"
                                       method="POST">
                                     @csrf
                                     @method('POST')

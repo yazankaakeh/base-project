@@ -4,36 +4,35 @@ namespace Modules\Auth\Http\Requests\Patient;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Admin back-office login request.
+ *
+ * Kept under the legacy "Patient" namespace for backward-compatibility after
+ * the Codliy rebrand — LoginController still type-hints this class, and
+ * extending FormRequest (which extends Illuminate\Http\Request) is required
+ * so the ThrottlesLogins trait accepts it.
+ */
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email'    => ['required', 'email', 'max:255'],
             'password' => ['required', 'string'],
-            'remember' => ['sometimes', 'boolean'],
+            'remember' => ['nullable', 'boolean'],
         ];
     }
 
-    /**
-     * Get custom attributes for validator errors.
-     */
     public function attributes(): array
     {
         return [
-            'email' => __('email address'),
-            'password' => __('password'),
+            'email'    => __('Email'),
+            'password' => __('Password'),
         ];
     }
 }
