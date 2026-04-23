@@ -57,9 +57,18 @@ return [
         'actions' => 'İşlemler',
         'create' => [
             'title' => 'Rol Oluştur',
+            'subtitle' => 'Bir ad seçin ve bu rolün sahip olması gereken izinleri işaretleyin.',
             'name' => 'Ad',
+            'namePlaceholder' => 'Örn. Editör, İçerik Yöneticisi',
             'guard' => 'Koruma',
-            'allCheckBoxes' => 'Tüm Kutular',
+            'allCheckBoxes' => 'Tüm izinleri seç',
+            'searchPermissions' => 'İzinlerde ara…',
+            'selected' => 'Seçilen',
+            'permissions_count' => ':count izin',
+            'selectAllSection' => 'Bu grubun tümünü seç',
+            'noPermissions' => 'Aramanıza uyan izin yok.',
+            'save' => 'Rolü oluştur',
+            'cancel' => 'İptal',
         ],
         'edit' => [
             'title' => 'Rolü Düzenle',
@@ -198,6 +207,52 @@ return [
         'admin-pdf-downloadMedicines' => 'İlaçlar PDF İndir',
         'admin-pdf-downloadMedicalTest' => 'Tıbbi Test PDF İndir',
         'admin-pdf-downloadMedicinesPharmacy' => 'Eczane İlaçları PDF İndir',
+
+        // Portfolyo izinleri
+        'admin-portfolios-index' => 'Portfolyoları Görüntüle',
+        'admin-portfolios-create' => 'Portfolyo Oluştur',
+        'admin-portfolios-store' => 'Portfolyo Kaydet',
+        'admin-portfolios-show' => 'Portfolyo Detaylarını Görüntüle',
+        'admin-portfolios-edit' => 'Portfolyoyu Düzenle',
+        'admin-portfolios-update' => 'Portfolyoyu Güncelle',
+        'admin-portfolios-destroy' => 'Portfolyoyu Sil',
+        'admin-portfolios-toggle-status' => 'Portfolyo Durumunu Değiştir',
+        'admin-portfolios-toggle-featured' => 'Öne Çıkarmayı Değiştir',
+        'admin-portfolios-duplicate' => 'Portfolyoyu Kopyala',
+        'admin-portfolios-reorder' => 'Portfolyoları Sırala',
+        'admin-portfolios-delete-gallery' => 'Galeri Görselini Sil',
+
+        // Panel yönetimi
+        'admin-panels-sort' => 'Panelleri Sırala',
+        'admin-panel-items-sort' => 'Panel Ögelerini Sırala',
+
+        // CMS Panel CRUD
+        'cms-panels-forPage' => 'Sayfa Panellerini Görüntüle',
+        'cms-panels-store' => 'Panel Oluştur',
+        'cms-panels-show' => 'Panel Detaylarını Görüntüle',
+        'cms-panels-update' => 'Paneli Güncelle',
+        'cms-panels-destroy' => 'Paneli Sil',
+        'cms-panels-toggle' => 'Panel Görünürlüğünü Değiştir',
+        'cms-panels-duplicate' => 'Paneli Kopyala',
+        'cms-panels-reorder' => 'Panelleri Sırala',
+
+        // Panel öğeleri
+        'cms-panel-items-store' => 'Panel Ögesi Oluştur',
+        'cms-panel-items-show' => 'Panel Ögesi Detaylarını Görüntüle',
+        'cms-panel-items-update' => 'Panel Ögesini Güncelle',
+        'cms-panel-items-destroy' => 'Panel Ögesini Sil',
+
+        // Bildirim / push ayarları
+        'admin-notification-configs' => 'Bildirim Ayarlarını Görüntüle',
+        'admin-notification-update' => 'Bildirim Ayarlarını Güncelle',
+
+        // SEO
+        'admin-seo-index' => 'SEO Ayarlarını Görüntüle',
+        'admin-seo-update' => 'SEO Ayarlarını Güncelle',
+
+        // Tema ayarları
+        'admin-theme_settings-index' => 'Tema Ayarlarını Görüntüle',
+        'admin-theme_settings-update' => 'Tema Ayarlarını Güncelle',
     ],
     'sections' => [
         'admin' => 'Yönetici Yönetimi',
@@ -210,6 +265,14 @@ return [
         'cms' => 'CMS',
         'menus' => 'Menüler',
         'dashboard' => 'Kontrol Paneli',
+        'portfolios' => 'Portfolyolar',
+        'panels' => 'Paneller',
+        'panel-items' => 'Panel Ögeleri',
+        'notification' => 'Bildirimler',
+        'seo' => 'SEO',
+        'theme_settings' => 'Tema Ayarları',
+        'quillUpload' => 'Editör Yüklemeleri',
+        'etc' => 'Diğer',
         'clinic' => 'Klinik',
         'patients' => 'Hastalar',
         'medicalTest' => 'Tıbbi Testler',

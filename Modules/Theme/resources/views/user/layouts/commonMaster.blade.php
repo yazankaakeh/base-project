@@ -69,9 +69,20 @@
     <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}"/>
     <!-- Favicon -->
     {{--
-      <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+        Favicon resolution order:
+          1. Admin-uploaded favicon in Theme Settings (scope-aware: admin or website)
+          2. Bundled Codliy default at /codliy/images/favicon.png
+          3. Legacy landing fallback (kept for safety)
     --}}
-    <link rel="icon" href="{{asset('landing/assets/img/favicon.png')}}" type="image/png" sizes="16x16">
+    @php
+        $faviconUrl = isset($themeSettings) ? $themeSettings?->getFaviconUrl() : null;
+        $faviconUrl = $faviconUrl ?: (file_exists(public_path('codliy/images/favicon.png'))
+            ? asset('codliy/images/favicon.png')
+            : asset('landing/assets/img/favicon.png'));
+    @endphp
+    <link rel="icon" href="{{ $faviconUrl }}" type="image/png" sizes="16x16">
+    <link rel="shortcut icon" href="{{ $faviconUrl }}">
+    <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
 
     {{-- @if(app()->getLocale() == 'ar')
        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"

@@ -134,6 +134,70 @@ class ThemeSetting extends Model implements HasMedia
         }
     }
 
+    /**
+     * Public logo URL for this scope.
+     *
+     * Resolution order (first non-empty wins):
+     *   1. Spatie media collection 'logo' / 'logo_dark'
+     *   2. `logo_path` / `logo_dark_path` column (legacy field — stored as a
+     *      path relative to /storage or a full URL)
+     *   3. Null — template should fall back to the inline SVG / text brand.
+     *
+     * @param  bool  $dark  If true, prefer the dark-mode variant and fall
+     *                      back to the light logo when no dark one is set.
+     */
+    public function getLogoUrl(bool $dark = false): ?string
+    {
+        if ($dark) {
+            $url = $this->getFirstMediaUrl('logo_dark');
+            if ($url) {
+                return $url;
+            }
+            if (filled($this->logo_dark_path)) {
+                return $this->normalizeAssetPath($this->logo_dark_path);
+            }
+            // Fall through to light logo so dark mode still shows something.
+        }
+
+        $url = $this->getFirstMediaUrl('logo');
+        if ($url) {
+            return $url;
+        }
+        if (filled($this->logo_path)) {
+            return $this->normalizeAssetPath($this->logo_path);
+        }
+        return null;
+    }
+
+    /**
+     * Public favicon URL. Resolution same as the logo helper.
+     */
+    public function getFaviconUrl(): ?string
+    {
+        $url = $this->getFirstMediaUrl('favicon');
+        if ($url) {
+            return $url;
+        }
+        if (filled($this->favicon_path)) {
+            return $this->normalizeAssetPath($this->favicon_path);
+        }
+        return null;
+    }
+
+    /**
+     * Convert a legacy stored path into a URL.
+     * - `http://...` / `https://...` / `//...` → used as-is.
+     * - Leading `/` → treated as absolute URL (e.g. `/storage/foo.png`).
+     * - Otherwise → run through `asset()` so relative paths work.
+     */
+    private function normalizeAssetPath(string $path): string
+    {
+        if (preg_match('#^(https?:)?//#', $path) || str_starts_with($path, '/')) {
+            return $path;
+        }
+        return asset($path);
+    }
+
     public function registerMediaCollections(): void
     {
         $this

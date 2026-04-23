@@ -66,9 +66,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Canonical SEO -->
     <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}">
-    <!-- Favicon -->
-    {{--<link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />--}}
-    <link rel="icon" href="{{asset('landing/assets/img/favicon.png')}}" type="image/png" sizes="16x16">
+    <!-- Favicon (admin-uploaded → bundled default → legacy fallback) -->
+    @php
+        $faviconUrl = isset($themeSettings) ? $themeSettings?->getFaviconUrl() : null;
+        $faviconUrl = $faviconUrl ?: (file_exists(public_path('codliy/images/favicon.png'))
+            ? asset('codliy/images/favicon.png')
+            : asset('landing/assets/img/favicon.png'));
+    @endphp
+    <link rel="icon" href="{{ $faviconUrl }}" type="image/png" sizes="16x16">
+    <link rel="shortcut icon" href="{{ $faviconUrl }}">
+    <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
 
 
     <!-- Include Styles -->

@@ -57,9 +57,18 @@ return [
                 'actions' => 'Actions',
                 'create' => [
                         'title' => 'Create Role',
+                        'subtitle' => 'Pick a name and toggle the permissions this role should have.',
                         'name' => 'Name',
+                        'namePlaceholder' => 'e.g. Editor, Content Manager',
                         'guard' => 'Guard',
-                        'allCheckBoxes' => 'allCheck Boxes',
+                        'allCheckBoxes' => 'Select all permissions',
+                        'searchPermissions' => 'Search permissions…',
+                        'selected' => 'Selected',
+                        'permissions_count' => ':count permissions',
+                        'selectAllSection' => 'Select all in this group',
+                        'noPermissions' => 'No permissions match your search.',
+                        'save' => 'Create role',
+                        'cancel' => 'Cancel',
                 ],
                 'edit' => [
                         'title' => 'Edit Role',
@@ -198,6 +207,52 @@ return [
                 'admin-pdf-downloadMedicines' => 'Download Medicines PDF',
                 'admin-pdf-downloadMedicalTest' => 'Download Medical Test PDF',
                 'admin-pdf-downloadMedicinesPharmacy' => 'Download Pharmacy Medicines PDF',
+
+            // Portfolio Permissions
+                'admin-portfolios-index' => 'View Portfolios',
+                'admin-portfolios-create' => 'Create Portfolio',
+                'admin-portfolios-store' => 'Store Portfolio',
+                'admin-portfolios-show' => 'View Portfolio Details',
+                'admin-portfolios-edit' => 'Edit Portfolio',
+                'admin-portfolios-update' => 'Update Portfolio',
+                'admin-portfolios-destroy' => 'Delete Portfolio',
+                'admin-portfolios-toggle-status' => 'Toggle Portfolio Status',
+                'admin-portfolios-toggle-featured' => 'Toggle Featured Portfolio',
+                'admin-portfolios-duplicate' => 'Duplicate Portfolio',
+                'admin-portfolios-reorder' => 'Reorder Portfolios',
+                'admin-portfolios-delete-gallery' => 'Delete Gallery Image',
+
+            // Panel management
+                'admin-panels-sort' => 'Sort Panels',
+                'admin-panel-items-sort' => 'Sort Panel Items',
+
+            // CMS Panel CRUD
+                'cms-panels-forPage' => 'View Panels for Page',
+                'cms-panels-store' => 'Create Panel',
+                'cms-panels-show' => 'View Panel Details',
+                'cms-panels-update' => 'Update Panel',
+                'cms-panels-destroy' => 'Delete Panel',
+                'cms-panels-toggle' => 'Toggle Panel Visibility',
+                'cms-panels-duplicate' => 'Duplicate Panel',
+                'cms-panels-reorder' => 'Reorder Panels',
+
+            // CMS Panel Items CRUD
+                'cms-panel-items-store' => 'Create Panel Item',
+                'cms-panel-items-show' => 'View Panel Item Details',
+                'cms-panel-items-update' => 'Update Panel Item',
+                'cms-panel-items-destroy' => 'Delete Panel Item',
+
+            // Notification / push config
+                'admin-notification-configs' => 'View Notification Settings',
+                'admin-notification-update' => 'Update Notification Settings',
+
+            // SEO
+                'admin-seo-index' => 'View SEO Settings',
+                'admin-seo-update' => 'Update SEO Settings',
+
+            // Theme settings
+                'admin-theme_settings-index' => 'View Theme Settings',
+                'admin-theme_settings-update' => 'Update Theme Settings',
         ],
         'sections' => [
                 'admin' => 'Admin Management',
@@ -210,6 +265,13 @@ return [
                 'cms' => 'CMS',
                 'menus' => 'Menus',
                 'dashboard' => 'Dashboard',
+                'portfolios' => 'Portfolios',
+                'panels' => 'Panels',
+                'panel-items' => 'Panel Items',
+                'notification' => 'Notifications',
+                'seo' => 'SEO',
+                'theme_settings' => 'Theme Settings',
+                'quillUpload' => 'Editor Uploads',
                 'clinic' => 'Clinic',
                 'patients' => 'Patients',
                 'medicalTest' => 'Medical Tests',
@@ -220,5 +282,6 @@ return [
                 'medicalExamination' => 'Medical Examinations',
                 'uploadFile' => 'File Upload',
                 'pdf' => 'PDF Reports',
+                'etc' => 'Other',
         ],
 ];

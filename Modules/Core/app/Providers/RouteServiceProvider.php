@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    const string HOME = 'doctor/dashboard';
+    /**
+     * Default post-login landing URL. The Doctor module was removed during
+     * the Codliy rebrand, so we redirect successful admin logins to the
+     * admin dashboard instead of the now-nonexistent /doctor/dashboard.
+     */
+    const string HOME = '/admin/dashboard';
     /**
      * The module namespace to assume when generating URLs to actions.
      */

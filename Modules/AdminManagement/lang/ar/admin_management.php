@@ -57,9 +57,18 @@ return [
         'actions' => 'الإجراءات',
         'create' => [
             'title' => 'إنشاء دور',
+            'subtitle' => 'اختر اسمًا وفعّل الصلاحيات المناسبة لهذا الدور.',
             'name' => 'الاسم',
+            'namePlaceholder' => 'مثال: محرر، مدير المحتوى',
             'guard' => 'الحارس',
-            'allCheckBoxes' => 'جميع المربعات',
+            'allCheckBoxes' => 'تحديد كل الصلاحيات',
+            'searchPermissions' => 'ابحث في الصلاحيات…',
+            'selected' => 'تم تحديدها',
+            'permissions_count' => ':count صلاحية',
+            'selectAllSection' => 'تحديد كل هذا القسم',
+            'noPermissions' => 'لا توجد صلاحيات مطابقة للبحث.',
+            'save' => 'إنشاء الدور',
+            'cancel' => 'إلغاء',
         ],
         'edit' => [
             'title' => 'تعديل الدور',
@@ -198,6 +207,52 @@ return [
         'admin-pdf-downloadMedicines' => 'تحميل PDF الأدوية',
         'admin-pdf-downloadMedicalTest' => 'تحميل PDF الفحص الطبي',
         'admin-pdf-downloadMedicinesPharmacy' => 'تحميل PDF أدوية الصيدلية',
+
+        // أذونات البورتفوليو
+        'admin-portfolios-index' => 'عرض أعمال المعرض',
+        'admin-portfolios-create' => 'إنشاء عمل جديد',
+        'admin-portfolios-store' => 'حفظ عمل جديد',
+        'admin-portfolios-show' => 'عرض تفاصيل العمل',
+        'admin-portfolios-edit' => 'تعديل العمل',
+        'admin-portfolios-update' => 'تحديث العمل',
+        'admin-portfolios-destroy' => 'حذف العمل',
+        'admin-portfolios-toggle-status' => 'تبديل حالة العمل',
+        'admin-portfolios-toggle-featured' => 'تبديل عمل مميز',
+        'admin-portfolios-duplicate' => 'تكرار العمل',
+        'admin-portfolios-reorder' => 'إعادة ترتيب الأعمال',
+        'admin-portfolios-delete-gallery' => 'حذف صورة من المعرض',
+
+        // إدارة اللوحات
+        'admin-panels-sort' => 'ترتيب اللوحات',
+        'admin-panel-items-sort' => 'ترتيب عناصر اللوحة',
+
+        // لوحات CMS
+        'cms-panels-forPage' => 'عرض لوحات الصفحة',
+        'cms-panels-store' => 'إنشاء لوحة',
+        'cms-panels-show' => 'عرض تفاصيل اللوحة',
+        'cms-panels-update' => 'تحديث اللوحة',
+        'cms-panels-destroy' => 'حذف اللوحة',
+        'cms-panels-toggle' => 'تبديل ظهور اللوحة',
+        'cms-panels-duplicate' => 'تكرار اللوحة',
+        'cms-panels-reorder' => 'إعادة ترتيب اللوحات',
+
+        // عناصر اللوحات
+        'cms-panel-items-store' => 'إنشاء عنصر لوحة',
+        'cms-panel-items-show' => 'عرض تفاصيل العنصر',
+        'cms-panel-items-update' => 'تحديث عنصر اللوحة',
+        'cms-panel-items-destroy' => 'حذف عنصر اللوحة',
+
+        // إعدادات الإشعارات
+        'admin-notification-configs' => 'عرض إعدادات الإشعارات',
+        'admin-notification-update' => 'تحديث إعدادات الإشعارات',
+
+        // SEO
+        'admin-seo-index' => 'عرض إعدادات SEO',
+        'admin-seo-update' => 'تحديث إعدادات SEO',
+
+        // إعدادات المظهر
+        'admin-theme_settings-index' => 'عرض إعدادات المظهر',
+        'admin-theme_settings-update' => 'تحديث إعدادات المظهر',
     ],
     'sections' => [
         'admin' => 'إدارة النظام',
@@ -210,6 +265,14 @@ return [
         'cms' => 'نظام إدارة المحتوى',
         'menus' => 'القوائم',
         'dashboard' => 'لوحة التحكم',
+        'portfolios' => 'أعمال المعرض',
+        'panels' => 'اللوحات',
+        'panel-items' => 'عناصر اللوحة',
+        'notification' => 'الإشعارات',
+        'seo' => 'تحسين محركات البحث',
+        'theme_settings' => 'إعدادات المظهر',
+        'quillUpload' => 'رفع المحرر',
+        'etc' => 'أخرى',
         'clinic' => 'العيادة',
         'patients' => 'المرضى',
         'medicalTest' => 'الفحوصات الطبية',
