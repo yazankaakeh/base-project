@@ -64,6 +64,14 @@ class AdminMenu
                 'icon' => 'menu-icon tf-icons ti tabler-history',
             ];
         }
+        if (Route::has('admin.contact_us.index')) {
+            $adminSubmenu[] = [
+                'url'  => route('admin.contact_us.index'),
+                'slug' => route('admin.contact_us.index'),
+                'name' => trans('core::core.contact_us.title'),
+                'icon' => 'menu-icon tf-icons ti tabler-mail-forward',
+            ];
+        }
         if (!empty($adminSubmenu)) {
             $menu[] = [
                 'name' => trans('admin.sidebar.admins'),

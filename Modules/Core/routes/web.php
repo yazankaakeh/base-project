@@ -33,6 +33,11 @@ Route::middleware(['auth:admin', 'adminMenu', 'admin-enabled', 'setLocale', 'aut
         Route::get('theme-settings', [ThemeSettingsController::class, 'index'])->name('theme.settings.index');
         Route::post('theme-settings/update', [ThemeSettingsController::class, 'update'])->name('theme.settings.update');
         Route::post('theme-settings/reset', [ThemeSettingsController::class, 'reset'])->name('theme.settings.reset');
+
+        // Contact Us inbox — read-only inbox of landing form submissions.
+        Route::get('contact-us', [ContactUsController::class, 'index'])->name('contact_us.index');
+        Route::get('contact-us/{contact}', [ContactUsController::class, 'show'])->name('contact_us.show');
+        Route::delete('contact-us/{contact}', [ContactUsController::class, 'destroy'])->name('contact_us.destroy');
     });
 
 Route::post('submitContactUs', [ContactUsController::class, 'submitContactForm'])->name('env.submitContactForm');

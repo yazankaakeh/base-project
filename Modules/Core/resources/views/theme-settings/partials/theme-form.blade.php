@@ -6,9 +6,14 @@
         <!-- Left Column - Settings -->
         <div class="col-lg-8">
             <!-- Light Mode Colors Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 theme-section-card" id="section-light-colors">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="ti ti-sun me-2"></i>{{ trans('core::core.theme_settings.colors') }} (Light Mode)</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-sun"></i></span>
+                        {{ trans('core::core.theme_settings.colors') }}
+                        <span class="badge bg-label-warning ms-1">{{ __('Light Mode') }}</span>
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Palette used when the site is in light mode.') }}</small>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
@@ -32,9 +37,14 @@
             </div>
 
             <!-- Dark Mode Colors Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 theme-section-card" id="section-dark-colors">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="ti ti-moon me-2"></i>{{ trans('core::core.theme_settings.colors') }} (Dark Mode)</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-moon"></i></span>
+                        {{ trans('core::core.theme_settings.colors') }}
+                        <span class="badge bg-label-dark ms-1">{{ __('Dark Mode') }}</span>
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Applied when the admin / visitor toggles dark mode.') }}</small>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
@@ -58,9 +68,13 @@
             </div>
 
             <!-- Typography Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 theme-section-card" id="section-typography">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="ti ti-typography me-2"></i>{{ trans('core::core.theme_settings.typography') }}</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-typography"></i></span>
+                        {{ trans('core::core.theme_settings.typography') }}
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Font family for body / headings and RTL (Arabic) pairs.') }}</small>
                 </div>
                 <div class="card-body">
                     @php
@@ -234,9 +248,13 @@
             </div>
 
             <!-- Layout Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 theme-section-card" id="section-layout">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="ti ti-layout me-2"></i>{{ trans('core::core.theme_settings.layout') }}</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-layout-2"></i></span>
+                        {{ trans('core::core.theme_settings.layout') }}
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Surface colors and corner radius.') }}</small>
                 </div>
                 <div class="card-body">
                     <h6 class="mb-3">Light Mode</h6>
@@ -303,9 +321,13 @@
             </div>
 
             <!-- Branding Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 theme-section-card" id="section-branding">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="ti ti-brand-tabler me-2"></i>{{ trans('core::core.theme_settings.branding') }}</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-badge"></i></span>
+                        {{ trans('core::core.theme_settings.branding') }}
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Site title, logo (light + dark), and favicon.') }}</small>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
@@ -395,9 +417,13 @@
                 @endphp
 
                 <!-- AI Assistant Section -->
-                <div class="card mb-4">
+                <div class="card mb-4 theme-section-card" id="section-ai">
                     <div class="card-header">
-                        <h5 class="mb-0"><i class="ti ti-robot me-2"></i>{{ trans('core::core.theme_settings.ai_assistant', [], null) ?: 'AI Assistant' }}</h5>
+                        <h5 class="mb-0">
+                            <span class="theme-section-icon"><i class="ti tabler-robot"></i></span>
+                            {{ trans('core::core.theme_settings.ai_assistant', [], null) ?: 'AI Assistant' }}
+                        </h5>
+                        <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Floating chat widget provider, model, and system prompt.') }}</small>
                     </div>
                     <div class="card-body">
                         <div class="alert alert-info d-flex align-items-start mb-4">
@@ -503,9 +529,13 @@
             @endif
 
             <!-- Advanced Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 theme-section-card" id="section-advanced">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="ti ti-code me-2"></i>{{ trans('core::core.theme_settings.advanced') }}</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-code"></i></span>
+                        {{ trans('core::core.theme_settings.advanced') }}
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Hand-written CSS appended after the theme tokens (light + dark).') }}</small>
                 </div>
                 <div class="card-body">
                     <div class="mb-4">
@@ -538,30 +568,44 @@
         <!-- Right Column - Preview & Actions -->
         <div class="col-lg-4">
             <!-- Live Preview -->
-            <div class="card mb-4 sticky-top" style="top: 20px;">
+            <div class="card theme-section-card mb-4 sticky-top" style="top: 90px;">
                 <div class="card-header">
-                    <h5 class="mb-0">{{ trans('core::core.theme_settings.preview') }}</h5>
+                    <h5 class="mb-0">
+                        <span class="theme-section-icon"><i class="ti tabler-eye"></i></span>
+                        {{ trans('core::core.theme_settings.preview') }}
+                    </h5>
+                    <small class="text-muted d-block ms-5 mt-1 ps-3">{{ __('Live snapshot of your palette.') }}</small>
                 </div>
                 <div class="card-body">
                     <div class="theme-preview-box" id="preview-{{ $scope }}">
-                        <div class="preview-card p-3 mb-3" style="background: white; border-radius: 0.375rem;">
-                            <h6>Preview Card</h6>
-                            <p class="mb-2">This is how your content will look</p>
-                            <button class="btn btn-sm preview-button text-white">Primary Button</button>
+                        <div class="preview-card p-3 mb-3" style="background: white; border-radius: 0.5rem;">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="avatar avatar-xs">
+                                    <span class="avatar-initial rounded-circle bg-label-primary">
+                                        <i class="ti tabler-palette ti-xs"></i>
+                                    </span>
+                                </span>
+                                <h6 class="mb-0">Preview Card</h6>
+                            </div>
+                            <p class="mb-3 small text-muted">{{ __('This is how your content will look on a standard card.') }}</p>
+                            <button class="btn btn-sm preview-button text-white">
+                                <i class="ti tabler-click me-1"></i>{{ __('Primary Button') }}
+                            </button>
                         </div>
-                        <p class="small text-muted">Colors and styles will update in real-time</p>
+                        <p class="small text-muted mb-0 d-flex align-items-center gap-1">
+                            <i class="ti tabler-bolt text-warning"></i>
+                            {{ __('Colors and styles update in real-time.') }}
+                        </p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Actions -->
-            <div class="card">
-                <div class="card-body">
+                <div class="card-footer bg-transparent border-top">
                     <button type="submit" class="btn btn-primary w-100 mb-2">
-                        <i class="ti ti-device-floppy me-1"></i>{{ trans('core::core.theme_settings.save_changes') }}
+                        <i class="ti tabler-device-floppy me-1"></i>{{ trans('core::core.theme_settings.save_changes') }}
                     </button>
-                    <button type="button" class="btn btn-outline-secondary w-100" onclick="if(confirm('{{ trans('core::core.theme_settings.reset_confirm') }}')) { document.getElementById('reset-form-{{ $scope }}').submit(); }">
-                        <i class="ti ti-refresh me-1"></i>{{ trans('core::core.theme_settings.reset_defaults') }}
+                    <button type="button" class="btn btn-outline-secondary w-100"
+                            onclick="if(confirm('{{ trans('core::core.theme_settings.reset_confirm') }}')) { document.getElementById('reset-form-{{ $scope }}').submit(); }">
+                        <i class="ti tabler-refresh me-1"></i>{{ trans('core::core.theme_settings.reset_defaults') }}
                     </button>
                 </div>
             </div>
