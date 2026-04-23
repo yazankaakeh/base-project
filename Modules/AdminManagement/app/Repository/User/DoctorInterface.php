@@ -8,8 +8,10 @@ use Modules\AdminManagement\Http\Requests\UpdateStatusAminRequest;
 
 interface DoctorInterface
 {
-
-    public function index();
+    /**
+     * @param array{q?: ?string, role?: mixed, status?: mixed} $filters
+     */
+    public function index(array $filters = []);
 
     public function store(DoctorRequest $request);
 

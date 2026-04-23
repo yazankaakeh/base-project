@@ -99,10 +99,29 @@ class AuditLog extends Model
     }
 
     /**
-     * Admin that triggered this audit entry (when auditable_type is the Admin model).
+     * Admin that triggered this audit entry (only meaningful when
+     * `auditable_type` = Admin::class on the *audit_logs* row).
+     *
+     * NOTE: The previous version added `->where('auditable_type', Admin::class)`
+     * directly to the relation, which Laravel applies to the RELATED table
+     * (`admins`). That table has no `auditable_type` column, so any call like
+     * `$auditLog->admin` or eager-loading `with('admin')` blew up with:
+     *   SQLSTATE[42S22] Unknown column 'auditable_type' in 'where clause'.
+     *
+     * We now let callers filter audit_logs on `auditable_type` themselves
+     * (see scopeForAdmin below), and keep the relation as a clean belongsTo.
      */
     public function admin(): BelongsTo
     {
-        return $this->belongsTo(Admin::class, 'auditable_id')->where('auditable_type', Admin::class);
+        return $this->belongsTo(Admin::class, 'auditable_id');
+    }
+
+    /**
+     * Scope: audit_logs where the auditable is an Admin.
+     * Apply this on the AuditLog query, not on the relation.
+     */
+    public function scopeForAdmin($query)
+    {
+        return $query->where('auditable_type', Admin::class);
     }
 }
