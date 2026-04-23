@@ -90,12 +90,14 @@ class BlogPostSeeder extends Seeder
         // -----------------------------------------------------------------
         // Posts
         // -----------------------------------------------------------------
-        $blogCoverDir = public_path('codliy/images/blog');
+        // Cover images live under `public/assets/blog/`. If we ever move
+        // them again, update this constant and the `cover` filenames below.
+        $blogCoverDir = public_path('assets/blog');
 
         $posts = [
             [
                 'category' => 0, // Engineering
-                'cover' => 'laravel-at-scale.png',
+                'cover' => 'backend.jpg',
                 'title' => [
                     'en' => 'Laravel at scale: lessons from shipping a six-figure-user SaaS',
                     'ar' => 'لارافل على نطاق واسع: دروس من إطلاق SaaS بمئات الآلاف من المستخدمين',
@@ -111,7 +113,7 @@ class BlogPostSeeder extends Seeder
             ],
             [
                 'category' => 1, // AI & ML
-                'cover' => 'rag-without-hype.png',
+                'cover' => 'systems.jpg',
                 'title' => [
                     'en' => 'RAG without hype: a production checklist we actually use',
                     'ar' => 'RAG بدون ضجيج: قائمة فحص إنتاجية نستخدمها فعلًا',
@@ -127,7 +129,7 @@ class BlogPostSeeder extends Seeder
             ],
             [
                 'category' => 2, // Cloud & DevOps
-                'cover' => null,
+                'cover' => 'devops.jpg',
                 'title' => [
                     'en' => 'Zero-downtime deploys on a budget: Laravel + AWS in practice',
                     'ar' => 'إطلاق بدون توقف بميزانية محدودة: Laravel + AWS في الممارسة',
@@ -143,7 +145,7 @@ class BlogPostSeeder extends Seeder
             ],
             [
                 'category' => 3, // Product & Design
-                'cover' => null,
+                'cover' => 'design.jpg',
                 'title' => [
                     'en' => 'The design-to-code handover that actually works',
                     'ar' => 'التسليم من التصميم إلى الكود الذي يعمل حقًا',
@@ -159,7 +161,7 @@ class BlogPostSeeder extends Seeder
             ],
             [
                 'category' => 0, // Engineering
-                'cover' => null,
+                'cover' => 'software.jpg',
                 'title' => [
                     'en' => 'Testing strategy for small teams: 80/20 pragmatism',
                     'ar' => 'استراتيجية اختبار للفرق الصغيرة: براغماتية 80/20',
@@ -175,7 +177,7 @@ class BlogPostSeeder extends Seeder
             ],
             [
                 'category' => 2, // Cloud & DevOps
-                'cover' => null,
+                'cover' => 'case.jpg',
                 'title' => [
                     'en' => 'Security by default: the OWASP items we refuse to skip',
                     'ar' => 'الأمان افتراضيًا: بنود OWASP التي نرفض تجاوزها',

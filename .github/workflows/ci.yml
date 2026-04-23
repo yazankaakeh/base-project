@@ -135,6 +135,10 @@ jobs:
                   DB_PASSWORD: root
               run: php artisan migrate --force
 
+            # Pest 3 wraps PHPUnit and errors out if you call phpunit directly
+            # (`Pest\Exceptions\InvalidPestCommand — Please run [./vendor/bin/pest] instead`).
+            # Always invoke tests through the pest binary so its bootstrap
+            # (it(), expect(), test helpers in tests/Pest.php) loads correctly.
             - name: Run tests
               env:
                   DB_CONNECTION: mysql
@@ -143,7 +147,7 @@ jobs:
                   DB_DATABASE: test_db
                   DB_USERNAME: root
                   DB_PASSWORD: root
-              run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+              run: vendor/bin/pest --coverage --coverage-clover=coverage.xml
 
             - name: Upload coverage
               if: success()

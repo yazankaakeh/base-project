@@ -11,6 +11,12 @@ class BlogDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        // Seed categories, tags, and example posts in one pass. Keep this
+        // list authoritative — the root DatabaseSeeder only calls THIS
+        // class, so anything not listed here won't run under
+        // `php artisan migrate:fresh --seed`.
+        $this->call([
+            BlogPostSeeder::class,
+        ]);
     }
 }
