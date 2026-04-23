@@ -36,6 +36,29 @@
         [dir="rtl"] .codliy-article blockquote,[data-direction="rtl"] .codliy-article blockquote{border-left:0;border-right:3px solid var(--codliy-primary);border-radius:10px 0 0 10px}
         [dir="rtl"] .codliy-article ul,[dir="rtl"] .codliy-article ol,
         [data-direction="rtl"] .codliy-article ul,[data-direction="rtl"] .codliy-article ol{padding-left:0;padding-right:1.35rem}
+        /* ─── Tags row (flat, no card border) ──────────────────────── */
+        .post-tags-row {
+            /* Intentionally no border, no background, no padding — tags
+               should read as a natural continuation of the article, not a
+               panel with its own frame. */
+        }
+        .post-tags-row__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding-right: 0.5rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--codliy-text-mute, #8A94B0);
+            font-weight: 600;
+        }
+        [dir="rtl"] .post-tags-row__label {
+            padding-right: 0;
+            padding-left: 0.5rem;
+        }
+        .post-tags-row__label i { font-size: 0.95rem; opacity: 0.8; }
+
         /* ─── Tag pills ─────────────────────────────────────────────── */
         .post-tag {
             display: inline-flex;
@@ -236,27 +259,27 @@
                         <div class="codliy-article">
                             {!! $post->getTranslation('description', $locale) !!}
                         </div>
-
-                        @if($post->tags->count() > 0)
-                            {{-- Tags row — pills with a primary tint that darken on hover. --}}
-                            <div class="pt-4 mt-4 border-top border-codliy">
-                                <div class="codliy-card__eyebrow mb-3">
-                                    <i class="ti tabler-tags me-1"></i>{{ __('Tags') }}
-                                </div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach($post->tags as $tag)
-                                        <a href="{{ route('blog.tag', $tag->id) }}" class="post-tag">
-                                            <i class="ti tabler-hash"></i>{{ $tag->getTranslation('name', $locale) }}
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
                     </div>
 
-                    {{-- Action bar: clap + share. Lifted out of the article card
-                         into its own gradient panel so it reads as a distinct
-                         CTA rather than an afterthought. --}}
+                    @if($post->tags->count() > 0)
+                        {{-- Tags — rendered as a flat row outside the article
+                             card. No outer border/box so the pills read as a
+                             natural continuation of the post, not a panel. --}}
+                        <div class="post-tags-row mt-4 d-flex flex-wrap align-items-center gap-2">
+                            <span class="post-tags-row__label">
+                                <i class="ti tabler-tags"></i>
+                                <span>{{ __('Tags') }}</span>
+                            </span>
+                            @foreach($post->tags as $tag)
+                                <a href="{{ route('blog.tag', $tag->id) }}" class="post-tag">
+                                    <i class="ti tabler-hash"></i>{{ $tag->getTranslation('name', $locale) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    {{-- Action bar: clap + share. Own gradient panel so it
+                         reads as a distinct CTA rather than an afterthought. --}}
                     @php $shareUrl = urlencode(request()->url()); $shareTitle = urlencode($post->getTranslation('title', $locale)); @endphp
                     <div class="post-action-bar d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <button type="button" class="clap-button" id="clap-btn" data-post-id="{{ $post->id }}">
