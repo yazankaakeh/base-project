@@ -7,21 +7,55 @@
     {{-- Header Section --}}
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-header bg-transparent py-3">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <div>
                     <h5 class="mb-1 d-flex align-items-center gap-2">
                         <span class="badge badge-center bg-primary p-2">
                             <i class="ti tabler-layout-grid ti-sm"></i>
                         </span>
-                        Page Builder
+                        {{ __('Page Builder') }}
                     </h5>
-                    <small class="text-muted">Drag and drop panels to build your page layout</small>
+                    <small class="text-muted">
+                        {{ __('Panels added here render on the public site in the order shown below.') }}
+                        @if(isset($page) && $page)
+                            <br>
+                            <span class="text-primary">
+                                <i class="ti tabler-link"></i>
+                                {{ __('Public URL') }}:
+                                <code>/{{ $page->slug === 'home' ? '' : 'page/' . $page->slug }}</code>
+                            </span>
+                        @endif
+                    </small>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <span
-                        class="badge bg-label-info">{{ count($panels) }} {{ Str::plural('panel', count($panels)) }}</span>
+                    <span class="badge bg-label-info">
+                        {{ count($panels) }} {{ Str::plural(__('panel'), count($panels)) }}
+                    </span>
+                    @if(isset($page) && $page)
+                        @php
+                            $publicUrl = $page->slug === 'home'
+                                ? route('landing.home')
+                                : route('page.show', $page->slug);
+                        @endphp
+                        <a href="{{ $publicUrl }}" target="_blank" rel="noopener"
+                           class="btn btn-outline-primary btn-sm"
+                           title="{{ __('Open this page on the public site in a new tab') }}">
+                            <i class="ti tabler-external-link me-1"></i>{{ __('View on site') }}
+                        </a>
+                    @endif
                 </div>
             </div>
+
+            {{-- Empty-state helper: shown when the page has no panels yet --}}
+            @if(count($panels) === 0)
+                <div class="alert alert-info border-0 mt-3 mb-0 d-flex align-items-start gap-2">
+                    <i class="ti tabler-info-circle mt-1"></i>
+                    <div class="small">
+                        <strong>{{ __('No panels yet.') }}</strong>
+                        {{ __('Pick a panel type below and click "Add Panel" to start building this page. Panels stack top-to-bottom in the order you drag them.') }}
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 

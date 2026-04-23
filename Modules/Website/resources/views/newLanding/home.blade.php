@@ -346,52 +346,30 @@
 
 @section('content')
     <div data-bs-spy="scroll" class="scrollspy-example">
-        {{-- Always include Hero section from meta_data (backward compatibility) --}}
-        @includeIf('website::newLanding.panels.hero')
+        @php
+            // Detect whether the CMS is driving THIS page or not.
+            $cmsPanels   = $panels ?? collect();
+            $hasCmsHero  = $cmsPanels->contains(fn ($p) => $p->type?->value === 'hero');
+            $hasAnyPanels = $cmsPanels->count() > 0;
+        @endphp
 
-        {{-- Dynamic panels from CMS --}}
-        @if(isset($panelsData) && $panelsData->count() > 0)
-            @foreach($panelsData as $panel)
-                @php
-                    $items = collect($panel['items'] ?? []);
-                    $panelType = $panel['type'];
-                @endphp
+        {{-- Hero: prefer a CMS hero panel if one exists; otherwise fall back
+             to the meta_data-driven Codliy hero. --}}
+        @if(!$hasCmsHero)
+            @includeIf('website::newLanding.panels.hero')
+        @endif
 
-                @switch($panelType)
-                    @case('features')
-                        @include('website::newLanding.panels.features', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('team')
-                        @include('website::newLanding.panels.landingTeam', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('reviews')
-                        @include('website::newLanding.panels.landingReviews', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('faq')
-                        @include('website::newLanding.panels.landingFAQ', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('cta')
-                        @include('website::newLanding.panels.landingCTA', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('contact')
-                        @include('website::newLanding.panels.landingContact', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('stats')
-                        @include('website::newLanding.panels.landingFunFacts', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('gallery')
-                        @include('website::newLanding.panels.gallery', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('carousel')
-                        @include('website::newLanding.panels.carousel', ['panel' => $panel, 'items' => $items])
-                        @break
-                    @case('custom')
-                        @include('website::newLanding.panels.custom', ['panel' => $panel, 'items' => $items])
-                        @break
-                @endswitch
+        {{-- Dynamic CMS panels rendered through the unified dispatcher.
+             Every panel is a real `Modules\CMS\Models\Panel` Eloquent model,
+             so this looks and behaves identically to `/page/{slug}` panels. --}}
+        @if($hasAnyPanels)
+            @foreach($cmsPanels as $panel)
+                @include('website::panels.render', ['panel' => $panel])
             @endforeach
         @else
-            {{-- Fallback: render Codliy landing sections from meta_data --}}
+            {{-- Fallback: render the out-of-box Codliy landing sections from meta_data.
+                 Admins can replace these one-by-one by adding CMS panels to the
+                 "home" page in the dashboard. --}}
             @includeIf('website::newLanding.panels.features')
             @includeIf('website::newLanding.panels.landingFunFacts')
             @includeIf('website::newLanding.panels.whyCodliy')

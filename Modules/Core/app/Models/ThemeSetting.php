@@ -236,6 +236,25 @@ class ThemeSetting extends Model implements HasMedia
     }
 
     /**
+     * Mix a hex color with pure black.
+     *
+     * $blackPct 0.0 = original color, 1.0 = pure black. Used to derive a
+     * strong body/soft/mute text hierarchy from the admin's secondary
+     * color so muted text stays tonally related to the brand.
+     */
+    private function mixWithBlack(string $hex, float $blackPct): string
+    {
+        $blackPct = max(0.0, min(1.0, $blackPct));
+        [$r, $g, $b] = $this->hexToRgbTriplet($hex);
+
+        $r = (int) round($r * (1 - $blackPct));
+        $g = (int) round($g * (1 - $blackPct));
+        $b = (int) round($b * (1 - $blackPct));
+
+        return sprintf('#%02X%02X%02X', $r, $g, $b);
+    }
+
+    /**
      * Get CSS variables as a string for both light and dark modes
      */
     public function getCssVariables(): string
@@ -300,9 +319,20 @@ class ThemeSetting extends Model implements HasMedia
 
         // Hero / CMS headline color — driven by the admin's primary so every
         // .codliy-hero h1 / .codliy-section__title reads in the brand color.
-        // Body/copy color stays muted-neutral for readability.
-        $lightVariables['--codliy-heading'] = $this->primary_color;
-        $lightVariables['--codliy-body']    = '#0a1220';
+        //
+        // Body / soft / mute text colors — derived from the admin's SECONDARY
+        // color so muted labels (kickers, subtitles, stack rows, card body)
+        // stay tonally consistent with the chosen palette. We mix with black
+        // to get progressively darker shades for readability on light bg.
+        //   body  = strong (for body copy)
+        //   soft  = medium (for secondary copy like card body, subtitles)
+        //   mute  = light (for ultra-quiet labels like "SERVICE 01")
+        // Defaults to neutral grays if secondary isn't set.
+        $secondaryLight = $this->secondary_color ?: '#8A94B0';
+        $lightVariables['--codliy-heading']   = $this->primary_color;
+        $lightVariables['--codliy-body']      = $this->mixWithBlack($secondaryLight, 0.72);
+        $lightVariables['--codliy-text-soft'] = $this->mixWithBlack($secondaryLight, 0.45);
+        $lightVariables['--codliy-text-mute'] = $secondaryLight;
 
         // Merge custom CSS variables for light mode (wins over derived values,
         // so power users can still hand-tune individual tokens).
@@ -343,8 +373,18 @@ class ThemeSetting extends Model implements HasMedia
 
         // Dark-mode headline uses the admin's dark primary so CMS hero titles
         // remain brand-colored against the deep-space gradient.
-        $darkVariables['--codliy-heading'] = $this->dark_primary_color;
-        $darkVariables['--codliy-body']    = '#D9D9D9';
+        //
+        // Dark-mode body / soft / mute — derive from dark_secondary_color by
+        // mixing with WHITE so each step reads progressively lighter on the
+        // dark background. Inverse relationship vs. light mode.
+        //   body  = near-white (strong contrast)
+        //   soft  = soft gray
+        //   mute  = dim gray
+        $secondaryDark = $this->dark_secondary_color ?: '#8A94B0';
+        $darkVariables['--codliy-heading']   = $this->dark_primary_color;
+        $darkVariables['--codliy-body']      = $this->mixWithWhite($secondaryDark, 0.70);
+        $darkVariables['--codliy-text-soft'] = $this->mixWithWhite($secondaryDark, 0.45);
+        $darkVariables['--codliy-text-mute'] = $secondaryDark;
 
         // Generate CSS for light mode
         $css = ':root, [data-bs-theme="light"] {'.PHP_EOL;
@@ -358,7 +398,213 @@ class ThemeSetting extends Model implements HasMedia
         foreach ($darkVariables as $key => $value) {
             $css .= "  {$key}: {$value};".PHP_EOL;
         }
-        $css .= '}';
+        $css .= '}'.PHP_EOL.PHP_EOL;
+
+        // ---- Runtime overrides that ALWAYS win ---------------------------
+        // Some CSS bundles were compiled with postcss-custom-properties in a
+        // mode that flattens `var(--token, 10px)` down to its fallback literal
+        // (`10px`). That freezes the radius/color at build time, which means
+        // admin tweaks to border_radius / primary_color wouldn't show up on
+        // those pages even though the CSS variable is set correctly here.
+        //
+        // To make admin settings authoritative, we re-declare the critical
+        // "branded" rules directly with the admin values — so they override
+        // whatever the compiled bundle contains, with no rebuild required.
+        $radius = $this->border_radius ?: '10px';
+        // Normalize — some saved values are bare numbers like "10" rather
+        // than "10px". Default to px when unit is missing.
+        if (is_numeric(trim($radius))) {
+            $radius = trim($radius) . 'px';
+        }
+
+        $primaryLight     = $this->primary_color        ?: '#0056F8';
+        $primaryDark      = $this->dark_primary_color   ?: '#3B82F6';
+        $secondaryLight   = $this->secondary_color      ?: '#8A94B0';
+        $secondaryDark    = $this->dark_secondary_color ?: '#8A94B0';
+
+        $css .= '/* Runtime overrides — ensures admin settings beat any stale compiled CSS */'.PHP_EOL;
+
+        // Button radius — applies to both Codliy brand buttons AND Bootstrap
+        // outline/solid buttons on dashboard + site. `!important` because
+        // Sneat/Bootstrap precompute radii in places.
+        $css .= ".btn, .btn-codliy, .btn-codliy-outline,".PHP_EOL;
+        $css .= ".btn-outline-primary, .btn-outline-secondary, .btn-outline-success,".PHP_EOL;
+        $css .= ".btn-outline-danger, .btn-outline-warning, .btn-outline-info,".PHP_EOL;
+        $css .= ".btn-primary, .btn-secondary, .btn-success, .btn-danger, .btn-warning, .btn-info {".PHP_EOL;
+        $css .= "  border-radius: {$radius} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Outline-primary color alignment — Sneat sometimes bakes in the
+        // default blue. Keep border + text in the admin's primary.
+        $css .= ':root, [data-bs-theme="light"] {'.PHP_EOL;
+        $css .= "  --bs-btn-border-radius: {$radius};".PHP_EOL;
+        $css .= "  --bs-btn-border-radius-sm: calc({$radius} * 0.75);".PHP_EOL;
+        $css .= "  --bs-btn-border-radius-lg: calc({$radius} * 1.25);".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Hero headline — forces the admin's primary color on .codliy-hero
+        // titles even if the compiled app.css lost the --codliy-heading
+        // fallback during minification.
+        $css .= '[data-bs-theme="light"] .codliy-hero h1,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__title,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero h1,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__title {'.PHP_EOL;
+        $css .= "  color: {$primaryLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        $css .= '[data-bs-theme="dark"] .codliy-hero h1,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__title,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero h1,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__title {'.PHP_EOL;
+        $css .= "  color: {$primaryDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Section titles too — users set ONE primary color, they expect
+        // every branded heading to reflect it.
+        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__title,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__title {'.PHP_EOL;
+        $css .= "  color: {$primaryLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__title,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__title {'.PHP_EOL;
+        $css .= "  color: {$primaryDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Kickers — the small uppercase eyebrow text above hero & section
+        // titles. Drives off the admin's SECONDARY color so the site has a
+        // clear two-color brand hierarchy (primary = headline, secondary =
+        // label). `.codliy-section__kicker` was previously pinned to primary;
+        // we keep the single source of truth here so both match.
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__kicker,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__kicker {'.PHP_EOL;
+        $css .= "  color: {$secondaryLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__kicker,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__kicker {'.PHP_EOL;
+        $css .= "  color: {$secondaryDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Soft / mute utility classes + all the "secondary copy" surfaces.
+        // These were the ones reported as pinned to #D9D9D9 / #8A94B0 in the
+        // compiled CSS. Force them to the admin-derived values so every
+        // subtitle, stack row, card body and "text-codliy-soft fw-medium"
+        // chip on the page follows the admin palette.
+        $textSoftLight = $this->mixWithBlack($secondaryLight, 0.45);
+        $textSoftDark  = $this->mixWithWhite($secondaryDark,  0.45);
+
+        $css .= '[data-bs-theme="light"] .text-codliy-soft,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .text-codliy-soft,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__sub,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__body,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__eyebrow,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__sub,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__body,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__eyebrow {'.PHP_EOL;
+        $css .= "  color: {$textSoftLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        $css .= '[data-bs-theme="dark"] .text-codliy-soft,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .text-codliy-soft,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__sub,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__body,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__eyebrow,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__sub,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__body,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__eyebrow {'.PHP_EOL;
+        $css .= "  color: {$textSoftDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Muted utility + hero stack (the "Laravel · PHP 8.3+" row under the
+        // hero CTA) — one step lighter than soft. Drives off secondary
+        // directly so the tone still tracks the admin palette.
+        $css .= '[data-bs-theme="light"] .text-codliy-mute,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .text-codliy-mute,'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__stack,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__stack {'.PHP_EOL;
+        $css .= "  color: {$secondaryLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .text-codliy-mute,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .text-codliy-mute,'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__stack,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__stack {'.PHP_EOL;
+        $css .= "  color: {$secondaryDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // `.text-codliy-primary` — the quick "use primary color for this
+        // text" helper. Belt-and-suspenders so it beats any literal color
+        // PostCSS may have baked into the compiled bundle.
+        $css .= '[data-bs-theme="light"] .text-codliy-primary,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .text-codliy-primary {'.PHP_EOL;
+        $css .= "  color: {$primaryLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .text-codliy-primary,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .text-codliy-primary {'.PHP_EOL;
+        $css .= "  color: {$primaryDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Cards — surface + border + title color all derived from theme.
+        // In LIGHT mode, the card sits on a light body bg, so we give it a
+        // white-ish surface with a faint primary border tint. In DARK mode,
+        // the card uses the admin's dark_card_bg (with subtle transparency)
+        // so cards sit naturally on the deep-space gradient.
+        $lightCardBg   = $this->card_bg      ?: '#FFFFFF';
+        $darkCardBg    = $this->dark_card_bg ?: '#0A1F4D';
+        $css .= '.codliy-card {'.PHP_EOL;
+        $css .= "  border-radius: calc({$radius} * 1.8) !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-card,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card {'.PHP_EOL;
+        $css .= "  background: {$lightCardBg} !important;".PHP_EOL;
+        $css .= "  border-color: rgba(var(--codliy-primary-rgb), 0.1) !important;".PHP_EOL;
+        $css .= "  box-shadow: 0 10px 40px rgba(var(--codliy-primary-rgb), 0.06) !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card {'.PHP_EOL;
+        $css .= "  background: rgba(var(--codliy-primary-rgb), 0.04) !important;".PHP_EOL;
+        $css .= "  border-color: rgba(255, 255, 255, 0.06) !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Card title — should read as a strong body heading in both modes.
+        // Uses --codliy-body (admin-derived) with the admin heading font.
+        $bodyLight = $this->mixWithBlack($secondaryLight, 0.72);
+        $bodyDark  = $this->mixWithWhite($secondaryDark,  0.70);
+        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__title,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__title {'.PHP_EOL;
+        $css .= "  color: {$bodyLight} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__title,'.PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__title {'.PHP_EOL;
+        $css .= "  color: {$bodyDark} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Section/hero background in LIGHT mode — the Codliy cinematic gradient
+        // gets flipped to a soft primary-tinted surface so copy stays readable.
+        $css .= '[data-bs-theme="light"] .codliy-section,'.PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section {'.PHP_EOL;
+        $css .= "  background: var(--codliy-gradient) !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+
+        // Typography — heading + body font families, only when the admin
+        // actually set something (don't clobber system fonts on fresh installs).
+        if ($this->font_family) {
+            $css .= 'body, .codliy-card, .codliy-card__body, .codliy-section__sub {'.PHP_EOL;
+            $css .= "  font-family: {$this->font_family}, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;".PHP_EOL;
+            $css .= '}'.PHP_EOL;
+        }
+        if ($this->headings_font_family) {
+            $css .= 'h1, h2, h3, h4, h5, h6,'.PHP_EOL;
+            $css .= '.codliy-hero__title, .codliy-section__title, .codliy-card__title {'.PHP_EOL;
+            $css .= "  font-family: {$this->headings_font_family}, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;".PHP_EOL;
+            $css .= '}'.PHP_EOL;
+        }
 
         return $css;
     }

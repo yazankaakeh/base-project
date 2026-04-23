@@ -76,7 +76,7 @@
                                                  class="rounded-circle" width="44" height="44" style="object-fit:cover;border:1px solid rgba(255,255,255,.08)">
                                         @else
                                             <div class="rounded-circle d-flex align-items-center justify-content-center"
-                                                 style="width:44px;height:44px;background:rgba(0,86,248,.12);color:#3B82F6">
+                                                 style="width:44px;height:44px;background:rgba(var(--codliy-primary-rgb), 0.12);color:var(--codliy-primary);">
                                                 <i class="ti tabler-user"></i>
                                             </div>
                                         @endif

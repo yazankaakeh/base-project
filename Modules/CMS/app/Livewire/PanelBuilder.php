@@ -8,6 +8,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Modules\CMS\Enums\PanelItemTypeEnum;
 use Modules\CMS\Enums\PanelTypeEnum;
+use Modules\CMS\Models\Page;
 use Modules\CMS\Models\Panel;
 use Modules\CMS\Models\PanelItem;
 use Modules\CMS\Repository\Panel\PanelInterface;
@@ -496,9 +497,15 @@ class PanelBuilder extends Component
 
     public function render(): View
     {
+        // Expose the owning page (if any) so the builder can render a
+        // "View on site" link and a public URL hint. This is optional —
+        // the builder still works when called with a bare pageId.
+        $page = $this->pageId ? Page::find($this->pageId) : null;
+
         return view('cms::livewire.panel-builder', [
             'panelTypes' => PanelTypeEnum::cases(),
-            'itemTypes' => PanelItemTypeEnum::cases(),
+            'itemTypes'  => PanelItemTypeEnum::cases(),
+            'page'       => $page,
         ]);
     }
 }

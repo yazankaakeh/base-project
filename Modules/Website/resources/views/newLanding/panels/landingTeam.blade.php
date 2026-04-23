@@ -69,13 +69,13 @@
             <div class="row g-4 position-relative">
                 {{-- connector line on desktop --}}
                 <div class="position-absolute d-none d-lg-block"
-                     style="left:0;right:0;top:54px;height:1px;background:linear-gradient(90deg, transparent, rgba(0,86,248,.35), transparent);z-index:0"></div>
+                     style="left:0;right:0;top:54px;height:1px;background:linear-gradient(90deg, transparent, rgba(var(--codliy-primary-rgb), 0.35), transparent);z-index:0"></div>
 
                 @foreach($steps as $i => $step)
                     <div class="col-lg-3 col-md-6 position-relative" style="z-index:1">
                         <div class="codliy-card h-100 text-center">
                             <div class="mx-auto mb-3 d-inline-flex align-items-center justify-content-center rounded-4 position-relative"
-                                 style="width:72px;height:72px;background:rgba(0,86,248,.1);border:1px solid rgba(0,86,248,.25);color:#3B82F6">
+                                 style="width:72px;height:72px;background:rgba(var(--codliy-primary-rgb), 0.1);border:1px solid rgba(var(--codliy-primary-rgb), 0.25);color:var(--codliy-primary);">
                                 <i class="{{ $step['icon'] }}" style="font-size:32px"></i>
                                 <span class="position-absolute d-flex align-items-center justify-content-center rounded-circle fw-semibold"
                                       style="top:-10px;right:-10px;width:28px;height:28px;background:var(--codliy-primary);color:#fff;font-size:.75rem">

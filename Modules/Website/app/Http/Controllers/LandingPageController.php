@@ -19,36 +19,41 @@ class LandingPageController extends Controller
         // Get current locale
         $locale = app()->getLocale();
 
-        // Extract meta_data sections (for backward compatibility)
+        // Extract meta_data sections (used when the home page has NO CMS panels —
+        // this keeps the out-of-box Codliy landing intact for fresh installs).
         $sections = $landingPage->meta_data ?? [];
 
-        // Fetch active panels with their items for the landing page
+        // Fetch active panels (Eloquent) with their items for the landing page.
+        // We pass them directly so the unified dispatcher (website::panels.render)
+        // can render them the same way as any other CMS page.
         $panels = $panelRepository->getActiveByPage($landingPage->id);
 
-        // Transform panels into a structured format for the view
+        // Keep `$panelsData` as a lightweight array mirror for any legacy
+        // partials that still read from it. New/updated partials should use
+        // `$panels` (Eloquent) via the dispatcher instead.
         $panelsData = $panels->map(function ($panel) {
             return [
-                'id' => $panel->id,
-                'type' => $panel->type->value,
-                'title' => $panel->title ?? [],
-                'settings' => $panel->settings ?? [],
+                'id'        => $panel->id,
+                'type'      => $panel->type->value,
+                'title'     => $panel->title ?? [],
+                'settings'  => $panel->settings ?? [],
                 'is_active' => $panel->is_active,
-                'order' => $panel->order,
-                'media' => [
-                    'panel_image' => $panel->getFirstMediaUrl('panel_image') ?: null,
+                'order'     => $panel->order,
+                'media'     => [
+                    'panel_image'   => $panel->getFirstMediaUrl('panel_image') ?: null,
                     'panel_gallery' => $panel->getMedia('panel_gallery')->map(fn($m) => $m->getUrl())->toArray(),
                 ],
                 'items' => $panel->activeItems->map(function ($item) {
                     return [
-                        'id' => $item->id,
-                        'type' => $item->type->value,
-                        'title' => $item->title ?? [],
-                        'content' => $item->content ?? [],
-                        'data' => $item->data ?? [],
+                        'id'        => $item->id,
+                        'type'      => $item->type->value,
+                        'title'     => $item->title ?? [],
+                        'content'   => $item->content ?? [],
+                        'data'      => $item->data ?? [],
                         'is_active' => $item->is_active,
-                        'order' => $item->order,
-                        'media' => [
-                            'item_image' => $item->getFirstMediaUrl('item_image') ?: null,
+                        'order'     => $item->order,
+                        'media'     => [
+                            'item_image'   => $item->getFirstMediaUrl('item_image') ?: null,
                             'item_gallery' => $item->getMedia('item_gallery')->map(fn($m) => $m->getUrl())->toArray(),
                         ],
                     ];
@@ -56,7 +61,13 @@ class LandingPageController extends Controller
             ];
         });
 
-        return view('website::newLanding.home', compact('landingPage', 'sections', 'locale', 'panelsData'));
+        return view('website::newLanding.home', compact(
+            'landingPage',
+            'sections',
+            'locale',
+            'panels',
+            'panelsData',
+        ));
     }
 
     public function privacy(): View|\Illuminate\Foundation\Application|Factory|Application

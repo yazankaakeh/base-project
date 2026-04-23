@@ -29,6 +29,20 @@ class AiChatService
     /**
      * Figure out the admin-configured settings for the active scope.
      *
+     * Resolution order:
+     *   1. ThemeSetting row (admin explicitly toggled / picked provider via Theme Settings UI)
+     *   2. config/aichat.php defaults (driven by AI_CHAT_ENABLED / AI_CHAT_PROVIDER env vars)
+     *   3. Auto-detect: if no admin preference AND the resolved provider has
+     *      no API key, find ANY provider with a key and use that. This lets
+     *      "drop an API key into .env → widget appears" just work, without
+     *      forcing admins to click through Theme Settings first.
+     *
+     * Notes on the precedence:
+     *   - An explicit `ai_enabled=false` from ThemeSetting always wins — the
+     *     admin can turn chat off even if keys are present.
+     *   - `AI_CHAT_ENABLED` in .env is also respected when set explicitly
+     *     (true OR false). Auto-detect only fires when both are null/unset.
+     *
      * @return array{enabled: bool, provider: ?string, model: ?string, system_prompt: ?string}
      */
     public function resolveSettings(): array
@@ -37,16 +51,59 @@ class AiChatService
         try {
             $setting = ThemeSetting::getForScope('website');
         } catch (\Throwable $e) {
-            // Table may not exist yet (fresh install) — fall back to config.
+            // Table may not exist yet (fresh install) — ignore and use config.
         }
 
-        $enabled       = $setting->ai_enabled       ?? $this->defaults['enabled']       ?? false;
-        $provider      = $setting->ai_provider      ?? $this->defaults['provider']      ?? 'openai';
-        $model         = $setting->ai_model         ?? null;
-        $systemPrompt  = $setting->ai_system_prompt ?? $this->defaults['system_prompt'] ?? null;
+        // Admin preference wins (including an explicit `false` / empty string).
+        $explicitEnabled  = $setting->ai_enabled  ?? null;
+        $explicitProvider = $setting->ai_provider ?? null;
+
+        // .env preference comes next. We use getenv() to distinguish "user
+        // set this to empty/false" from "user never set it at all".
+        $envEnabledRaw   = getenv('AI_CHAT_ENABLED');
+        $envProviderRaw  = getenv('AI_CHAT_PROVIDER');
+        $envEnabledSet   = $envEnabledRaw  !== false && $envEnabledRaw  !== '';
+        $envProviderSet  = $envProviderRaw !== false && $envProviderRaw !== '';
+
+        // Auto-detect the first provider that has a non-empty api_key.
+        $autoProvider = null;
+        foreach ($this->factory->catalog() as $name => $info) {
+            if (!empty($info['configured'])) {
+                $autoProvider = $name;
+                break;
+            }
+        }
+
+        // ---- Resolve provider ----
+        $provider = $explicitProvider
+            ?? ($envProviderSet ? $envProviderRaw : null)
+            ?? $autoProvider
+            ?? 'openai';
+
+        // If the chosen provider has no key but another provider does, slide
+        // over to the configured one rather than silently failing.
+        $catalog = $this->factory->catalog();
+        $chosenReady = isset($catalog[$provider]) && !empty($catalog[$provider]['configured']);
+        if (!$chosenReady && $autoProvider && $explicitProvider === null && !$envProviderSet) {
+            $provider = $autoProvider;
+        }
+
+        // ---- Resolve enabled ----
+        if ($explicitEnabled !== null) {
+            $enabled = (bool) $explicitEnabled;
+        } elseif ($envEnabledSet) {
+            $enabled = filter_var($envEnabledRaw, FILTER_VALIDATE_BOOLEAN);
+        } else {
+            // Nothing was explicitly configured — enable automatically
+            // whenever at least one provider has a key.
+            $enabled = $autoProvider !== null;
+        }
+
+        $model        = $setting->ai_model         ?? null;
+        $systemPrompt = $setting->ai_system_prompt ?? $this->defaults['system_prompt'] ?? null;
 
         return [
-            'enabled'       => (bool) $enabled,
+            'enabled'       => $enabled,
             'provider'      => $provider,
             'model'         => $model,
             'system_prompt' => $systemPrompt,

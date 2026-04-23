@@ -5,8 +5,10 @@ namespace Modules\CMS\Repository\Page;
 use App\Enum\Pagination;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\CMS\Enums\PageStatusEnum;
 use Modules\CMS\Models\Page;
 use Modules\Seo\Models\SeoMeta;
 
@@ -36,7 +38,7 @@ class PageRepository implements PageInterface
             $page->parent_id = $validated['parent_id'] ?? null;
             $page->order = $validated['order'] ?? 0;
             $page->meta_data = $validated['meta_data'] ?? [];
-            $page->published_at = $validated['published_at'] ?? null;
+            $page->published_at = $this->resolvePublishedAt($validated);
             $page->use_panel_builder = $request->boolean('use_panel_builder');
             $page->save();
 
@@ -48,6 +50,32 @@ class PageRepository implements PageInterface
 
             return $page;
         });
+    }
+
+    /**
+     * Decide the published_at timestamp.
+     * If the page is set to Published but no published_at was provided,
+     * default to "now" so the page is immediately visible on the front-end.
+     * Draft / archived pages keep whatever the form provided (or null).
+     */
+    private function resolvePublishedAt(array $validated): ?Carbon
+    {
+        $raw = $validated['published_at'] ?? null;
+        $status = $validated['status'] ?? null;
+
+        if ($status instanceof PageStatusEnum) {
+            $status = $status->value;
+        }
+
+        if (!empty($raw)) {
+            return Carbon::parse($raw);
+        }
+
+        if ($status === PageStatusEnum::PUBLISHED->value) {
+            return now();
+        }
+
+        return null;
     }
 
     private function saveSeo(Page $page, array $validated): void
@@ -82,7 +110,7 @@ class PageRepository implements PageInterface
             $page->parent_id = $validated['parent_id'] ?? null;
             $page->order = $validated['order'] ?? 0;
             $page->meta_data = $validated['meta_data'] ?? [];
-            $page->published_at = $validated['published_at'] ?? null;
+            $page->published_at = $this->resolvePublishedAt($validated);
             $page->use_panel_builder = $request->boolean('use_panel_builder');
             $page->save();
 

@@ -27,8 +27,99 @@
 @endsection
 
 @section('content')
+    @php
+        use Modules\CMS\Enums\PageStatusEnum;
+
+        // Build a "View on site" URL:
+        // - slug=home is rendered at the landing route (`/`)
+        // - everything else is rendered at `/page/{slug}`
+        $viewUrl = $page->slug === 'home'
+            ? route('landing.home')
+            : route('page.show', $page->slug);
+
+        $isPublished     = $page->status === PageStatusEnum::PUBLISHED;
+        $publishedAt     = $page->published_at;
+        $hasPublishDate  = $publishedAt !== null;
+        $isFutureDated   = $hasPublishDate && $publishedAt->isFuture();
+        $isVisibleOnSite = $isPublished && $hasPublishDate && $publishedAt->isPast();
+
+        $statusWarnings = [];
+        if (!$isPublished) {
+            $statusWarnings[] = [
+                'icon' => 'ti tabler-eye-off',
+                'text' => __('This page is saved as ":status" — visitors cannot see it yet. Change the status to "Published" to make it live.', [
+                    'status' => $page->status->label() ?? $page->status->value,
+                ]),
+            ];
+        } elseif (!$hasPublishDate) {
+            $statusWarnings[] = [
+                'icon' => 'ti tabler-calendar-off',
+                'text' => __('Status is Published but no publish date is set. The page is NOT live. Pick a date (or save — it will be auto-stamped to now).'),
+            ];
+        } elseif ($isFutureDated) {
+            $statusWarnings[] = [
+                'icon' => 'ti tabler-clock-hour-3',
+                'text' => __('This page is scheduled and will become visible at :date.', [
+                    'date' => $publishedAt->format('M d, Y H:i'),
+                ]),
+            ];
+        }
+    @endphp
+
     <div class="page-wrapper">
         <div class="content">
+            {{-- Page header: title + quick actions --}}
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <div>
+                    <h4 class="mb-0 d-flex align-items-center gap-2">
+                        <i class="ti tabler-file-text text-primary"></i>
+                        {{ $page->getTranslation('title', app()->getLocale()) ?: $page->slug }}
+                    </h4>
+                    <small class="text-muted">
+                        <code>/{{ $page->slug === 'home' ? '' : 'page/' . $page->slug }}</code>
+                        &middot;
+                        @if($isVisibleOnSite)
+                            <span class="text-success">
+                                <i class="ti tabler-circle-check"></i> {{ __('Live') }}
+                            </span>
+                        @elseif($isFutureDated)
+                            <span class="text-warning">
+                                <i class="ti tabler-clock"></i> {{ __('Scheduled') }}
+                            </span>
+                        @else
+                            <span class="text-secondary">
+                                <i class="ti tabler-eye-off"></i> {{ __('Not live') }}
+                            </span>
+                        @endif
+                    </small>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ $viewUrl }}" target="_blank" rel="noopener"
+                       class="btn btn-outline-primary btn-sm"
+                       title="{{ __('Open this page on the public site in a new tab') }}">
+                        <i class="ti tabler-external-link me-1"></i>{{ __('View on site') }}
+                    </a>
+                    <a href="#panel-builder-anchor" class="btn btn-outline-secondary btn-sm">
+                        <i class="ti tabler-layout-grid me-1"></i>{{ __('Jump to panels') }}
+                    </a>
+                </div>
+            </div>
+
+            {{-- Status warnings --}}
+            @if(count($statusWarnings) > 0)
+                <div class="alert alert-warning d-flex align-items-start gap-2 mb-4" role="alert">
+                    <i class="ti tabler-alert-triangle mt-1"></i>
+                    <div>
+                        @foreach($statusWarnings as $w)
+                            <div class="{{ !$loop->last ? 'mb-1' : '' }}">
+                                <i class="{{ $w['icon'] }} me-1"></i>
+                                {{ $w['text'] }}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <div class="row mb-5">
                 <div class="col-12">
                     <div class="card-header px-0 pt-0">
@@ -200,7 +291,7 @@
                     </form>
 
                     {{-- Panel Builder (Livewire) - Outside form to prevent form submission issues --}}
-                    <div class="row mt-4">
+                    <div class="row mt-4" id="panel-builder-anchor">
                         <div class="col-12">
                             <livewire:cms::panel-builder :pageId="$page->id"/>
                         </div>

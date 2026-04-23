@@ -25,7 +25,7 @@
 
                     <div class="d-flex align-items-center mb-4">
                         <div class="d-inline-flex align-items-center justify-content-center rounded-3 me-3"
-                             style="width:44px;height:44px;background:rgba(0,86,248,0.15);color:#3B82F6;flex:0 0 44px">
+                             style="width:44px;height:44px;background:rgba(var(--codliy-primary-rgb), 0.15);color:var(--codliy-primary);flex:0 0 44px">
                             <i class="ti tabler-mail icon-lg"></i>
                         </div>
                         <div>
@@ -39,7 +39,7 @@
                     @if($contactPhone)
                         <div class="d-flex align-items-center mb-4">
                             <div class="d-inline-flex align-items-center justify-content-center rounded-3 me-3"
-                                 style="width:44px;height:44px;background:rgba(0,86,248,0.15);color:#3B82F6;flex:0 0 44px">
+                                 style="width:44px;height:44px;background:rgba(var(--codliy-primary-rgb), 0.15);color:var(--codliy-primary);flex:0 0 44px">
                                 <i class="ti tabler-phone icon-lg"></i>
                             </div>
                             <div>
@@ -53,7 +53,7 @@
 
                     <div class="d-flex align-items-center">
                         <div class="d-inline-flex align-items-center justify-content-center rounded-3 me-3"
-                             style="width:44px;height:44px;background:rgba(0,86,248,0.15);color:#3B82F6;flex:0 0 44px">
+                             style="width:44px;height:44px;background:rgba(var(--codliy-primary-rgb), 0.15);color:var(--codliy-primary);flex:0 0 44px">
                             <i class="ti tabler-map-pin icon-lg"></i>
                         </div>
                         <div>

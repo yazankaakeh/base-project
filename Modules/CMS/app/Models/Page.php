@@ -108,6 +108,8 @@ class Page extends Model implements HasMedia
 
     public function scopeBySlug($query, string $slug)
     {
-        return $query->whereLike('slug', $slug);
+        // Exact match — LIKE semantics would treat "_" and "%" as wildcards,
+        // which is both wrong and slower than an indexed equality check.
+        return $query->where('slug', $slug);
     }
 }

@@ -9,7 +9,7 @@
 <section id="landingCTA" class="codliy-section position-relative">
     <div class="container position-relative">
         <div class="codliy-card p-4 p-lg-5 overflow-hidden position-relative"
-             style="background:linear-gradient(135deg, rgba(0,86,248,0.22) 0%, rgba(10,31,77,0.4) 100%)">
+             style="background:linear-gradient(135deg, rgba(var(--codliy-primary-rgb), 0.22) 0%, rgba(var(--codliy-accent-rgb), 0.4) 100%);">
             {{-- decorative grid --}}
             <div class="position-absolute"
                  style="inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);background-size:24px 24px;opacity:.6"></div>

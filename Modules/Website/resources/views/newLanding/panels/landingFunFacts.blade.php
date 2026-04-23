@@ -19,7 +19,7 @@
                 <div class="col-sm-6 col-lg-3">
                     <div class="codliy-card h-100">
                         <div class="d-inline-flex align-items-center justify-content-center rounded-3 mb-3"
-                             style="width:48px;height:48px;background:rgba(0,86,248,.12);color:#3B82F6">
+                             style="width:48px;height:48px;background:rgba(var(--codliy-primary-rgb), 0.12);color:var(--codliy-primary);">
                             <i class="{{ $item['icon'] ?? 'ti tabler-star' }}" style="font-size:24px"></i>
                         </div>
                         <div class="codliy-section__title mb-1" style="font-size:2rem;line-height:1">

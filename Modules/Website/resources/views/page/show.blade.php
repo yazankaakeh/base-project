@@ -1,10 +1,19 @@
 @extends('theme::user.layouts.layoutFront')
 
-@section('title', $page->getTranslation('title', $locale))
+@php
+    // Title with locale fallback (same logic the hero uses).
+    $metaTitle = $page->getTranslation('title', $locale)
+        ?: $page->getTranslation('title', config('app.fallback_locale', 'en'))
+        ?: ucwords(str_replace(['-', '_'], ' ', $page->slug));
+    $metaExcerpt = $page->getTranslation('excerpt', $locale)
+        ?: $page->getTranslation('excerpt', config('app.fallback_locale', 'en'));
+@endphp
+
+@section('title', $metaTitle)
 
 @section('meta')
-    @if($page->getTranslation('excerpt', $locale))
-        <meta name="description" content="{{ Str::limit(strip_tags($page->getTranslation('excerpt', $locale)), 160) }}">
+    @if($metaExcerpt)
+        <meta name="description" content="{{ Str::limit(strip_tags($metaExcerpt), 160) }}">
     @endif
     @if($page->getFirstMediaUrl('featured_image'))
         <meta property="og:image" content="{{ $page->getFirstMediaUrl('featured_image') }}">
@@ -13,18 +22,24 @@
 
 @section('page-style')
     <style>
-        :root {
-            --theme-primary: #1EAAE7;
-            --theme-secondary: #092C4C;
-            --theme-accent: #ff8510;
-        }
-
+        /*
+         * Every color here flows through the Codliy theme tokens
+         * (--codliy-primary, --codliy-primary-rgb, --codliy-bg-deep), which
+         * are injected by ThemeSetting::getCssVariables() at runtime. So when
+         * the admin changes "Primary color" in Theme Settings, this page
+         * updates instantly — no hardcoded hex values.
+         */
         .page-hero {
             position: relative;
             min-height: 40vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, var(--theme-secondary) 0%, #0d3a5c 50%, var(--theme-primary) 100%);
+            background: linear-gradient(
+                135deg,
+                var(--codliy-bg-deep, #0A1F4D) 0%,
+                color-mix(in srgb, var(--codliy-bg-deep, #0A1F4D) 60%, var(--codliy-primary, #0056F8)) 55%,
+                var(--codliy-primary, #0056F8) 100%
+            );
             overflow: hidden;
         }
 
@@ -32,7 +47,13 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231EAAE7' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            /* Subtle dot pattern — same alpha on any primary color so it
+               reads on blue, purple, green, etc. Uses currentColor so it
+               inherits the text color of the surrounding element. */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1.2px, transparent 1.2px);
+            background-size: 22px 22px;
+            opacity: 0.9;
+            pointer-events: none;
         }
 
         .page-hero-bg {
@@ -40,7 +61,8 @@
             inset: 0;
             background-size: cover;
             background-position: center;
-            opacity: 0.15;
+            opacity: 0.18;
+            mix-blend-mode: luminosity;
         }
 
         .page-hero-content {
@@ -53,17 +75,14 @@
             line-height: 1.9;
         }
 
-        .page-content h2 {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: var(--theme-secondary);
+        .page-content h2,
+        .page-content h3,
+        .page-content h4 {
+            color: var(--bs-heading-color, var(--codliy-bg-deep, #0A1F4D));
         }
 
-        .page-content h3 {
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--theme-secondary);
-        }
+        .page-content h2 { margin-top: 2rem;    margin-bottom: 1rem; }
+        .page-content h3 { margin-top: 1.5rem;  margin-bottom: 0.75rem; }
 
         .page-content img {
             max-width: 100%;
@@ -75,66 +94,63 @@
         .page-content ul,
         .page-content ol {
             margin: 1rem 0;
-            padding-left: 1.5rem;
+            padding-inline-start: 1.5rem;
         }
 
-        .page-content li {
-            margin-bottom: 0.5rem;
-        }
+        .page-content li { margin-bottom: 0.5rem; }
 
         .page-content blockquote {
-            border-left: 4px solid var(--theme-primary);
+            border-inline-start: 4px solid var(--codliy-primary, #0056F8);
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
-            background: rgba(30, 170, 231, 0.05);
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.06);
             border-radius: 0 0.5rem 0.5rem 0;
         }
 
         .page-content a {
-            color: var(--theme-primary);
+            color: var(--codliy-primary, #0056F8);
             text-decoration: none;
         }
-
         .page-content a:hover {
-            color: var(--theme-accent);
+            color: var(--codliy-accent, var(--codliy-primary, #0056F8));
             text-decoration: underline;
         }
 
         .page-card {
             border: none;
-            box-shadow: 0 10px 40px rgba(9, 44, 76, 0.08);
+            box-shadow: 0 10px 40px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.08);
             border-radius: 1rem;
         }
 
         .sidebar-card {
             border: none;
-            box-shadow: 0 5px 20px rgba(9, 44, 76, 0.06);
+            box-shadow: 0 5px 20px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.06);
             border-radius: 0.75rem;
         }
 
         .sidebar-card .card-header {
-            background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
-            color: white;
+            background: linear-gradient(135deg,
+                var(--codliy-bg-deep, #0A1F4D) 0%,
+                var(--codliy-primary, #0056F8) 100%);
+            color: #fff;
             border-radius: 0.75rem 0.75rem 0 0;
         }
 
         .child-page-link {
             display: block;
             padding: 0.75rem 1rem;
-            border-bottom: 1px solid rgba(9, 44, 76, 0.08);
-            color: var(--theme-secondary);
+            border-bottom: 1px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.08);
+            color: var(--bs-body-color, #1a2338);
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
-        .child-page-link:last-child {
-            border-bottom: none;
-        }
+        .child-page-link:last-child { border-bottom: none; }
 
         .child-page-link:hover {
-            background: rgba(30, 170, 231, 0.08);
-            color: var(--theme-primary);
-            padding-left: 1.5rem;
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.08);
+            color: var(--codliy-primary, #0056F8);
+            padding-inline-start: 1.5rem;
         }
     </style>
 @endsection
@@ -142,12 +158,46 @@
 @section('content')
     @php
         use Modules\CMS\Enums\PageTemplateEnum;
-        $featuredImage = $page->getFirstMediaUrl('featured_image');
+
+        $featuredImage     = $page->getFirstMediaUrl('featured_image');
         $isLandingTemplate = $page->template === PageTemplateEnum::LANDING;
+
+        /*
+         * Resolve the title with a robust fallback chain so the hero never
+         * renders empty when a translation is missing for the current locale:
+         *   current locale  ->  app fallback locale  ->  any saved locale
+         *   ->  humanized slug (last resort).
+         */
+        $resolveTranslated = function ($field) use ($page, $locale) {
+            $value = $page->getTranslation($field, $locale);
+            if (filled($value)) {
+                return $value;
+            }
+            $fallback = $page->getTranslation($field, config('app.fallback_locale', 'en'));
+            if (filled($fallback)) {
+                return $fallback;
+            }
+            foreach ($page->getTranslations($field) as $any) {
+                if (filled($any)) {
+                    return $any;
+                }
+            }
+            return null;
+        };
+
+        $pageTitle   = $resolveTranslated('title') ?: ucwords(str_replace(['-', '_'], ' ', $page->slug));
+        $pageExcerpt = $resolveTranslated('excerpt');
+        $pageContent = $resolveTranslated('content');
+
+        // For LANDING-template pages, the hero normally comes from a CMS
+        // panel. But if there are no panels, we still need *something* so
+        // the page isn't title-less — show a compact hero with just the title.
+        $hasCmsPanels = $page->activePanels->count() > 0;
+        $showHero     = !$isLandingTemplate || !$hasCmsPanels;
     @endphp
 
-    {{-- Hero Section - Skip for Landing template --}}
-    @if(!$isLandingTemplate)
+    {{-- Hero Section --}}
+    @if($showHero)
         <section class="page-hero first-section-pt">
             @if($featuredImage)
                 <div class="page-hero-bg" style="background-image: url('{{ $featuredImage }}');"></div>
@@ -166,21 +216,23 @@
                                 @if($page->parent)
                                     <li class="breadcrumb-item">
                                         <a href="{{ route('page.show', $page->parent->slug) }}" class="text-white-50">
-                                            {{ $page->parent->getTranslation('title', $locale) }}
+                                            {{ $page->parent->getTranslation('title', $locale)
+                                                ?: $page->parent->getTranslation('title', config('app.fallback_locale', 'en'))
+                                                ?: $page->parent->slug }}
                                         </a>
                                     </li>
                                 @endif
                                 <li class="breadcrumb-item text-white">
-                                    {{ Str::limit($page->getTranslation('title', $locale), 40) }}
+                                    {{ Str::limit($pageTitle, 40) }}
                                 </li>
                             </ol>
                         </nav>
 
-                        <h1 class="display-5 fw-bold mb-3">{{ $page->getTranslation('title', $locale) }}</h1>
+                        <h1 class="display-5 fw-bold mb-3">{{ $pageTitle }}</h1>
 
-                        @if($page->getTranslation('excerpt', $locale))
+                        @if($pageExcerpt)
                             <p class="lead opacity-75 mb-0 mx-auto" style="max-width: 700px;">
-                                {{ $page->getTranslation('excerpt', $locale) }}
+                                {{ $pageExcerpt }}
                             </p>
                         @endif
                     </div>
@@ -192,7 +244,7 @@
     {{-- Panel Builder Content (Full Width Sections) --}}
     @if($page->use_panel_builder && $page->activePanels->count() > 0)
         @foreach($page->activePanels as $panel)
-            @includeIf('website::panels.' . $panel->type->value, ['panel' => $panel])
+            @include('website::panels.render', ['panel' => $panel])
         @endforeach
     @else
         {{-- Regular Content Section --}}
@@ -205,18 +257,14 @@
                             <div class="card-body p-4 p-lg-5">
                                 @if($featuredImage)
                                     <img src="{{ $featuredImage }}"
-                                         alt="{{ $page->getTranslation('title', $locale) }}"
+                                         alt="{{ $pageTitle }}"
                                          class="img-fluid rounded-3 mb-4 w-100"
                                          style="max-height: 400px; object-fit: cover;">
                                 @endif
 
-                                @php
-                                    $content = $page->getTranslation('content', $locale);
-                                @endphp
-
-                                @if($content)
+                                @if($pageContent)
                                     <div class="page-content">
-                                        {!! $content !!}
+                                        {!! $pageContent !!}
                                     </div>
                                 @else
                                     <div class="text-center py-5 text-muted">
@@ -253,7 +301,9 @@
                                                 @if($child->isPublished())
                                                     <a href="{{ route('page.show', $child->slug) }}" class="child-page-link">
                                                         <i class="ti tabler-chevron-right me-2"></i>
-                                                        {{ $child->getTranslation('title', $locale) }}
+                                                        {{ $child->getTranslation('title', $locale)
+                                                            ?: $child->getTranslation('title', config('app.fallback_locale', 'en'))
+                                                            ?: $child->slug }}
                                                     </a>
                                                 @endif
                                             @endforeach
@@ -274,7 +324,9 @@
                                                 @if($sibling->isPublished() && $sibling->id !== $page->id)
                                                     <a href="{{ route('page.show', $sibling->slug) }}" class="child-page-link">
                                                         <i class="ti tabler-chevron-right me-2"></i>
-                                                        {{ $sibling->getTranslation('title', $locale) }}
+                                                        {{ $sibling->getTranslation('title', $locale)
+                                                            ?: $sibling->getTranslation('title', config('app.fallback_locale', 'en'))
+                                                            ?: $sibling->slug }}
                                                     </a>
                                                 @endif
                                             @endforeach
@@ -292,7 +344,7 @@
     {{-- Show Panels After Content if page has both content and panels --}}
     @if(!$page->use_panel_builder && $page->activePanels->count() > 0)
         @foreach($page->activePanels as $panel)
-            @includeIf('website::panels.' . $panel->type->value, ['panel' => $panel])
+            @include('website::panels.render', ['panel' => $panel])
         @endforeach
     @endif
 @endsection
