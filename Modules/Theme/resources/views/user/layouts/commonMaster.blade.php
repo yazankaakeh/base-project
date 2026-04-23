@@ -46,9 +46,19 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
+    {{--
+        Page title: admin-configured `site_title` from Theme Settings wins,
+        with the config('variables.templateName') default as fallback.
+    --}}
+    @php
+        $brandName = $themeSettings->site_title ?? null;
+        $brandName = $brandName ?: config('variables.templateName', 'Codliy');
+    @endphp
     <title>
-        @yield('title') | {{ config('variables.templateName') ? config('variables.templateName') : 'TemplateName' }}
-        - {{ config('variables.templateSuffix') ? config('variables.templateSuffix') : 'TemplateSuffix' }}
+        @yield('title') | {{ $brandName }}
+        @if(config('variables.templateSuffix'))
+            - {{ config('variables.templateSuffix') }}
+        @endif
     </title>
     <meta name="description"
           content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}"/>

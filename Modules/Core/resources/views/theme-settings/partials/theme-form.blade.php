@@ -246,29 +246,56 @@
                         <div class="col-md-4">
                             <label class="form-label">{{ trans('core::core.theme_settings.logo') }}</label>
                             @if($settings->getFirstMediaUrl('logo'))
-                                <div class="mb-2">
-                                    <img src="{{ $settings->getFirstMediaUrl('logo') }}" alt="Logo" class="img-thumbnail" style="max-height: 80px;">
+                                <div class="mb-2 d-flex align-items-center gap-2">
+                                    <img src="{{ $settings->getFirstMediaUrl('logo') }}" alt="Logo"
+                                         class="img-thumbnail bg-light" style="max-height: 80px;">
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="remove_logo" id="remove_logo_{{ $scope }}" value="1">
+                                    <label class="form-check-label text-danger small" for="remove_logo_{{ $scope }}">
+                                        <i class="ti tabler-trash me-1"></i>{{ __('Remove current logo') }}
+                                    </label>
                                 </div>
                             @endif
                             <input type="file" class="form-control" name="logo" accept="image/*">
+                            <small class="text-muted">{{ __('Shown in the header. PNG, SVG, or WebP.') }}</small>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">{{ trans('core::core.theme_settings.logo_dark') }}</label>
                             @if($settings->getFirstMediaUrl('logo_dark'))
-                                <div class="mb-2">
-                                    <img src="{{ $settings->getFirstMediaUrl('logo_dark') }}" alt="Dark Logo" class="img-thumbnail" style="max-height: 80px;">
+                                <div class="mb-2 d-flex align-items-center gap-2">
+                                    <img src="{{ $settings->getFirstMediaUrl('logo_dark') }}" alt="Dark Logo"
+                                         class="img-thumbnail" style="max-height: 80px; background: #111;">
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="remove_logo_dark" id="remove_logo_dark_{{ $scope }}" value="1">
+                                    <label class="form-check-label text-danger small" for="remove_logo_dark_{{ $scope }}">
+                                        <i class="ti tabler-trash me-1"></i>{{ __('Remove current dark logo') }}
+                                    </label>
                                 </div>
                             @endif
                             <input type="file" class="form-control" name="logo_dark" accept="image/*">
+                            <small class="text-muted">{{ __('Shown in dark mode. Optional.') }}</small>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">{{ trans('core::core.theme_settings.favicon') }}</label>
                             @if($settings->getFirstMediaUrl('favicon'))
-                                <div class="mb-2">
-                                    <img src="{{ $settings->getFirstMediaUrl('favicon') }}" alt="Favicon" class="img-thumbnail" style="max-height: 32px;">
+                                <div class="mb-2 d-flex align-items-center gap-2">
+                                    <img src="{{ $settings->getFirstMediaUrl('favicon') }}" alt="Favicon"
+                                         class="img-thumbnail" style="max-height: 32px;">
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="remove_favicon" id="remove_favicon_{{ $scope }}" value="1">
+                                    <label class="form-check-label text-danger small" for="remove_favicon_{{ $scope }}">
+                                        <i class="ti tabler-trash me-1"></i>{{ __('Remove current favicon') }}
+                                    </label>
                                 </div>
                             @endif
                             <input type="file" class="form-control" name="favicon" accept=".ico,.png">
+                            <small class="text-muted">{{ __('Browser tab icon. 32×32 PNG or ICO.') }}</small>
                         </div>
                     </div>
                 </div>

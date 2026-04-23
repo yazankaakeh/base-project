@@ -114,18 +114,25 @@ class UpdateThemeSettingsAction
 
         $themeSetting->save();
 
-        // Handle logo uploads
-        if ($request->hasFile('logo')) {
-            $themeSetting->addMediaFromRequest('logo')->toMediaCollection('logo');
+        // Handle logo / favicon uploads. Each slot supports:
+        //   - `remove_<field>` checkbox → clear the collection so the brand
+        //     falls back to the default SVG/wordmark.
+        //   - File upload → replace the existing media (`->clearMediaCollection`
+        //     first so Spatie doesn't pile up orphaned files).
+        foreach (['logo', 'logo_dark', 'favicon'] as $slot) {
+            if ($request->boolean('remove_' . $slot)) {
+                $themeSetting->clearMediaCollection($slot);
+                continue;
+            }
+            if ($request->hasFile($slot)) {
+                $themeSetting->clearMediaCollection($slot);
+                $themeSetting->addMediaFromRequest($slot)->toMediaCollection($slot);
+            }
         }
 
-        if ($request->hasFile('logo_dark')) {
-            $themeSetting->addMediaFromRequest('logo_dark')->toMediaCollection('logo_dark');
-        }
-
-        if ($request->hasFile('favicon')) {
-            $themeSetting->addMediaFromRequest('favicon')->toMediaCollection('favicon');
-        }
+        // Bust the theme settings cache so the next request sees the new
+        // media immediately instead of the stale cached model.
+        ThemeSetting::clearCache($themeSetting->scope);
 
         return $themeSetting;
     }
