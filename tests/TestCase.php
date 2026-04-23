@@ -20,6 +20,14 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // Disable Vite globally for tests. The admin (and front) layouts
+        // call `@vite(...)`, which requires `public/build/**/manifest.json`
+        // to exist — we don't run `npm run build` in CI because the test
+        // suite is strictly a back-end concern. `withoutVite()` installs a
+        // stub that makes every Vite call render an empty string, which
+        // keeps views renderable without a compiled manifest.
+        $this->withoutVite();
+
         // Deterministic locale so translation-sensitive assertions don't
         // depend on developer environment.
         app()->setLocale(config('app.fallback_locale', 'en'));

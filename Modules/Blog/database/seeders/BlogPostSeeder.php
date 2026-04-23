@@ -94,6 +94,10 @@ class BlogPostSeeder extends Seeder
         // them again, update this constant and the `cover` filenames below.
         $blogCoverDir = public_path('assets/blog');
 
+        // Track how many covers actually attached so the final output
+        // surfaces silent drops (broken file paths, Spatie disk issues).
+        $mediaAttached = 0;
+
         $posts = [
             [
                 'category' => 0, // Engineering
@@ -210,22 +214,52 @@ class BlogPostSeeder extends Seeder
             $mappedTagIds = array_map(fn ($i) => $tags[$i]->id, $tagIndices);
             $post->tags()->attach($mappedTagIds);
 
-            // Attach cover image from public/codliy/images/blog/ if available.
-            if ($coverFile) {
-                $fullPath = $blogCoverDir . DIRECTORY_SEPARATOR . $coverFile;
-                if (File::exists($fullPath)) {
-                    try {
-                        $post->addMedia($fullPath)
-                            ->preservingOriginal()
-                            ->toMediaCollection('img');
-                    } catch (\Throwable $e) {
-                        // Media attachment is best-effort during seeding.
-                        $this->command->warn("Could not attach cover for {$postData['title']['en']}: {$e->getMessage()}");
-                    }
-                }
+            // Attach cover image from public/assets/blog/. Every post in
+            // the seed data has a cover (see `cover` keys above), so we
+            // don't guard against null here — PHPStan flags it as dead
+            // code, and more importantly, a null slipping through is a
+            // seed-data bug we want to hear about loudly.
+            $fullPath = $blogCoverDir . DIRECTORY_SEPARATOR . $coverFile;
+
+            if (! File::exists($fullPath)) {
+                $this->command->warn(
+                    "Cover file missing on disk: {$fullPath} (post: {$postData['title']['en']})"
+                );
+
+                continue;
+            }
+
+            try {
+                $post->addMedia($fullPath)
+                    ->preservingOriginal()
+                    ->toMediaCollection('img');
+
+                $mediaAttached++;
+            } catch (\Throwable $e) {
+                // Surface the error loudly so misconfigured disks,
+                // missing storage symlinks, or Spatie migration issues
+                // don't get swallowed.
+                $this->command->error(
+                    "Could not attach cover for '{$postData['title']['en']}': " .
+                    $e->getMessage()
+                );
             }
         }
 
-        $this->command->info('Codliy blog seeded: ' . count($categories) . ' categories, ' . count($tags) . ' tags, ' . count($posts) . ' posts.');
+        $this->command->info(
+            'Codliy blog seeded: ' . count($categories) . ' categories, ' .
+            count($tags) . ' tags, ' . count($posts) . ' posts, ' .
+            $mediaAttached . ' cover images attached.'
+        );
+
+        if ($mediaAttached < count($posts)) {
+            $this->command->warn(
+                'Some cover images did not attach. Check: ' .
+                '(1) files exist under public/assets/blog/, ' .
+                '(2) the "media" table exists (run Spatie\'s migration), ' .
+                '(3) storage/app/public is writable, ' .
+                '(4) `php artisan storage:link` was run so uploads are web-reachable.'
+            );
+        }
     }
 }

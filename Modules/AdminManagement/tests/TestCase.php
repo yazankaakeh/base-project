@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
+        parent::setUp(); // also calls $this->withoutVite() on the root TestCase
 
         // spatie/permission caches role/permission lookups aggressively.
         // Flush between tests so an `assignRole(...)` in one test doesn't
