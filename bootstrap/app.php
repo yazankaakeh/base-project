@@ -21,6 +21,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            // Default `auth` is overridden to our Authenticate middleware so
+            // unauthenticated redirects go to `admin.login` (the only login
+            // route that actually exists in this app) instead of the Laravel
+            // default `route('login')` — which was throwing
+            // RouteNotFoundException for every expired admin session on the
+            // Website / Theme routes that use `middleware(['auth','verified'])`.
+            'auth' => Authenticate::class,
             'admin-auth' => Authenticate::class,
             'guest' => RedirectIfAuthenticated::class,
             'admin-enabled' => AdminEnabled::class,
