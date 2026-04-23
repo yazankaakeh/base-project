@@ -36,8 +36,140 @@
         [dir="rtl"] .codliy-article blockquote,[data-direction="rtl"] .codliy-article blockquote{border-left:0;border-right:3px solid var(--codliy-primary);border-radius:10px 0 0 10px}
         [dir="rtl"] .codliy-article ul,[dir="rtl"] .codliy-article ol,
         [data-direction="rtl"] .codliy-article ul,[data-direction="rtl"] .codliy-article ol{padding-left:0;padding-right:1.35rem}
-        .share-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:var(--codliy-text-soft);transition:all .2s}
-        .share-btn:hover{background:var(--codliy-primary);border-color:var(--codliy-primary);color:#fff}
+        /* ─── Tag pills ─────────────────────────────────────────────── */
+        .post-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.1);
+            border: 1px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.2);
+            color: var(--codliy-primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all .2s ease;
+        }
+        .post-tag:hover {
+            background: var(--codliy-primary);
+            border-color: var(--codliy-primary);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.28);
+        }
+        .post-tag i { opacity: 0.85; font-size: 0.9rem; }
+
+        /* ─── Post action bar (clap + share) ───────────────────────── */
+        .post-action-bar {
+            background: linear-gradient(135deg,
+                rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.06),
+                rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.02));
+            border: 1px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.12);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            margin-top: 2rem;
+        }
+        [data-bs-theme="light"] .post-action-bar,
+        [data-layout-mode="light_mode"] .post-action-bar {
+            background: linear-gradient(135deg,
+                rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.04),
+                #fff);
+        }
+
+        /* ─── Clap button ─────────────────────────────────────────── */
+        .clap-button {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.65rem 1.25rem;
+            background: var(--codliy-primary-gradient, var(--codliy-primary));
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 22px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.32);
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .clap-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.42);
+            color: #fff;
+        }
+        .clap-button:active { transform: scale(.97); }
+        .clap-button i { font-size: 1.1rem; }
+        .clap-button .clap-count {
+            background: rgba(255, 255, 255, 0.22);
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-variant-numeric: tabular-nums;
+        }
+        /* Pulse animation when clap fires */
+        @keyframes clapPulse {
+            0%   { transform: scale(1); }
+            35%  { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+        .clap-button.pulsing { animation: clapPulse .5s ease; }
+
+        /* ─── Share buttons ────────────────────────────────────────── */
+        .share-group { display: inline-flex; align-items: center; gap: 0.45rem; }
+        .share-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--codliy-text-mute, #8A94B0);
+            margin-right: 0.25rem;
+        }
+        [dir="rtl"] .share-label { margin-right: 0; margin-left: 0.25rem; }
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.12);
+            background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.04);
+            color: var(--codliy-text-soft, currentColor);
+            transition: all .2s ease;
+            text-decoration: none;
+        }
+        .share-btn i { font-size: 1rem; }
+        .share-btn:hover {
+            background: var(--codliy-primary);
+            border-color: var(--codliy-primary);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.28);
+        }
+        /* Social brand tints on hover — more delightful than a flat primary. */
+        .share-btn[data-net="twitter"]:hover  { background: #1DA1F2; border-color: #1DA1F2; }
+        .share-btn[data-net="linkedin"]:hover { background: #0A66C2; border-color: #0A66C2; }
+        .share-btn[data-net="facebook"]:hover { background: #1877F2; border-color: #1877F2; }
+        .share-btn[data-net="email"]:hover    { background: #EA4335; border-color: #EA4335; }
+
+        /* Slim divider between clap and share on wide screens. */
+        @media (min-width: 768px) {
+            .post-action-bar__divider {
+                width: 1px;
+                align-self: stretch;
+                background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.14);
+                margin: 0 1rem;
+            }
+        }
+        @media (max-width: 767.98px) {
+            .post-action-bar__divider { display: none; }
+            .post-action-bar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 0.85rem;
+            }
+            .clap-button, .share-group { width: 100%; justify-content: center; }
+        }
     </style>
 @endsection
 
@@ -106,48 +238,59 @@
                         </div>
 
                         @if($post->tags->count() > 0)
+                            {{-- Tags row — pills with a primary tint that darken on hover. --}}
                             <div class="pt-4 mt-4 border-top border-codliy">
-                                <div class="codliy-card__eyebrow mb-2">{{ __('Tags') }}</div>
+                                <div class="codliy-card__eyebrow mb-3">
+                                    <i class="ti tabler-tags me-1"></i>{{ __('Tags') }}
+                                </div>
                                 <div class="d-flex flex-wrap gap-2">
                                     @foreach($post->tags as $tag)
-                                        <a href="{{ route('blog.tag', $tag->id) }}"
-                                           class="badge text-decoration-none border border-codliy text-codliy-soft px-2 py-1"
-                                           style="background:rgba(0,86,248,0.08)">
+                                        <a href="{{ route('blog.tag', $tag->id) }}" class="post-tag">
                                             <i class="ti tabler-hash"></i>{{ $tag->getTranslation('name', $locale) }}
                                         </a>
                                     @endforeach
                                 </div>
                             </div>
                         @endif
+                    </div>
 
-                        <div class="pt-4 mt-4 border-top border-codliy d-flex flex-wrap align-items-center justify-content-between gap-3">
-                            <div class="clap-button" id="clap-btn" data-post-id="{{ $post->id }}">
-                                <button type="button" class="btn-codliy px-3 py-2">
-                                    <i class="ti tabler-heart-handshake me-1"></i>
-                                    {{ __('Clap') }}
-                                    <span class="ms-1 opacity-75">(<span id="remaining-claps">{{ $remainingClaps }}</span>)</span>
-                                </button>
-                            </div>
+                    {{-- Action bar: clap + share. Lifted out of the article card
+                         into its own gradient panel so it reads as a distinct
+                         CTA rather than an afterthought. --}}
+                    @php $shareUrl = urlencode(request()->url()); $shareTitle = urlencode($post->getTranslation('title', $locale)); @endphp
+                    <div class="post-action-bar d-flex flex-wrap align-items-center justify-content-between gap-3">
+                        <button type="button" class="clap-button" id="clap-btn" data-post-id="{{ $post->id }}">
+                            <i class="ti tabler-hand-three-fingers"></i>
+                            <span>{{ __('Clap') }}</span>
+                            <span class="clap-count" id="remaining-claps-wrap">
+                                <span id="remaining-claps">{{ $remainingClaps }}</span>
+                            </span>
+                        </button>
 
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="small text-codliy-mute me-2">{{ __('Share') }}</span>
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($post->getTranslation('title', $locale)) }}"
-                                   target="_blank" rel="noopener" class="share-btn" aria-label="Twitter">
-                                    <i class="ti tabler-brand-x"></i>
-                                </a>
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}"
-                                   target="_blank" rel="noopener" class="share-btn" aria-label="LinkedIn">
-                                    <i class="ti tabler-brand-linkedin"></i>
-                                </a>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}"
-                                   target="_blank" rel="noopener" class="share-btn" aria-label="Facebook">
-                                    <i class="ti tabler-brand-facebook"></i>
-                                </a>
-                                <a href="mailto:?subject={{ urlencode($post->getTranslation('title', $locale)) }}&body={{ urlencode(request()->url()) }}"
-                                   class="share-btn" aria-label="Email">
-                                    <i class="ti tabler-mail"></i>
-                                </a>
-                            </div>
+                        <div class="post-action-bar__divider"></div>
+
+                        <div class="share-group">
+                            <span class="share-label">{{ __('Share') }}</span>
+                            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}"
+                               target="_blank" rel="noopener" class="share-btn" data-net="twitter" aria-label="Share on X">
+                                <i class="ti tabler-brand-x"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $shareUrl }}"
+                               target="_blank" rel="noopener" class="share-btn" data-net="linkedin" aria-label="Share on LinkedIn">
+                                <i class="ti tabler-brand-linkedin"></i>
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                               target="_blank" rel="noopener" class="share-btn" data-net="facebook" aria-label="Share on Facebook">
+                                <i class="ti tabler-brand-facebook"></i>
+                            </a>
+                            <a href="mailto:?subject={{ $shareTitle }}&body={{ $shareUrl }}"
+                               class="share-btn" data-net="email" aria-label="{{ __('Share via email') }}">
+                                <i class="ti tabler-mail"></i>
+                            </a>
+                            <button type="button" class="share-btn" data-net="copy" id="copy-link-btn"
+                                    aria-label="{{ __('Copy link') }}" title="{{ __('Copy link') }}">
+                                <i class="ti tabler-link"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -252,20 +395,42 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                totalClapsEl.textContent = data.total_claps;
-                                remainingClapsEl.textContent = data.remaining_claps;
-
-                                clapBtn.classList.add('animate__animated', 'animate__heartBeat');
-                                setTimeout(() => {
-                                    clapBtn.classList.remove('animate__animated', 'animate__heartBeat');
-                                }, 1000);
-                            } else {
-                                alert(data.message);
+                                if (totalClapsEl) totalClapsEl.textContent = data.total_claps;
+                                if (remainingClapsEl) remainingClapsEl.textContent = data.remaining_claps;
+                                // Pulse animation — scoped CSS handles the keyframes.
+                                clapBtn.classList.add('pulsing');
+                                setTimeout(() => clapBtn.classList.remove('pulsing'), 500);
+                            } else if (data.message) {
+                                // Inline hint rather than an ugly alert().
+                                clapBtn.setAttribute('title', data.message);
                             }
                         })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                        .catch(err => console.error('Clap failed:', err));
+                });
+            }
+
+            // Copy-link share button — swaps to a success icon for 1.5s
+            // so the user gets feedback that the URL was copied.
+            const copyBtn = document.getElementById('copy-link-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async function () {
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        const icon = copyBtn.querySelector('i');
+                        const prev = icon.className;
+                        icon.className = 'ti tabler-check';
+                        copyBtn.style.background = '#10B981';
+                        copyBtn.style.borderColor = '#10B981';
+                        copyBtn.style.color = '#fff';
+                        setTimeout(() => {
+                            icon.className = prev;
+                            copyBtn.style.background = '';
+                            copyBtn.style.borderColor = '';
+                            copyBtn.style.color = '';
+                        }, 1500);
+                    } catch (e) {
+                        console.error('Copy failed:', e);
+                    }
                 });
             }
         });
