@@ -14,7 +14,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Portfolio extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasTranslations, SoftDeletes, HasSeo;
+    use HasSeo, HasTranslations, InteractsWithMedia, SoftDeletes;
 
     protected $table = 'portfolios';
 

@@ -21,8 +21,7 @@ class ProviderFactory
     public function __construct(
         protected Application $app,
         protected array $catalog,
-    ) {
-    }
+    ) {}
 
     public function make(string $name): AiProviderInterface
     {
@@ -34,10 +33,10 @@ class ProviderFactory
         $driver = $config['driver'] ?? $name;
 
         return match ($driver) {
-            'openai'    => new OpenAiProvider($name, $config),
+            'openai' => new OpenAiProvider($name, $config),
             'anthropic' => new AnthropicProvider($name, $config),
-            'gemini'    => new GeminiProvider($name, $config),
-            default     => throw new InvalidArgumentException("Unsupported AI driver [{$driver}]."),
+            'gemini' => new GeminiProvider($name, $config),
+            default => throw new InvalidArgumentException("Unsupported AI driver [{$driver}]."),
         };
     }
 
@@ -49,9 +48,9 @@ class ProviderFactory
         $out = [];
         foreach ($this->catalog as $name => $config) {
             $out[$name] = [
-                'label'            => $config['label'] ?? ucfirst($name),
-                'configured'       => ! empty($config['api_key']),
-                'default_model'    => $config['default_model'] ?? null,
+                'label' => $config['label'] ?? ucfirst($name),
+                'configured' => ! empty($config['api_key']),
+                'default_model' => $config['default_model'] ?? null,
                 'available_models' => $config['available_models'] ?? [],
             ];
         }

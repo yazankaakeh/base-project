@@ -17,7 +17,7 @@ class SocialAccount extends Model
         'provider_user_id',
         'token',
         'refresh_token',
-        'expires_in'
+        'expires_in',
     ];
 
     /**
@@ -52,4 +52,3 @@ class SocialAccount extends Model
         return $query->where('provider_user_id', $providerUserId);
     }
 }
-

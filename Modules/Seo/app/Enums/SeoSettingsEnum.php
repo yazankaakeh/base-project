@@ -32,6 +32,6 @@ enum SeoSettingsEnum: string
 
     public function label(): string
     {
-        return trans('seo::seo.seo_settings.'.$this->value);
+        return trans('seo::seo.seo_settings.' . $this->value);
     }
 }

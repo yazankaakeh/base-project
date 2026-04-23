@@ -21,8 +21,7 @@ class AnthropicProvider implements AiProviderInterface
     public function __construct(
         protected string $name,
         protected array $config,
-    ) {
-    }
+    ) {}
 
     public function key(): string
     {
@@ -40,29 +39,30 @@ class AnthropicProvider implements AiProviderInterface
             throw new RuntimeException("Provider [{$this->name}] is not configured (missing API key).");
         }
 
-        $model       = $options['model'] ?? $this->config['default_model'];
-        $maxTokens   = $options['max_tokens'] ?? 600;
+        $model = $options['model'] ?? $this->config['default_model'];
+        $maxTokens = $options['max_tokens'] ?? 600;
         $temperature = $options['temperature'] ?? 0.5;
-        $system      = $options['system_prompt'] ?? null;
+        $system = $options['system_prompt'] ?? null;
 
         // Anthropic only accepts role=user|assistant; strip any system entries
         // from the message array and hoist them to the top-level `system` field.
         $cleanMessages = [];
         foreach ($messages as $m) {
             if (($m['role'] ?? '') === 'system') {
-                $system = ($system ? $system."\n\n" : '').($m['content'] ?? '');
+                $system = ($system ? $system . "\n\n" : '') . ($m['content'] ?? '');
+
                 continue;
             }
             $cleanMessages[] = [
-                'role'    => $m['role']    ?? 'user',
+                'role' => $m['role'] ?? 'user',
                 'content' => $m['content'] ?? '',
             ];
         }
 
         $payload = [
-            'model'       => $model,
-            'messages'    => $cleanMessages,
-            'max_tokens'  => $maxTokens,
+            'model' => $model,
+            'messages' => $cleanMessages,
+            'max_tokens' => $maxTokens,
             'temperature' => $temperature,
         ];
         if ($system) {
@@ -71,15 +71,15 @@ class AnthropicProvider implements AiProviderInterface
 
         $response = Http::timeout(60)
             ->withHeaders([
-                'x-api-key'         => $this->config['api_key'],
+                'x-api-key' => $this->config['api_key'],
                 'anthropic-version' => $this->config['api_version'] ?? '2023-06-01',
-                'Content-Type'      => 'application/json',
+                'Content-Type' => 'application/json',
             ])
-            ->post(rtrim($this->config['base_url'], '/').'/messages', $payload);
+            ->post(rtrim($this->config['base_url'], '/') . '/messages', $payload);
 
         if (! $response->successful()) {
             throw new RuntimeException(
-                "[{$this->name}] HTTP ".$response->status().': '.$response->body()
+                "[{$this->name}] HTTP " . $response->status() . ': ' . $response->body()
             );
         }
 
@@ -93,12 +93,12 @@ class AnthropicProvider implements AiProviderInterface
         }
 
         return new ChatResponse(
-            content:          trim($content),
-            providerKey:      $this->name,
-            model:            $body['model'] ?? $model,
-            promptTokens:     $body['usage']['input_tokens']  ?? null,
+            content: trim($content),
+            providerKey: $this->name,
+            model: $body['model'] ?? $model,
+            promptTokens: $body['usage']['input_tokens'] ?? null,
             completionTokens: $body['usage']['output_tokens'] ?? null,
-            raw:              $body,
+            raw: $body,
         );
     }
 }

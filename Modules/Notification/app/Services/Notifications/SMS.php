@@ -37,7 +37,7 @@ class SMS
         try {
             $response = $this->client->post($this->apiUrl, [
                 'headers' => [
-                    'Authorization' => 'Bearer '.$this->apiToken,
+                    'Authorization' => 'Bearer ' . $this->apiToken,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => $payload,
@@ -62,6 +62,4 @@ class SMS
             return $errorMessage;
         }
     }
-
-
 }

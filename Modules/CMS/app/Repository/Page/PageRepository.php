@@ -7,7 +7,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Modules\CMS\Enums\PageStatusEnum;
 use Modules\CMS\Models\Page;
 use Modules\Seo\Models\SeoMeta;
@@ -28,7 +27,7 @@ class PageRepository implements PageInterface
         $validated = $request->validated();
 
         return DB::transaction(function () use ($request, $validated) {
-            $page = new Page();
+            $page = new Page;
             $page->title = $validated['title'];
             $page->slug = $validated['slug'];
             $page->content = $validated['content'] ?? [];
@@ -67,7 +66,7 @@ class PageRepository implements PageInterface
             $status = $status->value;
         }
 
-        if (!empty($raw)) {
+        if (! empty($raw)) {
             return Carbon::parse($raw);
         }
 
@@ -90,7 +89,7 @@ class PageRepository implements PageInterface
      */
     private function saveSeo(Page $page, array $validated): void
     {
-        $metaTitle       = $this->normalizeTranslatable($validated['meta_title']       ?? null);
+        $metaTitle = $this->normalizeTranslatable($validated['meta_title'] ?? null);
         $metaDescription = $this->normalizeTranslatable($validated['meta_description'] ?? null);
 
         // Nothing to save → also nothing to create an empty row for.
@@ -98,11 +97,11 @@ class PageRepository implements PageInterface
             return;
         }
 
-        $seo = $page->seo ?: new SeoMeta();
-        if (!empty($metaTitle)) {
+        $seo = $page->seo ?: new SeoMeta;
+        if (! empty($metaTitle)) {
             $seo->title = $metaTitle;
         }
-        if (!empty($metaDescription)) {
+        if (! empty($metaDescription)) {
             $seo->meta_description = $metaDescription;
         }
         $page->seo()->save($seo);
@@ -125,6 +124,7 @@ class PageRepository implements PageInterface
         if (is_string($value) && trim($value) !== '') {
             return [app()->getLocale() => trim($value)];
         }
+
         return [];
     }
 
@@ -180,6 +180,7 @@ class PageRepository implements PageInterface
             ->get()
             ->mapWithKeys(function (Page $page) {
                 $title = $page->getTranslation('title', app()->getLocale());
+
                 return [$page->id => is_string($title) ? $title : (json_encode($title) ?: 'Page ' . $page->id)];
             })->toArray();
     }

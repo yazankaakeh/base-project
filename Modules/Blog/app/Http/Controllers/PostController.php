@@ -18,6 +18,7 @@ class PostController extends Controller
     public function index()
     {
         $data = $this->posts->index();
+
         return view('blog::posts.index', compact('data'));
     }
 
@@ -27,8 +28,8 @@ class PostController extends Controller
     public function create()
     {
         $relatedPostsOptions = $this->posts->getRelatedOptions();
-        $tagOptions          = $this->getTagOptions();
-        $categoryOptions     = $this->getCategoryOptions();
+        $tagOptions = $this->getTagOptions();
+        $categoryOptions = $this->getCategoryOptions();
 
         return view('blog::posts.create', compact('relatedPostsOptions', 'tagOptions', 'categoryOptions'));
     }
@@ -39,6 +40,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $this->posts->store($request);
+
         return redirect()->route('admin.posts.index')->with('success', trans('core::core.env.save'));
     }
 
@@ -57,8 +59,8 @@ class PostController extends Controller
     {
         $post = $this->posts->find($id);
         $relatedPostsOptions = $this->posts->getRelatedOptions($id);
-        $tagOptions          = $this->getTagOptions();
-        $categoryOptions     = $this->getCategoryOptions();
+        $tagOptions = $this->getTagOptions();
+        $categoryOptions = $this->getCategoryOptions();
 
         return view('blog::posts.edit', compact('post', 'relatedPostsOptions', 'tagOptions', 'categoryOptions'));
     }
@@ -69,6 +71,7 @@ class PostController extends Controller
     public function update(PostRequest $request, $id)
     {
         $this->posts->update($id, $request);
+
         return redirect()->route('admin.posts.index')->with('success', trans('core::core.env.save'));
     }
 
@@ -78,6 +81,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $this->posts->destroy($id);
+
         return redirect()->route('admin.posts.index')->with('success', trans('core::core.env.save'));
     }
 
@@ -88,6 +92,7 @@ class PostController extends Controller
     {
         return BlogPostTags::all()->mapWithKeys(function ($tag) {
             $name = $tag->getTranslation('name', app()->getLocale());
+
             return [$tag->id => $name ?: 'Tag ' . $tag->id];
         })->toArray();
     }
@@ -102,7 +107,7 @@ class PostController extends Controller
      */
     private function getCategoryOptions(): array
     {
-        $locale   = app()->getLocale();
+        $locale = app()->getLocale();
         $fallback = config('app.fallback_locale', 'en');
 
         return BlogCategory::query()

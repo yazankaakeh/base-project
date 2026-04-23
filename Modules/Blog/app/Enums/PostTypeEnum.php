@@ -16,6 +16,6 @@ enum PostTypeEnum: int
 
     public function label(): string
     {
-        return trans('blog::blog.enums.PostTypeEnum.'.$this->value);
+        return trans('blog::blog.enums.PostTypeEnum.' . $this->value);
     }
 }

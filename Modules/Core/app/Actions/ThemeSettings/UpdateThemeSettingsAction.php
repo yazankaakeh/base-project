@@ -13,7 +13,7 @@ class UpdateThemeSettingsAction
 
         $themeSetting = ThemeSetting::where('scope', $scope)->first();
 
-        if (!$themeSetting) {
+        if (! $themeSetting) {
             $themeSetting = new ThemeSetting(['scope' => $scope]);
         }
 
@@ -54,7 +54,7 @@ class UpdateThemeSettingsAction
         // RTL-specific fonts — Arabic/Hebrew/Persian pages get their own font
         // stack so admins can pair (e.g.) "Inter" LTR with "IBM Plex Sans Arabic" RTL.
         // Empty or "__none__" clears the field — falls back to LTR font.
-        $rtlFamilyPick   = trim((string) $request->input('rtl_font_family', ''));
+        $rtlFamilyPick = trim((string) $request->input('rtl_font_family', ''));
         $rtlFamilyCustom = trim((string) $request->input('rtl_font_family_custom', ''));
         if ($rtlFamilyCustom !== '' || $rtlFamilyPick === '__custom__') {
             $themeSetting->rtl_font_family = $rtlFamilyCustom !== '' ? $rtlFamilyCustom : $themeSetting->rtl_font_family;
@@ -64,7 +64,7 @@ class UpdateThemeSettingsAction
             $themeSetting->rtl_font_family = $rtlFamilyPick !== '' ? $rtlFamilyPick : null;
         }
 
-        $rtlHeadingsPick   = trim((string) $request->input('rtl_headings_font_family', ''));
+        $rtlHeadingsPick = trim((string) $request->input('rtl_headings_font_family', ''));
         $rtlHeadingsCustom = trim((string) $request->input('rtl_headings_font_family_custom', ''));
         if ($rtlHeadingsCustom !== '' || $rtlHeadingsPick === '__custom__') {
             $themeSetting->rtl_headings_font_family = $rtlHeadingsCustom !== '' ? $rtlHeadingsCustom : $themeSetting->rtl_headings_font_family;
@@ -94,7 +94,7 @@ class UpdateThemeSettingsAction
                 fn ($line) => trim($line),
                 preg_split('/\r\n|\r|\n/', $extraUrlsRaw) ?: []
             ), fn ($line) => $line !== '' && filter_var($line, FILTER_VALIDATE_URL)));
-            if (!empty($extraUrls)) {
+            if (! empty($extraUrls)) {
                 $ccv['google_font_urls'] = $extraUrls;
             } else {
                 unset($ccv['google_font_urls']);
@@ -145,6 +145,7 @@ class UpdateThemeSettingsAction
         foreach (['logo', 'logo_dark', 'favicon'] as $slot) {
             if ($request->boolean('remove_' . $slot)) {
                 $themeSetting->clearMediaCollection($slot);
+
                 continue;
             }
             if ($request->hasFile($slot)) {

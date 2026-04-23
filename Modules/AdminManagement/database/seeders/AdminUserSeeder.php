@@ -4,8 +4,8 @@ namespace Modules\AdminManagement\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Modules\AdminManagement\Models\Admin;
 use Modules\AdminManagement\Enums\Roles;
+use Modules\AdminManagement\Models\Admin;
 use Spatie\Permission\Models\Role;
 
 class AdminUserSeeder extends Seeder

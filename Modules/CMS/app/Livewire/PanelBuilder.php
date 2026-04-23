@@ -19,7 +19,7 @@ use Throwable;
 
 class PanelBuilder extends Component
 {
-    use WithFileUploads, OptimizeLivewireTrait;
+    use OptimizeLivewireTrait, WithFileUploads;
 
     public int $pageId;
 
@@ -32,13 +32,20 @@ class PanelBuilder extends Component
         'is_active' => true,
         'settings' => [],
     ];
+
     public string $componentName = 'PanelBuilder';
+
     // Per-panel new item state
     public array $newItemType = [];
+
     public array $newItemTitle = [];
+
     public array $newItemContent = [];
+
     public array $newItemData = [];
+
     public array $newItemImage = [];
+
     public array $editPanelItem = [
         'id' => null,
         'title' => [],
@@ -63,6 +70,7 @@ class PanelBuilder extends Component
     ];
 
     public bool $showEditPanelModal = false;
+
     public bool $showEditItemModal = false;
 
     protected $listeners = [
@@ -117,17 +125,18 @@ class PanelBuilder extends Component
     public function createPanel(): void
     {
         $this->validate([
-            'newPanel.type' => 'required|string|in:'.implode(
-                    ',',
-                    array_map(fn($e) => $e->value, PanelTypeEnum::cases()),
-                ),
+            'newPanel.type' => 'required|string|in:' . implode(
+                ',',
+                array_map(fn ($e) => $e->value, PanelTypeEnum::cases()),
+            ),
             // Title is optional per locale
         ]);
 
         /** @var PanelInterface $repo */
         $repo = app(PanelInterface::class);
 
-        $panelRequest = new class($this->pageId, $this->newPanel) extends Request {
+        $panelRequest = new class($this->pageId, $this->newPanel) extends Request
+        {
             public function __construct(public int $pageId, public array $data)
             {
                 parent::__construct();
@@ -156,7 +165,8 @@ class PanelBuilder extends Component
         /** @var PanelInterface $repo */
         $repo = app(PanelInterface::class);
 
-        $request = new class($data) extends Request {
+        $request = new class($data) extends Request
+        {
             public function __construct(public array $data)
             {
                 parent::__construct();
@@ -193,7 +203,7 @@ class PanelBuilder extends Component
     public function editPanel(int $panelId): void
     {
         $panel = Panel::find($panelId);
-        if (!$panel) {
+        if (! $panel) {
             return;
         }
 
@@ -212,13 +222,13 @@ class PanelBuilder extends Component
 
         // Ensure all languages have keys
         foreach (LanguageEnum::values() as $lang) {
-            if (!isset($this->editingPanel['title'][$lang])) {
+            if (! isset($this->editingPanel['title'][$lang])) {
                 $this->editingPanel['title'][$lang] = '';
             }
-            if (!isset($this->editingPanel['settings']['badge'][$lang])) {
+            if (! isset($this->editingPanel['settings']['badge'][$lang])) {
                 $this->editingPanel['settings']['badge'][$lang] = '';
             }
-            if (!isset($this->editingPanel['settings']['description'][$lang])) {
+            if (! isset($this->editingPanel['settings']['description'][$lang])) {
                 $this->editingPanel['settings']['description'][$lang] = '';
             }
         }
@@ -228,7 +238,7 @@ class PanelBuilder extends Component
 
     public function saveEditedPanel(): void
     {
-        if (!$this->editingPanel['id']) {
+        if (! $this->editingPanel['id']) {
             return;
         }
 
@@ -241,7 +251,8 @@ class PanelBuilder extends Component
         /** @var PanelInterface $repo */
         $repo = app(PanelInterface::class);
 
-        $request = new class($this->editingPanel) extends Request {
+        $request = new class($this->editingPanel) extends Request
+        {
             public function __construct(public array $data)
             {
                 parent::__construct();
@@ -266,7 +277,7 @@ class PanelBuilder extends Component
     public function editItem(int $itemId): void
     {
         $item = PanelItem::find($itemId);
-        if (!$item) {
+        if (! $item) {
             return;
         }
 
@@ -284,20 +295,20 @@ class PanelBuilder extends Component
 
         // Ensure all languages have keys for title and content
         foreach (LanguageEnum::values() as $lang) {
-            if (!isset($this->editPanelItem['title'][$lang])) {
+            if (! isset($this->editPanelItem['title'][$lang])) {
                 $this->editPanelItem['title'][$lang] = '';
             }
-            if (!isset($this->editPanelItem['content'][$lang])) {
+            if (! isset($this->editPanelItem['content'][$lang])) {
                 $this->editPanelItem['content'][$lang] = '';
             }
             // Ensure translatable data fields have language keys
-            if (!isset($this->editPanelItem['data']['subtitle'][$lang])) {
+            if (! isset($this->editPanelItem['data']['subtitle'][$lang])) {
                 $this->editPanelItem['data']['subtitle'][$lang] = is_string($data['subtitle'] ?? null) ? ($lang === 'en' ? $data['subtitle'] : '') : ($data['subtitle'][$lang] ?? '');
             }
-            if (!isset($this->editPanelItem['data']['button_text'][$lang])) {
+            if (! isset($this->editPanelItem['data']['button_text'][$lang])) {
                 $this->editPanelItem['data']['button_text'][$lang] = is_string($data['button_text'] ?? null) ? ($lang === 'en' ? $data['button_text'] : '') : ($data['button_text'][$lang] ?? '');
             }
-            if (!isset($this->editPanelItem['data']['role'][$lang])) {
+            if (! isset($this->editPanelItem['data']['role'][$lang])) {
                 $this->editPanelItem['data']['role'][$lang] = $data['role'][$lang] ?? '';
             }
         }
@@ -310,14 +321,15 @@ class PanelBuilder extends Component
 
     public function saveEditedItem(): void
     {
-        if (!$this->editPanelItem['id']) {
+        if (! $this->editPanelItem['id']) {
             return;
         }
 
         /** @var PanelItemInterface $repo */
         $repo = app(PanelItemInterface::class);
 
-        $request = new class($this->editPanelItem) extends Request {
+        $request = new class($this->editPanelItem) extends Request
+        {
             public function __construct(public array $data)
             {
                 parent::__construct();
@@ -362,7 +374,7 @@ class PanelBuilder extends Component
     {
         $item = PanelItem::find($itemId);
         if ($item) {
-            $item->is_active = !$item->is_active;
+            $item->is_active = ! $item->is_active;
             $item->save();
             $this->loadPanels();
         }
@@ -395,10 +407,10 @@ class PanelBuilder extends Component
     public function createItem(int $panelId): void
     {
         $this->validate([
-            'newItemType.'.$panelId => 'required|string|in:'.implode(
-                    ',',
-                    array_map(fn($e) => $e->value, PanelItemTypeEnum::cases()),
-                ),
+            'newItemType.' . $panelId => 'required|string|in:' . implode(
+                ',',
+                array_map(fn ($e) => $e->value, PanelItemTypeEnum::cases()),
+            ),
         ]);
 
         /** @var PanelItemInterface $repo */
@@ -420,7 +432,8 @@ class PanelBuilder extends Component
             'data' => $this->newItemData[$panelId] ?? [],
         ];
 
-        $request = new class($panelId, $payload) extends Request {
+        $request = new class($panelId, $payload) extends Request
+        {
             public function __construct(public int $panelId, public array $data)
             {
                 parent::__construct();
@@ -435,7 +448,7 @@ class PanelBuilder extends Component
         $item = $repo->store($request);
 
         // Handle optional image upload via Livewire temp file
-        if (!empty($this->newItemImage[$panelId])) {
+        if (! empty($this->newItemImage[$panelId])) {
             $file = $this->newItemImage[$panelId];
             try {
                 $item->clearMediaCollection('item_image');
@@ -463,7 +476,8 @@ class PanelBuilder extends Component
     {
         /** @var PanelItemInterface $repo */
         $repo = app(PanelItemInterface::class);
-        $request = new class($data) extends Request {
+        $request = new class($data) extends Request
+        {
             public function __construct(public array $data)
             {
                 parent::__construct();
@@ -504,10 +518,8 @@ class PanelBuilder extends Component
 
         return view('cms::livewire.panel-builder', [
             'panelTypes' => PanelTypeEnum::cases(),
-            'itemTypes'  => PanelItemTypeEnum::cases(),
-            'page'       => $page,
+            'itemTypes' => PanelItemTypeEnum::cases(),
+            'page' => $page,
         ]);
     }
 }
-
-

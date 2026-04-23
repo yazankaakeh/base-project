@@ -5,7 +5,6 @@ namespace Modules\AiChat\Providers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
-use Modules\AiChat\Contracts\AiProviderInterface;
 use Modules\AiChat\Providers\Drivers\AnthropicProvider;
 use Modules\AiChat\Providers\Drivers\GeminiProvider;
 use Modules\AiChat\Providers\Drivers\OpenAiProvider;
@@ -52,7 +51,7 @@ class AiChatServiceProvider extends ServiceProvider
 
     protected function registerTranslations(): void
     {
-        $langPath = resource_path('lang/modules/'.$this->nameLower);
+        $langPath = resource_path('lang/modules/' . $this->nameLower);
 
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, $this->nameLower);
@@ -67,21 +66,21 @@ class AiChatServiceProvider extends ServiceProvider
     {
         $configPath = module_path($this->name, 'config/config.php');
         if (file_exists($configPath)) {
-            $this->publishes([$configPath => config_path($this->nameLower.'.php')], 'config');
+            $this->publishes([$configPath => config_path($this->nameLower . '.php')], 'config');
             $this->mergeConfigFrom($configPath, $this->nameLower);
         }
     }
 
     public function registerViews(): void
     {
-        $viewPath = resource_path('views/modules/'.$this->nameLower);
+        $viewPath = resource_path('views/modules/' . $this->nameLower);
         $sourcePath = module_path($this->name, 'resources/views');
 
         // Publishing target is optional; only register it as a view path
         // when it actually exists so view:cache doesn't choke.
         $paths = is_dir($viewPath) ? [$viewPath, $sourcePath] : [$sourcePath];
 
-        $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower.'-module-views']);
+        $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower . '-module-views']);
         $this->loadViewsFrom($paths, $this->nameLower);
     }
 
@@ -97,8 +96,8 @@ class AiChatServiceProvider extends ServiceProvider
                 $view->with('aiChatConfig', $service->widgetConfig());
             } catch (\Throwable $e) {
                 $view->with('aiChatConfig', [
-                    'enabled'  => false,
-                    'error'    => $e->getMessage(),
+                    'enabled' => false,
+                    'error' => $e->getMessage(),
                 ]);
             }
         });

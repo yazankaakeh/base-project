@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Schema;
  * Columns stay nullable — when empty, the layout falls back to the regular
  * `font_family` / `headings_font_family`, preserving existing behavior.
  */
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::table('theme_settings', function (Blueprint $table) {

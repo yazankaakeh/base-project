@@ -14,9 +14,8 @@ enum Gender: int
 
     public function label(): array|string|Translator
     {
-        return trans('doctor::doctor.enum.Gender.'.$this->value);
+        return trans('doctor::doctor.enum.Gender.' . $this->value);
     }
-
 
     public function class(): string
     {

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Modules\AdminManagement\Models\Admin;
 
 class AuditLog extends Model
 {
@@ -63,15 +62,15 @@ class AuditLog extends Model
 
     public static function filter($logins, $request)
     {
-        if (!is_null($request['auditable_type'] ?? null)) {
+        if (! is_null($request['auditable_type'] ?? null)) {
             $logins->where('auditable_type', $request['auditable_type']);
         }
 
-        if (!is_null($request['auditable_id'] ?? null)) {
+        if (! is_null($request['auditable_id'] ?? null)) {
             $logins->where('auditable_id', $request['auditable_id']);
         }
 
-        if (!is_null($request['created_at'] ?? null)) {
+        if (! is_null($request['created_at'] ?? null)) {
             $logins->whereDate('created_at', '>=', $request['created_at']);
         }
 

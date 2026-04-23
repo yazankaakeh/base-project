@@ -18,7 +18,7 @@ class TagRepository implements TagInterface
     {
         $validated = $request->validated();
 
-        $tag = new BlogPostTags();
+        $tag = new BlogPostTags;
         $tag->name = $validated['name'];
         $tag->save();
 
@@ -51,7 +51,8 @@ class TagRepository implements TagInterface
     {
         return BlogPostTags::all()->mapWithKeys(function ($tag) {
             $name = $tag->getTranslation('name', app()->getLocale());
-            return [$tag->id => $name ?: 'Tag '.$tag->id];
+
+            return [$tag->id => $name ?: 'Tag ' . $tag->id];
         })->toArray();
     }
 }

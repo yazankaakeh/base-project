@@ -13,7 +13,7 @@ use Modules\AdminManagement\Enums\ActiveAdminEnum;
  */
 return [
     'ActiveAdminEnum' => [
-        ActiveAdminEnum::ACTIVE->value    => 'Active',
+        ActiveAdminEnum::ACTIVE->value => 'Active',
         ActiveAdminEnum::DE_ACTIVE->value => 'Inactive',
     ],
 ];

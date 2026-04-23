@@ -145,8 +145,8 @@ class ThemeSetting extends Model implements HasMedia
      *      path relative to /storage or a full URL)
      *   3. Null — template should fall back to the inline SVG / text brand.
      *
-     * @param  bool  $dark  If true, prefer the dark-mode variant and fall
-     *                      back to the light logo when no dark one is set.
+     * @param bool $dark If true, prefer the dark-mode variant and fall
+     *                   back to the light logo when no dark one is set.
      */
     public function getLogoUrl(bool $dark = false): ?string
     {
@@ -168,6 +168,7 @@ class ThemeSetting extends Model implements HasMedia
         if (filled($this->logo_path)) {
             return $this->normalizeAssetPath($this->logo_path);
         }
+
         return null;
     }
 
@@ -183,6 +184,7 @@ class ThemeSetting extends Model implements HasMedia
         if (filled($this->favicon_path)) {
             return $this->normalizeAssetPath($this->favicon_path);
         }
+
         return null;
     }
 
@@ -203,6 +205,7 @@ class ThemeSetting extends Model implements HasMedia
         }
         // Encode each path segment individually so the `/` separators stay intact.
         $encoded = implode('/', array_map('rawurlencode', explode('/', $path)));
+
         return asset($encoded);
     }
 
@@ -249,11 +252,11 @@ class ThemeSetting extends Model implements HasMedia
         $css = $this->getCssVariables();
 
         if ($this->custom_css) {
-            $css .= PHP_EOL.PHP_EOL.'/* Light Mode Custom CSS */'.PHP_EOL.$this->custom_css;
+            $css .= PHP_EOL . PHP_EOL . '/* Light Mode Custom CSS */' . PHP_EOL . $this->custom_css;
         }
 
         if ($this->dark_custom_css) {
-            $css .= PHP_EOL.PHP_EOL.'/* Dark Mode Custom CSS */'.PHP_EOL.$this->dark_custom_css;
+            $css .= PHP_EOL . PHP_EOL . '/* Dark Mode Custom CSS */' . PHP_EOL . $this->dark_custom_css;
         }
 
         return $css;
@@ -278,7 +281,7 @@ class ThemeSetting extends Model implements HasMedia
         $hex = ltrim($hex, '#');
 
         if (strlen($hex) === 3) {
-            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
         }
 
         return [
@@ -363,16 +366,17 @@ class ThemeSetting extends Model implements HasMedia
         // on :root. Multi-word family names are quoted so "Google Sans Flex"
         // stays a single token. If the admin hasn't chosen anything we fall
         // through to `--bs-body-font-family` (guaranteed to resolve).
-        $quote = fn(string $f) => (str_contains($f, ' ') && !str_starts_with($f, "'")) ? "'{$f}'" : $f;
+        $quote = fn (string $f) => (str_contains($f, ' ') && ! str_starts_with($f, "'")) ? "'{$f}'" : $f;
 
         $ltrFontStack = function (?string $family) use ($quote): string {
-            if (!$family) {
+            if (! $family) {
                 return 'var(--bs-body-font-family, system-ui, -apple-system, Segoe UI, Roboto, sans-serif)';
             }
-            return $quote($family).", system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+
+            return $quote($family) . ", system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
         };
 
-        $lightVariables['--codliy-font-family']         = $ltrFontStack($this->font_family);
+        $lightVariables['--codliy-font-family'] = $ltrFontStack($this->font_family);
         $lightVariables['--codliy-heading-font-family'] = $ltrFontStack($this->headings_font_family ?: $this->font_family);
 
         if ($this->headings_font_family) {
@@ -394,16 +398,16 @@ class ThemeSetting extends Model implements HasMedia
         // a soft, on-brand panel (never pure gray, never dark-on-light).
         // In DARK mode we keep the cinematic deep-space gradient.
         $lightBgDark = $this->mixWithWhite($this->primary_color, 0.96); // very faint
-        $lightBgDeep = $this->mixWithWhite($accent,              0.90); // slightly deeper
+        $lightBgDeep = $this->mixWithWhite($accent, 0.90); // slightly deeper
 
-        $lightVariables['--codliy-primary']          = $this->primary_color;
-        $lightVariables['--codliy-primary-rgb']      = $this->hexToRgb($this->primary_color);
-        $lightVariables['--codliy-accent']           = $accent;
-        $lightVariables['--codliy-accent-rgb']       = $this->hexToRgb($accent);
-        $lightVariables['--codliy-bg-dark']          = $lightBgDark;
-        $lightVariables['--codliy-bg-deep']          = $lightBgDeep;
-        $lightVariables['--codliy-gradient']         = 'linear-gradient(135deg, '.$lightBgDark.' 0%, '.$lightBgDeep.' 100%)';
-        $lightVariables['--codliy-primary-gradient'] = 'linear-gradient(135deg, '.$this->primary_color.' 0%, '.$accent.' 100%)';
+        $lightVariables['--codliy-primary'] = $this->primary_color;
+        $lightVariables['--codliy-primary-rgb'] = $this->hexToRgb($this->primary_color);
+        $lightVariables['--codliy-accent'] = $accent;
+        $lightVariables['--codliy-accent-rgb'] = $this->hexToRgb($accent);
+        $lightVariables['--codliy-bg-dark'] = $lightBgDark;
+        $lightVariables['--codliy-bg-deep'] = $lightBgDeep;
+        $lightVariables['--codliy-gradient'] = 'linear-gradient(135deg, ' . $lightBgDark . ' 0%, ' . $lightBgDeep . ' 100%)';
+        $lightVariables['--codliy-primary-gradient'] = 'linear-gradient(135deg, ' . $this->primary_color . ' 0%, ' . $accent . ' 100%)';
 
         // Hero / CMS headline color — driven by the admin's primary so every
         // .codliy-hero h1 / .codliy-section__title reads in the brand color.
@@ -417,8 +421,8 @@ class ThemeSetting extends Model implements HasMedia
         //   mute  = light (for ultra-quiet labels like "SERVICE 01")
         // Defaults to neutral grays if secondary isn't set.
         $secondaryLight = $this->secondary_color ?: '#8A94B0';
-        $lightVariables['--codliy-heading']   = $this->primary_color;
-        $lightVariables['--codliy-body']      = $this->mixWithBlack($secondaryLight, 0.72);
+        $lightVariables['--codliy-heading'] = $this->primary_color;
+        $lightVariables['--codliy-body'] = $this->mixWithBlack($secondaryLight, 0.72);
         $lightVariables['--codliy-text-soft'] = $this->mixWithBlack($secondaryLight, 0.45);
         $lightVariables['--codliy-text-mute'] = $secondaryLight;
 
@@ -450,14 +454,14 @@ class ThemeSetting extends Model implements HasMedia
 
         // --- Codliy brand tokens (dark mode) ------------------------------
         $darkAccent = $this->dark_info_color ?: $this->dark_primary_color;
-        $darkVariables['--codliy-primary']          = $this->dark_primary_color;
-        $darkVariables['--codliy-primary-rgb']      = $this->hexToRgb($this->dark_primary_color);
-        $darkVariables['--codliy-accent']           = $darkAccent;
-        $darkVariables['--codliy-accent-rgb']       = $this->hexToRgb($darkAccent);
-        $darkVariables['--codliy-bg-dark']          = $this->dark_body_bg ?: '#020611';
-        $darkVariables['--codliy-bg-deep']          = $this->dark_card_bg ?: '#0A1F4D';
-        $darkVariables['--codliy-gradient']         = 'linear-gradient(135deg, '.($this->dark_body_bg ?: '#020611').' 0%, '.($this->dark_card_bg ?: '#0A1F4D').' 100%)';
-        $darkVariables['--codliy-primary-gradient'] = 'linear-gradient(135deg, '.$this->dark_primary_color.' 0%, '.$darkAccent.' 100%)';
+        $darkVariables['--codliy-primary'] = $this->dark_primary_color;
+        $darkVariables['--codliy-primary-rgb'] = $this->hexToRgb($this->dark_primary_color);
+        $darkVariables['--codliy-accent'] = $darkAccent;
+        $darkVariables['--codliy-accent-rgb'] = $this->hexToRgb($darkAccent);
+        $darkVariables['--codliy-bg-dark'] = $this->dark_body_bg ?: '#020611';
+        $darkVariables['--codliy-bg-deep'] = $this->dark_card_bg ?: '#0A1F4D';
+        $darkVariables['--codliy-gradient'] = 'linear-gradient(135deg, ' . ($this->dark_body_bg ?: '#020611') . ' 0%, ' . ($this->dark_card_bg ?: '#0A1F4D') . ' 100%)';
+        $darkVariables['--codliy-primary-gradient'] = 'linear-gradient(135deg, ' . $this->dark_primary_color . ' 0%, ' . $darkAccent . ' 100%)';
 
         // Dark-mode headline uses the admin's dark primary so CMS hero titles
         // remain brand-colored against the deep-space gradient.
@@ -469,30 +473,30 @@ class ThemeSetting extends Model implements HasMedia
         //   soft  = soft gray
         //   mute  = dim gray
         $secondaryDark = $this->dark_secondary_color ?: '#8A94B0';
-        $darkVariables['--codliy-heading']   = $this->dark_primary_color;
-        $darkVariables['--codliy-body']      = $this->mixWithWhite($secondaryDark, 0.70);
+        $darkVariables['--codliy-heading'] = $this->dark_primary_color;
+        $darkVariables['--codliy-body'] = $this->mixWithWhite($secondaryDark, 0.70);
         $darkVariables['--codliy-text-soft'] = $this->mixWithWhite($secondaryDark, 0.45);
         $darkVariables['--codliy-text-mute'] = $secondaryDark;
 
         // Ensure Codliy font-family vars are also defined in dark mode so any
         // `var(--codliy-font-family)` reference resolves regardless of the
         // active theme or cached compiled views.
-        $darkVariables['--codliy-font-family']         = $ltrFontStack($this->font_family);
+        $darkVariables['--codliy-font-family'] = $ltrFontStack($this->font_family);
         $darkVariables['--codliy-heading-font-family'] = $ltrFontStack($this->headings_font_family ?: $this->font_family);
 
         // Generate CSS for light mode
-        $css = ':root, [data-bs-theme="light"] {'.PHP_EOL;
+        $css = ':root, [data-bs-theme="light"] {' . PHP_EOL;
         foreach ($lightVariables as $key => $value) {
-            $css .= "  {$key}: {$value};".PHP_EOL;
+            $css .= "  {$key}: {$value};" . PHP_EOL;
         }
-        $css .= '}'.PHP_EOL.PHP_EOL;
+        $css .= '}' . PHP_EOL . PHP_EOL;
 
         // Generate CSS for dark mode
-        $css .= '[data-bs-theme="dark"] {'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] {' . PHP_EOL;
         foreach ($darkVariables as $key => $value) {
-            $css .= "  {$key}: {$value};".PHP_EOL;
+            $css .= "  {$key}: {$value};" . PHP_EOL;
         }
-        $css .= '}'.PHP_EOL.PHP_EOL;
+        $css .= '}' . PHP_EOL . PHP_EOL;
 
         // RTL font stack — always defines the Codliy font vars with
         // Arabic-capable fallbacks so pages rendered in Arabic/Hebrew/Persian
@@ -501,24 +505,25 @@ class ThemeSetting extends Model implements HasMedia
         // wins over any vendor CSS that hardcoded a Latin-only family.
         $rtlFontStack = function (?string $family) use ($quote): string {
             $primary = $family ? $quote($family) : "'Noto Kufi Arabic'";
-            return $primary.", 'Noto Kufi Arabic', 'IBM Plex Sans Arabic', 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif";
+
+            return $primary . ", 'Noto Kufi Arabic', 'IBM Plex Sans Arabic', 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif";
         };
-        $rtlBodyStack    = $rtlFontStack($this->rtl_font_family          ?: $this->font_family);
+        $rtlBodyStack = $rtlFontStack($this->rtl_font_family ?: $this->font_family);
         $rtlHeadingStack = $rtlFontStack($this->rtl_headings_font_family ?: ($this->rtl_font_family ?: $this->headings_font_family));
 
-        $css .= '[dir="rtl"], html[lang="ar"], html[lang="he"], html[lang="fa"] {'.PHP_EOL;
-        $css .= "  --codliy-font-family: {$rtlBodyStack};".PHP_EOL;
-        $css .= "  --codliy-heading-font-family: {$rtlHeadingStack};".PHP_EOL;
-        $css .= "  --bs-body-font-family: {$rtlBodyStack};".PHP_EOL;
-        $css .= "  --bs-heading-font-family: {$rtlHeadingStack};".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[dir="rtl"] body, html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {'.PHP_EOL;
-        $css .= "  font-family: {$rtlBodyStack} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,'.PHP_EOL;
-        $css .= 'html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {'.PHP_EOL;
-        $css .= "  font-family: {$rtlHeadingStack} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL.PHP_EOL;
+        $css .= '[dir="rtl"], html[lang="ar"], html[lang="he"], html[lang="fa"] {' . PHP_EOL;
+        $css .= "  --codliy-font-family: {$rtlBodyStack};" . PHP_EOL;
+        $css .= "  --codliy-heading-font-family: {$rtlHeadingStack};" . PHP_EOL;
+        $css .= "  --bs-body-font-family: {$rtlBodyStack};" . PHP_EOL;
+        $css .= "  --bs-heading-font-family: {$rtlHeadingStack};" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[dir="rtl"] body, html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {' . PHP_EOL;
+        $css .= "  font-family: {$rtlBodyStack} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,' . PHP_EOL;
+        $css .= 'html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {' . PHP_EOL;
+        $css .= "  font-family: {$rtlHeadingStack} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL . PHP_EOL;
 
         // ---- Runtime overrides that ALWAYS win ---------------------------
         // Some CSS bundles were compiled with postcss-custom-properties in a
@@ -537,76 +542,76 @@ class ThemeSetting extends Model implements HasMedia
             $radius = trim($radius) . 'px';
         }
 
-        $primaryLight     = $this->primary_color        ?: '#0056F8';
-        $primaryDark      = $this->dark_primary_color   ?: '#3B82F6';
-        $secondaryLight   = $this->secondary_color      ?: '#8A94B0';
-        $secondaryDark    = $this->dark_secondary_color ?: '#8A94B0';
+        $primaryLight = $this->primary_color ?: '#0056F8';
+        $primaryDark = $this->dark_primary_color ?: '#3B82F6';
+        $secondaryLight = $this->secondary_color ?: '#8A94B0';
+        $secondaryDark = $this->dark_secondary_color ?: '#8A94B0';
 
-        $css .= '/* Runtime overrides — ensures admin settings beat any stale compiled CSS */'.PHP_EOL;
+        $css .= '/* Runtime overrides — ensures admin settings beat any stale compiled CSS */' . PHP_EOL;
 
         // Button radius — applies to both Codliy brand buttons AND Bootstrap
         // outline/solid buttons on dashboard + site. `!important` because
         // Sneat/Bootstrap precompute radii in places.
-        $css .= ".btn, .btn-codliy, .btn-codliy-outline,".PHP_EOL;
-        $css .= ".btn-outline-primary, .btn-outline-secondary, .btn-outline-success,".PHP_EOL;
-        $css .= ".btn-outline-danger, .btn-outline-warning, .btn-outline-info,".PHP_EOL;
-        $css .= ".btn-primary, .btn-secondary, .btn-success, .btn-danger, .btn-warning, .btn-info {".PHP_EOL;
-        $css .= "  border-radius: {$radius} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '.btn, .btn-codliy, .btn-codliy-outline,' . PHP_EOL;
+        $css .= '.btn-outline-primary, .btn-outline-secondary, .btn-outline-success,' . PHP_EOL;
+        $css .= '.btn-outline-danger, .btn-outline-warning, .btn-outline-info,' . PHP_EOL;
+        $css .= '.btn-primary, .btn-secondary, .btn-success, .btn-danger, .btn-warning, .btn-info {' . PHP_EOL;
+        $css .= "  border-radius: {$radius} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Outline-primary color alignment — Sneat sometimes bakes in the
         // default blue. Keep border + text in the admin's primary.
-        $css .= ':root, [data-bs-theme="light"] {'.PHP_EOL;
-        $css .= "  --bs-btn-border-radius: {$radius};".PHP_EOL;
-        $css .= "  --bs-btn-border-radius-sm: calc({$radius} * 0.75);".PHP_EOL;
-        $css .= "  --bs-btn-border-radius-lg: calc({$radius} * 1.25);".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= ':root, [data-bs-theme="light"] {' . PHP_EOL;
+        $css .= "  --bs-btn-border-radius: {$radius};" . PHP_EOL;
+        $css .= "  --bs-btn-border-radius-sm: calc({$radius} * 0.75);" . PHP_EOL;
+        $css .= "  --bs-btn-border-radius-lg: calc({$radius} * 1.25);" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Hero headline — forces the admin's primary color on .codliy-hero
         // titles even if the compiled app.css lost the --codliy-heading
         // fallback during minification.
-        $css .= '[data-bs-theme="light"] .codliy-hero h1,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__title,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-hero h1,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__title {'.PHP_EOL;
-        $css .= "  color: {$primaryLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero h1,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__title,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero h1,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__title {' . PHP_EOL;
+        $css .= "  color: {$primaryLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
-        $css .= '[data-bs-theme="dark"] .codliy-hero h1,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__title,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-hero h1,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__title {'.PHP_EOL;
-        $css .= "  color: {$primaryDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero h1,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__title,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero h1,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__title {' . PHP_EOL;
+        $css .= "  color: {$primaryDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Section titles too — users set ONE primary color, they expect
         // every branded heading to reflect it.
-        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__title,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__title {'.PHP_EOL;
-        $css .= "  color: {$primaryLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__title,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__title {'.PHP_EOL;
-        $css .= "  color: {$primaryDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__title,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__title {' . PHP_EOL;
+        $css .= "  color: {$primaryLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__title,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__title {' . PHP_EOL;
+        $css .= "  color: {$primaryDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Kickers — the small uppercase eyebrow text above hero & section
         // titles. Drives off the admin's SECONDARY color so the site has a
         // clear two-color brand hierarchy (primary = headline, secondary =
         // label). `.codliy-section__kicker` was previously pinned to primary;
         // we keep the single source of truth here so both match.
-        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__kicker,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__kicker {'.PHP_EOL;
-        $css .= "  color: {$secondaryLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__kicker,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__kicker,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__kicker {'.PHP_EOL;
-        $css .= "  color: {$secondaryDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__kicker,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__kicker,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__kicker,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__kicker {' . PHP_EOL;
+        $css .= "  color: {$secondaryLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__kicker,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__kicker,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__kicker,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__kicker {' . PHP_EOL;
+        $css .= "  color: {$secondaryDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Soft / mute utility classes + all the "secondary copy" surfaces.
         // These were the ones reported as pinned to #D9D9D9 / #8A94B0 in the
@@ -614,116 +619,116 @@ class ThemeSetting extends Model implements HasMedia
         // subtitle, stack row, card body and "text-codliy-soft fw-medium"
         // chip on the page follows the admin palette.
         $textSoftLight = $this->mixWithBlack($secondaryLight, 0.45);
-        $textSoftDark  = $this->mixWithWhite($secondaryDark,  0.45);
+        $textSoftDark = $this->mixWithWhite($secondaryDark, 0.45);
 
-        $css .= '[data-bs-theme="light"] .text-codliy-soft,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .text-codliy-soft,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__sub,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__body,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__eyebrow,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__sub,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__body,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__eyebrow {'.PHP_EOL;
-        $css .= "  color: {$textSoftLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .text-codliy-soft,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .text-codliy-soft,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__sub,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-section .codliy-section__sub,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__body,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__eyebrow,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__sub,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section .codliy-section__sub,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__body,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__eyebrow {' . PHP_EOL;
+        $css .= "  color: {$textSoftLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
-        $css .= '[data-bs-theme="dark"] .text-codliy-soft,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .text-codliy-soft,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__sub,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__body,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__eyebrow,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__sub,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__sub,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__body,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__eyebrow {'.PHP_EOL;
-        $css .= "  color: {$textSoftDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .text-codliy-soft,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .text-codliy-soft,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__sub,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-section .codliy-section__sub,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__body,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__eyebrow,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__sub,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-section .codliy-section__sub,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__body,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__eyebrow {' . PHP_EOL;
+        $css .= "  color: {$textSoftDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Muted utility + hero stack (the "Laravel · PHP 8.3+" row under the
         // hero CTA) — one step lighter than soft. Drives off secondary
         // directly so the tone still tracks the admin palette.
-        $css .= '[data-bs-theme="light"] .text-codliy-mute,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .text-codliy-mute,'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__stack,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__stack {'.PHP_EOL;
-        $css .= "  color: {$secondaryLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .text-codliy-mute,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .text-codliy-mute,'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__stack,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__stack {'.PHP_EOL;
-        $css .= "  color: {$secondaryDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .text-codliy-mute,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .text-codliy-mute,' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-hero .codliy-hero__stack,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-hero .codliy-hero__stack {' . PHP_EOL;
+        $css .= "  color: {$secondaryLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .text-codliy-mute,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .text-codliy-mute,' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-hero .codliy-hero__stack,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-hero .codliy-hero__stack {' . PHP_EOL;
+        $css .= "  color: {$secondaryDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // `.text-codliy-primary` — the quick "use primary color for this
         // text" helper. Belt-and-suspenders so it beats any literal color
         // PostCSS may have baked into the compiled bundle.
-        $css .= '[data-bs-theme="light"] .text-codliy-primary,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .text-codliy-primary {'.PHP_EOL;
-        $css .= "  color: {$primaryLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .text-codliy-primary,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .text-codliy-primary {'.PHP_EOL;
-        $css .= "  color: {$primaryDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .text-codliy-primary,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .text-codliy-primary {' . PHP_EOL;
+        $css .= "  color: {$primaryLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .text-codliy-primary,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .text-codliy-primary {' . PHP_EOL;
+        $css .= "  color: {$primaryDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Cards — surface + border + title color all derived from theme.
         // In LIGHT mode, the card sits on a light body bg, so we give it a
         // white-ish surface with a faint primary border tint. In DARK mode,
         // the card uses the admin's dark_card_bg (with subtle transparency)
         // so cards sit naturally on the deep-space gradient.
-        $lightCardBg   = $this->card_bg      ?: '#FFFFFF';
-        $darkCardBg    = $this->dark_card_bg ?: '#0A1F4D';
-        $css .= '.codliy-card {'.PHP_EOL;
-        $css .= "  border-radius: calc({$radius} * 1.8) !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="light"] .codliy-card,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-card {'.PHP_EOL;
-        $css .= "  background: {$lightCardBg} !important;".PHP_EOL;
-        $css .= "  border-color: rgba(var(--codliy-primary-rgb), 0.1) !important;".PHP_EOL;
-        $css .= "  box-shadow: 0 10px 40px rgba(var(--codliy-primary-rgb), 0.06) !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-card,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-card {'.PHP_EOL;
-        $css .= "  background: rgba(var(--codliy-primary-rgb), 0.04) !important;".PHP_EOL;
-        $css .= "  border-color: rgba(255, 255, 255, 0.06) !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $lightCardBg = $this->card_bg ?: '#FFFFFF';
+        $darkCardBg = $this->dark_card_bg ?: '#0A1F4D';
+        $css .= '.codliy-card {' . PHP_EOL;
+        $css .= "  border-radius: calc({$radius} * 1.8) !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-card,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card {' . PHP_EOL;
+        $css .= "  background: {$lightCardBg} !important;" . PHP_EOL;
+        $css .= '  border-color: rgba(var(--codliy-primary-rgb), 0.1) !important;' . PHP_EOL;
+        $css .= '  box-shadow: 0 10px 40px rgba(var(--codliy-primary-rgb), 0.06) !important;' . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card {' . PHP_EOL;
+        $css .= '  background: rgba(var(--codliy-primary-rgb), 0.04) !important;' . PHP_EOL;
+        $css .= '  border-color: rgba(255, 255, 255, 0.06) !important;' . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Card title — should read as a strong body heading in both modes.
         // Uses --codliy-body (admin-derived) with the admin heading font.
         $bodyLight = $this->mixWithBlack($secondaryLight, 0.72);
-        $bodyDark  = $this->mixWithWhite($secondaryDark,  0.70);
-        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__title,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__title {'.PHP_EOL;
-        $css .= "  color: {$bodyLight} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
-        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__title,'.PHP_EOL;
-        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__title {'.PHP_EOL;
-        $css .= "  color: {$bodyDark} !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $bodyDark = $this->mixWithWhite($secondaryDark, 0.70);
+        $css .= '[data-bs-theme="light"] .codliy-card .codliy-card__title,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-card .codliy-card__title {' . PHP_EOL;
+        $css .= "  color: {$bodyLight} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
+        $css .= '[data-bs-theme="dark"] .codliy-card .codliy-card__title,' . PHP_EOL;
+        $css .= '[data-layout-mode="dark_mode"] .codliy-card .codliy-card__title {' . PHP_EOL;
+        $css .= "  color: {$bodyDark} !important;" . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Section/hero background in LIGHT mode — the Codliy cinematic gradient
         // gets flipped to a soft primary-tinted surface so copy stays readable.
-        $css .= '[data-bs-theme="light"] .codliy-section,'.PHP_EOL;
-        $css .= '[data-layout-mode="light_mode"] .codliy-section {'.PHP_EOL;
-        $css .= "  background: var(--codliy-gradient) !important;".PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $css .= '[data-bs-theme="light"] .codliy-section,' . PHP_EOL;
+        $css .= '[data-layout-mode="light_mode"] .codliy-section {' . PHP_EOL;
+        $css .= '  background: var(--codliy-gradient) !important;' . PHP_EOL;
+        $css .= '}' . PHP_EOL;
 
         // Typography — heading + body font families, only when the admin
         // actually set something (don't clobber system fonts on fresh installs).
         if ($this->font_family) {
-            $css .= 'body, .codliy-card, .codliy-card__body, .codliy-section__sub {'.PHP_EOL;
-            $css .= "  font-family: {$this->font_family}, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;".PHP_EOL;
-            $css .= '}'.PHP_EOL;
+            $css .= 'body, .codliy-card, .codliy-card__body, .codliy-section__sub {' . PHP_EOL;
+            $css .= "  font-family: {$this->font_family}, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;" . PHP_EOL;
+            $css .= '}' . PHP_EOL;
         }
         if ($this->headings_font_family) {
-            $css .= 'h1, h2, h3, h4, h5, h6,'.PHP_EOL;
-            $css .= '.codliy-hero__title, .codliy-section__title, .codliy-card__title {'.PHP_EOL;
-            $css .= "  font-family: {$this->headings_font_family}, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;".PHP_EOL;
-            $css .= '}'.PHP_EOL;
+            $css .= 'h1, h2, h3, h4, h5, h6,' . PHP_EOL;
+            $css .= '.codliy-hero__title, .codliy-section__title, .codliy-card__title {' . PHP_EOL;
+            $css .= "  font-family: {$this->headings_font_family}, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;" . PHP_EOL;
+            $css .= '}' . PHP_EOL;
         }
 
         return $css;

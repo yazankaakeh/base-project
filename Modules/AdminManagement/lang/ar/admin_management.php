@@ -182,7 +182,6 @@ return [
         'admin-medicine-store' => 'إنشاء دواء',
         'admin-medicine-update' => 'تحديث دواء',
 
-
         'admin-vitalSign-index' => 'عرض العلامات الحيوية',
         'admin-vitalSign-store' => 'إنشاء علامة حيوية',
         'admin-vitalSign-update' => 'تحديث علامة حيوية',

@@ -66,13 +66,13 @@ class AdminMenu
         }
         if (Route::has('admin.contact_us.index')) {
             $adminSubmenu[] = [
-                'url'  => route('admin.contact_us.index'),
+                'url' => route('admin.contact_us.index'),
                 'slug' => route('admin.contact_us.index'),
                 'name' => trans('core::core.contact_us.title'),
                 'icon' => 'menu-icon tf-icons ti tabler-mail-forward',
             ];
         }
-        if (!empty($adminSubmenu)) {
+        if (! empty($adminSubmenu)) {
             $menu[] = [
                 'name' => trans('admin.sidebar.admins'),
                 'icon' => 'menu-icon tf-icons ti tabler-user-cog',
@@ -86,19 +86,19 @@ class AdminMenu
         $blogSubmenu = [];
         foreach ([
             'admin.categories.index' => ['customer.sidebar.blogCategories', 'tabler-category'],
-            'admin.posts.index'      => ['customer.sidebar.blogPosts', 'tabler-article'],
-            'admin.tags.index'       => ['customer.sidebar.blogTags', 'tabler-tag'],
+            'admin.posts.index' => ['customer.sidebar.blogPosts', 'tabler-article'],
+            'admin.tags.index' => ['customer.sidebar.blogTags', 'tabler-tag'],
         ] as $routeName => [$transKey, $icon]) {
             if (Route::has($routeName)) {
                 $blogSubmenu[] = [
                     'url' => route($routeName),
                     'slug' => route($routeName),
                     'name' => trans($transKey),
-                    'icon' => 'menu-icon tf-icons ti '.$icon,
+                    'icon' => 'menu-icon tf-icons ti ' . $icon,
                 ];
             }
         }
-        if (!empty($blogSubmenu)) {
+        if (! empty($blogSubmenu)) {
             $menu[] = [
                 'name' => trans('customer.sidebar.blog'),
                 'icon' => 'menu-icon tf-icons ti tabler-article',
@@ -111,20 +111,20 @@ class AdminMenu
         // CMS
         $cmsSubmenu = [];
         foreach ([
-            'cms.index'               => ['cms::cms.pages.title', 'tabler-file'],
-            'menus.index'             => ['cms::cms.menus.title', 'tabler-menu-2'],
-            'admin.portfolios.index'  => ['cms::cms.portfolio.title', 'tabler-briefcase'],
+            'cms.index' => ['cms::cms.pages.title', 'tabler-file'],
+            'menus.index' => ['cms::cms.menus.title', 'tabler-menu-2'],
+            'admin.portfolios.index' => ['cms::cms.portfolio.title', 'tabler-briefcase'],
         ] as $routeName => [$transKey, $icon]) {
             if (Route::has($routeName)) {
                 $cmsSubmenu[] = [
                     'url' => route($routeName),
                     'slug' => route($routeName),
                     'name' => trans($transKey),
-                    'icon' => 'menu-icon tf-icons ti '.$icon,
+                    'icon' => 'menu-icon tf-icons ti ' . $icon,
                 ];
             }
         }
-        if (!empty($cmsSubmenu)) {
+        if (! empty($cmsSubmenu)) {
             $menu[] = [
                 'name' => trans('cms::cms.title'),
                 'icon' => 'menu-icon tf-icons ti tabler-layout',
@@ -138,19 +138,19 @@ class AdminMenu
         $settingsSubmenu = [];
         foreach ([
             'admin.theme.settings.index' => ['core::core.theme_settings.title', 'tabler-palette'],
-            'admin.seoConfig.get'        => ['customer.sidebar.seoSettings', 'tabler-seo'],
-            'admin.env.get'              => ['customer.sidebar.envSettings', 'tabler-server'],
+            'admin.seoConfig.get' => ['customer.sidebar.seoSettings', 'tabler-seo'],
+            'admin.env.get' => ['customer.sidebar.envSettings', 'tabler-server'],
         ] as $routeName => [$transKey, $icon]) {
             if (Route::has($routeName)) {
                 $settingsSubmenu[] = [
                     'url' => route($routeName),
                     'slug' => route($routeName),
                     'name' => trans($transKey),
-                    'icon' => 'menu-icon tf-icons ti '.$icon,
+                    'icon' => 'menu-icon tf-icons ti ' . $icon,
                 ];
             }
         }
-        if (!empty($settingsSubmenu)) {
+        if (! empty($settingsSubmenu)) {
             $menu[] = [
                 'name' => trans('customer.sidebar.settings'),
                 'icon' => 'menu-icon tf-icons ti tabler-settings',

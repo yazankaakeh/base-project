@@ -10,12 +10,13 @@ class SendPushNotificationChannel extends FireBase
 {
     /**
      * Send the given notification.
+     *
      * @throws Exception
      */
     public function send(mixed $notifiable, $notification): void
     {
         $data = $notification->toFireBase();
-        Log::debug('sending push notification to user id: '.$notifiable->getKey());
+        Log::debug('sending push notification to user id: ' . $notifiable->getKey());
         $this->prepareAndSend(
             $notifiable,
             $data['data'],

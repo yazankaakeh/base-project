@@ -2,16 +2,20 @@
 
 namespace Modules\MCP\Services\AI;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Exception;
 
 class OpenAIService implements AIServiceInterface
 {
     protected string $apiKey;
+
     protected string $model;
+
     protected int $maxTokens;
+
     protected float $temperature;
+
     protected string $apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     public function __construct()
@@ -90,7 +94,7 @@ class OpenAIService implements AIServiceInterface
         $contextMessages = [];
 
         // Add knowledge base context if available
-        if (!empty($knowledge)) {
+        if (! empty($knowledge)) {
             $knowledgeText = $this->formatKnowledge($knowledge);
             $contextMessages[] = [
                 'role' => 'system',

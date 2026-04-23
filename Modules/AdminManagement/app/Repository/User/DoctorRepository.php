@@ -4,10 +4,10 @@ namespace Modules\AdminManagement\Repository\User;
 
 use App\Enum\Pagination;
 use Illuminate\Support\Facades\Hash;
-use Modules\AdminManagement\Models\Admin;
 use Modules\AdminManagement\Http\Requests\DoctorRequest;
 use Modules\AdminManagement\Http\Requests\UpdateDoctorRequest;
 use Modules\AdminManagement\Http\Requests\UpdateStatusAminRequest;
+use Modules\AdminManagement\Models\Admin;
 use Spatie\Permission\Models\Role;
 
 /**
@@ -22,7 +22,7 @@ class DoctorRepository implements DoctorInterface
 {
     public function store(DoctorRequest $request): void
     {
-        $admin = new Admin();
+        $admin = new Admin;
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->password = Hash::make($request->password);
@@ -97,7 +97,7 @@ class DoctorRepository implements DoctorInterface
             $term = '%' . trim($filters['q']) . '%';
             $query->where(function ($q) use ($term) {
                 $q->where('name', 'like', $term)
-                  ->orWhere('email', 'like', $term);
+                    ->orWhere('email', 'like', $term);
             });
         }
 
@@ -127,10 +127,10 @@ class DoctorRepository implements DoctorInterface
         // Lightweight stats — uses unfiltered counts so the "Total users"
         // card doesn't whiplash as the admin types in the search box.
         $stats = [
-            'total'    => Admin::query()->count(),
-            'active'   => Admin::query()->where('is_active', 1)->count(),
+            'total' => Admin::query()->count(),
+            'active' => Admin::query()->where('is_active', 1)->count(),
             'inactive' => Admin::query()->where('is_active', 0)->count(),
-            'roles'    => $roles->count(),
+            'roles' => $roles->count(),
         ];
 
         return [

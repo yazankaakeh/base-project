@@ -182,7 +182,6 @@ return [
         'admin-medicine-store' => 'İlaç Oluştur',
         'admin-medicine-update' => 'İlacı Güncelle',
 
-
         'admin-vitalSign-index' => 'Vital Bulguları Görüntüle',
         'admin-vitalSign-store' => 'Vital Bulgu Oluştur',
         'admin-vitalSign-update' => 'Vital Bulguyu Güncelle',

@@ -64,7 +64,7 @@ class TestAllNotification extends BaseUserNotification
         ];
     }
 
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
             ->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])

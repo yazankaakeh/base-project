@@ -22,12 +22,12 @@ class AuditLogController extends Controller
         // obviously-invalid collapses to null so downstream logic can use
         // simple `!== null` checks.
         $filters = [
-            'q'          => trim((string) $request->query('q', '')),
-            'adminId'    => ctype_digit((string) $request->query('adminId')) ? (int) $request->query('adminId') : null,
-            'method'     => in_array($request->query('method'), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], true) ? $request->query('method') : null,
+            'q' => trim((string) $request->query('q', '')),
+            'adminId' => ctype_digit((string) $request->query('adminId')) ? (int) $request->query('adminId') : null,
+            'method' => in_array($request->query('method'), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], true) ? $request->query('method') : null,
             'route_name' => $request->query('route_name') ?: null,
             'start_date' => $this->parseDate($request->query('start_date')),
-            'end_date'   => $this->parseDate($request->query('end_date')),
+            'end_date' => $this->parseDate($request->query('end_date')),
         ];
 
         $query = AuditLog::query()->with(['admin']);
@@ -36,13 +36,13 @@ class AuditLogController extends Controller
             $term = '%' . $filters['q'] . '%';
             $query->where(function ($q) use ($term) {
                 $q->where('url', 'like', $term)
-                  ->orWhere('route_name', 'like', $term)
-                  ->orWhere('ip', 'like', $term);
+                    ->orWhere('route_name', 'like', $term)
+                    ->orWhere('ip', 'like', $term);
             });
         }
         if ($filters['adminId']) {
             $query->where('auditable_type', Admin::class)
-                  ->where('auditable_id', $filters['adminId']);
+                ->where('auditable_id', $filters['adminId']);
         }
         if ($filters['method']) {
             $query->where('method', $filters['method']);
@@ -65,10 +65,10 @@ class AuditLogController extends Controller
         // Lightweight stats — unfiltered counts so cards don't jitter while
         // the admin types into the search box. Today = last 24 hours.
         $stats = [
-            'total'    => AuditLog::query()->count(),
-            'today'    => AuditLog::query()->where('created_at', '>=', now()->subDay())->count(),
-            'admins'   => AuditLog::query()->where('auditable_type', Admin::class)->distinct('auditable_id')->count('auditable_id'),
-            'mutations'=> AuditLog::query()->whereIn('method', ['POST', 'PUT', 'PATCH', 'DELETE'])->count(),
+            'total' => AuditLog::query()->count(),
+            'today' => AuditLog::query()->where('created_at', '>=', now()->subDay())->count(),
+            'admins' => AuditLog::query()->where('auditable_type', Admin::class)->distinct('auditable_id')->count('auditable_id'),
+            'mutations' => AuditLog::query()->whereIn('method', ['POST', 'PUT', 'PATCH', 'DELETE'])->count(),
         ];
 
         $admins = Admin::query()->orderBy('name')->get(['id', 'name', 'email']);
@@ -89,7 +89,7 @@ class AuditLogController extends Controller
      */
     private function parseDate(?string $raw): ?string
     {
-        if (!$raw || strtolower($raw) === 'undefined') {
+        if (! $raw || strtolower($raw) === 'undefined') {
             return null;
         }
         try {
@@ -103,7 +103,7 @@ class AuditLogController extends Controller
     {
         /** @var AuditLog|null $auditing */
         $auditing = AuditLog::query()->with('admin')->find($id);
-        if (!$auditing) {
+        if (! $auditing) {
             return response()->json(['payload' => '<p class="text-muted m-0">Log not found.</p>'], 404);
         }
 
@@ -113,7 +113,7 @@ class AuditLogController extends Controller
         if (is_string($payload)) {
             $payload = json_decode($payload, true) ?: [];
         }
-        if (!is_array($payload)) {
+        if (! is_array($payload)) {
             $payload = [];
         }
 
@@ -121,32 +121,32 @@ class AuditLogController extends Controller
         unset($payload['_token'], $payload['_method'], $payload['password'], $payload['password_confirmation']);
 
         $methodClass = match (strtoupper((string) $auditing->method)) {
-            'GET'    => 'bg-label-info',
-            'POST'   => 'bg-label-success',
+            'GET' => 'bg-label-info',
+            'POST' => 'bg-label-success',
             'PUT', 'PATCH' => 'bg-label-warning',
             'DELETE' => 'bg-label-danger',
-            default  => 'bg-label-secondary',
+            default => 'bg-label-secondary',
         };
 
         // Build an explicit metadata block + a payload table so the modal
         // shows who / what / when / where, not just the form fields.
         $meta = [
-            'Admin'      => $auditing->admin?->name ?: ('#' . $auditing->auditable_id),
-            'Email'      => $auditing->admin?->email ?: '—',
+            'Admin' => $auditing->admin?->name ?: ('#' . $auditing->auditable_id),
+            'Email' => $auditing->admin?->email ?: '—',
             'IP address' => $auditing->ip ?: '—',
-            'URL'        => $auditing->url ?: '—',
-            'Route'      => RouteName::GetRouteName($auditing->route_name) ?: ($auditing->route_name ?: '—'),
-            'When'       => $auditing->created_at?->format('Y-m-d H:i:s') ?: '—',
+            'URL' => $auditing->url ?: '—',
+            'Route' => RouteName::GetRouteName($auditing->route_name) ?: ($auditing->route_name ?: '—'),
+            'When' => $auditing->created_at?->format('Y-m-d H:i:s') ?: '—',
         ];
 
-        $html  = '<div class="mb-3 d-flex align-items-center gap-2">';
-        $html .= '<span class="badge '.$methodClass.' text-uppercase">'.e((string) $auditing->method).'</span>';
-        $html .= '<span class="text-muted small">'.e($auditing->created_at?->diffForHumans() ?? '').'</span>';
+        $html = '<div class="mb-3 d-flex align-items-center gap-2">';
+        $html .= '<span class="badge ' . $methodClass . ' text-uppercase">' . e((string) $auditing->method) . '</span>';
+        $html .= '<span class="text-muted small">' . e($auditing->created_at?->diffForHumans() ?? '') . '</span>';
         $html .= '</div>';
 
         $html .= '<table class="table table-sm mb-3">';
         foreach ($meta as $label => $value) {
-            $html .= '<tr><th class="text-muted" style="width:140px">'.e($label).'</th><td class="text-break">'.e((string) $value).'</td></tr>';
+            $html .= '<tr><th class="text-muted" style="width:140px">' . e($label) . '</th><td class="text-break">' . e((string) $value) . '</td></tr>';
         }
         $html .= '</table>';
 
@@ -162,8 +162,8 @@ class AuditLogController extends Controller
                     $value = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 }
                 $html .= '<tr>';
-                $html .= '<th class="text-muted" style="width:180px">'.e((string) $key).'</th>';
-                $html .= '<td><pre class="mb-0 small" style="white-space: pre-wrap; word-break: break-word;">'.e((string) $value).'</pre></td>';
+                $html .= '<th class="text-muted" style="width:180px">' . e((string) $key) . '</th>';
+                $html .= '<td><pre class="mb-0 small" style="white-space: pre-wrap; word-break: break-word;">' . e((string) $value) . '</pre></td>';
                 $html .= '</tr>';
             }
             $html .= '</table>';
@@ -180,7 +180,7 @@ class AuditLogController extends Controller
         $auditableType = $request->get('auditable_type');
         $auditableId = $request->get('auditable_id');
 
-        if (!$auditableType || !$auditableId) {
+        if (! $auditableType || ! $auditableId) {
             return response()->json(['error' => 'Missing auditable_type or auditable_id'], 400);
         }
 

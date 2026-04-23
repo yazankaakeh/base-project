@@ -14,7 +14,7 @@ enum UserStatusEnum: int
 
     public function label(): array|string|Translator
     {
-        return trans('doctor::doctor.enum.UserStatusEnum.'.$this->value);
+        return trans('doctor::doctor.enum.UserStatusEnum.' . $this->value);
     }
 
     public function class(): string

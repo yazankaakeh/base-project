@@ -2,7 +2,6 @@
 
 namespace Modules\AdminManagement\Http\Middleware;
 
-use Carbon\Carbon;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -24,7 +23,7 @@ class AuditLogMiddleware
         $exceptRoutes = RouteName::ImportantRoutesWithGetMethod();
 
         if ($request->method() == 'GET' &&
-            !array_key_exists($currentRouteName, $exceptRoutes)) {
+            ! array_key_exists($currentRouteName, $exceptRoutes)) {
             return $next($request);
         }
 
@@ -35,13 +34,13 @@ class AuditLogMiddleware
             return $next($request);
         }
 
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return $next($request);
         }
 
         /** @var Authenticatable&\Illuminate\Database\Eloquent\Model $user */
         $user = Auth::user();
-        if ($user && !empty($user->email)) {
+        if ($user && ! empty($user->email)) {
             try {
                 // Create audit log using morph relationship
                 $auditLogData = [
@@ -61,7 +60,7 @@ class AuditLogMiddleware
                     AuditLog::query()->create([
                         'auditable_type' => get_class($user),
                         'auditable_id' => $user->id,
-                        ...$auditLogData
+                        ...$auditLogData,
                     ]);
                 }
             } catch (Exception $e) {
@@ -73,6 +72,7 @@ class AuditLogMiddleware
                 ]);
             }
         }
+
         return $next($request);
     }
 }

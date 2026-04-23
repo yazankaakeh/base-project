@@ -21,7 +21,7 @@ class PostRepository implements PostInterface
         $validated = $request->validated();
 
         return DB::transaction(function () use ($request, $validated) {
-            $post = new BlogPost();
+            $post = new BlogPost;
             $post->title = $validated['title'];
             $post->description = $validated['description'] ?? [];
             $post->type = $validated['type'] ?? null;
@@ -33,12 +33,12 @@ class PostRepository implements PostInterface
             $post->save();
 
             // related posts
-            if (!empty($validated['relatedPosts']) && is_array($validated['relatedPosts'])) {
+            if (! empty($validated['relatedPosts']) && is_array($validated['relatedPosts'])) {
                 $post->relatedPosts()->sync($validated['relatedPosts']);
             }
 
             // tags
-            if (!empty($validated['tags']) && is_array($validated['tags'])) {
+            if (! empty($validated['tags']) && is_array($validated['tags'])) {
                 $post->tags()->sync($validated['tags']);
             }
 
@@ -57,7 +57,7 @@ class PostRepository implements PostInterface
         $metaTitle = $validated['meta_title'] ?? null;
         $metaDescription = $validated['meta_description'] ?? null;
         if ($metaTitle || $metaDescription) {
-            $seo = $post->seo ?: new SeoMeta();
+            $seo = $post->seo ?: new SeoMeta;
             if ($metaTitle) {
                 $seo->title = $metaTitle;
             }
@@ -127,9 +127,8 @@ class PostRepository implements PostInterface
             ->get()
             ->mapWithKeys(function (BlogPost $p) {
                 $title = $p->getTranslation('title', app()->getLocale());
-                return [$p->id => is_string($title) ? $title : (json_encode($title) ?: 'Post '.$p->id)];
+
+                return [$p->id => is_string($title) ? $title : (json_encode($title) ?: 'Post ' . $p->id)];
             })->toArray();
     }
 }
-
-

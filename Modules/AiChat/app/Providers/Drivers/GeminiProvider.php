@@ -20,8 +20,7 @@ class GeminiProvider implements AiProviderInterface
     public function __construct(
         protected string $name,
         protected array $config,
-    ) {
-    }
+    ) {}
 
     public function key(): string
     {
@@ -39,40 +38,41 @@ class GeminiProvider implements AiProviderInterface
             throw new RuntimeException("Provider [{$this->name}] is not configured (missing API key).");
         }
 
-        $model       = $options['model'] ?? $this->config['default_model'];
-        $maxTokens   = $options['max_tokens'] ?? 600;
+        $model = $options['model'] ?? $this->config['default_model'];
+        $maxTokens = $options['max_tokens'] ?? 600;
         $temperature = $options['temperature'] ?? 0.5;
-        $system      = $options['system_prompt'] ?? null;
+        $system = $options['system_prompt'] ?? null;
 
         $contents = [];
         foreach ($messages as $m) {
             $role = $m['role'] ?? 'user';
             if ($role === 'system') {
                 // Merge into $system — Gemini doesn't accept system role in contents.
-                $system = ($system ? $system."\n\n" : '').($m['content'] ?? '');
+                $system = ($system ? $system . "\n\n" : '') . ($m['content'] ?? '');
+
                 continue;
             }
             $contents[] = [
-                'role'  => $role === 'assistant' ? 'model' : 'user',
+                'role' => $role === 'assistant' ? 'model' : 'user',
                 'parts' => [['text' => $m['content'] ?? '']],
             ];
         }
 
         $payload = [
-            'contents'          => $contents,
-            'generationConfig'  => [
+            'contents' => $contents,
+            'generationConfig' => [
                 'maxOutputTokens' => $maxTokens,
-                'temperature'     => $temperature,
+                'temperature' => $temperature,
             ],
         ];
         if ($system) {
             $payload['systemInstruction'] = [
-                'role'  => 'system',
+                'role' => 'system',
                 'parts' => [['text' => $system]],
             ];
         }
 
-        $url = rtrim($this->config['base_url'], '/').'/models/'.urlencode($model).':generateContent';
+        $url = rtrim($this->config['base_url'], '/') . '/models/' . urlencode($model) . ':generateContent';
 
         $response = Http::timeout(60)
             ->withQueryParameters(['key' => $this->config['api_key']])
@@ -81,7 +81,7 @@ class GeminiProvider implements AiProviderInterface
 
         if (! $response->successful()) {
             throw new RuntimeException(
-                "[{$this->name}] HTTP ".$response->status().': '.$response->body()
+                "[{$this->name}] HTTP " . $response->status() . ': ' . $response->body()
             );
         }
 
@@ -93,12 +93,12 @@ class GeminiProvider implements AiProviderInterface
         }
 
         return new ChatResponse(
-            content:          trim($content),
-            providerKey:      $this->name,
-            model:            $model,
-            promptTokens:     $body['usageMetadata']['promptTokenCount']     ?? null,
+            content: trim($content),
+            providerKey: $this->name,
+            model: $model,
+            promptTokens: $body['usageMetadata']['promptTokenCount'] ?? null,
             completionTokens: $body['usageMetadata']['candidatesTokenCount'] ?? null,
-            raw:              $body,
+            raw: $body,
         );
     }
 }

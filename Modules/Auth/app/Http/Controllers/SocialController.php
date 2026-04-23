@@ -23,16 +23,17 @@ use Modules\Auth\app\Models\SocialAccount;
 class SocialController extends Controller
 {
     private const SUPPORTED_PROVIDERS = ['google', 'facebook', 'x'];
+
     private const SUPPORTED_USER_TYPES = ['user', 'admin'];
 
     public function redirect(string $provider, Request $request)
     {
-        if (!in_array($provider, self::SUPPORTED_PROVIDERS, true)) {
+        if (! in_array($provider, self::SUPPORTED_PROVIDERS, true)) {
             abort(404, 'Unsupported social provider');
         }
 
         $userType = $request->get('user_type', 'user');
-        if (!in_array($userType, self::SUPPORTED_USER_TYPES, true)) {
+        if (! in_array($userType, self::SUPPORTED_USER_TYPES, true)) {
             $userType = 'user';
         }
         session(['social_login_user_type' => $userType]);
@@ -55,7 +56,7 @@ class SocialController extends Controller
         try {
             $oauthUser = Socialite::driver($provider)->user();
             $userType = session('social_login_user_type', 'user');
-            if (!in_array($userType, self::SUPPORTED_USER_TYPES, true)) {
+            if (! in_array($userType, self::SUPPORTED_USER_TYPES, true)) {
                 $userType = 'user';
             }
             session()->forget('social_login_user_type');
@@ -86,13 +87,13 @@ class SocialController extends Controller
 
         } catch (\Exception $e) {
             return redirect()->route('admin.login')
-                ->with('error', 'Social login failed: '.$e->getMessage());
+                ->with('error', 'Social login failed: ' . $e->getMessage());
         }
     }
 
     private function findUserByEmail(?string $email, string $userType): ?object
     {
-        if (!$email) {
+        if (! $email) {
             return null;
         }
 

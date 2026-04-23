@@ -1,0 +1,943 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Attribute class JetBrains\\PhpStorm\\ArrayShape does not exist\.$#'
+			identifier: attribute.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Action/Auditing/RouteName.php
+
+		-
+			message: '#^Method Modules\\AdminManagement\\Enums\\ActiveAdminEnum\:\:label\(\) never returns Illuminate\\Contracts\\Translation\\Translator so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: Modules/AdminManagement/app/Enums/ActiveAdminEnum.php
+
+		-
+			message: '#^Method Modules\\AdminManagement\\Enums\\ActiveAdminEnum\:\:label\(\) never returns Illuminate\\Foundation\\Application so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: Modules/AdminManagement/app/Enums/ActiveAdminEnum.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Modules/AdminManagement/app/Http/Controllers/AdminManagementController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/AuditLogController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/AuditLogController.php
+
+		-
+			message: '#^Call to an undefined method Modules\\AdminManagement\\Repository\\Role\\RoleInterface\:\:create\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/RoleManagementController.php
+
+		-
+			message: '#^Call to an undefined method Modules\\AdminManagement\\Repository\\Role\\RoleInterface\:\:destroy\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/RoleManagementController.php
+
+		-
+			message: '#^Call to an undefined method Modules\\AdminManagement\\Repository\\Role\\RoleInterface\:\:edit\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/RoleManagementController.php
+
+		-
+			message: '#^Call to an undefined method Modules\\AdminManagement\\Repository\\Role\\RoleInterface\:\:index\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/RoleManagementController.php
+
+		-
+			message: '#^Call to an undefined method Modules\\AdminManagement\\Repository\\Role\\RoleInterface\:\:store\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/RoleManagementController.php
+
+		-
+			message: '#^Call to an undefined method Modules\\AdminManagement\\Repository\\Role\\RoleInterface\:\:update\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Controllers/RoleManagementController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Middleware/AuditLogMiddleware.php
+
+		-
+			message: '#^Access to property \$id on an unknown class Modules\\AdminManagement\\Traits\\AuditLogTrait\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Middleware/AuditLogMiddleware.php
+
+		-
+			message: '#^Call to function is_callable\(\) with array\{object, ''createAuditLog''\} will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Modules/AdminManagement/app/Http/Middleware/AuditLogMiddleware.php
+
+		-
+			message: '#^Call to method createAuditLog\(\) on an unknown class Modules\\AdminManagement\\Traits\\AuditLogTrait\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Http/Middleware/AuditLogMiddleware.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$user has invalid type Modules\\AdminManagement\\Traits\\AuditLogTrait\.$#'
+			identifier: varTag.trait
+			count: 1
+			path: Modules/AdminManagement/app/Http/Middleware/AuditLogMiddleware.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type \$this\(Modules\\AdminManagement\\Http\\Requests\\PermissionsRequest\)\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: Modules/AdminManagement/app/Http/Requests/PermissionsRequest.php
+
+		-
+			message: '#^PHPDoc type array\<int, string\> of property Modules\\AdminManagement\\Models\\Admin\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: Modules/AdminManagement/app/Models/Admin.php
+
+		-
+			message: '#^Method Modules\\AdminManagement\\Repository\\Role\\RoleRepository\:\:create\(\) has invalid return type LaravelIdea\\Helper\\Spatie\\Permission\\Models\\_IH_Permission_C\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/AdminManagement/app/Repository/Role/RoleRepository.php
+
+		-
+			message: '#^Trait Modules\\AdminManagement\\Traits\\AuditLogTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: Modules/AdminManagement/app/Traits/AuditLogTrait.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/AuditLogFilterTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:actingAsSuperAdmin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/AuditLogFilterTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: Modules/AdminManagement/tests/Feature/AuditLogFilterTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/AuthenticateRedirectTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:getJson\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/AuthenticateRedirectTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:actingAsSuperAdmin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/RolePermissionAssignmentTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:delete\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/RolePermissionAssignmentTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/RolePermissionAssignmentTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:post\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: Modules/AdminManagement/tests/Feature/RolePermissionAssignmentTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:put\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/RolePermissionAssignmentTest.php
+
+		-
+			message: '#^Access to an undefined property PHPUnit\\Framework\\TestCase\:\:\$superAdmin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Access to an undefined property PHPUnit\\Framework\\TestCase\:\:\$targetRole\.$#'
+			identifier: property.notFound
+			count: 9
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:actingAsSuperAdmin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:delete\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:post\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\TestCase\:\:put\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/AdminManagement/tests/Feature/UserManagementCrudTest.php
+
+		-
+			message: '#^Comparison operation "\<" between int\<80400, 80599\> and 50600 is always false\.$#'
+			identifier: smaller.alwaysFalse
+			count: 1
+			path: Modules/AdminManagement/vendor/autoload.php
+
+		-
+			message: '#^Call to function method_exists\(\) with ''Composer\\\\Autoload…'' and ''getRegisteredLoaders'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Modules/AdminManagement/vendor/composer/InstalledVersions.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 2
+			path: Modules/AiChat/app/Services/AiChatService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{role\: mixed, content\: mixed, created_at\: mixed\}, Closure\(Modules\\AiChat\\Models\\AiMessage\)\: array\{role\: mixed, content\: mixed, created_at\: mixed\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/AiChat/app/Services/AiChatService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{role\: mixed, content\: mixed\}, Closure\(Modules\\AiChat\\Models\\AiMessage\)\: array\{role\: mixed, content\: mixed\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/AiChat/app/Services/AiChatService.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 24
+			path: Modules/AiChat/config/config.php
+
+		-
+			message: '#^Parameter \#1 \$factory of class Modules\\AiChat\\Services\\AiChatService constructor expects Modules\\AiChat\\Services\\ProviderFactory, Mockery\\MockInterface given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Modules/AiChat/tests/Unit/AiChatServiceResolveSettingsTest.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Modules/Auth/app/Http/Controllers/AuthController.php
+
+		-
+			message: '#^Call to an undefined method Laravel\\Socialite\\Contracts\\Provider\:\:scopes\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: Modules/Auth/app/Http/Controllers/SocialController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Modules/Blog/app/Http/Controllers/BlogController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Blog/app/Http/Controllers/CategoryController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Blog/app/Http/Controllers/PostController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Modules/Blog/app/Http/Controllers/TagController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meta_description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Blog/app/Repository/Category/CategoryRepository.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Blog/app/Repository/Category/CategoryRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/Blog/app/Repository/Category/CategoryRepository.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meta_description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Blog/app/Repository/Post/PostRepository.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Blog/app/Repository/Post/PostRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/Blog/app/Repository/Post/PostRepository.php
+
+		-
+			message: '#^Trait Modules\\Blog\\Traits\\HasAuthor is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: Modules/Blog/app/Traits/HasAuthor.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/CMSController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/MenuController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$items\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$order\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 4
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelController.php
+
+		-
+			message: '#^Parameter \#1 \$request of method Modules\\CMS\\Repository\\PanelItem\\PanelItemInterface\:\:store\(\) expects Illuminate\\Http\\Request, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelItemController.php
+
+		-
+			message: '#^Parameter \#2 \$request of method Modules\\CMS\\Repository\\PanelItem\\PanelItemInterface\:\:update\(\) expects Illuminate\\Http\\Request, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/CMS/app/Http/Controllers/PanelItemController.php
+
+		-
+			message: '#^Access to an undefined property Modules\\CMS\\Livewire\\PanelBuilder\:\:\$recaptcha\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Livewire/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/CMS/app/Livewire/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: array\{id\: int, type\: mixed, type_label\: mixed, title\: array, is_active\: mixed, order\: mixed, can_have_items\: mixed, items\: array\<mixed\>\}, Closure\(Modules\\CMS\\Models\\Panel\)\: array\{id\: int, type\: mixed, type_label\: mixed, title\: array, is_active\: mixed, order\: mixed, can_have_items\: mixed, items\: array\<mixed\>\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/CMS/app/Livewire/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/CMS/app/Livewire/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{id\: int, type\: mixed, type_label\: mixed, title\: array, content\: array, is_active\: mixed, order\: mixed, media_url\: non\-falsy\-string\|null\}, Closure\(Modules\\CMS\\Models\\PanelItem\)\: array\{id\: int, type\: mixed, type_label\: mixed, title\: array, content\: array, is_active\: mixed, order\: mixed, media_url\: non\-falsy\-string\|null\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/CMS/app/Livewire/PanelBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Models/MenuItem.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\Image\\Drivers\\ImageDriver\:\:performOnCollections\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: Modules/CMS/app/Models/Portfolio.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/CMS/app/Repository/Menu/MenuRepository.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meta_description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Repository/Page/PageRepository.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Repository/Page/PageRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/CMS/app/Repository/Page/PageRepository.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$panel_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/CMS/app/Repository/Panel/PanelRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/CMS/app/Repository/Panel/PanelRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/CMS/app/Repository/PanelItem/PanelItemRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:validated\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Modules/CMS/app/Repository/Portfolio/PortfolioRepository.php
+
+		-
+			message: '#^Method Modules\\Core\\App\\Enums\\Gender\:\:label\(\) never returns Illuminate\\Contracts\\Translation\\Translator so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: Modules/Core/app/Enums/Gender.php
+
+		-
+			message: '#^Call to an undefined method Modules\\Core\\App\\Enums\\LanguageEnum\:\:AR\|Modules\\Core\\App\\Enums\\LanguageEnum\:\:EN\|Modules\\Core\\App\\Enums\\LanguageEnum\:\:TR\:\:label\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Modules/Core/app/Enums/LanguageEnum.php
+
+		-
+			message: '#^Method Modules\\Core\\App\\Enums\\PrimaryAddressStatus\:\:label\(\) never returns Illuminate\\Contracts\\Translation\\Translator so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: Modules/Core/app/Enums/PrimaryAddressStatus.php
+
+		-
+			message: '#^Method Modules\\Core\\app\\Enums\\UserStatusEnum\:\:label\(\) never returns Illuminate\\Contracts\\Translation\\Translator so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: Modules/Core/app/Enums/UserStatusEnum.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Modules/Core/app/Http/Controllers/CoreController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\|Modules\\AdminManagement\\Models\\Admin\:\:\$pushTokens\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Core/app/Http/Controllers/EnvController.php
+
+		-
+			message: '#^Call to function method_exists\(\) with \$this\(Modules\\Core\\app\\Http\\Controllers\\LoginController\) and ''hasTooManyLoginAtte…'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Modules/Core/app/Http/Controllers/LoginController.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 1
+			path: Modules/Core/app/Http/Middleware/ComingSoon.php
+
+		-
+			message: '#^Enum Modules\\Core\\App\\Enums\\PrimaryAddressStatus referenced with incorrect case\: Modules\\Core\\app\\Enums\\PrimaryAddressStatus\.$#'
+			identifier: enum.nameCase
+			count: 2
+			path: Modules/Core/app/Models/Address.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 16
+			path: Modules/Core/config/services.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''actions'' \(''actions'', ''actions''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: Modules/Core/lang/en/core.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''back'' \(''back'', ''back''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: Modules/Core/lang/en/core.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''cancel'' \(''cancel'', ''cancel''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: Modules/Core/lang/en/core.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''close'' \(''close'', ''close''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: Modules/Core/lang/en/core.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''edit'' \(''edit'', ''edit''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: Modules/Core/lang/en/core.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''save'' \(''save'', ''save''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: Modules/Core/lang/en/core.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$answer\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Actions/SearchKnowledgeBaseAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$category\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Actions/SearchKnowledgeBaseAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: Modules/MCP/app/Actions/SearchKnowledgeBaseAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$priority\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Actions/SearchKnowledgeBaseAction.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$question\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Actions/SearchKnowledgeBaseAction.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/MCP/app/Actions/SearchKnowledgeBaseAction.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Modules/MCP/app/Http/Controllers/MCPController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Livewire/ChatWidget.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Livewire/ChatWidget.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_from_bot\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Livewire/ChatWidget.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$message\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/MCP/app/Livewire/ChatWidget.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/MCP/app/Livewire/ChatWidget.php
+
+		-
+			message: '#^Relation ''latestMessage'' is not found in Modules\\MCP\\Models\\ChatConversation model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: Modules/MCP/app/Repository/ChatConversation/ChatConversationRepository.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 16
+			path: Modules/MCP/config/config.php
+
+		-
+			message: '#^Call to static method collection\(\) on an unknown class Modules\\Notification\\App\\Actions\\NotificationResource\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/Notification/app/Actions/NotificationService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Notification/app/Actions/PushNotificationAction.php
+
+		-
+			message: '#^Call to method validated\(\) on an unknown class Modules\\Notification\\Http\\Controllers\\NotificationsRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/Notification/app/Http/Controllers/NotificationController.php
+
+		-
+			message: '#^Call to static method update\(\) on an unknown class Modules\\Notification\\Http\\Controllers\\UpdateNotificationsEnv\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/Notification/app/Http/Controllers/NotificationController.php
+
+		-
+			message: '#^Parameter \$request of method Modules\\Notification\\Http\\Controllers\\NotificationController\:\:update\(\) has invalid type Modules\\Notification\\Http\\Controllers\\NotificationsRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/Notification/app/Http/Controllers/NotificationController.php
+
+		-
+			message: '#^Access to constant SENT on an unknown class Modules\\Notification\\Http\\Controllers\\WhatsAppStatus\.$#'
+			identifier: class.notFound
+			count: 2
+			path: Modules/Notification/app/Http/Controllers/WhatsAppCallBackController.php
+
+		-
+			message: '#^Call to static method query\(\) on an unknown class Modules\\Notification\\Http\\Controllers\\WhatsAppMessageLog\.$#'
+			identifier: class.notFound
+			count: 1
+			path: Modules/Notification/app/Http/Controllers/WhatsAppCallBackController.php
+
+		-
+			message: '#^Function core not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: Modules/Notification/app/Notifications/TestAllNotification.php
+
+		-
+			message: '#^Part \$this\-\>notificationType \(Modules\\Notification\\Enums\\NotificationTypes\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 2
+			path: Modules/Notification/app/Notifications/TestAllNotification.php
+
+		-
+			message: '#^Method Modules\\Notification\\App\\Services\\Notifications\\WhatsApp\:\:saveLog\(\) invoked with 3 parameters, 2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: Modules/Notification/app/Services/Notifications/WhatsApp.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 7
+			path: Modules/Notification/config/notifications.php
+
+		-
+			message: '#^Parameter \#3 \$strict of function array_search expects bool, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Theme/app/Helpers/Helpers.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: Modules/Theme/app/Helpers/Helpers.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$activeItems\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$order\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Modules/Theme/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Modules/Theme/app/Http/Controllers/ThemeController.php
+
+		-
+			message: '#^Class Modules\\Core\\app\\Http\\Controllers\\LoginController referenced with incorrect case\: Modules\\Core\\App\\Http\\Controllers\\LoginController\.$#'
+			identifier: class.nameCase
+			count: 4
+			path: Modules/Theme/routes/web.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$activeItems\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$order\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Modules/Website/app/Http/Controllers/LandingPageController.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Modules/Website/app/Http/Controllers/WebsiteController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/Website/app/Livewire/Admin/SortPanelItems.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: array\{id\: int, title\: mixed, type\: mixed, is_active\: mixed, order\: mixed\}, Closure\(Modules\\CMS\\Models\\PanelItem\)\: array\{id\: int, title\: mixed, type\: mixed, is_active\: mixed, order\: mixed\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Website/app/Livewire/Admin/SortPanelItems.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),array\<string, mixed\>\>\:\:sortBy\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/Website/app/Livewire/Admin/SortPanelItems.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/Website/app/Livewire/Admin/SortPanels.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: array\{id\: int, title\: mixed, type\: mixed, is_active\: mixed, order\: mixed\}, Closure\(Modules\\CMS\\Models\\Panel\)\: array\{id\: int, title\: mixed, type\: mixed, is_active\: mixed, order\: mixed\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Website/app/Livewire/Admin/SortPanels.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),array\<string, mixed\>\>\:\:sortBy\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: Modules/Website/app/Livewire/Admin/SortPanels.php
+
+		-
+			message: '#^Method Modules\\Website\\PanelBuilder\:\:build\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), array\<string, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Modules/Website/app/PanelBuilder.php
+
+		-
+			message: '#^Method Modules\\Website\\PanelBuilder\:\:buildItems\(\) should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<\(int\|string\), array\<string, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Modules/Website/app/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 2
+			path: Modules/Website/app/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: array\{id\: int, type\: mixed, title\: mixed, content\: mixed, is_active\: mixed, order\: mixed, data\: mixed, media\: array\{item_image\: string, item_gallery\: Illuminate\\Support\\Collection\<int, mixed\>\}\}, Closure\(Modules\\CMS\\Models\\PanelItem\)\: array\{id\: int, type\: mixed, title\: mixed, content\: mixed, is_active\: mixed, order\: mixed, data\: mixed, media\: array\{item_image\: string, item_gallery\: Illuminate\\Support\\Collection\<int, mixed\>\}\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Website/app/PanelBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\|string\)\: array\{id\: int, type\: mixed, title\: mixed, slug\: mixed, is_active\: mixed, order\: mixed, settings\: mixed, items\: Illuminate\\Database\\Eloquent\\Collection, media\: array\{panel_image\: string, panel_gallery\: Illuminate\\Support\\Collection\<int, mixed\>\}\}, Closure\(Modules\\CMS\\Models\\Panel\)\: array\{id\: int, type\: mixed, title\: mixed, slug\: mixed, is_active\: mixed, order\: mixed, settings\: mixed, items\: Illuminate\\Database\\Eloquent\\Collection, media\: array\{panel_image\: string, panel_gallery\: Illuminate\\Support\\Collection\<int, mixed\>\}\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Modules/Website/app/PanelBuilder.php
+
+		-
+			message: '#^Class Spatie\\MediaLibraryPro\\Models\\TemporaryUpload not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: config/media-library.php
+
+		-
+			message: '#^Class Modules\\AdminManagement\\app\\Http\\Controllers\\AuthController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php

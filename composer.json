@@ -33,11 +33,14 @@
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.15",
     "fakerphp/faker": "^1.23",
+    "larastan/larastan": "^3.0",
     "laravel/pail": "^1.2.2",
     "laravel/pint": "^1.13",
     "laravel/sail": "^1.41",
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.6",
+    "pestphp/pest": "^3.7",
+    "pestphp/pest-plugin-laravel": "^3.1",
     "phiki/phiki": "^2.0",
     "phpunit/phpunit": "^11.5.3"
   },
@@ -76,6 +79,18 @@
     "test": [
       "@php artisan config:clear --ansi",
       "@php artisan test"
+    ],
+    "pint":        "vendor/bin/pint",
+    "pint:test":   "vendor/bin/pint --test",
+    "stan":        "vendor/bin/phpstan analyse --memory-limit=1G",
+    "stan:baseline": "vendor/bin/phpstan analyse --memory-limit=1G --generate-baseline=phpstan-baseline.neon",
+    "audit":       "composer audit --locked --format=plain",
+    "audit:strict": "composer audit --locked --no-dev --abandoned=fail",
+    "ci": [
+      "@pint:test",
+      "@stan",
+      "@audit",
+      "@test"
     ]
   },
   "extra": {

@@ -7,63 +7,59 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
+use Modules\Auth\app\Models\SocialAccount;
 use Modules\Core\App\Enums\Gender;
 use Modules\Core\app\Models\Address;
-use Modules\Mps\Enums\User\CompanyVerifiedEnum;
-use Modules\Mps\Enums\User\KVKKVerifyEnum;
-use Modules\Mps\Enums\UserStatusEnum;
-use Modules\Mps\Models\Commission;
-use Modules\Mps\Models\Company;
-use Modules\Mps\Models\Iban;
-use Modules\Mps\Models\Payment;
-use Modules\Mps\Models\Permit;
-use Modules\Mps\Models\UserAgreement;
-use Modules\Mps\Models\UserIntegrations;
-use Modules\Mps\Models\VerificationCode;
-use Modules\Auth\app\Models\SocialAccount;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property mixed $name
- * @property mixed $surname
- * @property mixed $email
- * @property mixed $password
- * @property mixed $phone
- * @property mixed $authority_identity
- * @property mixed $status
- * @property mixed $gender
- * @property mixed $birthdate
- * @property mixed $created_by
- * @property mixed $updated_by
- * @property mixed $deleted_by
- * @property mixed $action_by
- * @property mixed $tax_number
- * @property mixed $delegate
- * @property mixed $is_login
- * @property mixed $confirm
- * @property mixed $password_updated_date
- * @property mixed $password_expiry_date
- * @property mixed $password_period
- * @property mixed $kvkk_verify
- * @property mixed $company_image_verified
- * @property mixed $security_picture
- * @property mixed $verify_picture
- * @property mixed $is_block
- * @property mixed $attempts
- * @property mixed $user_point
- * @property mixed $company_id
- * @property null|Commission $commissions
+ * Public-facing user model. API token support comes from Sanctum — the
+ * previous Passport trait was removed because Passport was never actually
+ * in composer.json (leftover from a deleted feature). Any `$user->tokens`
+ * / `$user->createToken(...)` calls keep working because Sanctum exposes
+ * the same surface.
+ *
+ * MPS-module phpdoc properties (Commission / Company / Iban) were dropped
+ * alongside the module removal. Re-add them if that module is ever
+ * reintroduced.
+ *
+ * @property mixed        $name
+ * @property mixed        $surname
+ * @property mixed        $email
+ * @property mixed        $password
+ * @property mixed        $phone
+ * @property mixed        $authority_identity
+ * @property mixed        $status
+ * @property mixed        $gender
+ * @property mixed        $birthdate
+ * @property mixed        $created_by
+ * @property mixed        $updated_by
+ * @property mixed        $deleted_by
+ * @property mixed        $action_by
+ * @property mixed        $tax_number
+ * @property mixed        $delegate
+ * @property mixed        $is_login
+ * @property mixed        $confirm
+ * @property mixed        $password_updated_date
+ * @property mixed        $password_expiry_date
+ * @property mixed        $password_period
+ * @property mixed        $kvkk_verify
+ * @property mixed        $company_image_verified
+ * @property mixed        $security_picture
+ * @property mixed        $verify_picture
+ * @property mixed        $is_block
+ * @property mixed        $attempts
+ * @property mixed        $user_point
+ * @property mixed        $company_id
  * @property mixed|string $img
  * @property Address|null $address
- * @property Company|null $company
- * @property Iban|null $iban
  */
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<UserFactory> */
-    use  HasFactory, Notifiable, InteractsWithMedia, HasApiTokens;
+    use HasApiTokens, HasFactory, InteractsWithMedia, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -106,6 +102,7 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'gender' => Gender::class,
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -130,35 +127,30 @@ class User extends Authenticatable implements HasMedia
     {
         return $query
             ->when(
-                !empty($filters['name']),
-                fn($q)
-                    => $q->where('name', 'like', '%'.$filters['name'].'%'),
+                ! empty($filters['name']),
+                fn ($q) => $q->where('name', 'like', '%' . $filters['name'] . '%'),
             )
             ->when(
-                !empty($filters['company_type']),
-                fn($q)
-                    => $q->whereHas('company', function ($q) use ($filters) {
+                ! empty($filters['company_type']),
+                fn ($q) => $q->whereHas('company', function ($q) use ($filters) {
                     $q->where('company_type', $filters['company_type']);
                 }),
             )
             ->when(
-                !empty($filters['delegate']),
-                fn($q)
-                    => $q->whereHas('company', function ($q) use ($filters) {
+                ! empty($filters['delegate']),
+                fn ($q) => $q->whereHas('company', function ($q) use ($filters) {
                     $q->where('delegate', $filters['delegate']);
                 }),
             )
             ->when(
-                !empty($filters['city_id']),
-                fn($q)
-                    => $q->whereHas('address', function ($q) use ($filters) {
+                ! empty($filters['city_id']),
+                fn ($q) => $q->whereHas('address', function ($q) use ($filters) {
                     $q->where('city_id', $filters['city_id']);
                 }),
             )
             ->when(
-                !empty($filters['status']),
-                fn($q)
-                    => $q->where('status', $filters['status']),
+                ! empty($filters['status']),
+                fn ($q) => $q->where('status', $filters['status']),
             );
     }
 

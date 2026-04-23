@@ -14,16 +14,17 @@ class AdminPermissionsMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param Closure(Request): (Response) $next
      */
     public function handle(Request $request, ClosureAlias $next)
     {
         $user = Auth::user();
         abort_if(
-            !($user->can($request->route()->getName()) || $user->hasRole(Roles::SUPER_ADMIN->value)),
+            ! ($user->can($request->route()->getName()) || $user->hasRole(Roles::SUPER_ADMIN->value)),
             Response::HTTP_FORBIDDEN,
             'Sorry!, You dont have the right permission to access this Buy Global Operation.',
         );
+
         return $next($request);
     }
 }

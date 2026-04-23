@@ -5,7 +5,6 @@ namespace Modules\Core\app\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CoreController extends Controller
 {
@@ -27,10 +26,14 @@ class CoreController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * This is a scaffolded nwidart stub — no routes point at it yet.
+     * Until wired up, fail loudly so we catch premature callers in dev
+     * instead of silently returning null (which PHPStan flagged).
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        abort(501, 'CoreController::store is not implemented.');
     }
 
     /**
@@ -50,11 +53,12 @@ class CoreController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. Scaffolded stub — see
+     * store() for the rationale on why this aborts rather than returning null.
      */
     public function update(Request $request, $id): RedirectResponse
     {
-        //
+        abort(501, 'CoreController::update is not implemented.');
     }
 
     /**

@@ -13,7 +13,7 @@ enum ActiveEnum: int
 
     public function label(): string
     {
-        return trans('core::core.enum.ActiveClinic.'.$this->value);
+        return trans('core::core.enum.ActiveClinic.' . $this->value);
     }
 
     public function class(): string

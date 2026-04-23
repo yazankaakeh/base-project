@@ -174,7 +174,7 @@ class LandingPageSeeder extends Seeder
                         'items' => [
                             [
                                 'value' => '12+',
-                                'icon'  => 'ti tabler-code',
+                                'icon' => 'ti tabler-code',
                                 'label' => [
                                     'en' => 'Production releases per week',
                                     'ar' => 'إصدار إنتاج في الأسبوع',
@@ -183,7 +183,7 @@ class LandingPageSeeder extends Seeder
                             ],
                             [
                                 'value' => '40+',
-                                'icon'  => 'ti tabler-rocket',
+                                'icon' => 'ti tabler-rocket',
                                 'label' => [
                                     'en' => 'Products shipped end-to-end',
                                     'ar' => 'منتج تم إطلاقه من البداية للنهاية',
@@ -192,7 +192,7 @@ class LandingPageSeeder extends Seeder
                             ],
                             [
                                 'value' => '99.95%',
-                                'icon'  => 'ti tabler-heartbeat',
+                                'icon' => 'ti tabler-heartbeat',
                                 'label' => [
                                     'en' => 'Average uptime we operate',
                                     'ar' => 'متوسط وقت التشغيل الذي نديره',
@@ -201,7 +201,7 @@ class LandingPageSeeder extends Seeder
                             ],
                             [
                                 'value' => '0',
-                                'icon'  => 'ti tabler-shield-lock',
+                                'icon' => 'ti tabler-shield-lock',
                                 'label' => [
                                     'en' => 'Reportable security incidents',
                                     'ar' => 'حوادث أمنية تستوجب التبليغ',

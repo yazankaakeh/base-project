@@ -18,8 +18,7 @@ class OpenAiProvider implements AiProviderInterface
     public function __construct(
         protected string $name,
         protected array $config,
-    ) {
-    }
+    ) {}
 
     public function key(): string
     {
@@ -37,28 +36,28 @@ class OpenAiProvider implements AiProviderInterface
             throw new RuntimeException("Provider [{$this->name}] is not configured (missing API key).");
         }
 
-        $model       = $options['model'] ?? $this->config['default_model'];
-        $maxTokens   = $options['max_tokens'] ?? 600;
+        $model = $options['model'] ?? $this->config['default_model'];
+        $maxTokens = $options['max_tokens'] ?? 600;
         $temperature = $options['temperature'] ?? 0.5;
-        $system      = $options['system_prompt'] ?? null;
+        $system = $options['system_prompt'] ?? null;
 
         $payload = [
-            'model'       => $model,
-            'messages'    => $this->prependSystem($messages, $system),
-            'max_tokens'  => $maxTokens,
+            'model' => $model,
+            'messages' => $this->prependSystem($messages, $system),
+            'max_tokens' => $maxTokens,
             'temperature' => $temperature,
         ];
 
         $response = Http::timeout(60)
             ->withHeaders([
-                'Authorization' => 'Bearer '.$this->config['api_key'],
-                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $this->config['api_key'],
+                'Content-Type' => 'application/json',
             ])
-            ->post(rtrim($this->config['base_url'], '/').'/chat/completions', $payload);
+            ->post(rtrim($this->config['base_url'], '/') . '/chat/completions', $payload);
 
         if (! $response->successful()) {
             throw new RuntimeException(
-                "[{$this->name}] HTTP ".$response->status().': '.$response->body()
+                "[{$this->name}] HTTP " . $response->status() . ': ' . $response->body()
             );
         }
 
@@ -66,12 +65,12 @@ class OpenAiProvider implements AiProviderInterface
         $content = $body['choices'][0]['message']['content'] ?? '';
 
         return new ChatResponse(
-            content:          trim($content),
-            providerKey:      $this->name,
-            model:            $body['model'] ?? $model,
-            promptTokens:     $body['usage']['prompt_tokens']     ?? null,
+            content: trim($content),
+            providerKey: $this->name,
+            model: $body['model'] ?? $model,
+            promptTokens: $body['usage']['prompt_tokens'] ?? null,
             completionTokens: $body['usage']['completion_tokens'] ?? null,
-            raw:              $body,
+            raw: $body,
         );
     }
 
@@ -81,6 +80,7 @@ class OpenAiProvider implements AiProviderInterface
             return $messages;
         }
         array_unshift($messages, ['role' => 'system', 'content' => $system]);
+
         return $messages;
     }
 }

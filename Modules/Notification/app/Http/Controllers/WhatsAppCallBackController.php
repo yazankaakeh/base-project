@@ -22,9 +22,9 @@ class WhatsAppCallBackController extends Controller
             ])->update([
                 'status' => WhatsAppStatus::SENT->value,
             ]);
-            Log::info('Payload Data: '.json_encode($payload));
+            Log::info('Payload Data: ' . json_encode($payload));
         }
-        Log::info('Payload Data: '.json_encode($data));
+        Log::info('Payload Data: ' . json_encode($data));
 
         return response()->json([
             'status' => 'success',

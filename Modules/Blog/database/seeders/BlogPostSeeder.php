@@ -19,40 +19,40 @@ class BlogPostSeeder extends Seeder
         // -----------------------------------------------------------------
         $categoriesData = [
             [
-                'title'       => ['en' => 'Engineering',   'ar' => 'الهندسة',      'tr' => 'Mühendislik'],
+                'title' => ['en' => 'Engineering',   'ar' => 'الهندسة',      'tr' => 'Mühendislik'],
                 'description' => [
                     'en' => 'Architecture, testing, observability and how we build software that stays maintainable.',
                     'ar' => 'العمارة البرمجية والاختبارات والمراقبة وكيف نبني برمجيات تظل قابلة للصيانة.',
                     'tr' => 'Mimari, testler, gözlemlenebilirlik ve sürdürülebilir yazılım üretme biçimimiz.',
                 ],
-                'is_active'   => ActiveEnum::ACTIVE,
+                'is_active' => ActiveEnum::ACTIVE,
             ],
             [
-                'title'       => ['en' => 'AI & ML',        'ar' => 'الذكاء الاصطناعي', 'tr' => 'Yapay Zekâ'],
+                'title' => ['en' => 'AI & ML',        'ar' => 'الذكاء الاصطناعي', 'tr' => 'Yapay Zekâ'],
                 'description' => [
                     'en' => 'LLMs, RAG, agents and the boring engineering that makes them production-safe.',
                     'ar' => 'نماذج اللغة الكبيرة والـ RAG والوكلاء الذكيون والهندسة التي تجعلهم آمنين في الإنتاج.',
                     'tr' => 'LLM, RAG, ajanlar ve onları üretime hazır kılan mühendislik.',
                 ],
-                'is_active'   => ActiveEnum::ACTIVE,
+                'is_active' => ActiveEnum::ACTIVE,
             ],
             [
-                'title'       => ['en' => 'Cloud & DevOps', 'ar' => 'السحابة و DevOps', 'tr' => 'Bulut ve DevOps'],
+                'title' => ['en' => 'Cloud & DevOps', 'ar' => 'السحابة و DevOps', 'tr' => 'Bulut ve DevOps'],
                 'description' => [
                     'en' => 'Infrastructure, CI/CD, incident response and keeping systems calm at 3am.',
                     'ar' => 'البنية التحتية و CI/CD والاستجابة للحوادث والحفاظ على هدوء الأنظمة في الثالثة فجرًا.',
                     'tr' => 'Altyapı, CI/CD, olay müdahalesi ve sistemlerin gecenin üçünde de sakin kalması.',
                 ],
-                'is_active'   => ActiveEnum::ACTIVE,
+                'is_active' => ActiveEnum::ACTIVE,
             ],
             [
-                'title'       => ['en' => 'Product & Design', 'ar' => 'المنتج والتصميم', 'tr' => 'Ürün ve Tasarım'],
+                'title' => ['en' => 'Product & Design', 'ar' => 'المنتج والتصميم', 'tr' => 'Ürün ve Tasarım'],
                 'description' => [
                     'en' => 'Research-led UX, product strategy and the hand-off between design and code.',
                     'ar' => 'تجربة مستخدم مبنية على البحث واستراتيجية المنتج والتسليم بين التصميم والكود.',
                     'tr' => 'Araştırma odaklı UX, ürün stratejisi ve tasarım ile kod arasındaki devir teslim.',
                 ],
-                'is_active'   => ActiveEnum::ACTIVE,
+                'is_active' => ActiveEnum::ACTIVE,
             ],
         ];
 
@@ -73,7 +73,7 @@ class BlogPostSeeder extends Seeder
             ['name' => ['en' => 'LLM',          'ar' => 'LLM',           'tr' => 'LLM']],
             ['name' => ['en' => 'AWS',          'ar' => 'AWS',           'tr' => 'AWS']],
             ['name' => ['en' => 'CI/CD',        'ar' => 'CI/CD',         'tr' => 'CI/CD']],
-            ['name' => ['en' => 'Observability','ar' => 'المراقبة',      'tr' => 'Gözlemlenebilirlik']],
+            ['name' => ['en' => 'Observability', 'ar' => 'المراقبة',      'tr' => 'Gözlemlenebilirlik']],
             ['name' => ['en' => 'Security',     'ar' => 'الأمان',        'tr' => 'Güvenlik']],
             ['name' => ['en' => 'Architecture', 'ar' => 'المعمارية',     'tr' => 'Mimari']],
             ['name' => ['en' => 'Design',       'ar' => 'التصميم',       'tr' => 'Tasarım']],
@@ -94,8 +94,8 @@ class BlogPostSeeder extends Seeder
 
         $posts = [
             [
-                'category'  => 0, // Engineering
-                'cover'     => 'laravel-at-scale.png',
+                'category' => 0, // Engineering
+                'cover' => 'laravel-at-scale.png',
                 'title' => [
                     'en' => 'Laravel at scale: lessons from shipping a six-figure-user SaaS',
                     'ar' => 'لارافل على نطاق واسع: دروس من إطلاق SaaS بمئات الآلاف من المستخدمين',
@@ -106,12 +106,12 @@ class BlogPostSeeder extends Seeder
                     'ar' => '<p class="lead">يمكن لـ Laravel بالتأكيد أن يعمل على نطاق واسع — لكن فقط إذا عاملتَ الإطار كنقطة انطلاق لا كخط نهاية. إليك ما غيّرناه عندما تجاوزت حركة المرور مليون طلب يوميًا.</p><h2>نظافة الطوابير</h2><p>أصبحت كل عملية غير بسيطة مَهمّةً في طابور. قسّمنا الطوابير حسب ميزانية الزمن: <code>realtime</code> و<code>batch</code> و<code>heavy</code>.</p><h2>التخزين المؤقت كمواطن من الدرجة الأولى</h2><p>Read-through caches حول كل دالة مستودع، وإبطال قائم على الوسوم، وميزانية تخزين مؤقت لكل طلب.</p><h2>انضباط قاعدة البيانات</h2><p>لا يمرّ N+1 أبدًا. نتحقق من <code>with()</code> في كل مراجعة كود.</p><h2>المراقبة</h2><p>سجلات منظمة، ومعرفات طلبات تنتقل عبر الطوابير، ومراجعة أسبوعية لأبطأ 10 مسارات.</p>',
                     'tr' => '<p class="lead">Laravel kesinlikle ölçekte çalışabilir — ama bunun için çerçeveyi bir başlangıç noktası olarak görmeniz gerekir. İşte günlük bir milyon isteği geçtiğimizde değiştirdiklerimiz.</p><h2>Kuyruk hijyeni</h2><p>Her önemsiz etkileşim kuyruğa alındı. Gecikme bütçesine göre ayrılmış kuyruklar: <code>realtime</code>, <code>batch</code>, <code>heavy</code>.</p><h2>Birinci sınıf bir önbellekleme</h2><p>Her depo metodu etrafında read-through cache, agregat köküne bağlı etiket tabanlı geçersizleştirme, istek başına cache bütçesi.</p><h2>Veritabanı disiplini</h2><p>N+1 yayına çıkmaz. <code>with()</code> her kod incelemesinde doğrulanır.</p><h2>Gözlemlenebilirlik</h2><p>Yapılandırılmış loglar, kuyruklar arasında taşınan istek kimlikleri ve en yavaş 10 rotanın haftalık incelemesi.</p>',
                 ],
-                'tags'      => [0, 1, 8, 10], // Laravel, PHP, Observability, Architecture
-                'clapping'  => 128,
+                'tags' => [0, 1, 8, 10], // Laravel, PHP, Observability, Architecture
+                'clapping' => 128,
             ],
             [
-                'category'  => 1, // AI & ML
-                'cover'     => 'rag-without-hype.png',
+                'category' => 1, // AI & ML
+                'cover' => 'rag-without-hype.png',
                 'title' => [
                     'en' => 'RAG without hype: a production checklist we actually use',
                     'ar' => 'RAG بدون ضجيج: قائمة فحص إنتاجية نستخدمها فعلًا',
@@ -122,12 +122,12 @@ class BlogPostSeeder extends Seeder
                     'ar' => '<p class="lead">معظم عروض RAG تنهار فور ظهور مستخدمين حقيقيين. هذه هي الأمور المملة التي نفحصها قبل السماح لنظام RAG بالاقتراب من الإنتاج.</p><h2>التقييم أولًا</h2><p>لا eval set، لا merge. نبني مجموعة ذهبية من 200–500 زوج سؤال/جواب يراجعها خبير قبل كتابة أي تضمين.</p><h2>جودة الاسترجاع</h2><p>بحث هجين (dense + BM25)، وتقسيم موجّه بنوع المستند، وإعادة ترتيب بـ cross-encoder صغير عند السماح بميزانية الزمن.</p><h2>ضوابط تهمّ فعلًا</h2><p>تصفية المدخلات والمخرجات وحدّ أقصى للتكلفة. كل استدعاء يمكن مراقبته.</p><blockquote>80% من جودة RAG تأتي من خط أنابيب البيانات، لا من النموذج.</blockquote>',
                     'tr' => '<p class="lead">RAG demolarının çoğu gerçek kullanıcı görünce çöker. Bir RAG sisteminin üretime yaklaşmasına izin vermeden önce kontrol ettiğimiz sıkıcı şeyler.</p><h2>Önce değerlendirme</h2><p>Eval seti yoksa merge yok. Tek bir embedding yazmadan önce alan uzmanı tarafından incelenmiş 200–500 soru-cevaptan oluşan altın küme oluştururuz.</p><h2>Geri çağırma kalitesi</h2><p>Hibrit arama (dense + BM25), belge türüne göre chunking, bütçe izin verirse cross-encoder ile yeniden sıralama.</p><h2>Önemli koruma bantları</h2><p>Giriş/çıkış filtreleme ve maliyet tavanı. Her çağrı izlenebilir.</p><blockquote>RAG kalitesinin %80\'i veri boru hattından gelir, modelden değil.</blockquote>',
                 ],
-                'tags'      => [4, 5, 8, 9], // RAG, LLM, Observability, Security
-                'clapping'  => 214,
+                'tags' => [4, 5, 8, 9], // RAG, LLM, Observability, Security
+                'clapping' => 214,
             ],
             [
-                'category'  => 2, // Cloud & DevOps
-                'cover'     => null,
+                'category' => 2, // Cloud & DevOps
+                'cover' => null,
                 'title' => [
                     'en' => 'Zero-downtime deploys on a budget: Laravel + AWS in practice',
                     'ar' => 'إطلاق بدون توقف بميزانية محدودة: Laravel + AWS في الممارسة',
@@ -138,12 +138,12 @@ class BlogPostSeeder extends Seeder
                     'ar' => '<p class="lead">لستَ بحاجة إلى فريق منصات لإطلاق Laravel بدون توقف. تحتاج إلى عدد قليل من الأساسيات وانضباط لتوصيلها مرة واحدة.</p><h2>شكل الإطلاق</h2><p>أنشئ artifact غير قابل للتغيير، شغّل المهاجرات بـ <code>--isolated</code>، حوّل الحركة عبر target groups موزونة، وأحمِ المكدّس الجديد قبل استقبال الحركة.</p><h2>التراجع ميزة</h2><p>كل إطلاق لديه تراجع بأمر واحد. كل migration لديه خطة عكسية.</p><h2>إبقاء الفاتورة معقولة</h2><p>Reserved instances للأحمال الأساسية، Spot لعمال الطوابير، قواعد lifecycle لـ S3.</p>',
                     'tr' => '<p class="lead">Laravel\'ı sıfır kesintiyle dağıtmak için platform ekibine ihtiyacınız yok. Birkaç temel yapı taşına ve bunları bir kez doğru bağlama disiplinine ihtiyacınız var.</p><h2>Bir dağıtımın şekli</h2><p>Değişmez bir artifact oluştur, <code>--isolated</code> ile migration çalıştır, ağırlıklı target group ile trafiği kaydır, yeni stack\'i önceden ısıt.</p><h2>Geri alma bir özelliktir</h2><p>Her dağıtımın tek komutla geri alma yolu var. Her migration\'ın ters planı var.</p><h2>Faturayı makul tutmak</h2><p>Temel yükler için reserved instance, kuyruk işçileri için spot, S3 için lifecycle kuralları.</p>',
                 ],
-                'tags'      => [6, 7, 0], // AWS, CI/CD, Laravel
-                'clapping'  => 97,
+                'tags' => [6, 7, 0], // AWS, CI/CD, Laravel
+                'clapping' => 97,
             ],
             [
-                'category'  => 3, // Product & Design
-                'cover'     => null,
+                'category' => 3, // Product & Design
+                'cover' => null,
                 'title' => [
                     'en' => 'The design-to-code handover that actually works',
                     'ar' => 'التسليم من التصميم إلى الكود الذي يعمل حقًا',
@@ -154,12 +154,12 @@ class BlogPostSeeder extends Seeder
                     'ar' => '<p class="lead">معظم "عمليات التسليم" هي مجرد روابط Figma تُرمى فوق الجدار. إليك ما نفعله بدلًا من ذلك — في كل مشروع، في كل مرة.</p><h2>لغة مشتركة</h2><p>Design tokens في مكان واحد، تُصدَّر إلى أنماط Figma ومتغيرات Tailwind/SCSS.</p><h2>سجل التفاعلات</h2><p>لكل شاشة، يكتب المصممون قائمة قصيرة بالتفاعلات: الحالة الفارغة، التحميل، الخطأ، النجاح، اختصارات لوحة المفاتيح.</p><h2>إمكانية الوصول من البداية</h2><p>تباين الألوان يُفحص على مستوى الـ token، وتدفقات لوحة المفاتيح تُرسم على نفس الكانفس.</p>',
                     'tr' => '<p class="lead">"Devir teslim"lerin çoğu duvarın üstünden atılan Figma linkleridir. Bizim yerine yaptığımız — her projede, her seferinde.</p><h2>Ortak dil</h2><p>Design token\'lar tek bir yerde, hem Figma stillerine hem Tailwind/SCSS değişkenlerine dışa aktarılır.</p><h2>Etkileşim günlüğü</h2><p>Her ekran için tasarımcılar kısa bir etkileşim listesi yazar: boş durum, yükleme, hata, başarı, klavye kısayolu.</p><h2>Baştan erişilebilirlik</h2><p>Kontrast token seviyesinde kontrol edilir, klavye akışları layout ile aynı kanvasta çizilir.</p>',
                 ],
-                'tags'      => [11, 2, 3], // Design, Vue, Next
-                'clapping'  => 76,
+                'tags' => [11, 2, 3], // Design, Vue, Next
+                'clapping' => 76,
             ],
             [
-                'category'  => 0, // Engineering
-                'cover'     => null,
+                'category' => 0, // Engineering
+                'cover' => null,
                 'title' => [
                     'en' => 'Testing strategy for small teams: 80/20 pragmatism',
                     'ar' => 'استراتيجية اختبار للفرق الصغيرة: براغماتية 80/20',
@@ -170,12 +170,12 @@ class BlogPostSeeder extends Seeder
                     'ar' => '<p class="lead">لستَ بحاجة إلى تغطية 100%. أنت بحاجة إلى الاختبارات التي كانت ستلتقط آخر خمس علل أطلقتَها.</p><h2>الهرم بصدق</h2><p>Unit: منطق صرف. Feature: route → controller → قاعدة البيانات مع التحقق من السلوك. Browser: فقط للتدفقات التي لا يمكن التعبير عنها عبر HTTP.</p><h2>ما توقفنا عن فعله</h2><p>توقفنا عن كتابة اختبارات للـ getters والـ setters، وعن محاكاة كل متعاون.</p><h2>دورة CI</h2><p>أقل من 10 دقائق أو سيتحايل عليها المطورون.</p>',
                     'tr' => '<p class="lead">%100 kapsama ihtiyacınız yok. Yayınladığınız son beş hatayı yakalayacak testlere ihtiyacınız var.</p><h2>Piramit, dürüstçe</h2><p>Unit: saf mantık. Feature: route → controller → veritabanı, gözlemlenebilir davranışı doğrulama. Browser: sadece HTTP katmanında ifade edilemeyen akışlar.</p><h2>Bırakmış olduklarımız</h2><p>Getter ve setter için test yazmayı bıraktık. Her işbirlikçiyi mocklamayı bıraktık.</p><h2>CI döngüsü</h2><p>10 dakikanın altında değilse geliştiriciler onu atlatır.</p>',
                 ],
-                'tags'      => [0, 1, 7], // Laravel, PHP, CI/CD
-                'clapping'  => 54,
+                'tags' => [0, 1, 7], // Laravel, PHP, CI/CD
+                'clapping' => 54,
             ],
             [
-                'category'  => 2, // Cloud & DevOps
-                'cover'     => null,
+                'category' => 2, // Cloud & DevOps
+                'cover' => null,
                 'title' => [
                     'en' => 'Security by default: the OWASP items we refuse to skip',
                     'ar' => 'الأمان افتراضيًا: بنود OWASP التي نرفض تجاوزها',
@@ -186,21 +186,21 @@ class BlogPostSeeder extends Seeder
                     'ar' => '<p class="lead">الأمان ليس ركضة في النهاية — بل مجموعة من الإعدادات الافتراضية المخبوزة في كل مشروع منذ اليوم الأول.</p><h2>غير قابلة للتفاوض</h2><p>مراجعة الاعتمادات في CI، RBAC صريح من أول migration، روابط موقعة، rate limiting على كل endpoint كتابة، سجل تدقيق append-only.</p><h2>الأسرار</h2><p>الأسرار في مدير أسرار حقيقي، لا في ملفات <code>.env</code>.</p><blockquote>نمذِج التهديدات لكل سلسلة مزوّدة من المستخدم.</blockquote>',
                     'tr' => '<p class="lead">Güvenlik sondaki bir sprint değildir — birinci gün her projeye yerleştirilen birkaç varsayılandır.</p><h2>Taviz verilmeyenler</h2><p>CI\'da bağımlılık incelemesi, ilk migration\'dan itibaren açık RBAC, imzalı URL\'ler, yazma uç noktalarında rate limiting, append-only denetim günlüğü.</p><h2>Sırlar</h2><p>Sırlar gerçek bir secrets manager\'da yaşar.</p><blockquote>Kullanıcı tarafından sağlanan her string için tehdit modellemesi yapın.</blockquote>',
                 ],
-                'tags'      => [9, 6, 10], // Security, AWS, Architecture
-                'clapping'  => 112,
+                'tags' => [9, 6, 10], // Security, AWS, Architecture
+                'clapping' => 112,
             ],
         ];
 
         foreach ($posts as $postData) {
             $categoryIndex = $postData['category'];
-            $coverFile     = $postData['cover'];
-            $tagIndices    = $postData['tags'];
+            $coverFile = $postData['cover'];
+            $tagIndices = $postData['tags'];
 
             unset($postData['category'], $postData['cover'], $postData['tags']);
 
             $postData['category_id'] = $categories[$categoryIndex]->id;
-            $postData['type']        = PostTypeEnum::PUBLISHED;
-            $postData['is_active']   = ActiveEnum::ACTIVE;
+            $postData['type'] = PostTypeEnum::PUBLISHED;
+            $postData['is_active'] = ActiveEnum::ACTIVE;
 
             $post = BlogPost::create($postData);
 
@@ -210,12 +210,12 @@ class BlogPostSeeder extends Seeder
 
             // Attach cover image from public/codliy/images/blog/ if available.
             if ($coverFile) {
-                $fullPath = $blogCoverDir.DIRECTORY_SEPARATOR.$coverFile;
+                $fullPath = $blogCoverDir . DIRECTORY_SEPARATOR . $coverFile;
                 if (File::exists($fullPath)) {
                     try {
                         $post->addMedia($fullPath)
-                             ->preservingOriginal()
-                             ->toMediaCollection('img');
+                            ->preservingOriginal()
+                            ->toMediaCollection('img');
                     } catch (\Throwable $e) {
                         // Media attachment is best-effort during seeding.
                         $this->command->warn("Could not attach cover for {$postData['title']['en']}: {$e->getMessage()}");
@@ -224,6 +224,6 @@ class BlogPostSeeder extends Seeder
             }
         }
 
-        $this->command->info('Codliy blog seeded: '.count($categories).' categories, '.count($tags).' tags, '.count($posts).' posts.');
+        $this->command->info('Codliy blog seeded: ' . count($categories) . ' categories, ' . count($tags) . ' tags, ' . count($posts) . ' posts.');
     }
 }

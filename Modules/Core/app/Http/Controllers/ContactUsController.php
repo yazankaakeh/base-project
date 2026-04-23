@@ -36,8 +36,8 @@ class ContactUsController extends Controller
             $term = '%' . $filters['q'] . '%';
             $query->where(function ($q) use ($term) {
                 $q->where('fullName', 'like', $term)
-                  ->orWhere('email', 'like', $term)
-                  ->orWhere('message', 'like', $term);
+                    ->orWhere('email', 'like', $term)
+                    ->orWhere('message', 'like', $term);
             });
         }
 
@@ -46,9 +46,9 @@ class ContactUsController extends Controller
             ->withQueryString();
 
         $stats = [
-            'total'       => ContactUs::query()->count(),
-            'this_week'   => ContactUs::query()->where('created_at', '>=', now()->subWeek())->count(),
-            'today'       => ContactUs::query()->whereDate('created_at', today())->count(),
+            'total' => ContactUs::query()->count(),
+            'this_week' => ContactUs::query()->where('created_at', '>=', now()->subWeek())->count(),
+            'today' => ContactUs::query()->whereDate('created_at', today())->count(),
             'unique_from' => ContactUs::query()->distinct('email')->count('email'),
         ];
 

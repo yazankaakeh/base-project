@@ -13,6 +13,7 @@ class RouteServiceProvider extends ServiceProvider
      * admin dashboard instead of the now-nonexistent /doctor/dashboard.
      */
     const string HOME = '/admin/dashboard';
+
     /**
      * The module namespace to assume when generating URLs to actions.
      */

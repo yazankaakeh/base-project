@@ -25,7 +25,7 @@ class TinyMCEUploadController extends Controller
                 $file = $request->file('file');
 
                 // Generate unique filename
-                $filename = Str::uuid().'.'.$file->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
 
                 // Store in public/uploads/tinymce directory
                 $path = $file->storeAs('uploads/tinymce', $filename, 'public');
@@ -40,7 +40,7 @@ class TinyMCEUploadController extends Controller
 
             return response()->json(['error' => 'No file uploaded'], 400);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Upload failed: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Upload failed: ' . $e->getMessage()], 500);
         }
     }
 
@@ -58,7 +58,7 @@ class TinyMCEUploadController extends Controller
             $uploadedFiles = [];
 
             foreach ($request->file('files') as $file) {
-                $filename = Str::uuid().'.'.$file->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
                 $path = $file->storeAs('uploads/tinymce', $filename, 'public');
                 $url = Storage::disk('public')->url($path);
 
@@ -70,7 +70,7 @@ class TinyMCEUploadController extends Controller
 
             return response()->json($uploadedFiles);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Upload failed: '.$e->getMessage()], 500);
+            return response()->json(['error' => 'Upload failed: ' . $e->getMessage()], 500);
         }
     }
 }

@@ -2,20 +2,26 @@
 
 namespace Modules\MCP\Livewire;
 
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Modules\MCP\Actions\CreateConversationAction;
 use Modules\MCP\Actions\ProcessChatMessageAction;
 use Modules\MCP\Repository\ChatMessage\ChatMessageInterface;
-use Illuminate\Support\Str;
 
 class ChatWidget extends Component
 {
     public $sessionId;
+
     public $conversationId;
+
     public $messages = [];
+
     public $newMessage = '';
+
     public $isOpen = false;
+
     public $isLoading = false;
+
     public $isTyping = false;
 
     protected $rules = [
@@ -27,7 +33,7 @@ class ChatWidget extends Component
         // Get or create session ID
         $this->sessionId = session()->get('chat_session_id');
 
-        if (!$this->sessionId) {
+        if (! $this->sessionId) {
             $this->sessionId = Str::uuid()->toString();
             session()->put('chat_session_id', $this->sessionId);
         }
@@ -121,7 +127,7 @@ class ChatWidget extends Component
 
     public function toggleChat()
     {
-        $this->isOpen = !$this->isOpen;
+        $this->isOpen = ! $this->isOpen;
 
         if ($this->isOpen) {
             $this->dispatch('chatOpened');

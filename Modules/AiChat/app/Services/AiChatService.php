@@ -4,8 +4,8 @@ namespace Modules\AiChat\Services;
 
 use Illuminate\Support\Facades\Session;
 use Modules\AiChat\DTO\ChatResponse;
-use Modules\AiChat\Models\AiMessage;
 use Modules\AiChat\Models\AiConversation;
+use Modules\AiChat\Models\AiMessage;
 use Modules\Core\App\Models\ThemeSetting;
 
 /**
@@ -23,8 +23,7 @@ class AiChatService
     public function __construct(
         protected ProviderFactory $factory,
         protected array $defaults,
-    ) {
-    }
+    ) {}
 
     /**
      * Figure out the admin-configured settings for the active scope.
@@ -55,20 +54,20 @@ class AiChatService
         }
 
         // Admin preference wins (including an explicit `false` / empty string).
-        $explicitEnabled  = $setting->ai_enabled  ?? null;
+        $explicitEnabled = $setting->ai_enabled ?? null;
         $explicitProvider = $setting->ai_provider ?? null;
 
         // .env preference comes next. We use getenv() to distinguish "user
         // set this to empty/false" from "user never set it at all".
-        $envEnabledRaw   = getenv('AI_CHAT_ENABLED');
-        $envProviderRaw  = getenv('AI_CHAT_PROVIDER');
-        $envEnabledSet   = $envEnabledRaw  !== false && $envEnabledRaw  !== '';
-        $envProviderSet  = $envProviderRaw !== false && $envProviderRaw !== '';
+        $envEnabledRaw = getenv('AI_CHAT_ENABLED');
+        $envProviderRaw = getenv('AI_CHAT_PROVIDER');
+        $envEnabledSet = $envEnabledRaw !== false && $envEnabledRaw !== '';
+        $envProviderSet = $envProviderRaw !== false && $envProviderRaw !== '';
 
         // Auto-detect the first provider that has a non-empty api_key.
         $autoProvider = null;
         foreach ($this->factory->catalog() as $name => $info) {
-            if (!empty($info['configured'])) {
+            if (! empty($info['configured'])) {
                 $autoProvider = $name;
                 break;
             }
@@ -83,8 +82,8 @@ class AiChatService
         // If the chosen provider has no key but another provider does, slide
         // over to the configured one rather than silently failing.
         $catalog = $this->factory->catalog();
-        $chosenReady = isset($catalog[$provider]) && !empty($catalog[$provider]['configured']);
-        if (!$chosenReady && $autoProvider && $explicitProvider === null && !$envProviderSet) {
+        $chosenReady = isset($catalog[$provider]) && ! empty($catalog[$provider]['configured']);
+        if (! $chosenReady && $autoProvider && $explicitProvider === null && ! $envProviderSet) {
             $provider = $autoProvider;
         }
 
@@ -99,13 +98,13 @@ class AiChatService
             $enabled = $autoProvider !== null;
         }
 
-        $model        = $setting->ai_model         ?? null;
+        $model = $setting->ai_model ?? null;
         $systemPrompt = $setting->ai_system_prompt ?? $this->defaults['system_prompt'] ?? null;
 
         return [
-            'enabled'       => $enabled,
-            'provider'      => $provider,
-            'model'         => $model,
+            'enabled' => $enabled,
+            'provider' => $provider,
+            'model' => $model,
             'system_prompt' => $systemPrompt,
         ];
     }
@@ -121,15 +120,15 @@ class AiChatService
         $providerReady = isset($catalog[$s['provider']]) && $catalog[$s['provider']]['configured'];
 
         return [
-            'enabled'     => $s['enabled'] && $providerReady,
-            'provider'    => $s['provider'],
-            'title'       => config('aichat.widget.title',       'Chat with us'),
-            'greeting'    => config('aichat.widget.greeting',    'Hi! How can we help?'),
+            'enabled' => $s['enabled'] && $providerReady,
+            'provider' => $s['provider'],
+            'title' => config('aichat.widget.title', 'Chat with us'),
+            'greeting' => config('aichat.widget.greeting', 'Hi! How can we help?'),
             'placeholder' => config('aichat.widget.placeholder', 'Type your message...'),
-            'endpoint'    => url('/ai-chat/message'),
-            'reset_url'   => url('/ai-chat/reset'),
+            'endpoint' => url('/ai-chat/message'),
+            'reset_url' => url('/ai-chat/reset'),
             'history_url' => url('/ai-chat/history'),
-            'catalog'     => $catalog,
+            'catalog' => $catalog,
         ];
     }
 
@@ -172,14 +171,14 @@ class AiChatService
 
         // Persist the user message before the slow HTTP call so rapid retries don't lose it.
         $conversation->messages()->create([
-            'role'    => 'user',
+            'role' => 'user',
             'content' => $userMessage,
         ]);
 
         $options = [
-            'model'         => $settings['model'] ?? null,
-            'max_tokens'    => $this->defaults['max_tokens']  ?? 600,
-            'temperature'   => $this->defaults['temperature'] ?? 0.5,
+            'model' => $settings['model'] ?? null,
+            'max_tokens' => $this->defaults['max_tokens'] ?? 600,
+            'temperature' => $this->defaults['temperature'] ?? 0.5,
             'system_prompt' => $settings['system_prompt'],
         ];
         // Drop null model so the provider's default kicks in.
@@ -189,20 +188,20 @@ class AiChatService
         $response = $provider->sendMessage($history, $options);
 
         $conversation->messages()->create([
-            'role'              => 'assistant',
-            'content'           => $response->content,
-            'provider'          => $response->providerKey,
-            'model'             => $response->model,
-            'prompt_tokens'     => $response->promptTokens,
+            'role' => 'assistant',
+            'content' => $response->content,
+            'provider' => $response->providerKey,
+            'model' => $response->model,
+            'prompt_tokens' => $response->promptTokens,
             'completion_tokens' => $response->completionTokens,
         ]);
 
         $conversation->touch();
 
         return [
-            'reply'        => $response->content,
-            'provider'     => $response->providerKey,
-            'model'        => $response->model,
+            'reply' => $response->content,
+            'provider' => $response->providerKey,
+            'model' => $response->model,
             'conversation' => $conversation->id,
         ];
     }
@@ -219,8 +218,8 @@ class AiChatService
             ->orderBy('id')
             ->get(['role', 'content', 'created_at'])
             ->map(fn (AiMessage $m) => [
-                'role'       => $m->role,
-                'content'    => $m->content,
+                'role' => $m->role,
+                'content' => $m->content,
                 'created_at' => $m->created_at?->toIso8601String(),
             ])
             ->all();

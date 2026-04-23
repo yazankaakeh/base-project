@@ -11,6 +11,6 @@ enum PrimaryAddressStatus: int
 
     public function label(): array|string|Translator
     {
-        return trans('core::customer.enum.PrimaryAddressStatus.'.$this->value);
+        return trans('core::customer.enum.PrimaryAddressStatus.' . $this->value);
     }
 }

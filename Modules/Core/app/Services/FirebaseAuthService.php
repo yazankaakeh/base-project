@@ -13,12 +13,12 @@ class FirebaseAuthService
      */
     public function getGoogleClient(): Google_Client
     {
-        $client = new Google_Client();
+        $client = new Google_Client;
 
         // Set the path to the service account key file
         $serviceAccountPath = storage_path('firebase-service-account.json');
 
-        if (!file_exists($serviceAccountPath)) {
+        if (! file_exists($serviceAccountPath)) {
             throw new Exception('Firebase service account file not found. Please upload it in the environment settings.');
         }
 
@@ -59,7 +59,7 @@ class FirebaseAuthService
             $client = $this->getGoogleClient();
             $payload = $client->verifyIdToken($idToken);
 
-            if (!$payload) {
+            if (! $payload) {
                 throw new Exception('Invalid ID token');
             }
 
@@ -93,6 +93,7 @@ class FirebaseAuthService
     {
         try {
             $serviceAccountPath = storage_path('firebase-service-account.json');
+
             return file_exists($serviceAccountPath);
         } catch (Exception $e) {
             return false;

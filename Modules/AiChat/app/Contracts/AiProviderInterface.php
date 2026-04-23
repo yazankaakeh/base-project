@@ -9,8 +9,8 @@ interface AiProviderInterface
     /**
      * Send a list of chat messages and return a normalized ChatResponse.
      *
-     * @param  array<int, array{role: string, content: string}>  $messages
-     * @param  array<string, mixed>  $options  keys: model, max_tokens, temperature, system_prompt
+     * @param array<int, array{role: string, content: string}> $messages
+     * @param array<string, mixed>                             $options  keys: model, max_tokens, temperature, system_prompt
      */
     public function sendMessage(array $messages, array $options = []): ChatResponse;
 

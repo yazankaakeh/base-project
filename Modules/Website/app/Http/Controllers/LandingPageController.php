@@ -33,28 +33,28 @@ class LandingPageController extends Controller
         // `$panels` (Eloquent) via the dispatcher instead.
         $panelsData = $panels->map(function ($panel) {
             return [
-                'id'        => $panel->id,
-                'type'      => $panel->type->value,
-                'title'     => $panel->title ?? [],
-                'settings'  => $panel->settings ?? [],
+                'id' => $panel->id,
+                'type' => $panel->type->value,
+                'title' => $panel->title ?? [],
+                'settings' => $panel->settings ?? [],
                 'is_active' => $panel->is_active,
-                'order'     => $panel->order,
-                'media'     => [
-                    'panel_image'   => $panel->getFirstMediaUrl('panel_image') ?: null,
-                    'panel_gallery' => $panel->getMedia('panel_gallery')->map(fn($m) => $m->getUrl())->toArray(),
+                'order' => $panel->order,
+                'media' => [
+                    'panel_image' => $panel->getFirstMediaUrl('panel_image') ?: null,
+                    'panel_gallery' => $panel->getMedia('panel_gallery')->map(fn ($m) => $m->getUrl())->toArray(),
                 ],
                 'items' => $panel->activeItems->map(function ($item) {
                     return [
-                        'id'        => $item->id,
-                        'type'      => $item->type->value,
-                        'title'     => $item->title ?? [],
-                        'content'   => $item->content ?? [],
-                        'data'      => $item->data ?? [],
+                        'id' => $item->id,
+                        'type' => $item->type->value,
+                        'title' => $item->title ?? [],
+                        'content' => $item->content ?? [],
+                        'data' => $item->data ?? [],
                         'is_active' => $item->is_active,
-                        'order'     => $item->order,
-                        'media'     => [
-                            'item_image'   => $item->getFirstMediaUrl('item_image') ?: null,
-                            'item_gallery' => $item->getMedia('item_gallery')->map(fn($m) => $m->getUrl())->toArray(),
+                        'order' => $item->order,
+                        'media' => [
+                            'item_image' => $item->getFirstMediaUrl('item_image') ?: null,
+                            'item_gallery' => $item->getMedia('item_gallery')->map(fn ($m) => $m->getUrl())->toArray(),
                         ],
                     ];
                 })->toArray(),
@@ -94,5 +94,4 @@ class LandingPageController extends Controller
     {
         return view('website::landing.blog');
     }
-
 }

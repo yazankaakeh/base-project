@@ -12,13 +12,12 @@ class AiChatController extends Controller
 {
     public function __construct(
         protected AiChatService $service,
-    ) {
-    }
+    ) {}
 
     public function send(SendMessageRequest $request): JsonResponse
     {
         $limit = (int) (config('aichat.defaults.rate_limit_per_hour') ?? 40);
-        $key   = 'aichat:'.($request->session()->getId() ?: $request->ip());
+        $key = 'aichat:' . ($request->session()->getId() ?: $request->ip());
 
         if (RateLimiter::tooManyAttempts($key, $limit)) {
             return response()->json([
@@ -31,6 +30,7 @@ class AiChatController extends Controller
             $result = $this->service->send($request->input('message'));
         } catch (\Throwable $e) {
             report($e);
+
             return response()->json([
                 'error' => app()->hasDebugModeEnabled()
                     ? $e->getMessage()

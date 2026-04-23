@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Modules\AdminManagement\Http\Requests\DoctorRequest;
 use Modules\AdminManagement\Http\Requests\UpdateDoctorRequest;
 use Modules\AdminManagement\Http\Requests\UpdateStatusAminRequest;
@@ -23,8 +23,8 @@ class UserManagementController extends Controller
         // Accepted filters: ?q=search, ?role=roleId, ?status=1|0.
         // Repository normalizes missing/invalid values to null.
         $filters = [
-            'q'      => trim((string) $request->query('q', '')),
-            'role'   => $request->query('role'),
+            'q' => trim((string) $request->query('q', '')),
+            'role' => $request->query('role'),
             'status' => $request->query('status'),
         ];
 

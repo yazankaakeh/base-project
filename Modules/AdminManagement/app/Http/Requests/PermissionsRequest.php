@@ -6,8 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property mixed|null $role_management
- * @property mixed $name
- * @property mixed $permissions
+ * @property mixed      $name
+ * @property mixed      $permissions
  */
 class PermissionsRequest extends FormRequest
 {
@@ -17,9 +17,9 @@ class PermissionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "permissions" => ['required', "array"],
-            'name' => ['required', 'unique:roles,name,'.$this?->role_management],
-            "permissions.*" => ['required', 'exists:permissions,name', 'string'],
+            'permissions' => ['required', 'array'],
+            'name' => ['required', 'unique:roles,name,' . $this?->role_management],
+            'permissions.*' => ['required', 'exists:permissions,name', 'string'],
         ];
     }
 

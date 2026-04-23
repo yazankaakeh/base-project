@@ -11,16 +11,15 @@ class ChatResponse
         public ?int $promptTokens = null,
         public ?int $completionTokens = null,
         public ?array $raw = null,
-    ) {
-    }
+    ) {}
 
     public function toArray(): array
     {
         return [
-            'content'           => $this->content,
-            'provider'          => $this->providerKey,
-            'model'             => $this->model,
-            'prompt_tokens'     => $this->promptTokens,
+            'content' => $this->content,
+            'provider' => $this->providerKey,
+            'model' => $this->model,
+            'prompt_tokens' => $this->promptTokens,
             'completion_tokens' => $this->completionTokens,
         ];
     }

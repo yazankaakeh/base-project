@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Unit;
+/*
+|--------------------------------------------------------------------------
+| Unit Smoke Test
+|--------------------------------------------------------------------------
+|
+| Minimal Pest unit test so `vendor/bin/phpunit --testsuite=Unit` has at
+| least one green assertion before the suite is populated. Module-specific
+| unit tests live under Modules/<Name>/tests/Unit.
+|
+*/
 
-use PHPUnit\Framework\TestCase;
-
-class ExampleTest extends TestCase
-{
-    /**
-     * A basic test example.
-     */
-    public function test_that_true_is_true(): void
-    {
-        $this->assertTrue(true);
-    }
-}
+it('has sane basic assertions', function () {
+    expect(true)->toBeTrue();
+    expect(1 + 1)->toBe(2);
+});

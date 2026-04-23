@@ -49,11 +49,11 @@ class DashboardController extends Controller
     protected function safeCount(string $modelClass): int
     {
         try {
-            if (!class_exists($modelClass)) {
+            if (! class_exists($modelClass)) {
                 return 0;
             }
 
-            return (int)$modelClass::query()->count();
+            return (int) $modelClass::query()->count();
         } catch (Throwable $e) {
             return 0;
         }
