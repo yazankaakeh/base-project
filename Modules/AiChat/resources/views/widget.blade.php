@@ -412,11 +412,54 @@
             0 3px 6px rgba(10, 31, 77, 0.1);
         }
 
-        /* RTL offset — launcher anchors to the left edge in RTL */
-        [dir="rtl"] #codliy-aichat-root,
-        [data-direction="rtl"] #codliy-aichat-root {
-            inset-inline-end: auto;
-            inset-inline-start: 24px;
+        /* ─── RTL layout ──────────────────────────────────────────────
+           The previous override forced the root to `inset-inline-start: 24px`
+           (= right:24px in RTL), which kept the launcher on the right. But the
+           panel kept `inset-inline-end: 0` which in RTL becomes `left:0` of
+           the root — making the 380px panel extend RIGHT off-screen.
+
+           We now let logical properties flip naturally:
+             LTR: root right, panel opens leftward  ✓
+             RTL: root left,  panel opens rightward ✓
+           Both directions render fully inside the viewport and the panel
+           always opens INTO the content area, not away from it. --}
+        @media (min-width: 576px) {
+            [dir="rtl"] #codliy-aichat-root,
+            [data-direction="rtl"] #codliy-aichat-root {
+                /* Let inset-inline-end flip naturally — remove any legacy override. */
+                inset-inline-end: 24px;
+                inset-inline-start: auto;
+            }
+        }
+
+        /* On very narrow screens, clamp the panel's width so it never
+           exceeds the viewport regardless of direction. The 16px inner
+           padding keeps the panel from touching the edge of the screen. */
+        @media (max-width: 575.98px) {
+            #codliy-aichat-root {
+                bottom: 16px;
+                inset-inline-end: 16px;
+            }
+            #codliy-aichat-panel {
+                width: calc(100vw - 32px);
+                /* Pin to viewport edge rather than relative-to-root so it
+                   can't overflow if the launcher is close to the corner. */
+                position: fixed;
+                bottom: 84px;
+                inset-inline-end: 16px;
+                inset-inline-start: auto;
+                left: auto;
+                right: auto;
+            }
+            /* Restore the direction-appropriate side for the pinned panel. */
+            [dir="ltr"] #codliy-aichat-panel { right: 16px; }
+            [dir="rtl"] #codliy-aichat-panel { left: 16px; }
+        }
+
+        /* Flip the send-icon in RTL so it points toward the outgoing side. */
+        [dir="rtl"] #codliy-aichat-send .ti,
+        [data-direction="rtl"] #codliy-aichat-send .ti {
+            transform: scaleX(-1);
         }
     </style>
 

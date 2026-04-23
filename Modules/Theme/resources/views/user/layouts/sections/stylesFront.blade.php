@@ -93,71 +93,81 @@
 <!-- Codliy brand layer + custom CSS variables (must load LAST to override vendor defaults) -->
 @vite(['resources/css/app.css'], 'build/modules/theme')
 
-{{-- Runtime font-family overrides from ThemeSetting. LTR stack applies by
-     default; RTL stack kicks in only when the page is rendered in a
-     right-to-left locale (dir="rtl" or html[lang] set to ar/he/fa). --}}
-@if($tsFontFamily || $tsHeadingFontFamily || $tsRtlFontFamily || $tsRtlHeadingFamily)
-    @php
-        $ltrStack = fn($f) => "{$f}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-        $rtlStack = fn($f) => "{$f}, 'Segoe UI', Tahoma, Arial, sans-serif";
-        // When no RTL override is set, fall back to LTR (matches previous behavior).
-        $rtlBody     = $tsRtlFontFamily    ?: $tsFontFamily;
-        $rtlHeadings = $tsRtlHeadingFamily ?: ($tsRtlFontFamily ?: $tsHeadingFontFamily);
-    @endphp
-    <style id="codliy-font-overrides">
-        /* LTR (default) font stack */
-        :root {
-            @if($tsFontFamily)
-            --bs-body-font-family: {{ $ltrStack($tsFontFamily) }};
-            --codliy-font-family:  {{ $ltrStack($tsFontFamily) }};
-            @endif
-            @if($tsHeadingFontFamily)
-            --bs-heading-font-family:    {{ $ltrStack($tsHeadingFontFamily) }};
-            --codliy-heading-font-family: {{ $ltrStack($tsHeadingFontFamily) }};
-            @endif
-        }
+{{-- Runtime font-family overrides. CSS variables are ALWAYS emitted (with
+     sensible defaults) so `var(--codliy-font-family)` and
+     `var(--codliy-heading-font-family)` are never undefined, even when the
+     admin hasn't chosen custom fonts yet. --}}
+@php
+    $ltrStack = fn($f) => "{$f}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+    $rtlStack = fn($f) => "{$f}, 'Segoe UI', Tahoma, Arial, sans-serif";
+
+    // Resolved values (with fallback chain to the LTR body font) so each
+    // variable always has a concrete string to bind to.
+    $bodyFont    = $tsFontFamily        ?: 'Public Sans';
+    $headingFont = $tsHeadingFontFamily ?: $bodyFont;
+    $rtlBody     = $tsRtlFontFamily     ?: $bodyFont;
+    $rtlHeadings = $tsRtlHeadingFamily  ?: $rtlBody;
+
+    // Only force-apply via `body` / `h1-h6` selectors when the admin explicitly
+    // chose something. Otherwise we simply define the vars but leave the
+    // native CSS cascade alone.
+    $hasLtrOverride = (bool) ($tsFontFamily || $tsHeadingFontFamily);
+    $hasRtlOverride = (bool) ($tsRtlFontFamily || $tsRtlHeadingFamily);
+@endphp
+<style id="codliy-font-overrides">
+    /* LTR defaults — always emitted. */
+    :root {
+        --codliy-font-family:         {{ $ltrStack($bodyFont) }};
+        --codliy-heading-font-family: {{ $ltrStack($headingFont) }};
         @if($tsFontFamily)
-        body, .codliy-card, .codliy-card__body, .codliy-section__sub {
-            font-family: var(--codliy-font-family);
-        }
+        --bs-body-font-family: {{ $ltrStack($tsFontFamily) }};
         @endif
         @if($tsHeadingFontFamily)
-        h1, h2, h3, h4, h5, h6,
-        .codliy-hero__title, .codliy-section__title, .codliy-card__title {
-            font-family: var(--codliy-heading-font-family);
-        }
+        --bs-heading-font-family: {{ $ltrStack($tsHeadingFontFamily) }};
         @endif
+    }
 
-        /* RTL overrides — only active on Arabic / Hebrew / Persian pages. */
+    @if($hasLtrOverride)
+    body, .codliy-card, .codliy-card__body, .codliy-section__sub {
+        font-family: var(--codliy-font-family, var(--bs-body-font-family, system-ui, sans-serif));
+    }
+    h1, h2, h3, h4, h5, h6,
+    .codliy-hero__title, .codliy-section__title, .codliy-card__title {
+        font-family: var(--codliy-heading-font-family, var(--codliy-font-family, inherit));
+    }
+    @endif
+
+    /* RTL overrides — always define the vars (falling back to LTR) so
+       downstream var() refs resolve; force-apply only when admin set RTL
+       fonts explicitly. */
+    [dir="rtl"],
+    html[lang="ar"], html[lang="he"], html[lang="fa"] {
+        --codliy-font-family:         {{ $rtlStack($rtlBody) }};
+        --codliy-heading-font-family: {{ $rtlStack($rtlHeadings) }};
         @if($rtlBody)
-        [dir="rtl"],
-        html[lang="ar"], html[lang="he"], html[lang="fa"] {
-            --bs-body-font-family: {{ $rtlStack($rtlBody) }};
-            --codliy-font-family:  {{ $rtlStack($rtlBody) }};
-        }
-        [dir="rtl"] body,
-        [dir="rtl"] .codliy-card,
-        [dir="rtl"] .codliy-card__body,
-        [dir="rtl"] .codliy-section__sub,
-        html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {
-            font-family: var(--codliy-font-family) !important;
-        }
+        --bs-body-font-family: {{ $rtlStack($rtlBody) }};
         @endif
         @if($rtlHeadings)
-        [dir="rtl"],
-        html[lang="ar"], html[lang="he"], html[lang="fa"] {
-            --bs-heading-font-family:    {{ $rtlStack($rtlHeadings) }};
-            --codliy-heading-font-family: {{ $rtlStack($rtlHeadings) }};
-        }
-        [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
-        [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
-        [dir="rtl"] .codliy-hero__title,
-        [dir="rtl"] .codliy-section__title,
-        [dir="rtl"] .codliy-card__title,
-        html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3,
-        html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {
-            font-family: var(--codliy-heading-font-family) !important;
-        }
+        --bs-heading-font-family: {{ $rtlStack($rtlHeadings) }};
         @endif
-    </style>
-@endif
+    }
+
+    @if($hasLtrOverride || $hasRtlOverride)
+    [dir="rtl"] body,
+    [dir="rtl"] .codliy-card,
+    [dir="rtl"] .codliy-card__body,
+    [dir="rtl"] .codliy-section__sub,
+    html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {
+        font-family: var(--codliy-font-family, system-ui, sans-serif) !important;
+    }
+    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+    [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+    [dir="rtl"] .codliy-hero__title,
+    [dir="rtl"] .codliy-section__title,
+    [dir="rtl"] .codliy-card__title,
+    html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3,
+    html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {
+        font-family: var(--codliy-heading-font-family, var(--codliy-font-family, inherit)) !important;
+    }
+    @endif
+</style>

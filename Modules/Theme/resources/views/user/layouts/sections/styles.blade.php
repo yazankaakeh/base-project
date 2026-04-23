@@ -90,64 +90,72 @@
 @vite(['resources/css/app.css'], 'build/modules/theme')
 <!-- END: app CSS-->
 
-@if($tsFontFamily || $tsHeadingFontFamily || $tsRtlFontFamily || $tsRtlHeadingFamily)
-    @php
-        // Build a consistent font-family stack with system fallbacks so if the
-        // Google Font fails to load, the page still reads natively. Arabic/RTL
-        // stacks add Tahoma / Segoe UI Arabic / Arial as safe last-resort fonts.
-        $ltrStack = fn($family) => "{$family}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-        $rtlStack = fn($family) => "{$family}, 'Segoe UI', Tahoma, Arial, sans-serif";
+@php
+    // Build a consistent font-family stack with system fallbacks so if the
+    // Google Font fails to load, the page still reads natively. RTL stack
+    // adds Tahoma / Segoe UI Arabic / Arial as safe last-resort fonts.
+    $ltrStack = fn($family) => "{$family}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+    $rtlStack = fn($family) => "{$family}, 'Segoe UI', Tahoma, Arial, sans-serif";
 
-        // Fall back through LTR values when no RTL override is set.
-        $rtlBody     = $tsRtlFontFamily      ?: $tsFontFamily;
-        $rtlHeadings = $tsRtlHeadingFamily   ?: ($tsRtlFontFamily ?: $tsHeadingFontFamily);
-    @endphp
-    <style id="codliy-font-overrides">
-        /* LTR (default) font stack */
-        :root {
-            @if($tsFontFamily)
-            --bs-body-font-family: {{ $ltrStack($tsFontFamily) }};
-            --codliy-font-family:  {{ $ltrStack($tsFontFamily) }};
-            @endif
-            @if($tsHeadingFontFamily)
-            --bs-heading-font-family:    {{ $ltrStack($tsHeadingFontFamily) }};
-            --codliy-heading-font-family: {{ $ltrStack($tsHeadingFontFamily) }};
-            @endif
-        }
+    // Resolve each of the four slots with a fallback chain so the CSS
+    // variables always have a defined value — never leave `var(--codliy-*-font-family)`
+    // unresolved (that's what was throwing the "not defined" warning).
+    $bodyFont    = $tsFontFamily        ?: 'Public Sans';
+    $headingFont = $tsHeadingFontFamily ?: $bodyFont;
+    $rtlBody     = $tsRtlFontFamily     ?: $bodyFont;
+    $rtlHeadings = $tsRtlHeadingFamily  ?: $rtlBody;
 
+    // Flag whether the admin actually configured anything, so we know if we
+    // should force-apply via body/h1-h6 selectors (!important). If nothing is
+    // set explicitly, we still DEFINE the vars so `var(--codliy-*-font-family)`
+    // references resolve, but we leave the native CSS cascade alone.
+    $hasLtrOverride = (bool) ($tsFontFamily || $tsHeadingFontFamily);
+    $hasRtlOverride = (bool) ($tsRtlFontFamily || $tsRtlHeadingFamily);
+@endphp
+<style id="codliy-font-overrides">
+    /* LTR (default) font stack — ALWAYS emitted so the CSS variables are
+       defined even when the admin hasn't picked a custom font yet. */
+    :root {
+        --codliy-font-family:         {{ $ltrStack($bodyFont) }};
+        --codliy-heading-font-family: {{ $ltrStack($headingFont) }};
         @if($tsFontFamily)
-        body { font-family: var(--codliy-font-family); }
+        --bs-body-font-family: {{ $ltrStack($tsFontFamily) }};
         @endif
         @if($tsHeadingFontFamily)
-        h1, h2, h3, h4, h5, h6 { font-family: var(--codliy-heading-font-family); }
+        --bs-heading-font-family: {{ $ltrStack($tsHeadingFontFamily) }};
         @endif
+    }
 
-        /* RTL overrides — only active on Arabic/Hebrew/Persian pages.
-           Uses [dir="rtl"] AND :lang() for belt-and-suspenders coverage, since
-           some layouts set dir on <html> and some on <body>. */
+    @if($hasLtrOverride)
+    body { font-family: var(--codliy-font-family, var(--bs-body-font-family, system-ui, sans-serif)); }
+    h1, h2, h3, h4, h5, h6 { font-family: var(--codliy-heading-font-family, var(--codliy-font-family, inherit)); }
+    @endif
+
+    /* RTL overrides — activate on Arabic/Hebrew/Persian pages. We always
+       set the variables (falling back to LTR values when no explicit RTL
+       override exists) so downstream `var(...)` references still resolve. */
+    [dir="rtl"],
+    html[lang="ar"], html[lang="he"], html[lang="fa"] {
+        --codliy-font-family:         {{ $rtlStack($rtlBody) }};
+        --codliy-heading-font-family: {{ $rtlStack($rtlHeadings) }};
         @if($rtlBody)
-        [dir="rtl"],
-        html[lang="ar"], html[lang="he"], html[lang="fa"] {
-            --bs-body-font-family: {{ $rtlStack($rtlBody) }};
-            --codliy-font-family:  {{ $rtlStack($rtlBody) }};
-        }
-        [dir="rtl"] body,
-        html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {
-            font-family: var(--codliy-font-family) !important;
-        }
+        --bs-body-font-family: {{ $rtlStack($rtlBody) }};
         @endif
         @if($rtlHeadings)
-        [dir="rtl"],
-        html[lang="ar"], html[lang="he"], html[lang="fa"] {
-            --bs-heading-font-family:    {{ $rtlStack($rtlHeadings) }};
-            --codliy-heading-font-family: {{ $rtlStack($rtlHeadings) }};
-        }
-        [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
-        [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
-        html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3,
-        html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {
-            font-family: var(--codliy-heading-font-family) !important;
-        }
+        --bs-heading-font-family: {{ $rtlStack($rtlHeadings) }};
         @endif
-    </style>
-@endif
+    }
+
+    @if($hasRtlOverride || $hasLtrOverride)
+    [dir="rtl"] body,
+    html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {
+        font-family: var(--codliy-font-family, system-ui, sans-serif) !important;
+    }
+    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+    [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+    html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3,
+    html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {
+        font-family: var(--codliy-heading-font-family, var(--codliy-font-family, inherit)) !important;
+    }
+    @endif
+</style>
