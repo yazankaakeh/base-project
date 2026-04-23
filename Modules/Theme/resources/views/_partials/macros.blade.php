@@ -1,16 +1,17 @@
 {{--
-    Brand logo macro — used by sidebar, top navbar, front navbar, footer, etc.
+    Brand logo macro — used by sidebar, top navbar, front navbar, footer,
+    and the standalone auth screens.
 
     Behaviour:
       - If the admin uploaded a logo in Theme Settings, render it as <img>.
         Dark-mode variant (`logo_dark`) is preferred when the page is in
         dark mode, falling back to the light logo if only one is uploaded.
-      - Otherwise render the inline Codliy SVG wordmark. The SVG is sized
-        via the optional $height prop so callers can tweak it per context.
-
-    The `$themeSettings` variable is injected globally by ThemeSettingsComposer
-    and is scope-aware (admin vs website), so the dashboard and the public
-    site can each carry their own brand.
+      - Otherwise render the inline Codliy SVG wordmark. The SVG uses
+        currentColor so it reads correctly in both light and dark mode
+        (dark navy on white, near-white on dark).
+      - Always hides the adjacent `.app-brand-text.demo` span emitted by
+        navbar/sidebar/footer templates so we never ship "LogoCodliy"
+        duplicated branding.
 --}}
 @php
     $logoHeight = $height ?? 40;
@@ -22,12 +23,51 @@
     $brandLabel = trim((string) ($themeSettings->site_title ?? config('variables.templateName', 'Codliy')));
 @endphp
 
+@once
+    <style id="codliy-brand-macro-style">
+        /* ---- Uploaded-logo swap ---- */
+        .brand-logo-img { display: inline-block; vertical-align: middle; }
+
+        /* Light mode: show light logo, hide dark logo (if both exist). */
+        [data-bs-theme="light"] .brand-logo-dark,
+        [data-layout-mode="light_mode"] .brand-logo-dark { display: none !important; }
+
+        /* Dark mode: show dark logo, hide light logo (if both exist). */
+        [data-bs-theme="dark"] .brand-logo-light,
+        [data-layout-mode="dark_mode"] .brand-logo-light { display: none !important; }
+        [data-bs-theme="dark"] .brand-logo-dark,
+        [data-layout-mode="dark_mode"] .brand-logo-dark { display: inline-block !important; }
+
+        /* When only one variant is uploaded, always show it regardless of mode. */
+        .brand-logo-light:only-child,
+        .brand-logo-dark:only-child { display: inline-block !important; }
+
+        /* ---- Fallback SVG wordmark, light/dark aware ---- */
+        /* Uses currentColor for main paths. Navbars and sidebars already apply
+           a text color via Sneat's theme, so the wordmark reads in whichever
+           direction the surrounding layout expects. */
+        .codliy-brand-svg { color: var(--bs-heading-color, var(--bs-body-color, #0F0F2D)); }
+        [data-bs-theme="dark"] .codliy-brand-svg,
+        [data-layout-mode="dark_mode"] .codliy-brand-svg { color: #F4F5F9; }
+        /* Inside the admin sidebar (which has its own dark surface even in
+           light mode via the "semiDark" skin), force a light foreground. */
+        .bg-menu-theme .codliy-brand-svg,
+        [data-menu-theme="dark"] .codliy-brand-svg { color: #F4F5F9; }
+
+        /* ---- De-duplicate brand text ----
+           Navbar / sidebar / footer templates emit a <span class="app-brand-text demo">
+           RIGHT NEXT TO the logo span. The logo (uploaded OR fallback SVG) already
+           contains the brand name, so showing both produced "Codliy Codliy" in the
+           header. Hiding the adjacent text-only demo span keeps layout spacing but
+           removes the duplication. */
+        .app-brand-logo + .app-brand-text.demo,
+        .app-brand-link .app-brand-logo ~ .app-brand-text.demo {
+            display: none !important;
+        }
+    </style>
+@endonce
+
 @if($logoLight || $logoDark)
-    {{--
-        Render light + dark images side-by-side and let CSS swap them based
-        on the <html data-bs-theme> attribute. That way a single <img> tag
-        works across instant theme toggles without a page reload.
-    --}}
     @if($logoLight)
         <img src="{{ $logoLight }}"
              alt="{{ $brandLabel }}"
@@ -40,27 +80,13 @@
              class="brand-logo-img brand-logo-dark"
              style="max-height: {{ $logoHeight }}px; width: auto;">
     @endif
-
-    @once
-        <style>
-            /* Only one variant visible at a time, driven by theme mode. */
-            .brand-logo-img { display: inline-block; }
-            [data-bs-theme="dark"] .brand-logo-light,
-            [data-layout-mode="dark_mode"] .brand-logo-light { display: none; }
-            [data-bs-theme="dark"] .brand-logo-dark,
-            [data-layout-mode="dark_mode"] .brand-logo-dark { display: inline-block; }
-            /* When only light OR only dark is uploaded, show whichever exists. */
-            .brand-logo-light:only-child,
-            .brand-logo-dark:only-child { display: inline-block !important; }
-            /* If both are present, light is the default, dark hides until dark mode. */
-            [data-bs-theme="light"] .brand-logo-dark,
-            [data-layout-mode="light_mode"] .brand-logo-dark { display: none; }
-        </style>
-    @endonce
 @else
-    {{-- Default Codliy wordmark (inline SVG so it scales cleanly and inherits color). --}}
-    <svg width="{{ $logoHeight * 2.15 }}" height="{{ $logoHeight }}" viewBox="0 0 82 38" fill="none"
-         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{ $brandLabel }}">
+    {{-- Default Codliy wordmark (inline SVG so it scales cleanly + inherits color). --}}
+    <svg class="codliy-brand-svg"
+         width="{{ $logoHeight * 2.15 }}" height="{{ $logoHeight }}"
+         viewBox="0 0 82 38" fill="none"
+         xmlns="http://www.w3.org/2000/svg"
+         role="img" aria-label="{{ $brandLabel }}">
         <path d="M17.9063 11.2461H0V15.7194H6.14667V32.015H11.6993V15.7194H17.9063V11.2461Z"
               fill="currentColor"/>
         <path d="M31.5358 17.305C30.3082 16.288 28.5761 15.7795 26.3396 15.7795C25.4684 15.7795 24.6178 15.8431 23.7862 15.9719C22.9546 16.1008 22.1282 16.2983 21.3069 16.5646C20.4856 16.8309 19.6488 17.1521 18.7983 17.5283L20.2531 21.0843C21.1244 20.6703 21.9801 20.3542 22.822 20.136C23.664 19.9196 24.4198 19.8096 25.093 19.8096C26.083 19.8096 26.8303 20.0226 27.3347 20.447C27.8392 20.8713 28.0923 21.4588 28.0923 22.2095V22.3864H23.9653C21.9663 22.407 20.4357 22.8365 19.3768 23.6748C18.3179 24.5148 17.7876 25.7036 17.7876 27.2445C17.7876 28.2134 18.0045 29.0774 18.4401 29.8367C18.8757 30.5978 19.5042 31.1904 20.3255 31.6147C21.1467 32.039 22.1316 32.252 23.28 32.252C24.666 32.252 25.8334 31.96 26.7838 31.3777C27.2986 31.0616 27.7325 30.6733 28.0906 30.2147V32.015H33.4057V21.5859C33.385 19.7495 32.7617 18.322 31.5341 17.305H31.5358ZM27.4828 27.6602C27.1763 27.9763 26.8096 28.2237 26.3843 28.4006C25.9591 28.5793 25.489 28.6669 24.9742 28.6669C24.301 28.6669 23.781 28.5037 23.416 28.1773C23.0493 27.8509 22.8668 27.4111 22.8668 26.858C22.8668 26.3048 23.0458 25.8651 23.4005 25.5988C23.7569 25.3325 24.2907 25.1985 25.0035 25.1985H28.0923V26.5917C27.9925 26.9868 27.791 27.3424 27.4828 27.6585V27.6602Z"
