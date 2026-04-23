@@ -359,6 +359,18 @@ class ThemeSetting extends Model implements HasMedia
             '--bs-body-font-size' => $this->font_size_base,
         ];
 
+        // Always define --codliy-font-family and --codliy-heading-font-family
+        // on :root. If the admin hasn't chosen a custom font we fall through
+        // to `--bs-body-font-family` which is guaranteed to resolve. This
+        // kills the "variable not defined" warning at the source — the vars
+        // are always present, even if the stylesFront compiled view cache is
+        // stale.
+        $ltrFontStack = fn(?string $family) => $family
+            ? "{$family}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+            : 'var(--bs-body-font-family, system-ui, -apple-system, Segoe UI, Roboto, sans-serif)';
+        $lightVariables['--codliy-font-family']         = $ltrFontStack($this->font_family);
+        $lightVariables['--codliy-heading-font-family'] = $ltrFontStack($this->headings_font_family ?: $this->font_family);
+
         if ($this->headings_font_family) {
             $lightVariables['--bs-heading-font-family'] = $this->headings_font_family;
         }
@@ -457,6 +469,12 @@ class ThemeSetting extends Model implements HasMedia
         $darkVariables['--codliy-body']      = $this->mixWithWhite($secondaryDark, 0.70);
         $darkVariables['--codliy-text-soft'] = $this->mixWithWhite($secondaryDark, 0.45);
         $darkVariables['--codliy-text-mute'] = $secondaryDark;
+
+        // Ensure Codliy font-family vars are also defined in dark mode so any
+        // `var(--codliy-font-family)` reference resolves regardless of the
+        // active theme or cached compiled views.
+        $darkVariables['--codliy-font-family']         = $ltrFontStack($this->font_family);
+        $darkVariables['--codliy-heading-font-family'] = $ltrFontStack($this->headings_font_family ?: $this->font_family);
 
         // Generate CSS for light mode
         $css = ':root, [data-bs-theme="light"] {'.PHP_EOL;
