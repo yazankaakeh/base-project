@@ -130,6 +130,19 @@ $page = 'sales-dashboard'; ?>
                                         <div class="card-body">
                                             <x-core::input label="blog::blog.post.image" type="file" name="image"
                                                            id="image"></x-core::input>
+
+                                            {{-- Category — single select. Posts without a category
+                                                 show up as "uncategorized" on the public blog. --}}
+                                            <div class="mt-3">
+                                                <x-core::select
+                                                    :label="trans('blog::blog.post.category')"
+                                                    :placeholder="trans('blog::blog.post.selectCategory')"
+                                                    id="category_id"
+                                                    name="category_id"
+                                                    :options="$categoryOptions ?? []"
+                                                    value="{{ old('category_id') }}"/>
+                                            </div>
+
                                             <div class="mt-3">
                                                 <x-core::select :label="trans('blog::blog.post.relatedPost')"
                                                                 :placeholder="trans('blog::blog.post.relatedPost')"

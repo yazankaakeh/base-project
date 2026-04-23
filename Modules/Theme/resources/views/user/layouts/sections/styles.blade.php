@@ -91,27 +91,33 @@
 <!-- END: app CSS-->
 
 @php
-    // Build a consistent font-family stack with system fallbacks so if the
-    // Google Font fails to load, the page still reads natively. RTL stack
-    // adds Tahoma / Segoe UI Arabic / Arial as safe last-resort fonts.
-    $ltrStack = fn($family) => "{$family}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-    $rtlStack = fn($family) => "{$family}, 'Segoe UI', Tahoma, Arial, sans-serif";
+    // Quote multi-word family names so "Google Sans Flex" stays one token.
+    $q = fn(string $f) => (str_contains($f, ' ') && !str_starts_with($f, "'")) ? "'{$f}'" : $f;
 
-    // Resolve each of the four slots with a fallback chain so the CSS
-    // variables always have a defined value — never leave `var(--codliy-*-font-family)`
-    // unresolved (that's what was throwing the "not defined" warning).
+    $ltrStack = fn(string $f) => "{$q($f)}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+    // RTL stack chains through several Arabic-capable fonts so glyphs render
+    // even if the primary family isn't loaded yet.
+    $rtlStack = fn(string $f) => "{$q($f)}, 'Noto Kufi Arabic', 'IBM Plex Sans Arabic', 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif";
+
     $bodyFont    = $tsFontFamily        ?: 'Public Sans';
     $headingFont = $tsHeadingFontFamily ?: $bodyFont;
-    $rtlBody     = $tsRtlFontFamily     ?: $bodyFont;
+
+    // Default RTL fonts to Noto Kufi Arabic when the admin hasn't chosen
+    // any — an LTR-only font has no Arabic glyphs so falling back to it
+    // produces the "browser-default unstyled" rendering we were seeing.
+    $rtlBody     = $tsRtlFontFamily     ?: 'Noto Kufi Arabic';
     $rtlHeadings = $tsRtlHeadingFamily  ?: $rtlBody;
 
-    // Flag whether the admin actually configured anything, so we know if we
-    // should force-apply via body/h1-h6 selectors (!important). If nothing is
-    // set explicitly, we still DEFINE the vars so `var(--codliy-*-font-family)`
-    // references resolve, but we leave the native CSS cascade alone.
     $hasLtrOverride = (bool) ($tsFontFamily || $tsHeadingFontFamily);
-    $hasRtlOverride = (bool) ($tsRtlFontFamily || $tsRtlHeadingFamily);
+    // Always apply RTL overrides so admin pages in Arabic render with
+    // proper Arabic typography regardless of saved settings.
+    $hasRtlOverride = true;
 @endphp
+
+{{-- Preload the default Arabic Google Font so RTL admin pages always have
+     a real Arabic glyph set, even before the admin configures fonts. --}}
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" crossorigin>
 <style id="codliy-font-overrides">
     /* LTR (default) font stack — ALWAYS emitted so the CSS variables are
        defined even when the admin hasn't picked a custom font yet. */

@@ -18,6 +18,9 @@ class PostRequest extends FormRequest
             'description' => ['nullable', 'array'],
             'description.*' => ['nullable', 'string'],
             'type' => ['nullable'],
+            // Category — single FK into blog_categories. Nullable so a post
+            // can exist without a category (e.g. drafts or quick imports).
+            'category_id' => ['nullable', 'integer', 'exists:blog_categories,id'],
             'relatedPosts' => ['nullable', 'array'],
             'relatedPosts.*' => ['integer', 'exists:blog_posts,id'],
             'tags' => ['nullable', 'array'],

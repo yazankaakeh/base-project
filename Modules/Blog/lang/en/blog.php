@@ -35,6 +35,8 @@ return [
         'type' => 'Post Type',
         'relatedPost' => 'Related Post',
         'tags' => 'Tags',
+        'category' => 'Category',
+        'selectCategory' => 'Select a category…',
         'selectTags' => 'Select tags...',
         'selectRelatedPosts' => 'Select related posts...',
         'quickCreate' => 'Quick Create Post',

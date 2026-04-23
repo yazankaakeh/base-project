@@ -152,6 +152,19 @@ $page = 'sales-dashboard'; ?>
                                             </div>
                                             <x-core::input label="blog::blog.post.image" required="" type="file"
                                                            name="image" id="image"></x-core::input>
+
+                                            {{-- Category — preselects whichever one the post currently
+                                                 belongs to. Leaving it blank nulls out the FK. --}}
+                                            <div class="mt-3">
+                                                <x-core::select
+                                                    :label="trans('blog::blog.post.category')"
+                                                    :placeholder="trans('blog::blog.post.selectCategory')"
+                                                    id="category_id"
+                                                    name="category_id"
+                                                    :options="$categoryOptions ?? []"
+                                                    value="{{ old('category_id', $post->category_id) }}"/>
+                                            </div>
+
                                             <div class="mt-3">
                                                 <x-core::select :label="trans('blog::blog.post.relatedPost')"
                                                                 :placeholder="trans('blog::blog.post.relatedPost')"

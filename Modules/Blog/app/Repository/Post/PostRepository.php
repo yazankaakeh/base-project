@@ -25,6 +25,11 @@ class PostRepository implements PostInterface
             $post->title = $validated['title'];
             $post->description = $validated['description'] ?? [];
             $post->type = $validated['type'] ?? null;
+            // Category (optional FK). Coerce to int or null so we never
+            // write stringy values into the `category_id` column.
+            $post->category_id = isset($validated['category_id']) && $validated['category_id'] !== ''
+                ? (int) $validated['category_id']
+                : null;
             $post->save();
 
             // related posts
@@ -73,6 +78,13 @@ class PostRepository implements PostInterface
             $post->description = $validated['description'] ?? [];
             if (isset($validated['type'])) {
                 $post->type = $validated['type'];
+            }
+            // Only touch category_id when the form submitted it — respects
+            // API callers that may update a post without changing category.
+            if (array_key_exists('category_id', $validated)) {
+                $post->category_id = $validated['category_id'] !== '' && $validated['category_id'] !== null
+                    ? (int) $validated['category_id']
+                    : null;
             }
             $post->save();
 

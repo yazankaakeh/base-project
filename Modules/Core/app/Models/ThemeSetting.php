@@ -360,14 +360,18 @@ class ThemeSetting extends Model implements HasMedia
         ];
 
         // Always define --codliy-font-family and --codliy-heading-font-family
-        // on :root. If the admin hasn't chosen a custom font we fall through
-        // to `--bs-body-font-family` which is guaranteed to resolve. This
-        // kills the "variable not defined" warning at the source — the vars
-        // are always present, even if the stylesFront compiled view cache is
-        // stale.
-        $ltrFontStack = fn(?string $family) => $family
-            ? "{$family}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
-            : 'var(--bs-body-font-family, system-ui, -apple-system, Segoe UI, Roboto, sans-serif)';
+        // on :root. Multi-word family names are quoted so "Google Sans Flex"
+        // stays a single token. If the admin hasn't chosen anything we fall
+        // through to `--bs-body-font-family` (guaranteed to resolve).
+        $quote = fn(string $f) => (str_contains($f, ' ') && !str_starts_with($f, "'")) ? "'{$f}'" : $f;
+
+        $ltrFontStack = function (?string $family) use ($quote): string {
+            if (!$family) {
+                return 'var(--bs-body-font-family, system-ui, -apple-system, Segoe UI, Roboto, sans-serif)';
+            }
+            return $quote($family).", system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+        };
+
         $lightVariables['--codliy-font-family']         = $ltrFontStack($this->font_family);
         $lightVariables['--codliy-heading-font-family'] = $ltrFontStack($this->headings_font_family ?: $this->font_family);
 
@@ -488,6 +492,32 @@ class ThemeSetting extends Model implements HasMedia
         foreach ($darkVariables as $key => $value) {
             $css .= "  {$key}: {$value};".PHP_EOL;
         }
+        $css .= '}'.PHP_EOL.PHP_EOL;
+
+        // RTL font stack — always defines the Codliy font vars with
+        // Arabic-capable fallbacks so pages rendered in Arabic/Hebrew/Persian
+        // always have readable glyphs, even if the admin never touched the
+        // RTL font field. The `!important` on body/h1-h6 ensures the stack
+        // wins over any vendor CSS that hardcoded a Latin-only family.
+        $rtlFontStack = function (?string $family) use ($quote): string {
+            $primary = $family ? $quote($family) : "'Noto Kufi Arabic'";
+            return $primary.", 'Noto Kufi Arabic', 'IBM Plex Sans Arabic', 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif";
+        };
+        $rtlBodyStack    = $rtlFontStack($this->rtl_font_family          ?: $this->font_family);
+        $rtlHeadingStack = $rtlFontStack($this->rtl_headings_font_family ?: ($this->rtl_font_family ?: $this->headings_font_family));
+
+        $css .= '[dir="rtl"], html[lang="ar"], html[lang="he"], html[lang="fa"] {'.PHP_EOL;
+        $css .= "  --codliy-font-family: {$rtlBodyStack};".PHP_EOL;
+        $css .= "  --codliy-heading-font-family: {$rtlHeadingStack};".PHP_EOL;
+        $css .= "  --bs-body-font-family: {$rtlBodyStack};".PHP_EOL;
+        $css .= "  --bs-heading-font-family: {$rtlHeadingStack};".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[dir="rtl"] body, html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {'.PHP_EOL;
+        $css .= "  font-family: {$rtlBodyStack} !important;".PHP_EOL;
+        $css .= '}'.PHP_EOL;
+        $css .= '[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,'.PHP_EOL;
+        $css .= 'html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {'.PHP_EOL;
+        $css .= "  font-family: {$rtlHeadingStack} !important;".PHP_EOL;
         $css .= '}'.PHP_EOL.PHP_EOL;
 
         // ---- Runtime overrides that ALWAYS win ---------------------------

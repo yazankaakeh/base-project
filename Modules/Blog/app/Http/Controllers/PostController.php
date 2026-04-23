@@ -4,6 +4,7 @@ namespace Modules\Blog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Modules\Blog\Http\Requests\PostRequest;
+use Modules\Blog\Models\BlogCategory;
 use Modules\Blog\Models\BlogPostTags;
 use Modules\Blog\Repository\Post\PostInterface;
 
@@ -26,8 +27,10 @@ class PostController extends Controller
     public function create()
     {
         $relatedPostsOptions = $this->posts->getRelatedOptions();
-        $tagOptions = $this->getTagOptions();
-        return view('blog::posts.create', compact('relatedPostsOptions', 'tagOptions'));
+        $tagOptions          = $this->getTagOptions();
+        $categoryOptions     = $this->getCategoryOptions();
+
+        return view('blog::posts.create', compact('relatedPostsOptions', 'tagOptions', 'categoryOptions'));
     }
 
     /**
@@ -54,8 +57,10 @@ class PostController extends Controller
     {
         $post = $this->posts->find($id);
         $relatedPostsOptions = $this->posts->getRelatedOptions($id);
-        $tagOptions = $this->getTagOptions();
-        return view('blog::posts.edit', compact('post', 'relatedPostsOptions', 'tagOptions'));
+        $tagOptions          = $this->getTagOptions();
+        $categoryOptions     = $this->getCategoryOptions();
+
+        return view('blog::posts.edit', compact('post', 'relatedPostsOptions', 'tagOptions', 'categoryOptions'));
     }
 
     /**
@@ -85,5 +90,32 @@ class PostController extends Controller
             $name = $tag->getTranslation('name', app()->getLocale());
             return [$tag->id => $name ?: 'Tag ' . $tag->id];
         })->toArray();
+    }
+
+    /**
+     * Get category options for the post category select.
+     * Returns [id => translated_title] for the active locale, sorted
+     * alphabetically. The BlogCategory model's translatable field is
+     * `title` (not `name`), so we read that; falls back to the fallback
+     * locale then to a "Category {id}" placeholder so admins always see
+     * something meaningful even for untranslated records.
+     */
+    private function getCategoryOptions(): array
+    {
+        $locale   = app()->getLocale();
+        $fallback = config('app.fallback_locale', 'en');
+
+        return BlogCategory::query()
+            ->get()
+            ->mapWithKeys(function (BlogCategory $category) use ($locale, $fallback) {
+                $title = $category->getTranslation('title', $locale)
+                    ?: $category->getTranslation('title', $fallback);
+
+                return [$category->id => is_string($title) && filled($title)
+                    ? $title
+                    : 'Category #' . $category->id];
+            })
+            ->sort()
+            ->toArray();
     }
 }
