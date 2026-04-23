@@ -15,11 +15,14 @@
         <section id="codliy-aichat-panel" role="dialog" aria-modal="false" aria-labelledby="codliy-aichat-title" hidden>
             <header class="codliy-aichat-panel__header">
                 <div>
-                    <div class="codliy-aichat-panel__eyebrow">{{ strtoupper($aiChatConfig['provider'] ?? 'assistant') }}</div>
-                    <h3 id="codliy-aichat-title" class="codliy-aichat-panel__title">{{ $aiChatConfig['title'] ?? 'Chat with us' }}</h3>
+                    <div
+                        class="codliy-aichat-panel__eyebrow">{{ strtoupper($aiChatConfig['provider'] ?? 'assistant') }}</div>
+                    <h3 id="codliy-aichat-title"
+                        class="codliy-aichat-panel__title">{{ $aiChatConfig['title'] ?? 'Chat with us' }}</h3>
                 </div>
                 <div class="codliy-aichat-panel__actions">
-                    <button type="button" id="codliy-aichat-reset" title="Start a new chat" aria-label="Start a new chat">
+                    <button type="button" id="codliy-aichat-reset" title="Start a new chat"
+                            aria-label="Start a new chat">
                         <i class="ti tabler-refresh"></i>
                     </button>
                     <button type="button" id="codliy-aichat-close" title="Close" aria-label="Close chat">
@@ -30,7 +33,8 @@
 
             <div id="codliy-aichat-messages" class="codliy-aichat-panel__body" tabindex="0">
                 <div class="codliy-aichat-msg codliy-aichat-msg--assistant">
-                    <div class="codliy-aichat-msg__bubble">{{ $aiChatConfig['greeting'] ?? 'Hi! How can we help?' }}</div>
+                    <div
+                        class="codliy-aichat-msg__bubble">{{ $aiChatConfig['greeting'] ?? 'Hi! How can we help?' }}</div>
                 </div>
             </div>
 
@@ -59,7 +63,7 @@
          */
         #codliy-aichat-root {
             position: fixed;
-            bottom: 24px;
+            bottom: 80px;
             inset-inline-end: 24px;
             z-index: 9000;
             font-family: var(--codliy-font-family, var(--bs-body-font-family, system-ui, sans-serif));
@@ -80,15 +84,31 @@
             letter-spacing: 0.1px;
             transition: transform 0.18s ease, box-shadow 0.18s ease;
         }
+
         #codliy-aichat-launcher:hover {
             transform: translateY(-2px);
             box-shadow: 0 18px 36px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.42);
         }
-        #codliy-aichat-launcher[data-open="1"] .codliy-aichat-launcher__label { display: none; }
-        .codliy-aichat-launcher__icon { font-size: 1.2rem; line-height: 1; display: inline-flex; }
+
+        #codliy-aichat-launcher[data-open="1"] .codliy-aichat-launcher__label {
+            display: none;
+        }
+
+        .codliy-aichat-launcher__icon {
+            font-size: 1.2rem;
+            line-height: 1;
+            display: inline-flex;
+        }
+
         @media (max-width: 575.98px) {
-            .codliy-aichat-launcher__label { display: none; }
-            #codliy-aichat-launcher { padding: 0.85rem; border-radius: 999px; }
+            .codliy-aichat-launcher__label {
+                display: none;
+            }
+
+            #codliy-aichat-launcher {
+                padding: 0.85rem;
+                border-radius: 999px;
+            }
         }
 
         #codliy-aichat-panel {
@@ -118,12 +138,14 @@
             background: var(--codliy-primary-gradient, var(--codliy-primary));
             color: #fff;
         }
+
         .codliy-aichat-panel__eyebrow {
             font-size: 10px;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.75);
         }
+
         .codliy-aichat-panel__title {
             font-size: 1rem;
             font-weight: 700;
@@ -131,6 +153,7 @@
             color: #fff;
             letter-spacing: -0.2px;
         }
+
         .codliy-aichat-panel__actions button {
             background: rgba(255, 255, 255, 0.12);
             border: none;
@@ -144,7 +167,10 @@
             cursor: pointer;
             transition: background 0.18s ease;
         }
-        .codliy-aichat-panel__actions button:hover { background: rgba(255, 255, 255, 0.22); }
+
+        .codliy-aichat-panel__actions button:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
 
         .codliy-aichat-panel__body {
             flex: 1;
@@ -154,8 +180,15 @@
             flex-direction: column;
             gap: 0.6rem;
         }
-        .codliy-aichat-msg { display: flex; }
-        .codliy-aichat-msg--user { justify-content: flex-end; }
+
+        .codliy-aichat-msg {
+            display: flex;
+        }
+
+        .codliy-aichat-msg--user {
+            justify-content: flex-end;
+        }
+
         .codliy-aichat-msg__bubble {
             max-width: 85%;
             padding: 0.65rem 0.9rem;
@@ -165,38 +198,61 @@
             white-space: pre-wrap;
             word-break: break-word;
         }
+
         .codliy-aichat-msg--user .codliy-aichat-msg__bubble {
             background: var(--codliy-primary, #0056F8);
             color: #fff;
             border-bottom-right-radius: 4px;
         }
+
         [dir="rtl"] .codliy-aichat-msg--user .codliy-aichat-msg__bubble {
             border-bottom-right-radius: var(--codliy-radius, 14px);
             border-bottom-left-radius: 4px;
         }
+
         .codliy-aichat-msg--assistant .codliy-aichat-msg__bubble {
             background: rgba(255, 255, 255, 0.06);
             color: var(--codliy-text-soft, #D9D9D9);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-bottom-left-radius: 4px;
         }
+
         [dir="rtl"] .codliy-aichat-msg--assistant .codliy-aichat-msg__bubble {
             border-bottom-left-radius: var(--codliy-radius, 14px);
             border-bottom-right-radius: 4px;
         }
+
         .codliy-aichat-msg--typing .codliy-aichat-msg__bubble {
-            display: inline-flex; gap: 4px; align-items: center;
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
         }
+
         .codliy-aichat-msg--typing span {
-            width: 6px; height: 6px; border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
             background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.65);
             animation: codliyAichatDot 1.2s infinite ease-in-out;
         }
-        .codliy-aichat-msg--typing span:nth-child(2) { animation-delay: 0.15s; }
-        .codliy-aichat-msg--typing span:nth-child(3) { animation-delay: 0.3s; }
+
+        .codliy-aichat-msg--typing span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .codliy-aichat-msg--typing span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
         @keyframes codliyAichatDot {
-            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-            30%           { opacity: 1;   transform: translateY(-3px); }
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
         }
 
         .codliy-aichat-panel__form {
@@ -207,6 +263,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.06);
             background: rgba(0, 0, 0, 0.25);
         }
+
         .codliy-aichat-panel__form textarea {
             flex: 1;
             background: rgba(255, 255, 255, 0.05);
@@ -221,15 +278,18 @@
             outline: none;
             font-family: inherit;
         }
+
         .codliy-aichat-panel__form textarea:focus {
             border-color: var(--codliy-primary);
             box-shadow: 0 0 0 3px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.18);
         }
+
         .codliy-aichat-panel__form button {
             background: var(--codliy-primary, #0056F8);
             color: #fff;
             border: none;
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--codliy-radius, 12px);
             display: inline-flex;
             align-items: center;
@@ -237,8 +297,15 @@
             cursor: pointer;
             flex-shrink: 0;
         }
-        .codliy-aichat-panel__form button:hover { background: var(--codliy-accent, var(--codliy-primary)); }
-        .codliy-aichat-panel__form button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .codliy-aichat-panel__form button:hover {
+            background: var(--codliy-accent, var(--codliy-primary));
+        }
+
+        .codliy-aichat-panel__form button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         .codliy-aichat-panel__meta {
             text-align: center;
@@ -262,34 +329,40 @@
             color: #0a1220;
             border-color: rgba(10, 31, 77, 0.08);
             box-shadow: 0 24px 60px rgba(10, 31, 77, 0.14),
-                        0 2px 6px rgba(10, 31, 77, 0.06);
+            0 2px 6px rgba(10, 31, 77, 0.06);
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
         }
+
         [data-bs-theme="light"] #codliy-aichat-panel a {
             color: var(--codliy-primary, #0056F8);
         }
+
         [data-bs-theme="light"] .codliy-aichat-msg--assistant .codliy-aichat-msg__bubble,
         [data-layout-mode="light_mode"] .codliy-aichat-msg--assistant .codliy-aichat-msg__bubble {
             background: #F4F6FB;
             color: #0a1220;
             border-color: rgba(10, 31, 77, 0.08);
         }
+
         [data-bs-theme="light"] .codliy-aichat-panel__form,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__form {
             background: #FAFBFE;
             border-top-color: rgba(10, 31, 77, 0.08);
         }
+
         [data-bs-theme="light"] .codliy-aichat-panel__form textarea,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__form textarea {
             background: #ffffff;
             color: #0a1220;
             border-color: rgba(10, 31, 77, 0.12);
         }
+
         [data-bs-theme="light"] .codliy-aichat-panel__form textarea::placeholder,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__form textarea::placeholder {
             color: rgba(10, 31, 77, 0.45);
         }
+
         /* Bottom "Powered by …" strip — was dark rgba black in the default. */
         [data-bs-theme="light"] .codliy-aichat-panel__meta,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__meta {
@@ -297,39 +370,46 @@
             color: rgba(10, 31, 77, 0.55);
             border-top: 1px solid rgba(10, 31, 77, 0.06);
         }
+
         /* Scrollbar inside the message list — the default webkit shade is too dark on white. */
         [data-bs-theme="light"] .codliy-aichat-panel__body,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__body {
             scrollbar-color: rgba(10, 31, 77, 0.2) transparent;
         }
+
         [data-bs-theme="light"] .codliy-aichat-panel__body::-webkit-scrollbar,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__body::-webkit-scrollbar {
             width: 8px;
         }
+
         [data-bs-theme="light"] .codliy-aichat-panel__body::-webkit-scrollbar-thumb,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__body::-webkit-scrollbar-thumb {
             background: rgba(10, 31, 77, 0.18);
             border-radius: 999px;
         }
+
         [data-bs-theme="light"] .codliy-aichat-panel__body::-webkit-scrollbar-thumb:hover,
         [data-layout-mode="light_mode"] .codliy-aichat-panel__body::-webkit-scrollbar-thumb:hover {
             background: rgba(10, 31, 77, 0.3);
         }
+
         /* Typing dots read better with a slightly stronger alpha on white. */
         [data-bs-theme="light"] .codliy-aichat-msg--typing span,
         [data-layout-mode="light_mode"] .codliy-aichat-msg--typing span {
             background: rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.55);
         }
+
         /* Softer launcher shadow in light so it doesn't stamp a blue blob onto a white hero. */
         [data-bs-theme="light"] #codliy-aichat-launcher,
         [data-layout-mode="light_mode"] #codliy-aichat-launcher {
             box-shadow: 0 12px 24px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.28),
-                        0 2px 4px rgba(10, 31, 77, 0.08);
+            0 2px 4px rgba(10, 31, 77, 0.08);
         }
+
         [data-bs-theme="light"] #codliy-aichat-launcher:hover,
         [data-layout-mode="light_mode"] #codliy-aichat-launcher:hover {
             box-shadow: 0 16px 30px rgba(var(--codliy-primary-rgb, 0, 86, 248), 0.35),
-                        0 3px 6px rgba(10, 31, 77, 0.1);
+            0 3px 6px rgba(10, 31, 77, 0.1);
         }
 
         /* RTL offset — launcher anchors to the left edge in RTL */
@@ -345,23 +425,23 @@
             var cfg = @json($aiChatConfig);
             if (!cfg.enabled) return;
 
-            var root      = document.getElementById('codliy-aichat-root');
+            var root = document.getElementById('codliy-aichat-root');
             if (!root) return;
-            var launcher  = document.getElementById('codliy-aichat-launcher');
-            var panel     = document.getElementById('codliy-aichat-panel');
-            var closeBtn  = document.getElementById('codliy-aichat-close');
-            var resetBtn  = document.getElementById('codliy-aichat-reset');
-            var form      = document.getElementById('codliy-aichat-form');
-            var input     = document.getElementById('codliy-aichat-input');
-            var sendBtn   = document.getElementById('codliy-aichat-send');
-            var messages  = document.getElementById('codliy-aichat-messages');
+            var launcher = document.getElementById('codliy-aichat-launcher');
+            var panel = document.getElementById('codliy-aichat-panel');
+            var closeBtn = document.getElementById('codliy-aichat-close');
+            var resetBtn = document.getElementById('codliy-aichat-reset');
+            var form = document.getElementById('codliy-aichat-form');
+            var input = document.getElementById('codliy-aichat-input');
+            var sendBtn = document.getElementById('codliy-aichat-send');
+            var messages = document.getElementById('codliy-aichat-messages');
 
             var csrfMeta = document.querySelector('meta[name="csrf-token"]');
             var csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
 
             function escapeHtml(text) {
                 return (text || '').replace(/[&<>"']/g, function (c) {
-                    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+                    return ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c];
                 });
             }
 
@@ -390,7 +470,9 @@
                 if (open) {
                     panel.hidden = false;
                     launcher.setAttribute('data-open', '1');
-                    setTimeout(function () { input.focus(); }, 100);
+                    setTimeout(function () {
+                        input.focus();
+                    }, 100);
                     loadHistory();
                 } else {
                     panel.hidden = true;
@@ -399,22 +481,32 @@
             }
 
             var historyLoaded = false;
+
             function loadHistory() {
                 if (historyLoaded) return;
                 historyLoaded = true;
                 fetch(cfg.history_url, {credentials: 'same-origin'})
-                    .then(function (r) { return r.ok ? r.json() : {messages: []}; })
+                    .then(function (r) {
+                        return r.ok ? r.json() : {messages: []};
+                    })
                     .then(function (data) {
                         if (!data.messages || !data.messages.length) return;
                         // Clear the greeting bubble if we have stored history.
                         messages.innerHTML = '';
-                        data.messages.forEach(function (m) { appendMessage(m.role, m.content); });
+                        data.messages.forEach(function (m) {
+                            appendMessage(m.role, m.content);
+                        });
                     })
-                    .catch(function () {});
+                    .catch(function () {
+                    });
             }
 
-            launcher.addEventListener('click', function () { togglePanel(panel.hidden); });
-            closeBtn.addEventListener('click', function () { togglePanel(false); });
+            launcher.addEventListener('click', function () {
+                togglePanel(panel.hidden);
+            });
+            closeBtn.addEventListener('click', function () {
+                togglePanel(false);
+            });
             resetBtn.addEventListener('click', function () {
                 fetch(cfg.reset_url, {
                     method: 'POST',
@@ -458,27 +550,29 @@
                     },
                     body: JSON.stringify({message: text})
                 })
-                .then(function (r) {
-                    return r.json().then(function (data) { return {ok: r.ok, data: data}; });
-                })
-                .then(function (result) {
-                    typing.remove();
-                    if (!result.ok) {
-                        appendMessage('assistant', result.data && result.data.error
-                            ? result.data.error
-                            : 'Something went wrong. Please try again.');
-                        return;
-                    }
-                    appendMessage('assistant', result.data.reply || '…');
-                })
-                .catch(function () {
-                    typing.remove();
-                    appendMessage('assistant', 'Network error — please try again.');
-                })
-                .finally(function () {
-                    sendBtn.disabled = false;
-                    input.focus();
-                });
+                    .then(function (r) {
+                        return r.json().then(function (data) {
+                            return {ok: r.ok, data: data};
+                        });
+                    })
+                    .then(function (result) {
+                        typing.remove();
+                        if (!result.ok) {
+                            appendMessage('assistant', result.data && result.data.error
+                                ? result.data.error
+                                : 'Something went wrong. Please try again.');
+                            return;
+                        }
+                        appendMessage('assistant', result.data.reply || '…');
+                    })
+                    .catch(function () {
+                        typing.remove();
+                        appendMessage('assistant', 'Network error — please try again.');
+                    })
+                    .finally(function () {
+                        sendBtn.disabled = false;
+                        input.focus();
+                    });
             });
         })();
     </script>
