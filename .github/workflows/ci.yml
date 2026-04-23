@@ -21,7 +21,9 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    PHP_VERSION: '8.3'
+    # Matches the `"php": "^8.4"` constraint in composer.json. Update here
+    # (and the setup-php action below) if you bump the minimum PHP version.
+    PHP_VERSION: '8.4'
 
 jobs:
 
