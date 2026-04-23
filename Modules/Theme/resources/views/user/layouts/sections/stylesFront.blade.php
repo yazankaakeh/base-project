@@ -1,9 +1,11 @@
 @php
     // Theme settings come from ThemeSettingsComposer on the "website" scope.
-    $tsFontFamily = isset($themeSettings) ? ($themeSettings->font_family ?? null) : null;
+    $tsFontFamily        = isset($themeSettings) ? ($themeSettings->font_family ?? null) : null;
     $tsHeadingFontFamily = isset($themeSettings) ? ($themeSettings->headings_font_family ?? null) : null;
-    $tsGoogleFontUrl = null;
-    $tsExtraFontUrls = [];
+    $tsRtlFontFamily     = isset($themeSettings) ? ($themeSettings->rtl_font_family ?? null) : null;
+    $tsRtlHeadingFamily  = isset($themeSettings) ? ($themeSettings->rtl_headings_font_family ?? null) : null;
+    $tsGoogleFontUrl     = null;
+    $tsExtraFontUrls     = [];
 
     // Optional custom CSS variables may carry extra fields we use for fonts:
     //   google_font_url  => full Google Fonts URL (css/css2)
@@ -35,7 +37,18 @@
     if (!$tsGoogleFontUrl) {
         $tsGoogleFontUrl = $buildGoogleFontUrl($tsFontFamily);
     }
-    $tsHeadingGoogleFontUrl = $buildGoogleFontUrl($tsHeadingFontFamily);
+    $tsHeadingGoogleFontUrl    = $buildGoogleFontUrl($tsHeadingFontFamily);
+    $tsRtlGoogleFontUrl        = $buildGoogleFontUrl($tsRtlFontFamily);
+    $tsRtlHeadingGoogleFontUrl = $buildGoogleFontUrl($tsRtlHeadingFamily);
+
+    // Deduplicate so repeating a family across LTR/RTL slots doesn't
+    // fetch the same CSS twice.
+    $fontLinks = array_values(array_unique(array_filter([
+        $tsGoogleFontUrl,
+        $tsHeadingGoogleFontUrl,
+        $tsRtlGoogleFontUrl,
+        $tsRtlHeadingGoogleFontUrl,
+    ])));
 @endphp
 
 <!-- BEGIN: Theme CSS-->
@@ -48,15 +61,10 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet"/>
 
-{{-- Chosen body Google Font from theme settings --}}
-@if($tsGoogleFontUrl)
-    <link href="{{ $tsGoogleFontUrl }}" rel="stylesheet"/>
-@endif
-
-{{-- Chosen heading Google Font from theme settings (if different) --}}
-@if($tsHeadingGoogleFontUrl && $tsHeadingGoogleFontUrl !== $tsGoogleFontUrl)
-    <link href="{{ $tsHeadingGoogleFontUrl }}" rel="stylesheet"/>
-@endif
+{{-- All theme-driven Google Fonts (LTR + RTL, body + headings), deduped. --}}
+@foreach($fontLinks as $fontUrl)
+    <link href="{{ $fontUrl }}" rel="stylesheet"/>
+@endforeach
 
 {{-- Any extra Google Font URLs the admin registered --}}
 @foreach($tsExtraFontUrls as $extraUrl)
@@ -85,17 +93,27 @@
 <!-- Codliy brand layer + custom CSS variables (must load LAST to override vendor defaults) -->
 @vite(['resources/css/app.css'], 'build/modules/theme')
 
-{{-- Runtime font-family overrides from ThemeSetting so the chosen font actually applies. --}}
-@if($tsFontFamily || $tsHeadingFontFamily)
+{{-- Runtime font-family overrides from ThemeSetting. LTR stack applies by
+     default; RTL stack kicks in only when the page is rendered in a
+     right-to-left locale (dir="rtl" or html[lang] set to ar/he/fa). --}}
+@if($tsFontFamily || $tsHeadingFontFamily || $tsRtlFontFamily || $tsRtlHeadingFamily)
+    @php
+        $ltrStack = fn($f) => "{$f}, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+        $rtlStack = fn($f) => "{$f}, 'Segoe UI', Tahoma, Arial, sans-serif";
+        // When no RTL override is set, fall back to LTR (matches previous behavior).
+        $rtlBody     = $tsRtlFontFamily    ?: $tsFontFamily;
+        $rtlHeadings = $tsRtlHeadingFamily ?: ($tsRtlFontFamily ?: $tsHeadingFontFamily);
+    @endphp
     <style id="codliy-font-overrides">
+        /* LTR (default) font stack */
         :root {
             @if($tsFontFamily)
-            --bs-body-font-family: {{ $tsFontFamily }}, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-            --codliy-font-family: {{ $tsFontFamily }}, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+            --bs-body-font-family: {{ $ltrStack($tsFontFamily) }};
+            --codliy-font-family:  {{ $ltrStack($tsFontFamily) }};
             @endif
             @if($tsHeadingFontFamily)
-            --bs-heading-font-family: {{ $tsHeadingFontFamily }}, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-            --codliy-heading-font-family: {{ $tsHeadingFontFamily }}, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+            --bs-heading-font-family:    {{ $ltrStack($tsHeadingFontFamily) }};
+            --codliy-heading-font-family: {{ $ltrStack($tsHeadingFontFamily) }};
             @endif
         }
         @if($tsFontFamily)
@@ -107,6 +125,38 @@
         h1, h2, h3, h4, h5, h6,
         .codliy-hero__title, .codliy-section__title, .codliy-card__title {
             font-family: var(--codliy-heading-font-family);
+        }
+        @endif
+
+        /* RTL overrides — only active on Arabic / Hebrew / Persian pages. */
+        @if($rtlBody)
+        [dir="rtl"],
+        html[lang="ar"], html[lang="he"], html[lang="fa"] {
+            --bs-body-font-family: {{ $rtlStack($rtlBody) }};
+            --codliy-font-family:  {{ $rtlStack($rtlBody) }};
+        }
+        [dir="rtl"] body,
+        [dir="rtl"] .codliy-card,
+        [dir="rtl"] .codliy-card__body,
+        [dir="rtl"] .codliy-section__sub,
+        html[lang="ar"] body, html[lang="he"] body, html[lang="fa"] body {
+            font-family: var(--codliy-font-family) !important;
+        }
+        @endif
+        @if($rtlHeadings)
+        [dir="rtl"],
+        html[lang="ar"], html[lang="he"], html[lang="fa"] {
+            --bs-heading-font-family:    {{ $rtlStack($rtlHeadings) }};
+            --codliy-heading-font-family: {{ $rtlStack($rtlHeadings) }};
+        }
+        [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+        [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+        [dir="rtl"] .codliy-hero__title,
+        [dir="rtl"] .codliy-section__title,
+        [dir="rtl"] .codliy-card__title,
+        html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3,
+        html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6 {
+            font-family: var(--codliy-heading-font-family) !important;
         }
         @endif
     </style>

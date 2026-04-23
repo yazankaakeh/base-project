@@ -51,6 +51,29 @@ class UpdateThemeSettingsAction
             $themeSetting->headings_font_family = $headingsFamilyPick !== '' ? $headingsFamilyPick : null;
         }
 
+        // RTL-specific fonts — Arabic/Hebrew/Persian pages get their own font
+        // stack so admins can pair (e.g.) "Inter" LTR with "IBM Plex Sans Arabic" RTL.
+        // Empty or "__none__" clears the field — falls back to LTR font.
+        $rtlFamilyPick   = trim((string) $request->input('rtl_font_family', ''));
+        $rtlFamilyCustom = trim((string) $request->input('rtl_font_family_custom', ''));
+        if ($rtlFamilyCustom !== '' || $rtlFamilyPick === '__custom__') {
+            $themeSetting->rtl_font_family = $rtlFamilyCustom !== '' ? $rtlFamilyCustom : $themeSetting->rtl_font_family;
+        } elseif ($rtlFamilyPick === '__none__') {
+            $themeSetting->rtl_font_family = null;
+        } else {
+            $themeSetting->rtl_font_family = $rtlFamilyPick !== '' ? $rtlFamilyPick : null;
+        }
+
+        $rtlHeadingsPick   = trim((string) $request->input('rtl_headings_font_family', ''));
+        $rtlHeadingsCustom = trim((string) $request->input('rtl_headings_font_family_custom', ''));
+        if ($rtlHeadingsCustom !== '' || $rtlHeadingsPick === '__custom__') {
+            $themeSetting->rtl_headings_font_family = $rtlHeadingsCustom !== '' ? $rtlHeadingsCustom : $themeSetting->rtl_headings_font_family;
+        } elseif ($rtlHeadingsPick === '__none__') {
+            $themeSetting->rtl_headings_font_family = null;
+        } else {
+            $themeSetting->rtl_headings_font_family = $rtlHeadingsPick !== '' ? $rtlHeadingsPick : null;
+        }
+
         $themeSetting->font_size_base = $request->input('font_size_base');
         $themeSetting->headings_font_weight = $request->input('headings_font_weight');
 

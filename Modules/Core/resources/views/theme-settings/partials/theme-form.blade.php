@@ -131,6 +131,81 @@
 
                     <hr class="my-4">
 
+                    <h6 class="mb-3 d-flex align-items-center gap-2">
+                        <i class="ti tabler-language-hiragana"></i>
+                        {{ __('RTL Typography (Arabic / Hebrew / Persian)') }}
+                    </h6>
+                    <p class="text-muted small mb-3">
+                        {{ __('Optional. When set, these fonts load only on pages rendered in a right-to-left locale (e.g. Arabic). Leave empty to reuse the LTR font.') }}
+                    </p>
+                    @php
+                        // RTL-friendly preset list — curated Google Fonts with full Arabic
+                        // glyph coverage. `__none__` explicitly clears the field.
+                        $rtlFonts = [
+                            'IBM Plex Sans Arabic', 'Cairo', 'Tajawal', 'Noto Kufi Arabic',
+                            'Almarai', 'Noto Naskh Arabic', 'Amiri', 'Readex Pro',
+                            'El Messiri', 'Changa', 'Rubik', 'Inter',
+                        ];
+                        $currentRtlFamily = old('rtl_font_family', $settings->rtl_font_family);
+                        $isCustomRtlFamily = $currentRtlFamily && !in_array($currentRtlFamily, $rtlFonts, true);
+
+                        $currentRtlHeadingFamily = old('rtl_headings_font_family', $settings->rtl_headings_font_family);
+                        $isCustomRtlHeadingFamily = $currentRtlHeadingFamily && !in_array($currentRtlHeadingFamily, $rtlFonts, true);
+                    @endphp
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="rtl_font_family_{{ $scope }}">{{ __('RTL body font') }}</label>
+                            <select class="form-select"
+                                    name="rtl_font_family"
+                                    id="rtl_font_family_{{ $scope }}">
+                                <option value="__none__" @selected(!$currentRtlFamily)>— {{ __('Use LTR font') }} —</option>
+                                @foreach($rtlFonts as $rtlOption)
+                                    <option value="{{ $rtlOption }}" @selected(!$isCustomRtlFamily && $currentRtlFamily === $rtlOption)>
+                                        {{ $rtlOption }}
+                                    </option>
+                                @endforeach
+                                <option value="__custom__" @selected($isCustomRtlFamily)>— {{ __('Custom (type below)') }} —</option>
+                            </select>
+                            <small class="text-muted">{{ __('Applies only when dir="rtl" (Arabic pages).') }}</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="rtl_font_family_custom_{{ $scope }}">{{ __('Custom RTL body font') }}</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="rtl_font_family_custom"
+                                   id="rtl_font_family_custom_{{ $scope }}"
+                                   placeholder="e.g. Noto Naskh Arabic UI"
+                                   value="{{ old('rtl_font_family_custom', $isCustomRtlFamily ? $currentRtlFamily : '') }}">
+                            <small class="text-muted">{{ __('Add the matching Google Fonts URL below if this is a custom family.') }}</small>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label" for="rtl_headings_font_family_{{ $scope }}">{{ __('RTL headings font') }}</label>
+                            <select class="form-select"
+                                    name="rtl_headings_font_family"
+                                    id="rtl_headings_font_family_{{ $scope }}">
+                                <option value="__none__" @selected(!$currentRtlHeadingFamily)>— {{ __('Use RTL body font') }} —</option>
+                                @foreach($rtlFonts as $rtlOption)
+                                    <option value="{{ $rtlOption }}" @selected(!$isCustomRtlHeadingFamily && $currentRtlHeadingFamily === $rtlOption)>
+                                        {{ $rtlOption }}
+                                    </option>
+                                @endforeach
+                                <option value="__custom__" @selected($isCustomRtlHeadingFamily)>— {{ __('Custom (type below)') }} —</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="rtl_headings_font_family_custom_{{ $scope }}">{{ __('Custom RTL headings font') }}</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="rtl_headings_font_family_custom"
+                                   id="rtl_headings_font_family_custom_{{ $scope }}"
+                                   placeholder="e.g. El Messiri"
+                                   value="{{ old('rtl_headings_font_family_custom', $isCustomRtlHeadingFamily ? $currentRtlHeadingFamily : '') }}">
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
                     <h6 class="mb-3"><i class="ti ti-link me-2"></i>Google Fonts</h6>
                     <div class="row g-3">
                         <div class="col-12">

@@ -46,6 +46,12 @@ class ThemeSettingsRequest extends FormRequest
             'headings_font_family_custom' => 'nullable|string|max:255',
             'headings_font_weight' => 'nullable|string|max:20',
 
+            // RTL Typography (Arabic, Hebrew, Persian)
+            'rtl_font_family' => 'nullable|string|max:255',
+            'rtl_font_family_custom' => 'nullable|string|max:255',
+            'rtl_headings_font_family' => 'nullable|string|max:255',
+            'rtl_headings_font_family_custom' => 'nullable|string|max:255',
+
             // Google Fonts
             'google_font_url' => 'nullable|url|max:2048',
             'google_font_urls' => 'nullable|string|max:10000',

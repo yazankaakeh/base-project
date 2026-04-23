@@ -35,6 +35,8 @@ class ThemeSetting extends Model implements HasMedia
         'font_size_base',
         'headings_font_family',
         'headings_font_weight',
+        'rtl_font_family',
+        'rtl_headings_font_family',
         'body_bg',
         'card_bg',
         'dark_body_bg',
