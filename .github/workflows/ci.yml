@@ -1,0 +1,180 @@
+# CI for the Codliy Laravel 12 modular project.
+#
+# Four parallel jobs, each fast + cheap so feedback lands within a few minutes:
+#   1. pint     — code style (read-only check)
+#   2. phpstan  — static analysis (honors phpstan-baseline.neon)
+#   3. tests    — PHPUnit / Pest on MySQL 8 with modules enabled
+#   4. security — `composer audit` so no run ships with a known-vulnerable dep
+#
+# Concurrency group cancels in-flight runs when new commits land on the same
+# ref — saves CI minutes on rapid pushes.
+name: CI
+
+on:
+    push:
+        branches: ['**']
+    pull_request:
+    workflow_dispatch:
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+env:
+    # Matches the `"php": "^8.4"` constraint in composer.json. Update here
+    # (and the setup-php action below) if you bump the minimum PHP version.
+    PHP_VERSION: '8.4'
+
+jobs:
+
+    # ─── Pint (code style) ───────────────────────────────────────────────
+    pint:
+        name: Pint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  coverage: none
+                  tools: composer:v2
+
+            - name: Cache composer
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: composer-${{ runner.os }}-${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-${{ runner.os }}-${{ env.PHP_VERSION }}-
+
+            - name: Install dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            - name: Check code style
+              run: vendor/bin/pint --test
+
+    # ─── PHPStan (static analysis) ───────────────────────────────────────
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  coverage: none
+                  tools: composer:v2
+
+            - name: Cache composer
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: composer-${{ runner.os }}-${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-${{ runner.os }}-${{ env.PHP_VERSION }}-
+
+            - name: Install dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            - name: Analyse
+              run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+
+    # ─── Tests (PHPUnit + Pest) ──────────────────────────────────────────
+    tests:
+        name: Tests
+        runs-on: ubuntu-latest
+        services:
+            mysql:
+                image: mysql:8.0
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: test_db
+                ports: ['3306:3306']
+                options: >-
+                    --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  extensions: mbstring, xml, curl, mysql, redis, bcmath, gd, intl
+                  coverage: xdebug
+                  tools: composer:v2
+
+            - name: Cache composer
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: composer-${{ runner.os }}-${{ env.PHP_VERSION }}-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-${{ runner.os }}-${{ env.PHP_VERSION }}-
+
+            - name: Install dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            - name: Copy CI environment file
+              run: cp .env.ci .env
+
+            - name: Generate app key
+              run: php artisan key:generate
+
+            - name: Run migrations
+              env:
+                  DB_CONNECTION: mysql
+                  DB_HOST: 127.0.0.1
+                  DB_PORT: 3306
+                  DB_DATABASE: test_db
+                  DB_USERNAME: root
+                  DB_PASSWORD: root
+              run: php artisan migrate --force
+
+            # Pest 3 wraps PHPUnit and errors out if you call phpunit directly
+            # (`Pest\Exceptions\InvalidPestCommand — Please run [./vendor/bin/pest] instead`).
+            # Always invoke tests through the pest binary so its bootstrap
+            # (it(), expect(), test helpers in tests/Pest.php) loads correctly.
+            - name: Run tests
+              env:
+                  DB_CONNECTION: mysql
+                  DB_HOST: 127.0.0.1
+                  DB_PORT: 3306
+                  DB_DATABASE: test_db
+                  DB_USERNAME: root
+                  DB_PASSWORD: root
+              run: vendor/bin/pest --coverage --coverage-clover=coverage.xml
+
+            - name: Upload coverage
+              if: success()
+              uses: codecov/codecov-action@v4
+              with:
+                  files: coverage.xml
+                  fail_ci_if_error: false
+
+    # ─── Composer security audit ────────────────────────────────────────
+    security:
+        name: Security Audit
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ env.PHP_VERSION }}
+                  coverage: none
+                  tools: composer:v2
+
+            - name: Install dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            # `composer audit` reads composer.lock for pinned versions and
+            # consults packagist's advisory database. `--locked` forces use
+            # of the lock file (no side-effects from composer.json changes).
+            - name: Run composer audit
+              run: composer audit --locked --format=plain

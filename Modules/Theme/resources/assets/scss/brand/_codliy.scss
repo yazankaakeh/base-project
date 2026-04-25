@@ -1,0 +1,260 @@
+// ===========================================================================
+// Codliy brand layer — loaded last so it overrides legacy theme styles.
+// Palette (source of truth in utils/_variables.scss):
+//   $codliy-bg-dark  : #020611
+//   $codliy-bg-deep  : #0A1F4D
+//   $codliy-primary  : #0056F8
+//   $codliy-accent   : #3B82F6
+//   $codliy-text-soft: #D9D9D9
+//   $codliy-text-mute: #8A94B0
+// ===========================================================================
+
+:root {
+  --codliy-bg-dark:   #{$codliy-bg-dark};
+  --codliy-bg-deep:   #{$codliy-bg-deep};
+  --codliy-primary:   #{$codliy-primary};
+  --codliy-accent:    #{$codliy-accent};
+  --codliy-text-soft: #{$codliy-text-soft};
+  --codliy-text-mute: #{$codliy-text-mute};
+  --codliy-gradient:  linear-gradient(135deg, #{$codliy-bg-dark} 0%, #{$codliy-bg-deep} 100%);
+  --codliy-primary-gradient: linear-gradient(135deg, #{$codliy-primary} 0%, #{$codliy-accent} 100%);
+
+  // Radius ramp — all derived from --bs-border-radius (theme_settings.border_radius)
+  // so the admin's single "corner" setting flows through buttons, cards and
+  // chips with a consistent ratio.
+  --codliy-radius-sm: calc(var(--bs-border-radius, 10px) * 0.6);
+  --codliy-radius:    var(--bs-border-radius, 10px);
+  --codliy-radius-lg: calc(var(--bs-border-radius, 10px) * 1.8);
+}
+
+// ---------- Utilities --------------------------------------------------------
+
+.bg-codliy           { background: var(--codliy-gradient) !important; }
+.bg-codliy-solid     { background: var(--codliy-bg-dark) !important; }
+.bg-codliy-primary   { background: var(--codliy-primary-gradient) !important; color: #fff !important; }
+.text-codliy-primary { color: var(--codliy-primary) !important; }
+.text-codliy-soft    { color: var(--codliy-text-soft) !important; }
+.text-codliy-mute    { color: var(--codliy-text-mute) !important; }
+
+.border-codliy       { border: 1px solid rgba(255,255,255,0.08) !important; }
+
+// ---------- Brand buttons ----------------------------------------------------
+
+.btn-codliy {
+  background: var(--codliy-primary);
+  color: #fff;
+  border: 1px solid var(--codliy-primary);
+  padding: 0.7rem 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  border-radius: var(--codliy-radius, 10px);
+  transition: all 0.18s ease-in-out;
+
+  &:hover, &:focus {
+    background: var(--codliy-accent);
+    border-color: var(--codliy-accent);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0, 86, 248, 0.35);
+  }
+}
+
+.btn-codliy-outline {
+  background: transparent;
+  color: var(--codliy-text-soft);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 0.7rem 1.4rem;
+  font-weight: 500;
+  border-radius: var(--codliy-radius, 10px);
+  transition: all 0.18s ease-in-out;
+
+  &:hover, &:focus {
+    border-color: var(--codliy-primary);
+    color: #fff;
+    background: rgba(0, 86, 248, 0.08);
+  }
+}
+
+// ---------- Cards on the dark brand background ------------------------------
+
+.codliy-card {
+  background: rgba(13, 23, 55, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--codliy-radius-lg, 18px);
+  padding: 1.6rem;
+  backdrop-filter: blur(6px);
+  transition: transform 0.18s ease, border-color 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 86, 248, 0.45);
+  }
+
+  .codliy-card__eyebrow {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--codliy-text-mute);
+    margin-bottom: 0.75rem;
+  }
+
+  .codliy-card__title {
+    color: var(--codliy-text-soft);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 0.5rem;
+  }
+
+  .codliy-card__body {
+    color: var(--codliy-text-mute);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+}
+
+// ---------- Hero section -----------------------------------------------------
+
+.codliy-hero {
+  position: relative;
+  background: var(--codliy-gradient);
+  color: var(--codliy-text-soft);
+  padding: clamp(4rem, 10vw, 7rem) 0 clamp(3rem, 8vw, 5rem);
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 75% 40%, rgba(0, 86, 248, 0.25), transparent 60%);
+    pointer-events: none;
+  }
+
+  h1, .codliy-hero__title {
+    // Routed through theme_settings via --codliy-heading (admin's primary
+    // color). Falls back to text-soft if the runtime style tag is missing.
+    color: var(--codliy-heading, var(--codliy-text-soft));
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+  }
+
+  .codliy-hero__kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--codliy-text-mute);
+    margin-bottom: 1rem;
+  }
+
+  .codliy-hero__sub {
+    color: var(--codliy-text-mute);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 620px;
+  }
+}
+
+// ---------- Section headers --------------------------------------------------
+
+.codliy-section {
+  padding: clamp(3rem, 8vw, 5rem) 0;
+
+  .codliy-section__kicker {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--codliy-primary);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .codliy-section__title {
+    // Same theme-settings token as hero — admin's primary_color is the
+    // single source of truth for CMS headline colors.
+    color: var(--codliy-heading, var(--codliy-text-soft));
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .codliy-section__sub {
+    color: var(--codliy-text-mute);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    max-width: 680px;
+  }
+}
+
+// ---------- RTL support ------------------------------------------------------
+
+[dir="rtl"],
+[data-direction="rtl"] {
+  .codliy-card,
+  .codliy-hero,
+  .codliy-section {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .codliy-hero .codliy-hero__sub,
+  .codliy-section .codliy-section__sub {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+// ---------- Dark mode integration -------------------------------------------
+
+[data-bs-theme="dark"],
+[data-layout-mode="dark_mode"] {
+  --codliy-card-bg: rgba(13, 23, 55, 0.65);
+
+  .codliy-card {
+    background: var(--codliy-card-bg);
+  }
+}
+
+[data-bs-theme="light"]:not([data-layout-mode="dark_mode"]),
+[data-layout-mode="light_mode"] {
+  .codliy-card {
+    background: #ffffff;
+    border-color: rgba(10, 31, 77, 0.08);
+    color: #0a1220;
+
+    .codliy-card__title { color: #0a1220; }
+    .codliy-card__body  { color: #5B6670; }
+  }
+
+  // --codliy-gradient / --codliy-bg-dark are already tinted light by
+  // ThemeSetting::getCssVariables() (primary color mixed heavily with
+  // white) — so .bg-codliy / .codliy-section naturally render as a soft,
+  // on-brand panel in light mode. Headings are driven by --codliy-heading
+  // (admin's primary color) via the base rule. Only body / kicker / sub
+  // need a light-mode flip.
+  .codliy-section {
+    color: var(--codliy-body, #0a1220);
+
+    .codliy-section__sub { color: #5B6670; }
+  }
+
+  .codliy-hero {
+    color: var(--codliy-body, #0a1220);
+
+    .codliy-hero__kicker,
+    .codliy-hero__sub { color: #5B6670; }
+  }
+}
+
+// .bg-codliy-primary is always the solid brand gradient regardless of
+// mode — keep its foreground white everywhere.
+.bg-codliy-primary,
+.bg-codliy-primary .codliy-section__title,
+.bg-codliy-primary .codliy-section__sub { color: #fff; }
+
+// NOTE: the liquid-glass navbar + footer rules live in
+// Modules/Theme/resources/css/app.css (plain CSS so Vite picks them up
+// without a SCSS rebuild). Keep them there — do not duplicate here.

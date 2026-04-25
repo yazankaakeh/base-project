@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         processIsolation="false"
+         stopOnFailure="false"
+>
+    <testsuites>
+        <!--
+            Root suites — for cross-module integration tests and shared
+            infrastructure. Keep these thin; business logic lives in the
+            per-module suites below.
+        -->
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+
+        <!--
+            Per-module test suites. Each module owns its own tests — matches
+            the modular architecture so tests live next to the code they cover.
+            Empty directories exit 0 today; new tests land in the right place
+            automatically.
+        -->
+        <testsuite name="Core">
+            <directory>Modules/Core/tests</directory>
+        </testsuite>
+        <testsuite name="AdminManagement">
+            <directory>Modules/AdminManagement/tests</directory>
+        </testsuite>
+        <testsuite name="Auth">
+            <directory>Modules/Auth/tests</directory>
+        </testsuite>
+        <testsuite name="Blog">
+            <directory>Modules/Blog/tests</directory>
+        </testsuite>
+        <testsuite name="CMS">
+            <directory>Modules/CMS/tests</directory>
+        </testsuite>
+        <testsuite name="Website">
+            <directory>Modules/Website/tests</directory>
+        </testsuite>
+        <testsuite name="Theme">
+            <directory>Modules/Theme/tests</directory>
+        </testsuite>
+        <testsuite name="Seo">
+            <directory>Modules/Seo/tests</directory>
+        </testsuite>
+        <testsuite name="Notification">
+            <directory>Modules/Notification/tests</directory>
+        </testsuite>
+        <testsuite name="AiChat">
+            <directory>Modules/AiChat/tests</directory>
+        </testsuite>
+        <testsuite name="MCP">
+            <directory>Modules/MCP/tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory>app</directory>
+            <directory>Modules</directory>
+        </include>
+        <exclude>
+            <directory>Modules/*/database/migrations</directory>
+            <directory>Modules/*/resources</directory>
+            <directory>Modules/*/config</directory>
+            <directory>Modules/*/routes</directory>
+            <directory>Modules/Doctor</directory>
+        </exclude>
+    </source>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="PULSE_ENABLED" value="false"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="IS_COMING_SOON" value="0"/>
+        <env name="AI_CHAT_ENABLED" value="false"/>
+    </php>
+</phpunit>

@@ -1,0 +1,188 @@
+<?php
+
+use Modules\Core\App\Enums\Gender;
+use Modules\Doctor\Enums\BloodType;
+use Modules\Doctor\Enums\MaritalStatus;
+use Modules\Doctor\Enums\MedicalExaminationStatusEnum;
+use Modules\Doctor\Enums\MedicalTestTypeEnum;
+
+return [
+    'enum' => [
+        'Gender' => [
+            Gender::MALE->value => 'Male',
+            Gender::FEMALE->value => 'Female',
+        ],
+        'MedicalExaminationStatusEnum' => [
+            MedicalExaminationStatusEnum::ACTIVE->value => 'Active',
+            MedicalExaminationStatusEnum::DONE->value => 'Done',
+        ],
+        'MedicalTestTypeEnum' => [
+            MedicalTestTypeEnum::LABORATORY_TESTS->value => 'Laboratory Tests',
+            MedicalTestTypeEnum::RADIOLOGY_TESTS->value => 'Radiology Tests',
+        ],
+        'MaritalStatus' => [
+            MaritalStatus::SINGLE->value => 'Single',
+            MaritalStatus::MARRIED->value => 'Married',
+            MaritalStatus::DIVORCED->value => 'Divorced',
+        ],
+        'BloodType' => [
+            BloodType::A_POSITIVE->value => 'A Positive',
+            BloodType::A_NEGATIVE->value => 'A Negative',
+            BloodType::B_POSITIVE->value => 'B Positive',
+            BloodType::B_NEGATIVE->value => 'B Negative',
+            BloodType::AB_POSITIVE->value => 'AB Positive',
+            BloodType::AB_NEGATIVE->value => 'AB Negative',
+            BloodType::O_POSITIVE->value => 'O Positive',
+            BloodType::O_NEGATIVE->value => 'O Negative',
+        ],
+
+    ],
+    'doctor' => [
+        'medicalSpecialtyId' => 'Medical Specialty',
+    ],
+    'patients' => [
+        'nameTitle' => 'Patients',
+        'name' => 'Name',
+        'phone' => 'Phone',
+        'age' => 'Age',
+        'minAge' => 'Min Age',
+        'maxAge' => 'MaxAge',
+        'gender' => 'Gender',
+        'clinics' => 'Clinics',
+        'children' => 'Children',
+        'work' => 'Work',
+        'blood_type' => 'Blood Type',
+        'marital_status' => 'Marital Status',
+        'nationality_id' => 'Nationality',
+        'drug_allergies' => 'Medicine Allergies',
+        'disabilities' => 'Habits',
+        'medical_history' => 'Medical History',
+        'surgical_history' => 'Surgical History',
+        'accident_history' => 'Family History',
+        'email' => 'Email',
+        'password' => 'Password',
+        'active' => 'Status',
+        'createPatients' => 'Create Patient',
+        'updatePatients' => 'Update Patient',
+        'filterPatients' => 'Filter Patient',
+        'createMedicalExamination' => 'Medical Examination',
+        'downloadVCard' => 'Download VCard',
+    ],
+    'clinic' => [
+        'name' => 'Clinic name',
+        'img' => 'Image',
+        'createClinic' => 'Create Clinic',
+        'updateClinic' => 'Update Clinic',
+    ],
+    'medicalTest' => [
+        'name' => 'Medical Test Name',
+        'type' => 'Medical Test Type',
+        'unit' => 'Medical Test Unit',
+        'createMedicalTest' => 'Create Medical Test',
+        'updateMedicalTest' => 'Update Medical Test',
+    ],
+    'medicine' => [
+        'name' => 'Medicine name',
+        'createMedicine' => 'Create Medicine',
+        'updateMedicine' => 'Update Medicine',
+    ],
+    'vitalSign' => [
+        'name' => 'Vital Sign name',
+        'createVitalSign' => 'Create Vital Sign',
+        'updateVitalSign' => 'Update Vital Sign',
+    ],
+    'finalDiagnosis' => [
+        'name' => 'Final Diagnosis name',
+        'createFinalDiagnosis' => 'Create Final Diagnosis',
+        'updateFinalDiagnosis' => 'Update Final Diagnosis',
+    ],
+    'dosageForm' => [
+        'name' => 'Dosage Form name',
+        'create' => 'Create Dosage Form',
+        'update' => 'Update Dosage Form',
+    ],
+    'medicalSpecialty' => [
+        'name' => 'Medical specialty Name',
+        'name en' => 'Medical specialty Name',
+        'name ar' => 'Medical specialty Name',
+        'code' => 'Medical specialty Code',
+        'createMedicalSpecialty' => 'Create Medical specialty',
+        'updateMedicalSpecialty' => 'Update Medical specialty',
+    ],
+    'medicalExaminations' => [
+        'patientInfo' => 'Patient Info',
+        'patientDetails' => 'Patient Details',
+        'medicalPreviewInfo' => 'Medical Preview Info',
+        'finalDiagnosisInfo' => 'Final Diagnosis Info',
+        'vitalSignsInfo' => 'Vital Signs Info',
+
+        'printMedicalTests' => 'Print Medical Tests',
+        'printMedicines' => 'Print Medicines',
+        'printMedicinesPharmacy' => 'Print Medicines Pharmacy',
+
+        'clinical_examination' => 'Clinical Examination',
+        'impression' => 'Impression',
+        'reasonOfVisiting' => 'Chief Complaint',
+        'createdAt' => 'Created At',
+        'request_for_action' => 'Request For Action',
+        'laboratoryTests' => 'Laboratory Tests',
+        'radiologyTests' => 'Radiology Tests',
+        'medicines' => 'Medicines Info',
+
+        'drugName' => 'Drug name',
+        'dosage' => 'Repetition',
+        'dose' => 'Dose',
+        'howToDrink' => 'How to drink',
+        'duration' => 'Duration',
+        'note' => 'Note',
+        'medicalStory' => 'Medical Story',
+
+        'addMedicalTest' => 'Add Medical Test',
+
+        'value' => 'Value :name',
+        'file' => 'File :name',
+        'uploadFile' => 'Upload Files',
+        'card' => [
+            'createMedicalPreview' => 'Create Medical Preview',
+            'medicalPreview' => 'Medical Preview',
+            'finalDiagnosis' => 'Final Diagnosis',
+            'vitalSigns' => 'Vital Signs',
+            'medicines' => 'Medicines',
+            'medicalTest' => 'Medical Test',
+
+            'medicalTestResult' => 'Medical Test Result',
+            'medicalTestType' => 'Medical Test Type',
+        ],
+    ],
+    'modalUploadFile' => [
+        'title' => 'Upload Files',
+        'files' => 'Files',
+    ],
+    'parts' => [
+        'files' => [
+            'title' => 'Files',
+            'sADesc' => 'This file will be permanently deleted!',
+        ],
+    ],
+    'reports' => [
+        'numberOfDoctors' => 'Total Number Of Doctors',
+        'numberOfPatients' => 'Total Number Of Patients',
+        'numberOfClinics' => 'Total Number Of Clinics',
+        'numberOfMedicalPreviews' => 'Number Of MedicalPreviews',
+    ],
+    'filter' => 'Filter',
+    'close' => 'Close',
+    'cancel' => 'Cancel',
+    'yes' => 'Yes',
+    'delete' => 'Delete',
+    'submit' => 'Submit',
+    'save' => 'Save',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'show' => 'Show',
+    'deactivate' => 'Deactivate',
+    'areYouSure' => 'Are you sure?',
+    'pleaseSelectOne' => 'Please Select One',
+    'id' => 'ID',
+    'saveAll' => 'Save All',
+];

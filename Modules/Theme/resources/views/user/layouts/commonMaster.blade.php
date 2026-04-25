@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+@php
+    use Illuminate\Support\Str;use Modules\Theme\Helpers\Helpers;
+
+    $menuFixed =
+        $configData['layout'] === 'vertical'
+            ? $menuFixed ?? ''
+            : ($configData['layout'] === 'front'
+                ? ''
+                : $configData['headerType']);
+    $navbarType =
+        $configData['layout'] === 'vertical'
+            ? $configData['navbarType']
+            : ($configData['layout'] === 'front'
+                ? 'layout-navbar-fixed'
+                : '');
+    $isFront = ($isFront ?? '') ? 'Front' : '';
+    $contentLayout = isset($container) ? ($container === 'container-xxl' ? 'layout-compact' : 'layout-wide') : '';
+
+    // Get skin name from configData - only applies to admin layouts
+    $isAdminLayout = !Str::contains($configData['layout'] ?? '', 'front');
+    $skinName = $isAdminLayout ? $configData['skinName'] ?? 'default' : 'default';
+
+    // Get semiDark value from configData - only applies to admin layouts
+    $semiDarkEnabled = $isAdminLayout && filter_var($configData['semiDark'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+    // Generate primary color CSS if color is set
+    $primaryColorCSS = '';
+    if (isset($configData['color']) && $configData['color']) {
+        $primaryColorCSS = Helpers::generatePrimaryColorCSS($configData['color']);
+    }
+
+@endphp
+
+<html lang="{{ app()->getLocale() }}"
+      class="{{ $navbarType ?? '' }} {{ $contentLayout ?? '' }} {{ $menuFixed ?? '' }} {{ $menuCollapsed ?? '' }} {{ $footerFixed ?? '' }} {{ $customizerHidden ?? '' }}"
+      dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr'}}" data-skin="{{ $skinName }}"
+      data-assets-path="{{ asset('/assets') . '/' }}"
+      data-base-url="{{ url('/') }}" data-framework="laravel" data-template="{{ $configData['layout'] }}-menu-template"
+      data-bs-theme="{{ $configData['theme'] }}"
+      @if ($isAdminLayout && $semiDarkEnabled) data-semidark-menu="true" @endif>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+    {{--
+        Page title: admin-configured `site_title` from Theme Settings wins,
+        with the config('variables.templateName') default as fallback.
+    --}}
+    @php
+        $brandName = $themeSettings->site_title ?? null;
+        $brandName = $brandName ?: config('variables.templateName', 'Codliy');
+    @endphp
+    <title>
+        @yield('title') | {{ $brandName }}
+        @if(config('variables.templateSuffix'))
+            - {{ config('variables.templateSuffix') }}
+        @endif
+    </title>
+    <meta name="description"
+          content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}"/>
+    <meta name="keywords"
+          content="{{ config('variables.templateKeyword') ? config('variables.templateKeyword') : '' }}"/>
+    <meta property="og:title" content="{{ config('variables.ogTitle') ? config('variables.ogTitle') : '' }}"/>
+    <meta property="og:type" content="{{ config('variables.ogType') ? config('variables.ogType') : '' }}"/>
+    <meta property="og:url" content="{{ config('variables.productPage') ? config('variables.productPage') : '' }}"/>
+    <meta property="og:image" content="{{ config('variables.ogImage') ? config('variables.ogImage') : '' }}"/>
+    <meta property="og:description"
+          content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}"/>
+    <meta property="og:site_name"
+          content="{{ config('variables.creatorName') ? config('variables.creatorName') : '' }}"/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <!-- laravel CRUD token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}"/>
+    <!-- Favicon -->
+    {{--
+        Favicon resolution order:
+          1. Admin-uploaded favicon in Theme Settings (scope-aware: admin or website)
+          2. Bundled Codliy default at /codliy/images/favicon.png
+          3. Legacy landing fallback (kept for safety)
+    --}}
+    @php
+        $faviconUrl = isset($themeSettings) ? $themeSettings?->getFaviconUrl() : null;
+        $faviconUrl = $faviconUrl ?: (file_exists(public_path('codliy/images/favicon.png'))
+            ? asset('codliy/images/favicon.png')
+            : asset('landing/assets/img/favicon.png'));
+    @endphp
+    <link rel="icon" href="{{ $faviconUrl }}" type="image/png" sizes="16x16">
+    <link rel="shortcut icon" href="{{ $faviconUrl }}">
+    <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
+
+    {{--
+        Per-page SEO injection point. Pages that set @section('meta') (blog
+        posts, CMS pages, portfolio entries) emit their own title/description/
+        og:*/twitter:*/canonical/JSON-LD here. This sits AFTER the default
+        meta tags so later tags override earlier ones in crawler parsers.
+    --}}
+    @yield('meta')
+    @stack('meta')
+
+    {{-- @if(app()->getLocale() == 'ar')
+       <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+             rel="stylesheet">
+
+     @endif--}}
+    <!-- Include Styles -->
+    <!-- $isFront is used to append the front layout styles only on the front layout otherwise the variable will be blank -->
+    @includeIf('theme::user/layouts/sections/styles' . $isFront)
+
+    @if (
+        $primaryColorCSS &&
+            (config('custom.custom.primaryColor') ||
+                isset($_COOKIE['admin-primaryColor']) ||
+                isset($_COOKIE['front-primaryColor'])))
+        <!-- Primary Color Style -->
+        <style id="primary-color-style">
+            {!! $primaryColorCSS !!}
+        </style>
+    @endif
+
+    @if(isset($customThemeCss) && $customThemeCss)
+        <!-- Custom Theme Settings CSS -->
+        <style id="custom-theme-style">
+            {!! $customThemeCss !!}
+        </style>
+    @endif
+
+    <!-- Include Scripts for customizer, helper, analytics, config -->
+    <!-- $isFront is used to append the front layout scriptsIncludes only on the front layout otherwise the variable will be blank -->
+    @includeIf('theme::user/layouts/sections/scriptsIncludes' . $isFront)
+</head>
+
+<body>
+<!-- Layout Content -->
+@yield('layoutContent')
+<!--/ Layout Content -->
+
+
+<!-- Include Scripts -->
+<!-- $isFront is used to append the front layout scripts only on the front layout otherwise the variable will be blank -->
+@includeIf('theme::user/layouts/sections/scripts' . $isFront)
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>
+@endif
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<?php
+
+$page = 'sales-dashboard'; ?>
+@extends('theme::user.layouts.horizontalLayout')
+
+@section('title', trans('blog::blog.category.main_title'))
+
+<!-- Vendor Styles -->
+@section('vendor-style')
+    @livewireStyles
+    @livewireScripts
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.scss'],
+            'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.scss',
+            'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss',
+            'resources/assets/vendor/libs/select2/select2.scss',
+            'resources/assets/vendor/libs/@form-validation/form-validation.scss'],
+            'build/modules/theme')
+@endsection
+
+<!-- Vendor Scripts -->
+@section('vendor-script')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            $('.select2').each(function () {
+                $(this).select2({
+                    dropdownParent: $(this).closest('.modal'),
+                    allowClear: true,
+                    tags: false
+                });
+            });
+        })
+    </script>
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.js'],
+'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.js',
+'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js',
+'resources/assets/vendor/libs/select2/select2.js',
+'resources/assets/vendor/libs/@form-validation/popular.js',
+'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
+'resources/assets/vendor/libs/@form-validation/auto-focus.js'],
+'build/modules/theme')
+
+@endsection
+
+<!-- Page Scripts -->
+@section('page-script')
+    @vite(['resources/assets/js/forms-file-upload.js'],'build/modules/theme')
+@endsection
+
+@section('content')
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-2 mb-1">
+                            <h5 class="">{{ trans('blog::blog.post.main_title') }}</h5>
+                            <h5 class="">
+                                <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">
+                                    <i class="ti tabler-plus icon-base me-1"></i>
+                                    {{ trans('core::core.add') }}
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-content">
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table datanew">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ 'ID' }}</th>
+                                            <th>{{ trans('blog::blog.post.title') }}</th>
+                                            <th>{{ trans('blog::blog.post.image') }}</th>
+                                            <th>{{ trans('admin.audits.action') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                        @foreach($data as $post)
+                                            <tr>
+                                                <td>{{ $post->id }}</td>
+                                                <td>{{ $post->getTranslation('title', app()->getLocale()) }}</td>
+                                                <td>
+                                                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                                        <li class="avatar avatar-xl pull-up">
+                                                            <img src="{{ $post->getFirstMediaUrl('img') }}" alt="" class="rounded-circle">
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td class="action-table-data">
+                                                    <div class="edit-delete-action d-flex">
+                                                        <a href="{{ route('admin.posts.edit', $post->id) }}" class="me-2 btn btn-outline-primary text-primary p-2 btn-sm">
+                                                            <i data-feather="edit" class="ti tabler-edit icon-base"></i>
+                                                        </a>
+                                                        <form action="{{ route('admin.posts.destroy', $post->id) }}" method="post" onsubmit="return confirm('Are you sure?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger text-danger p-2 btn-sm">
+                                                                <i class="ti tabler-trash icon-base"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{ $data->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

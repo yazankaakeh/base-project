@@ -1,0 +1,286 @@
+<?php
+
+use Modules\AdminManagement\Enums\ActiveAdminEnum;
+
+return [
+    'ActiveAdminEnum' => [
+        ActiveAdminEnum::ACTIVE->value => 'Aktif',
+        ActiveAdminEnum::DE_ACTIVE->value => 'Pasif',
+    ],
+    'user' => [
+        'title' => 'Kullanıcı Yönetimi',
+        'subtitle' => 'Yöneticileri, rolleri ve erişimi yönetin',
+        'createLabel' => 'Yeni Kullanıcı',
+        'editUserStatus' => 'Kullanıcı Durumunu Düzenle',
+        'name' => 'Ad',
+        'email' => 'E-posta',
+        'role' => 'Rol',
+        'image' => 'Fotoğraf',
+        'status' => 'Durum',
+        'actions' => 'İşlemler',
+        'search' => 'Ad veya e-posta ile ara',
+        'filter_by_role' => 'Role göre filtrele',
+        'filter_by_status' => 'Duruma göre filtrele',
+        'all_roles' => 'Tüm roller',
+        'all_statuses' => 'Tüm durumlar',
+        'reset' => 'Filtreleri sıfırla',
+        'no_results' => 'Filtrelerinize uyan kullanıcı yok',
+        'no_results_hint' => 'Aramayı değiştirin veya filtreleri temizleyin.',
+        'stats' => [
+            'total' => 'Toplam kullanıcı',
+            'active' => 'Aktif',
+            'inactive' => 'Pasif',
+            'roles' => 'Roller',
+        ],
+        'edit' => [
+            'title' => 'Kullanıcıyı Düzenle',
+        ],
+        'create' => [
+            'title' => 'Kullanıcı Oluştur',
+            'img' => 'Resim',
+            'password' => 'Şifre',
+            'password_confirmation' => 'Şifre Onayı',
+            'isActive' => 'Aktif',
+            'name' => 'Ad',
+            'email' => 'E-posta',
+            'role' => 'Rol',
+            'phone' => 'Telefon',
+        ],
+    ],
+    'roles' => [
+        'title' => 'Roller',
+        'createBtn' => 'Oluştur',
+        'id' => 'ID',
+        'name' => 'Ad',
+        'created_at' => 'Oluşturulma Tarihi',
+        'updated_at' => 'Güncellenme Tarihi',
+        'actions' => 'İşlemler',
+        'create' => [
+            'title' => 'Rol Oluştur',
+            'subtitle' => 'Bir ad seçin ve bu rolün sahip olması gereken izinleri işaretleyin.',
+            'name' => 'Ad',
+            'namePlaceholder' => 'Örn. Editör, İçerik Yöneticisi',
+            'guard' => 'Koruma',
+            'allCheckBoxes' => 'Tüm izinleri seç',
+            'searchPermissions' => 'İzinlerde ara…',
+            'selected' => 'Seçilen',
+            'permissions_count' => ':count izin',
+            'selectAllSection' => 'Bu grubun tümünü seç',
+            'noPermissions' => 'Aramanıza uyan izin yok.',
+            'save' => 'Rolü oluştur',
+            'cancel' => 'İptal',
+        ],
+        'edit' => [
+            'title' => 'Rolü Düzenle',
+        ],
+    ],
+    'audits' => [
+        'index' => 'Denetim Günlükleri',
+        'getPayLoad' => 'Yükü Al',
+        'filter' => 'Filtrele',
+        'admin' => 'Yönetici',
+        'action' => 'İşlem',
+        'ip' => 'IP Adresi',
+        'time' => 'Zaman',
+        'changes' => 'Değişiklikler',
+        'filterModal' => [
+            'all' => 'Tümü',
+            'index' => 'Filtrele',
+            'adminId' => 'Yönetici',
+            'date' => 'Tarih',
+            'routeName' => 'Rota Adı',
+        ],
+    ],
+    'submit' => 'Gönder',
+    'close' => 'Kapat',
+    'save' => 'Değişiklikleri kaydet',
+    'pleaseSelectOne' => 'Lütfen birini seçin',
+    'permissions' => [
+        // Admin Management Permissions
+        'admin-user_management-index' => 'Kullanıcı Yönetimini Görüntüle',
+        'admin-user_management-store' => 'Kullanıcı Oluştur',
+        'admin-user_management-update' => 'Kullanıcıyı Güncelle',
+        'admin-user_management-status' => 'Kullanıcıyı Sil/Durumunu Değiştir',
+
+        'admin-audits-index' => 'Denetim Günlüklerini Görüntüle',
+        'admin-audits-getPayload' => 'Denetim Günlüğü Detaylarını Görüntüle',
+
+        'admin-role_management-index' => 'Rol Yönetimini Görüntüle',
+        'admin-role_management-create' => 'Rol Oluştur',
+        'admin-role_management-store' => 'Rol Kaydet',
+        'admin-role_management-edit' => 'Rolü Düzenle',
+        'admin-role_management-update' => 'Rolü Güncelle',
+        'admin-role_management-destroy' => 'Rolü Sil',
+
+        // Blog Permissions
+        'admin-categories-index' => 'Kategorileri Görüntüle',
+        'admin-categories-create' => 'Kategori Oluştur',
+        'admin-categories-store' => 'Kategori Kaydet',
+        'admin-categories-show' => 'Kategori Detaylarını Görüntüle',
+        'admin-categories-edit' => 'Kategoriyi Düzenle',
+        'admin-categories-update' => 'Kategoriyi Güncelle',
+        'admin-categories-destroy' => 'Kategoriyi Sil',
+
+        'admin-posts-index' => 'Gönderileri Görüntüle',
+        'admin-posts-create' => 'Gönderi Oluştur',
+        'admin-posts-store' => 'Gönderi Kaydet',
+        'admin-posts-show' => 'Gönderi Detaylarını Görüntüle',
+        'admin-posts-edit' => 'Gönderiyi Düzenle',
+        'admin-posts-update' => 'Gönderiyi Güncelle',
+        'admin-posts-destroy' => 'Gönderiyi Sil',
+
+        'admin-quillUpload-store' => 'Editöre Resim Yükle',
+
+        'admin-tags-index' => 'Etiketleri Görüntüle',
+        'admin-tags-create' => 'Etiket Oluştur',
+        'admin-tags-store' => 'Etiket Kaydet',
+        'admin-tags-show' => 'Etiket Detaylarını Görüntüle',
+        'admin-tags-edit' => 'Etiketi Düzenle',
+        'admin-tags-update' => 'Etiketi Güncelle',
+        'admin-tags-destroy' => 'Etiketi Sil',
+        'admin-tags-storeAjax' => 'AJAX ile Etiket Oluştur',
+        'admin-tags-options' => 'Etiket Seçeneklerini Al',
+
+        // CMS Permissions
+        'cms-home-edit' => 'Ana Sayfayı Düzenle',
+        'cms-home-update' => 'Ana Sayfayı Güncelle',
+
+        'cms-index' => 'CMS Sayfalarını Görüntüle',
+        'cms-create' => 'CMS Sayfası Oluştur',
+        'cms-store' => 'CMS Sayfası Kaydet',
+        'cms-show' => 'CMS Sayfası Detaylarını Görüntüle',
+        'cms-edit' => 'CMS Sayfasını Düzenle',
+        'cms-update' => 'CMS Sayfasını Güncelle',
+        'cms-destroy' => 'CMS Sayfasını Sil',
+
+        'menus-index' => 'Menüleri Görüntüle',
+        'menus-create' => 'Menü Oluştur',
+        'menus-store' => 'Menü Kaydet',
+        'menus-show' => 'Menü Detaylarını Görüntüle',
+        'menus-edit' => 'Menüyü Düzenle',
+        'menus-update' => 'Menüyü Güncelle',
+        'menus-destroy' => 'Menüyü Sil',
+
+        // Doctor Permissions
+        'admin-dashboard' => 'Kontrol Paneli Görüntüle',
+
+        'admin-clinic-index' => 'Klinik Görüntüle',
+        'admin-clinic-store' => 'Klinik Bilgilerini Kaydet',
+        'admin-clinic-update' => 'Klinik Bilgilerini Güncelle',
+
+        'admin-patients-index' => 'Hastaları Görüntüle',
+        'admin-patients-store' => 'Hasta Oluştur',
+        'admin-patients-update' => 'Hastayı Güncelle',
+        'admin-patients-show' => 'Hasta Detaylarını Görüntüle',
+        'admin-patients-downloadVCard' => 'Hasta Kartını İndir',
+
+        'admin-medicalTest-index' => 'Tıbbi Testleri Görüntüle',
+        'admin-medicalTest-store' => 'Tıbbi Test Oluştur',
+        'admin-medicalTest-update' => 'Tıbbi Testi Güncelle',
+
+        'admin-medicine-index' => 'İlaçları Görüntüle',
+        'admin-medicine-store' => 'İlaç Oluştur',
+        'admin-medicine-update' => 'İlacı Güncelle',
+
+        'admin-vitalSign-index' => 'Vital Bulguları Görüntüle',
+        'admin-vitalSign-store' => 'Vital Bulgu Oluştur',
+        'admin-vitalSign-update' => 'Vital Bulguyu Güncelle',
+
+        'admin-finalDiagnosis-index' => 'Son Tanıları Görüntüle',
+        'admin-finalDiagnosis-store' => 'Son Tanı Oluştur',
+        'admin-finalDiagnosis-update' => 'Son Tanıyı Güncelle',
+
+        'admin-dosageForm-index' => 'Dozaj Formlarını Görüntüle',
+        'admin-dosageForm-store' => 'Dozaj Formu Oluştur',
+        'admin-dosageForm-update' => 'Dozaj Formunu Güncelle',
+
+        'admin-medicalExamination-create' => 'Tıbbi Muayene Oluştur',
+        'admin-medicalExamination-store' => 'Tıbbi Muayene Kaydet',
+        'admin-medicalExamination-submit' => 'Tıbbi Muayene Gönder',
+        'admin-medicalExamination-show' => 'Tıbbi Muayene Görüntüle',
+        'admin-medicalExamination-index' => 'Tıbbi Muayeneleri Görüntüle',
+
+        'admin-uploadFile-index' => 'Dosya Yükle',
+        'admin-uploadFile-delete' => 'Dosyaları Sil',
+
+        'admin-pdf-downloadMedicines' => 'İlaçlar PDF İndir',
+        'admin-pdf-downloadMedicalTest' => 'Tıbbi Test PDF İndir',
+        'admin-pdf-downloadMedicinesPharmacy' => 'Eczane İlaçları PDF İndir',
+
+        // Portfolyo izinleri
+        'admin-portfolios-index' => 'Portfolyoları Görüntüle',
+        'admin-portfolios-create' => 'Portfolyo Oluştur',
+        'admin-portfolios-store' => 'Portfolyo Kaydet',
+        'admin-portfolios-show' => 'Portfolyo Detaylarını Görüntüle',
+        'admin-portfolios-edit' => 'Portfolyoyu Düzenle',
+        'admin-portfolios-update' => 'Portfolyoyu Güncelle',
+        'admin-portfolios-destroy' => 'Portfolyoyu Sil',
+        'admin-portfolios-toggle-status' => 'Portfolyo Durumunu Değiştir',
+        'admin-portfolios-toggle-featured' => 'Öne Çıkarmayı Değiştir',
+        'admin-portfolios-duplicate' => 'Portfolyoyu Kopyala',
+        'admin-portfolios-reorder' => 'Portfolyoları Sırala',
+        'admin-portfolios-delete-gallery' => 'Galeri Görselini Sil',
+
+        // Panel yönetimi
+        'admin-panels-sort' => 'Panelleri Sırala',
+        'admin-panel-items-sort' => 'Panel Ögelerini Sırala',
+
+        // CMS Panel CRUD
+        'cms-panels-forPage' => 'Sayfa Panellerini Görüntüle',
+        'cms-panels-store' => 'Panel Oluştur',
+        'cms-panels-show' => 'Panel Detaylarını Görüntüle',
+        'cms-panels-update' => 'Paneli Güncelle',
+        'cms-panels-destroy' => 'Paneli Sil',
+        'cms-panels-toggle' => 'Panel Görünürlüğünü Değiştir',
+        'cms-panels-duplicate' => 'Paneli Kopyala',
+        'cms-panels-reorder' => 'Panelleri Sırala',
+
+        // Panel öğeleri
+        'cms-panel-items-store' => 'Panel Ögesi Oluştur',
+        'cms-panel-items-show' => 'Panel Ögesi Detaylarını Görüntüle',
+        'cms-panel-items-update' => 'Panel Ögesini Güncelle',
+        'cms-panel-items-destroy' => 'Panel Ögesini Sil',
+
+        // Bildirim / push ayarları
+        'admin-notification-configs' => 'Bildirim Ayarlarını Görüntüle',
+        'admin-notification-update' => 'Bildirim Ayarlarını Güncelle',
+
+        // SEO
+        'admin-seo-index' => 'SEO Ayarlarını Görüntüle',
+        'admin-seo-update' => 'SEO Ayarlarını Güncelle',
+
+        // Tema ayarları
+        'admin-theme_settings-index' => 'Tema Ayarlarını Görüntüle',
+        'admin-theme_settings-update' => 'Tema Ayarlarını Güncelle',
+    ],
+    'sections' => [
+        'admin' => 'Yönetici Yönetimi',
+        'audits' => 'Denetimler',
+        'role_management' => 'Rol Yönetimi',
+        'user_management' => 'Kullanıcı Yönetimi',
+        'categories' => 'Kategoriler',
+        'posts' => 'Gönderiler',
+        'tags' => 'Etiketler',
+        'cms' => 'CMS',
+        'menus' => 'Menüler',
+        'dashboard' => 'Kontrol Paneli',
+        'portfolios' => 'Portfolyolar',
+        'panels' => 'Paneller',
+        'panel-items' => 'Panel Ögeleri',
+        'notification' => 'Bildirimler',
+        'seo' => 'SEO',
+        'theme_settings' => 'Tema Ayarları',
+        'quillUpload' => 'Editör Yüklemeleri',
+        'etc' => 'Diğer',
+        'clinic' => 'Klinik',
+        'patients' => 'Hastalar',
+        'medicalTest' => 'Tıbbi Testler',
+        'medicine' => 'İlaçlar',
+        'vitalSign' => 'Vital Bulgular',
+        'finalDiagnosis' => 'Son Tanılar',
+        'dosageForm' => 'Dozaj Formları',
+        'medicalExamination' => 'Tıbbi Muayeneler',
+        'uploadFile' => 'Dosya Yükleme',
+        'pdf' => 'PDF Raporları',
+    ],
+];

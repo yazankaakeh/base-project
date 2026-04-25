@@ -1,0 +1,36 @@
+{
+    "$schema": "https://json.schemastore.org/pint",
+    "preset": "laravel",
+    "rules": {
+        "array_syntax":                   { "syntax": "short" },
+        "ordered_imports":                { "sort_algorithm": "alpha" },
+        "no_unused_imports":              true,
+        "not_operator_with_successor_space": true,
+        "single_quote":                   true,
+        "trailing_comma_in_multiline":    true,
+        "concat_space":                   { "spacing": "one" },
+        "method_chaining_indentation":    true,
+        "class_attributes_separation":    { "elements": { "const": "one", "method": "one", "property": "one" } },
+        "fully_qualified_strict_types":   true,
+        "no_superfluous_phpdoc_tags":     true,
+        "phpdoc_align":                   true,
+        "phpdoc_trim":                    true,
+        "standardize_not_equals":         true,
+        "return_assignment":              true
+    },
+    "exclude": [
+        "bootstrap/cache",
+        "storage",
+        "public/build",
+        "public/themes",
+        "public/assets/vendor"
+    ],
+    "notPath": [
+        "Modules/*/database/migrations",
+        "Modules/*/node_modules",
+        "Modules/Core/app/Models/City.php",
+        "Modules/Core/app/Models/State.php",
+        "Modules/Core/app/Models/Country.php",
+        "Modules/Doctor"
+    ]
+}

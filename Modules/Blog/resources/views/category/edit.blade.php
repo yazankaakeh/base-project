@@ -1,0 +1,152 @@
+<?php
+
+use Modules\Core\App\Enums\LanguageEnum;
+
+$page = 'sales-dashboard'; ?>
+@extends('theme::user.layouts.horizontalLayout')
+
+@section('title', trans('blog::blog.category.edit_title'))
+
+<!-- Vendor Styles -->
+@section('vendor-style')
+    @livewireStyles
+    @livewireScripts
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.scss'],
+            'build/modules/theme')
+    @vite(['resources/assets/vendor/libs/bs-stepper/bs-stepper.scss',
+            'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.scss',
+            'resources/assets/vendor/libs/select2/select2.scss',
+            'resources/assets/vendor/libs/@form-validation/form-validation.scss',
+            'resources/assets/vendor/libs/highlight/highlight.scss'],
+            'build/modules/theme')
+@endsection
+
+<!-- Vendor Scripts -->
+@section('vendor-script')
+    @vite(['resources/assets/vendor/libs/dropzone/dropzone.js'], 'build/modules/theme')
+    @vite([ 'resources/assets/vendor/libs/bs-stepper/bs-stepper.js',
+            'resources/assets/vendor/libs/bootstrap-select/bootstrap-select.js',
+            'resources/assets/vendor/libs/select2/select2.js',
+            'resources/assets/vendor/libs/highlight/highlight.js',
+            'resources/assets/vendor/libs/@form-validation/popular.js',
+            'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
+            'resources/assets/vendor/libs/@form-validation/auto-focus.js'],
+            'build/modules/theme')
+@endsection
+
+<!-- Page Scripts -->
+@section('page-script')
+    @vite(['resources/assets/js/forms-file-upload.js','resources/assets/js/forms-editors.js'],'build/modules/theme')
+
+    <script>
+        $(document).ready(function() {
+            // Manual TinyMCE initialization as fallback
+            setTimeout(function() {
+                if (typeof window.manualInitTinyMCE === 'function') {
+                    console.log('Manual TinyMCE initialization triggered');
+                    window.manualInitTinyMCE();
+                }
+            }, 1000);
+        });
+    </script>
+@endsection
+
+@section('content')
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="">
+                        <div class="card-header px-0 pt-0">
+                            <div class="nav-align-top">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    @foreach(LanguageEnum::values() as $lang)
+                                        <li class="nav-item" role="presentation">
+                                            <button type="button"
+                                                    class="nav-link waves-effect {{$lang == app()->getLocale() ? 'active': ''}}"
+                                                    role="tab"
+                                                    data-bs-toggle="tab" data-bs-target="#navs-tab-{{$lang}}"
+                                                    aria-controls="navs-tab-home" aria-selected="true">{{$lang}}
+                                            </button>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+
+                        <form action="{{ route('admin.categories.update', $category->id) }}" method="post"
+                              enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="row mt-3">
+                                <div class="col-9">
+                                    <div class="tab-content p-0 m-0">
+                                        @foreach(LanguageEnum::values() as $lang)
+                                            <div class="tab-pane fade {{$lang == app()->getLocale() ? 'active show': ''}}"
+                                                 id="navs-tab-{{$lang}}" role="tabpanel">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-1">{{$lang}}</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <x-core::input label="blog::blog.category.title"
+                                                                       type="text" name="title[{{$lang}}]"
+                                                                       id="title[{{$lang}}]"
+                                                                       :value="$category->getTranslation('title', $lang)">
+                                                        </x-core::input>
+                                                        <div class="my-3">
+                                                            <x-core::tinymce
+                                                                label="blog::blog.category.description"
+                                                                name="description[{{$lang}}]"
+                                                                id="postContent-{{$lang}}"
+                                                                :lang="$lang"
+                                                                :uploadRoute="route('tinymce.upload')"
+                                                                :value="old('description.'.$lang, $category->getTranslation('description', $lang) ?? '')" />
+                                                        </div>
+                                                        @php($seo = $category->seo)
+                                                        @includeIf('blog::partials.seo_form', [
+                                                            'seoTitle' => $seo?->getTranslations('title') ?? null,
+                                                            'seoDescription' => $seo?->getTranslations('meta_description') ?? null,
+                                                            'lang' => $lang
+                                                        ])
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="card my-3">
+                                        <div class="card-header">
+                                            <h5 class="mb-1">{{trans('blog::blog.category.image')}}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-2">
+                                                <img src="{{ $category->getFirstMediaUrl('img') }}"
+                                                     class="img-fluid rounded" alt=""/>
+                                            </div>
+                                            <x-core::input label="blog::blog.category.image"
+                                                           type="file"
+                                                           name="image"
+                                                           required=""
+                                                           id="image">
+                                            </x-core::input>
+                                            <x-core::checkbox :label="trans('customer.account.status')"
+                                                              id="is_active"
+                                                              name="is_active"
+                                                              :value="$category->is_active->value == 1"></x-core::checkbox>
+                                            <div class="mt-3">
+                                                <button type="submit"
+                                                        class="btn btn-primary">{{ trans('core::core.env.save') }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
